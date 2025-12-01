@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
-Script 01: Fetch Ontology Hierarchies
+Script 01: Fetch KEGG Pathway Hierarchy
 
-Downloads and caches GO (Gene Ontology) and KEGG pathway hierarchies
-from their respective APIs. These hierarchies serve as the scaffold
-for organizing pathways.
+Downloads KEGG pathway hierarchies from the KEGG REST API.
+These hierarchies serve as the scaffold for organizing pathways.
 
 Run: python scripts/pathway_hierarchy/01_fetch_ontology_hierarchies.py [--force]
 
 Output:
-- cache/ontology_hierarchies/go_hierarchy.json
 - cache/ontology_hierarchies/kegg_hierarchy.json
 """
 
@@ -22,13 +20,11 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.pathway_hierarchy.ontology_client import (
-    get_cached_go_hierarchy,
     get_cached_kegg_hierarchy,
     CACHE_DIR,
 )
 from scripts.pathway_hierarchy.hierarchy_utils import (
     setup_logging,
-    CheckpointManager,
     ScriptStats,
     save_run_report,
 )
@@ -36,7 +32,7 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
 
 def main(force_refresh: bool = False):
     """
-    Fetch and cache ontology hierarchies.
+    Fetch and cache KEGG pathway hierarchy.
 
     Args:
         force_refresh: If True, re-download even if cache exists
@@ -48,7 +44,7 @@ def main(force_refresh: bool = False):
     )
 
     logger.info("=" * 60)
-    logger.info("Script 01: Fetch Ontology Hierarchies")
+    logger.info("Script 01: Fetch KEGG Pathway Hierarchy")
     logger.info("=" * 60)
 
     # Ensure cache directory exists
@@ -56,27 +52,6 @@ def main(force_refresh: bool = False):
     logger.info(f"Cache directory: {CACHE_DIR}")
 
     try:
-        # Fetch GO hierarchy
-        logger.info("")
-        logger.info("-" * 40)
-        logger.info("Fetching Gene Ontology (GO) hierarchy...")
-        logger.info("-" * 40)
-
-        go_cache = CACHE_DIR / "go_hierarchy.json"
-        if go_cache.exists() and not force_refresh:
-            logger.info(f"GO cache exists at {go_cache}")
-            logger.info("Use --force to re-download")
-        else:
-            logger.info("Downloading GO hierarchy from QuickGO API...")
-            logger.info("This may take 5-10 minutes...")
-
-        go_hierarchy = get_cached_go_hierarchy(force_refresh=force_refresh)
-        go_terms = len(go_hierarchy.terms)
-        go_roots = len(go_hierarchy.get_roots())
-
-        logger.info(f"GO hierarchy loaded: {go_terms} terms, {go_roots} root categories")
-        stats.items_processed += go_terms
-
         # Fetch KEGG hierarchy
         logger.info("")
         logger.info("-" * 40)
@@ -94,30 +69,33 @@ def main(force_refresh: bool = False):
         kegg_hierarchy = get_cached_kegg_hierarchy(force_refresh=force_refresh)
         kegg_terms = len(kegg_hierarchy.terms)
 
+        if kegg_terms == 0:
+            raise RuntimeError("KEGG hierarchy fetch returned 0 terms - API may be down")
+
         logger.info(f"KEGG hierarchy loaded: {kegg_terms} pathways")
-        stats.items_processed += kegg_terms
+        stats.items_processed = kegg_terms
 
         # Summary
         logger.info("")
         logger.info("=" * 60)
         logger.info("SUMMARY")
         logger.info("=" * 60)
-        logger.info(f"GO terms: {go_terms}")
         logger.info(f"KEGG pathways: {kegg_terms}")
-        logger.info(f"Total: {go_terms + kegg_terms}")
         logger.info("")
-        logger.info("Cache files:")
-        logger.info(f"  - {go_cache}")
+        logger.info("Cache file:")
         logger.info(f"  - {kegg_cache}")
 
-        # Show some example GO terms
+        # Show some example KEGG pathways
         logger.info("")
-        logger.info("Sample GO root categories:")
-        for root in list(go_hierarchy.get_roots())[:5]:
-            logger.info(f"  - {root.id}: {root.name}")
+        logger.info("Sample KEGG pathways:")
+        sample_count = 0
+        for term in kegg_hierarchy.terms.values():
+            if term.id.startswith("hsa") and sample_count < 5:
+                logger.info(f"  - {term.id}: {term.name}")
+                sample_count += 1
 
         stats.end_time = datetime.now()
-        stats.items_created = go_terms + kegg_terms
+        stats.items_created = kegg_terms
 
         # Save report
         report_path = save_run_report(stats)
@@ -131,6 +109,8 @@ def main(force_refresh: bool = False):
 
     except Exception as e:
         logger.error(f"Script failed: {e}")
+        import traceback
+        traceback.print_exc()
         stats.errors += 1
         stats.end_time = datetime.now()
         save_run_report(stats)
@@ -141,7 +121,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Fetch and cache GO/KEGG ontology hierarchies"
+        description="Fetch and cache KEGG pathway hierarchy"
     )
     parser.add_argument(
         "--force", "-f",
