@@ -1,7 +1,7 @@
 {
   "script_name": "05_assign_interactions_to_leaves",
   "phase": 2,
-  "timestamp": "2025-11-30T19:51:24.313197",
+  "timestamp": "2025-11-30T19:52:02.660221",
   "data": {
     "processed_ids": [
       1,
@@ -18,7 +18,12 @@
       12,
       13,
       14,
-      15
+      15,
+      16,
+      17,
+      18,
+      20,
+      21
     ]
   }
 }
