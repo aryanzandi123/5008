@@ -1,0 +1,11 @@
+{
+  "script_name": "pathway_hierarchy_orchestrator",
+  "start_time": "2025-11-30T19:38:43.037573",
+  "end_time": "2025-11-30T19:58:14.795153",
+  "duration_seconds": 1171.75758,
+  "items_processed": 5,
+  "items_created": 0,
+  "items_updated": 0,
+  "errors": 0,
+  "warnings": 0
+}

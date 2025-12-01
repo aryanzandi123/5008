@@ -1,0 +1,11 @@
+{
+  "script_name": "06_validate_and_finalize",
+  "start_time": "2025-11-30T19:56:57.521420",
+  "end_time": "2025-11-30T19:58:14.527728",
+  "duration_seconds": 77.006308,
+  "items_processed": 184,
+  "items_created": 0,
+  "items_updated": 0,
+  "errors": 0,
+  "warnings": 6
+}

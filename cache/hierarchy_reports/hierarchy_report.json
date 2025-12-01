@@ -1,0 +1,118 @@
+{
+  "summary": {
+    "total_pathways": 184,
+    "root_categories": 105,
+    "leaf_pathways": 144,
+    "total_edges": 80,
+    "max_depth": 3
+  },
+  "by_level": {
+    "0": 105,
+    "1": 29,
+    "2": 44,
+    "3": 6
+  },
+  "top_pathways": [
+    {
+      "name": "Protein Ubiquitination",
+      "usage": 6,
+      "proteins": 7
+    },
+    {
+      "name": "DNA Repair",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Regulation Of Atxn3 Stability And Modification",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Autophagy",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Histone Deacetylation",
+      "usage": 4,
+      "proteins": 5
+    },
+    {
+      "name": "Cell Survival Signaling",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Neuronal Cytoskeleton And Axonal Transport",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Protein Stability Regulation",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Proteasomal Degradation",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Transcription",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Mitochondrial Quality Control",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Cell Cycle Regulation",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Chromatin Remodeling",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Stress Granule Assembly",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Tgf-\u0392 Signaling Pathway",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "PI3K-Akt Signaling",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Epigenetic Regulation",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Oxidative Stress Response",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Protein Quality Control",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Pml Nuclear Body Dynamics",
+      "usage": 1,
+      "proteins": 2
+    }
+  ],
+  "orphan_interactions": 0
+}

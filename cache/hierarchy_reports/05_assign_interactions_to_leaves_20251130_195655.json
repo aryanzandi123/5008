@@ -1,0 +1,11 @@
+{
+  "script_name": "05_assign_interactions_to_leaves",
+  "start_time": "2025-11-30T19:48:46.898102",
+  "end_time": "2025-11-30T19:56:55.184274",
+  "duration_seconds": 488.286172,
+  "items_processed": 49,
+  "items_created": 0,
+  "items_updated": 31,
+  "errors": 0,
+  "warnings": 0
+}
