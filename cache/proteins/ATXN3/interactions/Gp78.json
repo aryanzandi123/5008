@@ -1,0 +1,90 @@
+{
+  "primary": "Gp78",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The E3 ubiquitin ligase Gp78 promotes the polyubiquitination and subsequent degradation of ATXN3, targeting it for ERAD.",
+  "functions": [
+    {
+      "function": "ATXN3 Protein Degradation via ERAD",
+      "arrow": "activates",
+      "cellular_process": "The ER-resident E3 ubiquitin ligase Gp78 (also known as AMFR) interacts with ATXN3. Gp78 then mediates the polyubiquitination of ATXN3, targeting it for degradation through the ER-associated degradation (ERAD) pathway, which clears misfolded proteins from the ER.",
+      "effect_description": "Gp78 acts as a negative regulator of ATXN3 stability. By promoting the ubiquitination and subsequent proteasomal degradation of ATXN3 as part of the ERAD quality control system, Gp78 helps to clear both normal and mutant forms of the protein.",
+      "biological_consequence": [
+        "Gp78 binds to ATXN3 at the Endoplasmic Reticulum → Gp78 polyubiquitinates ATXN3, dependent on its RING finger domain → Ubiquitinated ATXN3 is targeted for degradation via the ERAD pathway → ATXN3 protein levels are reduced."
+      ],
+      "specific_effects": [
+        "Gp78 interacts with both wild-type and mutant ataxin-3.",
+        "Overexpression of Gp78 promotes the ubiquitination and degradation of ATXN3.",
+        "Knockdown of Gp78 by shRNA results in the stabilization of ATXN3 protein levels.",
+        "The RING finger domain of Gp78 is required for its E3 ligase activity towards ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Gp78, an ER associated E3, promotes SOD1 and ataxin-3 degradation",
+          "journal": "Human Molecular Genetics",
+          "year": 2009,
+          "relevant_quote": "Mammalian gp78 is an E3 ubiquitin ligase involved in ER-associated degradation (ERAD). Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them.",
+          "pmid": "19661182"
+        }
+      ],
+      "pmids": [
+        "19661182"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The ER-resident E3 ubiquitin ligase Gp78 (also known as AMFR) interacts with ATXN3. Gp78 then mediates the polyubiquitination of ATXN3, targeting it for degradation through the ER-associated degradation (ERAD) pathway, which clears misfolded proteins from the ER.",
+  "effect": "Gp78 acts as a negative regulator of ATXN3 stability. By promoting the ubiquitination and subsequent proteasomal degradation of ATXN3 as part of the ERAD quality control system, Gp78 helps to clear both normal and mutant forms of the protein.",
+  "summary": "ATXN3 activates Gp78 to modulate atxn3 protein degradation via erad, ultimately affecting atxn3 protein levels are reduced.",
+  "evidence": [
+    {
+      "paper_title": "Gp78, an ER associated E3, promotes SOD1 and ataxin-3 degradation",
+      "journal": "Human Molecular Genetics",
+      "year": 2009,
+      "relevant_quote": "Mammalian gp78 is an E3 ubiquitin ligase involved in ER-associated degradation (ERAD). Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System (UPS)",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.95
+    },
+    {
+      "name": "ER-Associated Degradation (ERAD)",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.95
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--inhibits-- Gp78:",
+  "protein_a": "ATXN3",
+  "protein_b": "Gp78",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:18.961073Z",
+  "last_updated": "2025-11-29T18:36:18.961073Z"
+}

@@ -1,0 +1,96 @@
+{
+  "primary": "PIAS1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "PIAS1 is an E3 SUMO ligase that promotes the SUMOylation of ATXN3, enhancing its stability by protecting it from proteasomal degradation.",
+  "functions": [
+    {
+      "function": "SUMOylation-Mediated Protein Stabilization",
+      "arrow": "activates",
+      "cellular_process": "PIAS1 (Protein Inhibitor of Activated STAT 1) functions as an E3 SUMO ligase that directly interacts with ATXN3 and catalyzes its covalent modification with SUMO (Small Ubiquitin-like Modifier) proteins.",
+      "effect_description": "The SUMOylation of ATXN3 by PIAS1, particularly at lysine 166 (K166), enhances the stability of both wild-type and polyQ-expanded ATXN3. This modification protects ATXN3 from ubiquitin-mediated degradation by the proteasome, thereby increasing its cellular half-life and protein levels.",
+      "biological_consequence": [
+        "PIAS1 binds to ATXN3 → PIAS1 acts as an E3 ligase, facilitating the conjugation of SUMO1/3 to ATXN3 at specific lysine residues (e.g., K166) → SUMOylated ATXN3 is shielded from the ubiquitin-proteasome system → Proteasomal degradation of ATXN3 is inhibited → Cellular accumulation of stabilized ATXN3 protein"
+      ],
+      "specific_effects": [
+        "PIAS1 knockdown leads to a dose-dependent decrease in both wild-type and mutant ATXN3 protein levels, an effect reversible by proteasome inhibitors.",
+        "SUMO-1 modification at lysine 166 (K166) of polyQ-expanded ATXN3 increases its stability and cytotoxicity.",
+        "PIAS1 stabilizes ATXN3 protein by inhibiting its ubiquitin-mediated degradation and increasing SUMO-conjugated protein levels."
+      ],
+      "evidence": [
+        {
+          "paper_title": "PIAS1 S510G variant acts as a genetic modifier of spinocerebellar ataxia type 3 by selectively impairing mutant ataxin-3 proteostasis",
+          "journal": "Neurobiology of Disease",
+          "year": 2024,
+          "relevant_quote": "Through in vitro biochemical analyses and in vivo assays, we demonstrate that PIAS1 stabilizes both wild-type and mutant ataxin-3 (ATXN3).",
+          "pmid": "39293559"
+        },
+        {
+          "paper_title": "SUMO-1 Modification on K166 of PolyQ-Expanded aTaxin-3 Strengthens Its Stability and Increases Its Cytotoxicity",
+          "journal": "PLoS One",
+          "year": 2013,
+          "relevant_quote": "Here we identified that the major SUMO-1 binding site was located on lysine 166. SUMOylation did not influence the subcellular localization, ubiquitination or aggregates formation of mutant-type ataxin-3, but partially increased its stability and the cell apoptosis.",
+          "pmid": "23382880"
+        }
+      ],
+      "pmids": [
+        "39293559",
+        "23382880"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "PIAS1 (Protein Inhibitor of Activated STAT 1) functions as an E3 SUMO ligase that directly interacts with ATXN3 and catalyzes its covalent modification with SUMO (Small Ubiquitin-like Modifier) proteins.",
+  "effect": "The SUMOylation of ATXN3 by PIAS1, particularly at lysine 166 (K166), enhances the stability of both wild-type and polyQ-expanded ATXN3. This modification protects ATXN3 from ubiquitin-mediated degradation by the proteasome, thereby increasing its cellular half-life and protein levels.",
+  "summary": "ATXN3 activates PIAS1 to modulate sumoylation-mediated protein stabilization, ultimately affecting cellular accumulation of stabilized atxn3 protein.",
+  "evidence": [
+    {
+      "paper_title": "PIAS1 S510G variant acts as a genetic modifier of spinocerebellar ataxia type 3 by selectively impairing mutant ataxin-3 proteostasis",
+      "journal": "Neurobiology of Disease",
+      "year": 2024,
+      "relevant_quote": "Through in vitro biochemical analyses and in vivo assays, we demonstrate that PIAS1 stabilizes both wild-type and mutant ataxin-3 (ATXN3)."
+    },
+    {
+      "paper_title": "SUMO-1 Modification on K166 of PolyQ-Expanded aTaxin-3 Strengthens Its Stability and Increases Its Cytotoxicity",
+      "journal": "PLoS One",
+      "year": 2013,
+      "relevant_quote": "Here we identified that the major SUMO-1 binding site was located on lysine 166. SUMOylation did not influence the subcellular localization, ubiquitination or aggregates formation of mutant-type ataxin-3, but partially increased its stability and the cell apoptosis."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Post-Translational Modification Crosstalk",
+      "canonical_name": "Post-Translational Modification Crosstalk",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.75
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--binds-- PIAS1:",
+  "protein_a": "ATXN3",
+  "protein_b": "PIAS1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:19.038789Z",
+  "last_updated": "2025-11-29T18:36:19.038789Z"
+}

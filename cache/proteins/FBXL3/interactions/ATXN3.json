@@ -1,0 +1,89 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The F-box protein FBXL3, a component of the SCF ubiquitin ligase complex, binds to ATXN3 and promotes its ubiquitination and subsequent degradation.",
+  "functions": [
+    {
+      "function": "ATXN3 Stability",
+      "arrow": "inhibits",
+      "cellular_process": "The F-box protein FBXL3 is a substrate recognition component of the SCF (SKP1-CUL1-F-box) E3 ubiquitin ligase complex. FBXL3 directly binds to the ATXN3 protein, marking it as a substrate for ubiquitination.",
+      "effect_description": "By binding to ATXN3, FBXL3 recruits the rest of the SCF E3 ligase machinery, including CUL1 and SKP1. This complex then catalyzes the attachment of polyubiquitin chains to ATXN3. This polyubiquitination serves as a signal for the proteasome to recognize and degrade the ATXN3 protein, thereby controlling its cellular abundance.",
+      "biological_consequence": [
+        "FBXL3, as part of the SCF complex, binds to ATXN3 → The SCF-FBXL3 complex polyubiquitinates ATXN3 → Polyubiquitinated ATXN3 is recognized by the 26S proteasome → ATXN3 is degraded → Cellular levels of ATXN3 are reduced."
+      ],
+      "specific_effects": [
+        "Mediates the polyubiquitination of both wild-type and mutant ATXN3.",
+        "Reduces the protein half-life of ATXN3 through proteasomal degradation.",
+        "Functions in a CUL1-dependent manner."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Druggable genome screen identifies new regulators of the abundance and toxicity of ATXN3, the Spinocerebellar Ataxia Type 3 disease protein",
+          "journal": "PLoS Genetics",
+          "year": 2021,
+          "relevant_quote": "We overexpressed FBXL3 in SCA3 NPCs and confirmed that high levels of FBXL3 reduce endogenous levels of both wild-type and mutant ATXN3 proteins to 58% and 64%, respectively, of control levels... To evaluate if FBXL3-mediated reduction of ATXN3 abundance occurs via the SCF/CUL1 ubiquitination complex, we co-electroporated plasmid overexpressing FBXL3 while also decreasing CUL1 with siRNAs against CUL1.",
+          "pmid": "31783119"
+        }
+      ],
+      "pathway": {
+        "name": "Protein Stability Regulation",
+        "canonical_name": "Protein Stability Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31783119"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The F-box protein FBXL3 is a substrate recognition component of the SCF (SKP1-CUL1-F-box) E3 ubiquitin ligase complex. FBXL3 directly binds to the ATXN3 protein, marking it as a substrate for ubiquitination.",
+  "effect": "By binding to ATXN3, FBXL3 recruits the rest of the SCF E3 ligase machinery, including CUL1 and SKP1. This complex then catalyzes the attachment of polyubiquitin chains to ATXN3. This polyubiquitination serves as a signal for the proteasome to recognize and degrade the ATXN3 protein, thereby controlling its cellular abundance.",
+  "summary": "ATXN3 inhibits FBXL3 to modulate atxn3 stability, ultimately affecting cellular levels of atxn3 are reduced.",
+  "evidence": [
+    {
+      "paper_title": "Druggable genome screen identifies new regulators of the abundance and toxicity of ATXN3, the Spinocerebellar Ataxia Type 3 disease protein",
+      "journal": "PLoS Genetics",
+      "year": 2021,
+      "relevant_quote": "We overexpressed FBXL3 in SCA3 NPCs and confirmed that high levels of FBXL3 reduce endogenous levels of both wild-type and mutant ATXN3 proteins to 58% and 64%, respectively, of control levels... To evaluate if FBXL3-mediated reduction of ATXN3 abundance occurs via the SCF/CUL1 ubiquitination complex, we co-electroporated plasmid overexpressing FBXL3 while also decreasing CUL1 with siRNAs against CUL1."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Protein Stability Regulation",
+      "canonical_name": "Protein Stability Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--inhibits-- FBXL3:",
+  "protein_a": "FBXL3",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.110076Z",
+  "last_updated": "2025-11-30T15:37:50.110076Z"
+}

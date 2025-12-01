@@ -1,0 +1,92 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Similar to Mfn1, ATXN3 interacts with Mitofusin-2 (Mfn2). Truncated mutant ATXN3 leads to reduced Mfn2 expression, disrupting mitochondrial dynamics and promoting fission.",
+  "functions": [
+    {
+      "function": "Mitochondrial Dynamics",
+      "arrow": "inhibits",
+      "cellular_process": "A pathogenic, truncated fragment of mutant ATXN3 leads to the downregulation of Mitofusin-2 (Mfn2) protein expression. Mfn2 is essential for the fusion of outer mitochondrial membranes.",
+      "effect_description": "The reduction in Mfn2 levels, caused by the toxic ATXN3 fragment, cripples the mitochondrial fusion machinery. This results in a fragmented mitochondrial network, which is a hallmark of mitochondrial dysfunction and a contributor to the pathology of Spinocerebellar Ataxia Type 3.",
+      "biological_consequence": [
+        "Expression of truncated mutant ATXN3 → Reduced protein levels of Mfn2 → Disruption of mitochondrial fusion → Predominance of mitochondrial fission → Mitochondrial network fragmentation → Cellular dysfunction and neurodegeneration"
+      ],
+      "specific_effects": [
+        "A significant decrease in Mfn2 protein expression was observed in both cell culture and transgenic mouse models expressing the truncated C-terminal fragment of mutant ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2017,
+          "relevant_quote": "In this study we observed truncated mutant ATXN3... led to more mitochondrial fission due to lower expression of Mfn-1 and Mfn-2, two proteins for the fusion of the outer mitochondrial membrane.",
+          "pmid": "28676741"
+        }
+      ],
+      "pmids": [
+        "28676741"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Similar to Mfn1, the input claim mischaracterizes the effect as 'activating'. The primary literature demonstrates that a toxic fragment of mutant ATXN3 causes a decrease in Mfn2 protein levels, which is an inhibitory action against the cellular process of mitochondrial fusion.",
+  "mechanism": "A pathogenic, truncated fragment of mutant ATXN3 leads to the downregulation of Mitofusin-2 (Mfn2) protein expression. Mfn2 is essential for the fusion of outer mitochondrial membranes.",
+  "effect": "The reduction in Mfn2 levels, caused by the toxic ATXN3 fragment, cripples the mitochondrial fusion machinery. This results in a fragmented mitochondrial network, which is a hallmark of mitochondrial dysfunction and a contributor to the pathology of Spinocerebellar Ataxia Type 3.",
+  "summary": "ATXN3 inhibits Mfn2 to modulate mitochondrial dynamics, ultimately affecting cellular dysfunction and neurodegeneration.",
+  "evidence": [
+    {
+      "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2017,
+      "relevant_quote": "In this study we observed truncated mutant ATXN3... led to more mitochondrial fission due to lower expression of Mfn-1 and Mfn-2, two proteins for the fusion of the outer mitochondrial membrane."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Regulation of Mitochondrial Dynamics",
+      "canonical_name": "Regulation Of Mitochondrial Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.9
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> Mfn2:",
+  "protein_a": "Mfn2",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:19.023520Z",
+  "last_updated": "2025-11-29T18:36:19.023520Z"
+}

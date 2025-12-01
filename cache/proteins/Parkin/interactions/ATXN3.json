@@ -1,0 +1,112 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 functions as a deubiquitinating enzyme (DUB) for the E3 ligase Parkin, directly removing ubiquitin chains and thereby regulating its turnover.",
+  "functions": [
+    {
+      "function": "Parkin Stability",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3, a deubiquitinating enzyme (DUB), directly interacts with and deubiquitinates the E3 ubiquitin ligase Parkin. While wild-type ATXN3 performs this function, the pathogenic, polyglutamine-expanded form of ATXN3 exhibits enhanced activity. It more efficiently removes specific ubiquitin chain linkages (K27- and K29-linked) from Parkin. Paradoxically, this enhanced deubiquitination does not stabilize Parkin but instead promotes its clearance.",
+      "effect_description": "The enhanced deubiquitination of Parkin by mutant ATXN3 targets Parkin for autophagic degradation. This leads to reduced cellular levels of Parkin, thereby impairing its crucial functions in mitochondrial quality control (mitophagy). This loss of Parkin function may contribute to the parkinsonian symptoms sometimes observed in Machado-Joseph disease.",
+      "biological_consequence": [
+        "Parkin undergoes auto-ubiquitination (e.g., K27, K29 linkages) -> PolyQ-expanded ATXN3 binds to and deubiquitinates Parkin -> Specific ubiquitin chains are preferentially removed -> Deubiquitinated Parkin is targeted for autophagic clearance -> Parkin protein levels are reduced -> Mitophagy is impaired -> Mitochondrial dysfunction contributes to neurodegeneration"
+      ],
+      "specific_effects": [
+        "ATXN3 directly interacts with Parkin via multiple domains.",
+        "Both wild-type and polyQ-expanded ATXN3 deubiquitinate Parkin.",
+        "PolyQ-expanded ATXN3 is more efficient at removing K27- and K29-linked ubiquitin conjugates from Parkin compared to wild-type ATXN3.",
+        "Mutant, but not wild-type, ATXN3 promotes the degradation of Parkin via the autophagy pathway.",
+        "Reduced Parkin levels are observed in the brains of transgenic mice expressing polyQ-expanded ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+          "journal": "Human Molecular Genetics",
+          "year": 2011,
+          "relevant_quote": "Compared with wild-type ataxin-3, MJD-linked polyQ-expanded mutant ataxin-3 is more active, possibly owing to its greater efficiency at DUB K27- and K29-linked Ub conjugates on parkin. Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway.",
+          "pmid": "20940148"
+        },
+        {
+          "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2012,
+          "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub.",
+          "pmid": "22081612"
+        },
+        {
+          "paper_title": "The parkin V380L variant is a genetic modifier of Machado–Joseph disease with impact on mitophagy",
+          "journal": "Acta Neuropathologica",
+          "year": 2024,
+          "relevant_quote": "Interestingly, an earlier study showed that polyQ-expanded ataxin-3 may contribute to an undesirably enhanced removal of parkin via autophagy, thereby contributing to the molecular pathogenesis of MJD.",
+          "pmid": "39088078"
+        }
+      ],
+      "pmids": [
+        "20940148",
+        "22081612",
+        "39088078"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The interaction is a mechanistic paradox. While deubiquitination typically stabilizes proteins, polyQ-expanded ATXN3's deubiquitination of Parkin leads to its degradation. The input claim is correct but requires precise mechanistic explanation to avoid being misinterpreted as a standard stabilizing deubiquitination event. The effect of mutant ATXN3 is ultimately inhibitory to Parkin function due to enhanced degradation.",
+  "mechanism": "ATXN3, a deubiquitinating enzyme (DUB), directly interacts with and deubiquitinates the E3 ubiquitin ligase Parkin. While wild-type ATXN3 performs this function, the pathogenic, polyglutamine-expanded form of ATXN3 exhibits enhanced activity. It more efficiently removes specific ubiquitin chain linkages (K27- and K29-linked) from Parkin. Paradoxically, this enhanced deubiquitination does not stabilize Parkin but instead promotes its clearance.",
+  "effect": "The enhanced deubiquitination of Parkin by mutant ATXN3 targets Parkin for autophagic degradation. This leads to reduced cellular levels of Parkin, thereby impairing its crucial functions in mitochondrial quality control (mitophagy). This loss of Parkin function may contribute to the parkinsonian symptoms sometimes observed in Machado-Joseph disease.",
+  "summary": "ATXN3 inhibits Parkin to modulate regulation of parkin stability.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+      "journal": "Human Molecular Genetics",
+      "year": 2011,
+      "relevant_quote": "Compared with wild-type ataxin-3, MJD-linked polyQ-expanded mutant ataxin-3 is more active, possibly owing to its greater efficiency at DUB K27- and K29-linked Ub conjugates on parkin. Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway."
+    },
+    {
+      "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2012,
+      "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub."
+    },
+    {
+      "paper_title": "The parkin V380L variant is a genetic modifier of Machado–Joseph disease with impact on mitophagy",
+      "journal": "Acta Neuropathologica",
+      "year": 2024,
+      "relevant_quote": "Interestingly, an earlier study showed that polyQ-expanded ataxin-3 may contribute to an undesirably enhanced removal of parkin via autophagy, thereby contributing to the molecular pathogenesis of MJD."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Deubiquitination and Stabilization of Substrate Proteins",
+      "canonical_name": "Protein Ubiquitination",
+      "ontology_id": "GO:0016567",
+      "ontology_source": "GO",
+      "confidence": 0.85
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> Parkin:",
+  "protein_a": "Parkin",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:18.941646Z",
+  "last_updated": "2025-11-29T18:36:18.941646Z"
+}

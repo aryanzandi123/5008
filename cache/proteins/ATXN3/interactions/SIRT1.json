@@ -1,0 +1,100 @@
+{
+  "primary": "SIRT1",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly interacts with and deubiquitinates Sirtuin 1 (SIRT1), leading to its activation.",
+  "functions": [
+    {
+      "function": "SIRT1 Deacetylase Activity",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 interacts with and deubiquitinates Sirtuin 1 (SIRT1), a key NAD+-dependent protein deacetylase that regulates cellular metabolism, stress resistance, and longevity.",
+      "effect_description": "By removing ubiquitin chains from SIRT1, ATXN3 prevents its degradation and enhances its enzymatic activity. Activated SIRT1 can then deacetylate a wide range of substrates, including histones and transcription factors, to modulate gene expression and cellular responses.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates SIRT1 → SIRT1 is stabilized and activated → Deacetylation of target proteins is increased → Cellular stress resistance and metabolic pathways are regulated"
+      ],
+      "specific_effects": [
+        "Deubiquitinates and activates SIRT1."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "year": 2024,
+          "pmid": "38497605"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Histone Deacetylation",
+        "canonical_name": "Histone Deacetylation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38497605"
+      ],
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 interacts with and deubiquitinates Sirtuin 1 (SIRT1), a key NAD+-dependent protein deacetylase that regulates cellular metabolism, stress resistance, and longevity.",
+  "effect": "By removing ubiquitin chains from SIRT1, ATXN3 prevents its degradation and enhances its enzymatic activity. Activated SIRT1 can then deacetylate a wide range of substrates, including histones and transcription factors, to modulate gene expression and cellular responses.",
+  "summary": "ATXN3 activates SIRT1 to modulate sirt1 deacetylase activity, ultimately affecting cellular stress resistance and metabolic pathways are regulated.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Histone Deacetylation",
+      "canonical_name": "Histone Deacetylation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> SIRT1:",
+  "protein_a": "ATXN3",
+  "protein_b": "SIRT1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.144025Z",
+  "last_updated": "2025-11-30T15:37:50.144025Z"
+}

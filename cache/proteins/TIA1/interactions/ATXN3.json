@@ -1,0 +1,100 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 is a component of stress granules and directly interacts with the core stress granule protein TIA1.",
+  "functions": [
+    {
+      "function": "Stress Granule Assembly",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 is a component of stress granules (SGs) and directly interacts with TIA1, a core nucleating protein required for SG assembly.",
+      "effect_description": "The interaction with TIA1 positions ATXN3 within SGs, where it can participate in the cellular stress response. This allows ATXN3 to access and deubiquitinate other SG components, thereby influencing the triage of mRNAs and proteins during stress.",
+      "biological_consequence": [
+        "Cellular stress → TIA1 nucleates SG assembly → ATXN3 is recruited to SGs via TIA1 interaction → ATXN3 regulates SG components → Stress response is modulated"
+      ],
+      "specific_effects": [
+        "Directly interacts with the core stress granule protein TIA1."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Key Modulators of the Stress Granule Response TIA1, TDP-43, and G3BP1 Are Altered by Polyglutamine-Expanded ATXN7",
+          "year": null,
+          "pmid": "35689166"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "bidirectional",
+      "pathway": {
+        "name": "Stress Granule Assembly",
+        "canonical_name": "Stress Granule Assembly",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "35689166"
+      ],
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 is a component of stress granules (SGs) and directly interacts with TIA1, a core nucleating protein required for SG assembly.",
+  "effect": "The interaction with TIA1 positions ATXN3 within SGs, where it can participate in the cellular stress response. This allows ATXN3 to access and deubiquitinate other SG components, thereby influencing the triage of mRNAs and proteins during stress.",
+  "summary": "ATXN3 activates TIA1 to modulate stress granule assembly, ultimately affecting stress response is modulated.",
+  "evidence": [
+    {
+      "paper_title": "Key Modulators of the Stress Granule Response TIA1, TDP-43, and G3BP1 Are Altered by Polyglutamine-Expanded ATXN7",
+      "year": null
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Stress Granule Assembly",
+      "canonical_name": "Stress Granule Assembly",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--complex--> TIA1:",
+  "protein_a": "TIA1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.131450Z",
+  "last_updated": "2025-11-30T15:37:50.131450Z"
+}

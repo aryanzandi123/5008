@@ -1,0 +1,100 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 functions as a co-activator for E2F transcription factor 1 (E2F1), suggesting a direct interaction in transcriptional regulation complexes.",
+  "functions": [
+    {
+      "function": "E2F1-mediated Transcription",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 functions as a transcriptional co-activator for the E2F transcription factor 1 (E2F1), a master regulator of genes involved in cell cycle progression and DNA synthesis.",
+      "effect_description": "ATXN3 is recruited to the promoters of E2F1 target genes where it enhances E2F1's transcriptional activity. This co-activator function promotes the expression of genes required for the G1/S transition and cell proliferation.",
+      "biological_consequence": [
+        "ATXN3 interacts with E2F1 → Complex binds to target gene promoters → Transcription of cell cycle genes is enhanced → Cell cycle progression is promoted"
+      ],
+      "specific_effects": [
+        "Acts as a transcriptional co-activator for E2F1."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "year": 2024,
+          "pmid": "38497605"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "inhibits",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38497605"
+      ],
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 functions as a transcriptional co-activator for the E2F transcription factor 1 (E2F1), a master regulator of genes involved in cell cycle progression and DNA synthesis.",
+  "effect": "ATXN3 is recruited to the promoters of E2F1 target genes where it enhances E2F1's transcriptional activity. This co-activator function promotes the expression of genes required for the G1/S transition and cell proliferation.",
+  "summary": "ATXN3 activates E2F1 to modulate e2f1-mediated transcription, ultimately affecting cell cycle progression is promoted.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> E2F1:",
+  "protein_a": "E2F1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.141818Z",
+  "last_updated": "2025-11-30T15:37:50.141818Z"
+}

@@ -1,0 +1,117 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "VCP",
+  "mediator_chain": [
+    "VCP"
+  ],
+  "depth": 2,
+  "support_summary": "The ATXN3-VCP/p97 complex promotes the extraction of the E3 ubiquitin ligase RNF8 from sites of DNA damage to prevent its overaccumulation and ensure proper double-strand break repair.",
+  "functions": [
+    {
+      "function": "RNF8 Chromatin Extraction",
+      "arrow": "activates",
+      "cellular_process": "The ATXN3-VCP/p97 complex regulates the homeostasis of the E3 ubiquitin ligase RNF8, a key factor in DNA repair, at sites of genotoxic stress.",
+      "effect_description": "During the DNA damage response, the ATXN3-VCP complex facilitates the extraction of RNF8 from chromatin. This prevents the hyper-accumulation of RNF8 at DNA lesions, which is crucial for balancing DNA repair pathway choice and promoting cell survival.",
+      "biological_consequence": [
+        "DNA damage → RNF8 accumulates on chromatin → ATXN3-VCP complex extracts RNF8 → RNF8 levels are balanced → DNA repair pathway choice is regulated → Cell survival is promoted"
+      ],
+      "specific_effects": [
+        "Stimulates the extraction of RNF8 from chromatin at sites of DNA lesions.",
+        "Suppresses overaccumulation of RNF8 at sites of DNA damage.",
+        "Deubiquitinates soluble RNF8 to protect it from premature degradation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "year": 2019,
+          "pmid": "31613024"
+        },
+        {
+          "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+          "year": 2023,
+          "pmid": "36971114"
+        }
+      ],
+      "_context": {
+        "type": "indirect",
+        "query_protein": null,
+        "chain": [
+          "VCP"
+        ]
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31613024",
+        "36971114"
+      ],
+      "direct_arrow": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "VCP",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "VCP"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "The ATXN3-VCP/p97 complex regulates the homeostasis of the E3 ubiquitin ligase RNF8, a key factor in DNA repair, at sites of genotoxic stress.",
+  "effect": "During the DNA damage response, the ATXN3-VCP complex facilitates the extraction of RNF8 from chromatin. This prevents the hyper-accumulation of RNF8 at DNA lesions, which is crucial for balancing DNA repair pathway choice and promoting cell survival.",
+  "summary": "ATXN3 activates RNF8 to modulate rnf8 chromatin extraction, ultimately affecting cell survival is promoted.",
+  "evidence": [
+    {
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "year": 2019
+    },
+    {
+      "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+      "year": 2023
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --activates--> RNF8:",
+  "protein_a": "RNF8",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.095114Z",
+  "last_updated": "2025-11-30T15:37:50.095114Z"
+}

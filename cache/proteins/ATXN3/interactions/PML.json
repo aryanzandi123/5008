@@ -1,0 +1,149 @@
+{
+  "primary": "PML",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the Promyelocytic leukemia protein (PML) and co-localizes within PML nuclear bodies, which are involved in transcriptional regulation and stress responses.",
+  "functions": [
+    {
+      "function": "Stress Response",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 co-localizes with the Promyelocytic leukemia protein (PML) within PML nuclear bodies, which are dynamic sub-nuclear structures that act as hubs for various cellular processes.",
+      "effect_description": "Through its interaction with PML, ATXN3 is positioned to participate in the functions of PML nuclear bodies, including the regulation of transcriptional responses, protein post-translational modification (like SUMOylation), and the cellular response to stress.",
+      "biological_consequence": [
+        "Cellular stress → ATXN3 co-localizes with PML in nuclear bodies → Regulation of stress-responsive genes and proteins → Cellular homeostasis is maintained"
+      ],
+      "specific_effects": [
+        "Co-localizes within PML nuclear bodies."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Sumoylation of MDC1 is important for proper DNA damage response",
+          "year": 2012,
+          "pmid": "22635276"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "primary_to_main",
+      "pathway": {
+        "name": "Cellular Stress Response",
+        "canonical_name": "Cellular Stress Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "22635276"
+      ],
+      "function_effect": "activation"
+    },
+    {
+      "function": "ATXN3 Deubiquitinase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 is recruited to Promyelocytic leukemia (PML) nuclear bodies through a specific interaction with the PML-II isoform.",
+      "effect_description": "The specific PML-II isoform binds to ATXN3 and negatively regulates its enzymatic function, inhibiting its deubiquitinase activity. This suggests that PML-NBs act as sites where ATXN3 function is modulated.",
+      "biological_consequence": [
+        "ATXN3 is recruited to PML-NBs via PML-II → PML-II binds to ATXN3 → ATXN3 deubiquitinase activity is inhibited → The stability of ATXN3 substrates within the PML-NB is altered"
+      ],
+      "specific_effects": [
+        "Specifically binds to the C-terminal region of the PML-II isoform.",
+        "Co-localizes with PML-II in PML nuclear bodies.",
+        "PML-II binding inhibits the ubiquitin hydrolase activity of ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
+          "year": 2021,
+          "pmid": "33798946"
+        },
+        {
+          "paper_title": "SUMOylation of the brain-predominant Ataxin-3 isoform modulates its interaction with p97",
+          "year": 2015,
+          "pmid": "26073430"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "inhibits",
+      "direction": "main_to_primary",
+      "interaction_direction": "primary_to_main",
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33798946",
+        "26073430"
+      ],
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates",
+      "inhibits"
+    ]
+  },
+  "mechanism": "ATXN3 co-localizes with the Promyelocytic leukemia protein (PML) within PML nuclear bodies, which are dynamic sub-nuclear structures that act as hubs for various cellular processes. ATXN3 is recruited to Promyelocytic leukemia (PML) nuclear bodies through a specific interaction with the PML-II isoform.",
+  "effect": "Through its interaction with PML, ATXN3 is positioned to participate in the functions of PML nuclear bodies, including the regulation of transcriptional responses, protein post-translational modification (like SUMOylation), and the cellular response to stress.; The specific PML-II isoform binds to ATXN3 and negatively regulates its enzymatic function, inhibiting its deubiquitinase activity. This suggests that PML-NBs act as sites where ATXN3 function is modulated.",
+  "summary": "ATXN3 regulates PML to regulate stress response and atxn3 deubiquitinase activity, ultimately affecting cellular homeostasis is maintained.",
+  "evidence": [
+    {
+      "paper_title": "Sumoylation of MDC1 is important for proper DNA damage response",
+      "year": 2012
+    },
+    {
+      "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
+      "year": 2021
+    },
+    {
+      "paper_title": "SUMOylation of the brain-predominant Ataxin-3 isoform modulates its interaction with p97",
+      "year": 2015
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Cellular Stress Response",
+      "canonical_name": "Cellular Stress Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--inhibits-- PML:",
+  "protein_a": "ATXN3",
+  "protein_b": "PML",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.097242Z",
+  "last_updated": "2025-11-30T15:37:50.097242Z"
+}

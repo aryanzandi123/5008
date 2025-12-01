@@ -1,0 +1,104 @@
+{
+  "primary": "TP53",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Polyglutamine-expanded ataxin-3 enhances the phosphorylation and transcriptional activity of p53, suggesting a regulatory interaction.",
+  "functions": [
+    {
+      "function": "TP53 Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3, a deubiquitinating enzyme (DUB), directly binds to both native and polyubiquitinated TP53. The interaction is mediated by the Josephin domain of ATXN3 binding to the DNA-binding and C-terminal regulatory domains of TP53.",
+      "effect_description": "ATXN3 cleaves ubiquitin chains from TP53, thereby preventing its degradation by the ubiquitin-proteasome pathway. This deubiquitination leads to the stabilization and accumulation of TP53, increasing its protein half-life. Consequently, the transcriptional activity of TP53 is enhanced, leading to the increased expression of its target genes and the promotion of p53-dependent apoptosis. PolyQ-expanded ATXN3 exhibits an enhanced interaction and deubiquitinating activity towards TP53, which can lead to excessive apoptosis.",
+      "biological_consequence": [
+        "ATXN3 binds to ubiquitinated TP53 → ATXN3 removes ubiquitin chains from TP53 → TP53 is shielded from proteasomal degradation → TP53 protein is stabilized and accumulates in the cell → Enhanced transcriptional activation of TP53 target genes (e.g., Bax, PUMA) → Increased induction of p53-dependent apoptosis."
+      ],
+      "specific_effects": [
+        "Directly deubiquitinates TP53.",
+        "Increases the half-life and stability of the TP53 protein.",
+        "Enhances TP53-mediated transcriptional activity.",
+        "Promotes p53-dependent apoptosis."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLoS Biology",
+          "year": 2016,
+          "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway.",
+          "pmid": "27851749"
+        },
+        {
+          "paper_title": "p53 activation mediates polyglutamine-expanded ataxin-3 upregulation of Bax expression in cerebellar and pontine nuclei neurons",
+          "journal": "Neurobiology of Disease",
+          "year": 2010,
+          "relevant_quote": "Our results suggest that polyglutamine-expanded ataxin-3 upregulates mRNA expression of Bax and PUMA and causes apoptotic death of affected neurons by enhancing phosphorylation and transcriptional activity of p53.",
+          "pmid": "21092747"
+        }
+      ],
+      "pathway": {
+        "name": "TP53 Signaling Pathway",
+        "canonical_name": "Tp53 Signaling Pathway",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "27851749",
+        "21092747"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, a deubiquitinating enzyme (DUB), directly binds to both native and polyubiquitinated TP53. The interaction is mediated by the Josephin domain of ATXN3 binding to the DNA-binding and C-terminal regulatory domains of TP53.",
+  "effect": "ATXN3 cleaves ubiquitin chains from TP53, thereby preventing its degradation by the ubiquitin-proteasome pathway. This deubiquitination leads to the stabilization and accumulation of TP53, increasing its protein half-life. Consequently, the transcriptional activity of TP53 is enhanced, leading to the increased expression of its target genes and the promotion of p53-dependent apoptosis. PolyQ-expanded ATXN3 exhibits an enhanced interaction and deubiquitinating activity towards TP53, which can lead to excessive apoptosis.",
+  "summary": "ATXN3 activates TP53 to modulate tp53 stability, ultimately affecting increased induction of p53-dependent apoptosis.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLoS Biology",
+      "year": 2016,
+      "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway."
+    },
+    {
+      "paper_title": "p53 activation mediates polyglutamine-expanded ataxin-3 upregulation of Bax expression in cerebellar and pontine nuclei neurons",
+      "journal": "Neurobiology of Disease",
+      "year": 2010,
+      "relevant_quote": "Our results suggest that polyglutamine-expanded ataxin-3 upregulates mRNA expression of Bax and PUMA and causes apoptotic death of affected neurons by enhancing phosphorylation and transcriptional activity of p53."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "TP53 Signaling Pathway",
+      "canonical_name": "Tp53 Signaling Pathway",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> TP53:",
+  "protein_a": "ATXN3",
+  "protein_b": "TP53",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.067300Z",
+  "last_updated": "2025-11-30T15:37:50.067300Z"
+}

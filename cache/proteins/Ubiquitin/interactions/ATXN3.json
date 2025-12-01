@@ -1,0 +1,159 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "As a deubiquitinase (DUB), ATXN3 directly binds and cleaves ubiquitin chains from substrate proteins, with its UIM domains binding ubiquitin moieties.",
+  "functions": [
+    {
+      "function": "Ubiquitin Chain Cleavage",
+      "arrow": "activates",
+      "cellular_process": "As a deubiquitinase (DUB), ATXN3's catalytic Josephin domain cleaves isopeptide bonds to remove ubiquitin from substrate proteins. Its C-terminal Ubiquitin Interacting Motifs (UIMs) are responsible for binding polyubiquitin chains and determining linkage specificity.",
+      "effect_description": "ATXN3 edits or removes polyubiquitin chains from target proteins, which can rescue them from proteasomal degradation (K48-linked chains) or alter their involvement in signaling pathways (K63-linked chains). More recent evidence highlights a specific and high efficiency for debranching K48-K63 linked ubiquitin chains.",
+      "biological_consequence": [
+        "ATXN3 UIMs bind to a polyubiquitinated substrate → The Josephin domain cleaves the isopeptide bond → Ubiquitin moieties are removed from the substrate → Substrate fate is altered (e.g., stabilization, altered signaling, or trafficking)."
+      ],
+      "specific_effects": [
+        "Preferentially cleaves K63-linked ubiquitin chains over K48-linked chains.",
+        "Shows highest activity on polyubiquitin chains of four or more ubiquitin molecules.",
+        "Demonstrates high efficiency in debranching K48-K63-linked branched ubiquitin chains."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "journal": "Biochemical Journal",
+          "year": 2021,
+          "relevant_quote": "ATXN3 is able to bind both lysine 48 (K48)- and lysine 63 (K63)-linked ubiquitin chains, but with preference to cleave K63-linked ubiquitin chains of at least four ubiquitin molecules. This specificity seems to be determined by the UIMs, since the JD alone preferentially cleaves K48-linked ubiquitin chains.",
+          "pmid": "38497605"
+        },
+        {
+          "paper_title": "ATXN3 regulates lysosome regeneration after damage by targeting K48-K63-branched ubiquitin chains",
+          "journal": "The EMBO Journal",
+          "year": 2025,
+          "relevant_quote": "Here we show in human cells that the deubiquitinating enzyme ATXN3 helps restore integrity of the lysosomal system after damage by targeting K48-K63-branched ubiquitin chains on regenerating lysosomes.",
+          "pmid": "40730717"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38497605",
+        "40730717"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    },
+    {
+      "function": "ATXN3 Deubiquitinase Activity",
+      "arrow": "activates",
+      "cellular_process": "The catalytic activity of ATXN3 is allosterically regulated by its own ubiquitination. This post-translational modification occurs primarily at lysine 117 (K117), a residue located near the catalytic triad within the Josephin domain.",
+      "effect_description": "The attachment of ubiquitin to K117 induces a conformational change in the Josephin domain, locking it into a more active state. This significantly enhances its enzymatic efficiency in cleaving ubiquitin chains from substrates, a mechanism that is potentiated by cellular proteotoxic stress.",
+      "biological_consequence": [
+        "Cellular stress (e.g., proteasome inhibition) → E3 ligases ubiquitinate ATXN3 at K117 → The ATXN3 catalytic domain adopts a high-activity conformation → The rate of substrate deubiquitination is increased."
+      ],
+      "specific_effects": [
+        "Monoubiquitination at lysine 117 is sufficient for ubiquitin-dependent activation.",
+        "Ubiquitination enhances ubiquitin chain cleavage activity without altering its preference for K63-linked chains.",
+        "ATXN3 was the first deubiquitinase for which this direct catalytic regulation by ubiquitination was reported."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ubiquitination directly enhances activity of the deubiquitinating enzyme ataxin-3",
+          "journal": "The EMBO Journal",
+          "year": 2009,
+          "relevant_quote": "Here, we report that ubiquitination also directly regulates the activity of a DUB, ataxin-3, a polyglutamine disease protein implicated in protein quality control pathways. Ubiquitination enhances ubiquitin (Ub) chain cleavage by ataxin-3, but does not alter its preference for K63-linked Ub chains.",
+          "pmid": "19153604"
+        },
+        {
+          "paper_title": "Activity and cellular functions of the deubiquitinating enzyme and polyglutamine disease protein ataxin-3 are regulated by ubiquitination at lysine 117",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2010,
+          "relevant_quote": "We identify Lys-117, which resides near the catalytic triad, as the primary site of ubiquitination in wild type and pathogenic ataxin-3... structure-function studies support a model of activation whereby ubiquitination at Lys-117 enhances ataxin-3 activity... most likely through a direct conformational change in or near the catalytic domain.",
+          "pmid": "20943656"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19153604",
+        "20943656"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "As a deubiquitinase (DUB), ATXN3's catalytic Josephin domain cleaves isopeptide bonds to remove ubiq; The catalytic activity of ATXN3 is allosterically regulated by its own ubiquitination",
+  "effect": "ATXN3 edits or removes polyubiquitin chains from target proteins, which can rescue them from proteasomal degradation (K48-linked chains) or alter their involvement in signaling pathways (K63-linked chains). More recent evidence highlights a specific and high efficiency for debranching K48-K63 linked ubiquitin chains.; The attachment of ubiquitin to K117 induces a conformational change in the Josephin domain, locking it into a more active state. This significantly enhances its enzymatic efficiency in cleaving ubiquitin chains from substrates, a mechanism that is potentiated by cellular proteotoxic stress.",
+  "summary": "ATXN3 activates UBIQUITIN to regulate ubiquitin chain cleavage and regulation of atxn3 deubiquitinase activity, ultimately affecting substrate fate is altered (e.g., stabilization, altered signaling, or trafficking).",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "journal": "Biochemical Journal",
+      "year": 2021,
+      "relevant_quote": "ATXN3 is able to bind both lysine 48 (K48)- and lysine 63 (K63)-linked ubiquitin chains, but with preference to cleave K63-linked ubiquitin chains of at least four ubiquitin molecules. This specificity seems to be determined by the UIMs, since the JD alone preferentially cleaves K48-linked ubiquitin chains."
+    },
+    {
+      "paper_title": "ATXN3 regulates lysosome regeneration after damage by targeting K48-K63-branched ubiquitin chains",
+      "journal": "The EMBO Journal",
+      "year": 2025,
+      "relevant_quote": "Here we show in human cells that the deubiquitinating enzyme ATXN3 helps restore integrity of the lysosomal system after damage by targeting K48-K63-branched ubiquitin chains on regenerating lysosomes."
+    },
+    {
+      "paper_title": "Ubiquitination directly enhances activity of the deubiquitinating enzyme ataxin-3",
+      "journal": "The EMBO Journal",
+      "year": 2009,
+      "relevant_quote": "Here, we report that ubiquitination also directly regulates the activity of a DUB, ataxin-3, a polyglutamine disease protein implicated in protein quality control pathways. Ubiquitination enhances ubiquitin (Ub) chain cleavage by ataxin-3, but does not alter its preference for K63-linked Ub chains."
+    },
+    {
+      "paper_title": "Activity and cellular functions of the deubiquitinating enzyme and polyglutamine disease protein ataxin-3 are regulated by ubiquitination at lysine 117",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2010,
+      "relevant_quote": "We identify Lys-117, which resides near the catalytic triad, as the primary site of ubiquitination in wild type and pathogenic ataxin-3... structure-function studies support a model of activation whereby ubiquitination at Lys-117 enhances ataxin-3 activity... most likely through a direct conformational change in or near the catalytic domain."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--binds--> UBIQUITIN:",
+  "protein_a": "UBIQUITIN",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.056894Z",
+  "last_updated": "2025-11-30T15:37:50.056894Z"
+}

@@ -1,0 +1,11 @@
+{
+  "script_name": "02_build_base_hierarchy",
+  "start_time": "2025-11-30T14:45:45.035642",
+  "end_time": "2025-11-30T14:45:45.124602",
+  "duration_seconds": 0.08896,
+  "items_processed": 0,
+  "items_created": 0,
+  "items_updated": 0,
+  "errors": 1,
+  "warnings": 0
+}

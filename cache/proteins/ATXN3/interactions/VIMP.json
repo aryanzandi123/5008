@@ -1,0 +1,94 @@
+{
+  "primary": "VIMP",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "As part of the Derlin-VIMP complex, VIMP is a direct interaction partner of the ATXN3-p97 complex at the ER membrane during ERAD.",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "regulates",
+      "cellular_process": "VIMP (VCP-interacting membrane protein) is a key component of the retrotranslocation machinery at the ER membrane, forming a complex with Derlin-1. ATXN3, in conjunction with p97/VCP, transiently interacts with this Derlin-1/VIMP complex. This places ATXN3 at the site of misfolded protein extraction from the ER, allowing it to act on the ubiquitin chains of ERAD substrates.",
+      "effect_description": "The interaction with the VIMP-containing complex is essential for ATXN3's role in modulating the ERAD pathway. By processing the ubiquitin chains on substrates being retrotranslocated, ATXN3 influences the efficiency of their degradation by the proteasome. A catalytically inactive form of ATXN3 shows increased binding to the complex, inhibiting the degradation process.",
+      "biological_consequence": [
+        "Misfolded protein in the ER → Assembly of the p97-ATXN3 complex at the Derlin-1/VIMP retrotranslocon → Substrate extraction from the ER → ATXN3-mediated editing of substrate ubiquitin chains → Regulated degradation of the substrate by the proteasome."
+      ],
+      "specific_effects": [
+        "A fraction of VIMP co-immunoprecipitates with ATXN3, indicating a direct or indirect interaction within a complex.",
+        "The interaction of ATXN3 with the VIMP-containing complex at the ER membrane is transient.",
+        "A catalytically inactive ATXN3 mutant (C14A) displays a higher affinity for VIMP and the Derlin-1 complex, leading to its accumulation at the ER membrane and inhibition of ERAD."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Regulation of retrotranslocation by p97-associated deubiquitinating enzyme ataxin-3",
+          "journal": "The Journal of Cell Biology",
+          "year": 2006,
+          "relevant_quote": "We demonstrate that atx3 transiently associates with the ER membrane via p97 and the recently identified Derlin–VIMP complex...Immunoblotting with specific antibodies showed that a fraction of Derlin-1, VIMP, and p97 was coprecipitated with atx3.",
+          "pmid": "17000876"
+        }
+      ],
+      "pmids": [
+        "17000876"
+      ],
+      "interaction_effect": "regulation",
+      "interaction_direction": "bidirectional",
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VIMP (VCP-interacting membrane protein) is a key component of the retrotranslocation machinery at the ER membrane, forming a complex with Derlin-1. ATXN3, in conjunction with p97/VCP, transiently interacts with this Derlin-1/VIMP complex. This places ATXN3 at the site of misfolded protein extraction from the ER, allowing it to act on the ubiquitin chains of ERAD substrates.",
+  "effect": "The interaction with the VIMP-containing complex is essential for ATXN3's role in modulating the ERAD pathway. By processing the ubiquitin chains on substrates being retrotranslocated, ATXN3 influences the efficiency of their degradation by the proteasome. A catalytically inactive form of ATXN3 shows increased binding to the complex, inhibiting the degradation process.",
+  "summary": "ATXN3 interacts with VIMP to modulate regulation of er-associated degradation (erad), ultimately affecting regulated degradation of the substrate by the proteasome.",
+  "evidence": [
+    {
+      "paper_title": "Regulation of retrotranslocation by p97-associated deubiquitinating enzyme ataxin-3",
+      "journal": "The Journal of Cell Biology",
+      "year": 2006,
+      "relevant_quote": "We demonstrate that atx3 transiently associates with the ER membrane via p97 and the recently identified Derlin–VIMP complex...Immunoblotting with specific antibodies showed that a fraction of Derlin-1, VIMP, and p97 was coprecipitated with atx3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation (ERAD)",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.95
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--complex--> VIMP:",
+  "protein_a": "ATXN3",
+  "protein_b": "VIMP",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:18.954999Z",
+  "last_updated": "2025-11-29T18:36:18.954999Z"
+}

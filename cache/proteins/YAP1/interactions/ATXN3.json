@@ -1,0 +1,105 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 functions as a deubiquitinase for the transcriptional regulator YAP1, interacting with its WW domains to protect it from degradation and promote tumor growth.",
+  "functions": [
+    {
+      "function": "YAP1 Protein Stabilization",
+      "arrow": "activates",
+      "cellular_process": "ATXN3, acting as a deubiquitinase (DUB), directly interacts with the transcriptional co-activator YAP1. The interaction is mediated by the Josephin domain of ATXN3 and the WW domains of YAP1. ATXN3 then removes K48-linked polyubiquitin chains from YAP1, which would otherwise target YAP1 for proteasomal degradation.",
+      "effect_description": "This deubiquitination stabilizes the YAP1 protein, leading to its accumulation. Increased levels of YAP1 result in enhanced transcriptional activity of its target genes, such as CTGF and CYR61, which are involved in cell proliferation, migration, and invasion. This mechanism is implicated in promoting the progression of various cancers, including prostate, breast, and pancreatic cancer.",
+      "biological_consequence": [
+        "ATXN3's Josephin domain binds to the WW domains of YAP1 -> ATXN3 cleaves K48-linked polyubiquitin chains from YAP1 -> Proteasomal degradation of YAP1 is inhibited -> YAP1 protein is stabilized and accumulates -> Increased nuclear translocation and transcriptional co-activation of target genes (e.g., CTGF, CYR61) -> Promotion of cancer cell proliferation, migration, and stem-like properties."
+      ],
+      "specific_effects": [
+        "Directly interacts with, deubiquitinates, and stabilizes YAP1 in a manner dependent on its deubiquitylation activity.",
+        "Specifically removes K48-linked polyubiquitin chains from YAP1, preventing its proteasomal degradation.",
+        "The Josephin domain of ATXN3 is essential for the interaction with the WW domains of YAP1.",
+        "Depletion of ATXN3 leads to decreased YAP1 protein levels and reduced expression of YAP target genes.",
+        "ATXN3 and YAP1 protein expression are positively correlated in human breast, pancreatic, and prostate cancers."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+          "journal": "Cell Communication and Signaling",
+          "year": 2023,
+          "relevant_quote": "ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner. Depletion of ATXN3 decreased the YAP protein level and the expression of YAP/TEAD target genes in PC, including CTGF, ANKRD1 and CYR61. Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein.",
+          "pmid": "37349820"
+        },
+        {
+          "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
+          "journal": "American Journal of Cancer Research",
+          "year": 2023,
+          "relevant_quote": "At the molecular level, ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation. Immunohistology analysis revealed a strong positive correlation between ATXN3 and YAP1 protein expression in human breast and pancreatic cancers. Collectively, our study defines ATXN3 as a previously unknown YAP1 deubiquitinase in tumorigenesis and provides a rationale for ATXN3 targeting in antitumor chemotherapy.",
+          "pmid": "37818078"
+        }
+      ],
+      "pmids": [
+        "37349820",
+        "37818078"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, acting as a deubiquitinase (DUB), directly interacts with the transcriptional co-activator YAP1. The interaction is mediated by the Josephin domain of ATXN3 and the WW domains of YAP1. ATXN3 then removes K48-linked polyubiquitin chains from YAP1, which would otherwise target YAP1 for proteasomal degradation.",
+  "effect": "This deubiquitination stabilizes the YAP1 protein, leading to its accumulation. Increased levels of YAP1 result in enhanced transcriptional activity of its target genes, such as CTGF and CYR61, which are involved in cell proliferation, migration, and invasion. This mechanism is implicated in promoting the progression of various cancers, including prostate, breast, and pancreatic cancer.",
+  "summary": "ATXN3 activates YAP1 to modulate yap1 protein stabilization.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+      "journal": "Cell Communication and Signaling",
+      "year": 2023,
+      "relevant_quote": "ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner. Depletion of ATXN3 decreased the YAP protein level and the expression of YAP/TEAD target genes in PC, including CTGF, ANKRD1 and CYR61. Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein."
+    },
+    {
+      "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
+      "journal": "American Journal of Cancer Research",
+      "year": 2023,
+      "relevant_quote": "At the molecular level, ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation. Immunohistology analysis revealed a strong positive correlation between ATXN3 and YAP1 protein expression in human breast and pancreatic cancers. Collectively, our study defines ATXN3 as a previously unknown YAP1 deubiquitinase in tumorigenesis and provides a rationale for ATXN3 targeting in antitumor chemotherapy."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Deubiquitination and Stabilization of Substrate Proteins",
+      "canonical_name": "Protein Ubiquitination",
+      "ontology_id": "GO:0016567",
+      "ontology_source": "GO",
+      "confidence": 0.85
+    },
+    {
+      "name": "Regulation of Cellular Signaling",
+      "canonical_name": "Regulation Of Cellular Signaling",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.85
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> YAP1:",
+  "protein_a": "YAP1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:18.995728Z",
+  "last_updated": "2025-11-29T18:36:18.995728Z"
+}

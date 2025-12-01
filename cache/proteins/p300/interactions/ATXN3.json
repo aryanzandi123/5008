@@ -1,0 +1,103 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with p300, a transcriptional coactivator with histone acetyltransferase (HAT) activity, similar to its paralog CBP.",
+  "functions": [
+    {
+      "function": "Transcriptional Repression via Histone Deacetylation",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a transcriptional repressor by binding to specific DNA regions within gene promoters. Upon binding, ATXN3 recruits a repressor complex containing Histone Deacetylase 3 (HDAC3) and the Nuclear Receptor Corepressor (NCoR). This complex removes acetyl groups from histones, leading to chromatin condensation and making the DNA less accessible to the transcriptional machinery, thereby counteracting the activity of transcriptional co-activators like p300.",
+      "effect_description": "By recruiting HDAC3 to gene promoters, ATXN3 actively promotes the deacetylation of histones (e.g., Histone H3). This results in a repressive chromatin state, which overrides the activating signals from histone acetyltransferases like p300, leading to the downregulation of target gene expression.",
+      "biological_consequence": [
+        "ATXN3 binds to target gene promoters → ATXN3 recruits the HDAC3/NCoR corepressor complex → HDAC3 deacetylates histones at the promoter → Chromatin compacts, reducing accessibility → Transcriptional activation by co-activators like p300 is opposed → Gene transcription is repressed."
+      ],
+      "specific_effects": [
+        "Normal ATXN3 recruits HDAC3 and NCoR to form a histone-deacetylating repressor complex.",
+        "ATXN3-containing protein complexes exhibit increased histone deacetylase activity.",
+        "This repressive function requires ATXN3's intact ubiquitin-interacting motifs (UIMs)."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+          "journal": "Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
+        },
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "journal": "Expert Reviews in Molecular Medicine",
+          "year": 2024,
+          "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity.",
+          "pmid": "39320846"
+        }
+      ],
+      "pathway": {
+        "name": "Chromatin Remodeling",
+        "canonical_name": "Chromatin Remodeling",
+        "ontology_id": "GO:0006338",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17079677",
+        "39320846"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim that ATXN3 directly inhibits p300's Histone Acetyltransferase (HAT) activity is a mechanistic oversimplification. Primary literature indicates that ATXN3's primary role in transcriptional repression involves forming a complex with and recruiting the Histone Deacetylase 3 (HDAC3) and the Nuclear Receptor Corepressor (NCoR) to target gene promoters. This action directly counteracts the acetyltransferase activity of co-activators like p300 by actively removing acetyl groups from histones, rather than by sterically hindering or directly inhibiting the p300 enzyme itself.",
+  "mechanism": "ATXN3 acts as a transcriptional repressor by binding to specific DNA regions within gene promoters. Upon binding, ATXN3 recruits a repressor complex containing Histone Deacetylase 3 (HDAC3) and the Nuclear Receptor Corepressor (NCoR). This complex removes acetyl groups from histones, leading to chromatin condensation and making the DNA less accessible to the transcriptional machinery, thereby counteracting the activity of transcriptional co-activators like p300.",
+  "effect": "By recruiting HDAC3 to gene promoters, ATXN3 actively promotes the deacetylation of histones (e.g., Histone H3). This results in a repressive chromatin state, which overrides the activating signals from histone acetyltransferases like p300, leading to the downregulation of target gene expression.",
+  "summary": "ATXN3 inhibits p300 to modulate transcriptional repression via histone deacetylation, ultimately affecting gene transcription is repressed.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+      "journal": "Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "journal": "Expert Reviews in Molecular Medicine",
+      "year": 2024,
+      "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chromatin Remodeling",
+      "canonical_name": "Chromatin Remodeling",
+      "ontology_id": "GO:0006338",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> p300:",
+  "protein_a": "p300",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.054695Z",
+  "last_updated": "2025-11-30T15:37:50.054695Z"
+}

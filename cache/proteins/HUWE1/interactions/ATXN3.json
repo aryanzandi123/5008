@@ -1,0 +1,80 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with and deubiquitinates the E3 ubiquitin ligase HUWE1 (also known as Mule), thereby stabilizing it and regulating its function in cellular processes like DNA damage repair.",
+  "functions": [
+    {
+      "function": "HUWE1 Protein Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 interacts with and deubiquitinates the large E3 ubiquitin ligase HUWE1 (Mule). This deubiquitination protects HUWE1 from autoubiquitination-mediated degradation, thereby stabilizing it.",
+      "effect_description": "By stabilizing HUWE1, ATXN3 regulates the function of this E3 ligase, which has numerous substrates involved in processes like DNA damage repair and apoptosis.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates HUWE1 -> HUWE1 is stabilized -> Regulated ubiquitination of HUWE1 substrates -> Control of DNA damage response and other pathways"
+      ],
+      "specific_effects": [
+        "ATXN3 counteracts the autoubiquitination of HUWE1."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "year": 2024,
+          "pmid": "38497605"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pmids": [
+        "38497605"
+      ]
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 interacts with and deubiquitinates the large E3 ubiquitin ligase HUWE1 (Mule). This deubiquitination protects HUWE1 from autoubiquitination-mediated degradation, thereby stabilizing it.",
+  "effect": "By stabilizing HUWE1, ATXN3 regulates the function of this E3 ligase, which has numerous substrates involved in processes like DNA damage repair and apoptosis.",
+  "summary": "ATXN3 activates HUWE1 to modulate huwe1 protein stability.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System (UPS)",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.95
+    },
+    {
+      "name": "Deubiquitination and Stabilization of Substrate Proteins",
+      "canonical_name": "Protein Ubiquitination",
+      "ontology_id": "GO:0016567",
+      "ontology_source": "GO",
+      "confidence": 0.85
+    }
+  ],
+  "arrow_notation": "ATXN3 --activates--> HUWE1:",
+  "protein_a": "HUWE1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-29T18:36:19.027894Z",
+  "last_updated": "2025-11-29T18:36:19.027894Z"
+}

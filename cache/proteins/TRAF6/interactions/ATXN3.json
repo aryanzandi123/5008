@@ -1,0 +1,81 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly interacts with and deubiquitinates TNF receptor-associated factor 6 (TRAF6), a key E3 ligase in inflammatory signaling pathways like NF-κB.",
+  "functions": [
+    {
+      "function": "NF-κB Signaling Pathway",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 acts as a deubiquitinase for TNF receptor-associated factor 6 (TRAF6), a key E3 ligase that synthesizes K63-linked polyubiquitin chains to activate downstream inflammatory signaling.",
+      "effect_description": "By cleaving the K63-linked ubiquitin chains from TRAF6, ATXN3 counteracts its E3 ligase activity. This prevents the recruitment and activation of downstream kinases like TAK1, thereby suppressing the activation of the NF-κB transcription factor and reducing inflammatory gene expression.",
+      "biological_consequence": [
+        "Inflammatory signal → TRAF6 is activated and auto-ubiquitinated (K63) → ATXN3 deubiquitinates TRAF6 → Downstream kinase activation is blocked → NF-κB remains inactive in the cytoplasm → Inflammatory response is dampened"
+      ],
+      "specific_effects": [
+        "Removes K63-linked polyubiquitin chains from TRAF6.",
+        "Suppresses the activation of the NF-κB pathway."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "year": 2024,
+          "pmid": "38497605"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "inhibits",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "NF-κB Signaling Pathway",
+        "canonical_name": "NF-kB Signaling",
+        "ontology_id": "hsa04064",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38497605"
+      ]
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 acts as a deubiquitinase for TNF receptor-associated factor 6 (TRAF6), a key E3 ligase that synthesizes K63-linked polyubiquitin chains to activate downstream inflammatory signaling.",
+  "effect": "By cleaving the K63-linked ubiquitin chains from TRAF6, ATXN3 counteracts its E3 ligase activity. This prevents the recruitment and activation of downstream kinases like TAK1, thereby suppressing the activation of the NF-κB transcription factor and reducing inflammatory gene expression.",
+  "summary": "ATXN3 inhibits TRAF6 to modulate nf-κb signaling pathway, ultimately affecting inflammatory response is dampened.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "NF-κB Signaling Pathway",
+      "canonical_name": "NF-kB Signaling",
+      "ontology_id": "hsa04064",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "arrow_notation": "ATXN3 --inhibits--> TRAF6:",
+  "protein_a": "TRAF6",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-11-30T15:37:50.101369Z",
+  "last_updated": "2025-11-30T15:37:50.101369Z"
+}
