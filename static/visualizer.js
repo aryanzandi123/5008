@@ -28,6 +28,7 @@ let pathwayNodeRadius = 45;          // Size for pathway nodes (used for collisi
 let pathwayRingRadius = 550;         // Distance from center for pathway nodes (increased from 350)
 let expandedPathways = new Set();    // Set of expanded pathway IDs (showing interactors)
 let pathwayToInteractors = new Map(); // Map<pathwayId, Set<interactorId>>
+let pathwayToInteractions = new Map(); // Map<pathwayId, Array<interaction>> - full interaction objects for leaf pathways
 let pathwayMode = false;             // Whether visualization is in pathway mode
 
 // Hierarchical pathway state
@@ -604,6 +605,12 @@ function buildInitialGraph(){
 
       // Store interactor mapping for expansion
       pathwayToInteractors.set(pathwayId, new Set(pw.interactor_ids || []));
+
+      // Store full interaction objects for leaf pathway expansion
+      // This enables rendering actual interaction edges (not just proteins) inside pathways
+      if (pw.interactions && pw.interactions.length > 0) {
+        pathwayToInteractions.set(pathwayId, pw.interactions);
+      }
     });
 
     // ONLY show root-level pathways initially (hierarchy_level === 0)
@@ -1029,6 +1036,15 @@ function expandPathway(pathwayNode) {
   pathwayNode.expanded = true;
   // Note: Radial force will automatically push pathway to expanded radius (430px)
 
+  // Check if we have full interaction data for this pathway (leaf pathway with interactions)
+  const pathwayInteractions = pathwayToInteractions.get(pathwayNode.id);
+  if (pathwayInteractions && pathwayInteractions.length > 0) {
+    // NEW: Interaction-based expansion - show protein nodes connected by interaction edges
+    expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
+    return;
+  }
+
+  // FALLBACK: Legacy interactor-based expansion (pathway → protein links)
   const interactorIds = pathwayToInteractors.get(pathwayNode.id) || new Set();
   // Note: expandRadius and indirectRadius calculated after classification (below)
 
@@ -1210,6 +1226,116 @@ function expandPathway(pathwayNode) {
   const directCount = directInteractors.size;
   const indirectCount = interactorIds.size - directCount;
   console.log(`🛤️ Expanded pathway: ${pathwayNode.label} with ${directCount} direct + ${indirectCount} indirect interactors`);
+}
+
+/**
+ * Expand pathway with full interaction data - shows protein nodes connected by interaction edges
+ * This renders actual interactions (protein ↔ protein) instead of just pathway → protein links
+ */
+function expandPathwayWithInteractions(pathwayNode, interactions) {
+  // Step 1: Extract unique proteins from all interactions
+  const uniqueProteins = new Set();
+  interactions.forEach(inter => {
+    if (inter.source) uniqueProteins.add(inter.source);
+    if (inter.target) uniqueProteins.add(inter.target);
+  });
+
+  // Calculate dynamic radius based on protein count
+  const expandRadius = calculateExpandRadius(uniqueProteins.size, interactorNodeRadius);
+
+  // Step 2: Create protein nodes positioned around the pathway
+  const proteinArray = Array.from(uniqueProteins);
+  const angleStep = (2 * Math.PI) / Math.max(proteinArray.length, 1);
+
+  const proteinNodeMap = new Map(); // Map protein symbol → node id
+
+  proteinArray.forEach((proteinId, idx) => {
+    const nodeId = `${proteinId}@${pathwayNode.id}`;
+
+    if (!nodeMap.has(nodeId)) {
+      const angle = idx * angleStep - Math.PI / 2;
+      const x = pathwayNode.x + expandRadius * Math.cos(angle);
+      const y = pathwayNode.y + expandRadius * Math.sin(angle);
+
+      // Find interaction data for this protein (for node styling)
+      const proteinInteraction = interactions.find(
+        i => i.source === proteinId || i.target === proteinId
+      );
+      const actualArrow = proteinInteraction
+        ? arrowKind(proteinInteraction.arrow, proteinInteraction.intent, proteinInteraction.direction)
+        : 'binds';
+
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: proteinInteraction,
+        x: x,
+        y: y,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
+    }
+
+    proteinNodeMap.set(proteinId, nodeId);
+  });
+
+  // Step 3: Create a single link from pathway to one protein (visual anchor)
+  // This keeps the pathway visually connected to its contents
+  if (proteinArray.length > 0) {
+    const firstProteinNodeId = proteinNodeMap.get(proteinArray[0]);
+    const anchorLinkId = `${pathwayNode.id}-anchor-${firstProteinNodeId}`;
+    if (!links.find(l => l.id === anchorLinkId)) {
+      links.push({
+        id: anchorLinkId,
+        source: pathwayNode.id,
+        target: firstProteinNodeId,
+        type: 'pathway-anchor-link',
+        arrow: 'none',
+        opacity: 0.2  // Subtle anchor line
+      });
+    }
+  }
+
+  // Step 4: Create interaction edges between proteins
+  // These are the actual biological interactions - clicking opens modal
+  interactions.forEach(inter => {
+    const sourceNodeId = proteinNodeMap.get(inter.source);
+    const targetNodeId = proteinNodeMap.get(inter.target);
+
+    if (sourceNodeId && targetNodeId && sourceNodeId !== targetNodeId) {
+      const linkId = `${sourceNodeId}-${targetNodeId}@${pathwayNode.id}`;
+
+      // Avoid duplicate links
+      if (!links.find(l => l.id === linkId)) {
+        const actualArrow = arrowKind(inter.arrow, inter.intent, inter.direction);
+
+        links.push({
+          id: linkId,
+          source: sourceNodeId,
+          target: targetNodeId,
+          type: 'interaction-edge',  // Different type for styling
+          arrow: actualArrow,
+          direction: inter.direction || 'bidirectional',
+          confidence: inter.confidence || 0.5,
+          data: inter,  // Full interaction data for modal
+          _pathwayContext: pathwayNode.id
+        });
+      }
+    }
+  });
+
+  console.log(`🛤️ Expanded pathway (interactions): ${pathwayNode.label} with ${uniqueProteins.size} proteins, ${interactions.length} interactions`);
 }
 
 /**
@@ -1602,6 +1728,19 @@ function renderGraph() {
         const chainClass = d.linkType === 'indirect-chain' ? ' link-indirect-chain' : '';
         return `link pathway-interactor-link ${arrowClass}${chainClass}`;
       }
+      // Interaction edges (protein ↔ protein within a pathway)
+      if (d.type === 'interaction-edge') {
+        const arrow = d.arrow || 'binds';
+        let arrowClass = 'link-binding';
+        if (arrow === 'activates') arrowClass = 'link-activate';
+        else if (arrow === 'inhibits') arrowClass = 'link-inhibit';
+        else if (arrow === 'regulates') arrowClass = 'link-regulate';
+        return `link interaction-edge ${arrowClass}`;
+      }
+      // Pathway anchor link (subtle visual anchor from pathway to proteins)
+      if (d.type === 'pathway-anchor-link') {
+        return 'link pathway-anchor-link';
+      }
       const arrow = d.arrow || 'binds';
       let classes = 'link';
       if (arrow === 'binds') classes += ' link-binding';
@@ -1612,7 +1751,7 @@ function renderGraph() {
       return classes;
     })
     .attr('marker-end', d => {
-      if (d.type === 'pathway-link' || d.type === 'pathway-interactor-link') return null;
+      if (d.type === 'pathway-link' || d.type === 'pathway-interactor-link' || d.type === 'pathway-anchor-link') return null;
       const a = d.arrow || 'binds';
       if (a === 'activates') return 'url(#arrow-activate)';
       if (a === 'inhibits') return 'url(#arrow-inhibit)';
@@ -2163,7 +2302,8 @@ function handleLinkClick(ev, d){
   if (!d) return;
   if (d.type==='function'){
     showFunctionModalFromLink(d);
-  } else if (d.type==='interaction'){
+  } else if (d.type==='interaction' || d.type==='interaction-edge'){
+    // Both regular interactions and pathway-context interaction edges use the same modal
     showInteractionModal(d);
   }
 }

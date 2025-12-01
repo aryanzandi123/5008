@@ -1530,6 +1530,32 @@
     .link-indirect-chain.link-binding { stroke: var(--color-binding); }
     .link-indirect-chain.link-regulate { stroke: var(--color-regulation); }
 
+    /* Interaction Edge Links (protein ↔ protein within pathway) */
+    /* These are actual biological interactions shown inside expanded leaf pathways */
+    .interaction-edge {
+      stroke-width: 2px;
+      opacity: 0.85;
+      stroke-linecap: round;
+      cursor: pointer;
+    }
+    .interaction-edge:hover {
+      stroke-width: 3px;
+      opacity: 1;
+    }
+    .interaction-edge.link-activate { stroke: var(--color-activation); }
+    .interaction-edge.link-inhibit { stroke: var(--color-inhibition); }
+    .interaction-edge.link-binding { stroke: var(--color-binding); }
+    .interaction-edge.link-regulate { stroke: var(--color-regulation); }
+
+    /* Pathway Anchor Link (subtle visual anchor from pathway to proteins) */
+    .pathway-anchor-link {
+      stroke: var(--color-text-secondary);
+      stroke-width: 1px;
+      stroke-dasharray: 4, 4;
+      opacity: 0.2;
+      pointer-events: none;  /* Don't capture clicks */
+    }
+
     /* Indirect interactor nodes - slightly smaller */
     .interactor-indirect {
       opacity: 0.85;

@@ -843,6 +843,7 @@ def build_full_json_from_db(protein_symbol: str) -> dict:
                     "ontology_id": pw.get("ontology_id"),
                     "ontology_source": pw.get("ontology_source"),
                     "interactor_ids": set(),
+                    "interactions": [],  # Store full interaction objects for leaf pathways
                     "interaction_count": 0
                 }
 
@@ -855,6 +856,21 @@ def build_full_json_from_db(protein_symbol: str) -> dict:
             if target and target != protein_symbol:
                 pathway_groups[pw_name]["interactor_ids"].add(target)
             pathway_groups[pw_name]["interaction_count"] += 1
+
+            # Store the full interaction object for rendering in leaf pathways
+            # Include minimal fields needed for visualization (source, target, arrow, direction, confidence)
+            pathway_groups[pw_name]["interactions"].append({
+                "source": source,
+                "target": target,
+                "arrow": interaction_data.get("arrow", "binds"),
+                "direction": interaction_data.get("direction", "bidirectional"),
+                "confidence": interaction_data.get("confidence", 0.5),
+                "type": interaction_data.get("type", "direct"),
+                "interaction_effect": interaction_data.get("interaction_effect", "binding"),
+                "functions": interaction_data.get("functions", []),
+                "evidence": interaction_data.get("evidence", []),
+                "pmids": interaction_data.get("pmids", [])
+            })
 
     # Convert sets to lists for JSON serialization
     pathways_list = []
