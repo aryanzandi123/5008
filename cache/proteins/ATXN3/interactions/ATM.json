@@ -1,0 +1,105 @@
+{
+  "primary": "ATM",
+  "interaction_type": "indirect",
+  "upstream_interactor": "PNKP",
+  "mediator_chain": [
+    "PNKP"
+  ],
+  "depth": 2,
+  "support_summary": "The interaction of ATXN3 with and modulation of PNKP affects DNA repair efficiency; impairment of this function leads to accumulation of DNA damage and subsequent activation of the ATM signaling pathway.",
+  "functions": [
+    {
+      "function": "DNA Damage Signaling Activation (Pathological)",
+      "arrow": "activates",
+      "cellular_process": "ATM (Ataxia-Telangiectasia Mutated) is a primary sensor and signal transducer for DNA double-strand breaks (DSBs). Upon sensing DNA damage, it autophosphorylates and initiates a broad signaling cascade that arrests the cell cycle and promotes DNA repair or apoptosis.",
+      "effect_description": "Mutant ATXN3 (containing a polyglutamine expansion) interacts with and inactivates the DNA strand break repair enzyme PNKP. This abrogation of PNKP's function leads to the failure of DNA repair and the persistent accumulation of DNA strand breaks. This accumulation of genomic damage serves as a potent trigger for the chronic activation of the ATM kinase signaling pathway.",
+      "biological_consequence": [
+        "Mutant ATXN3 binds to and inactivates PNKP → DNA single- and double-strand break repair is impaired → DNA damage accumulates persistently → The MRN complex (MRE11-RAD50-NBS1) senses the DNA breaks and recruits ATM → ATM is activated via autophosphorylation at Ser1981 → Activated ATM phosphorylates downstream targets including p53 (at Ser15) and H2AX (at Ser139) → Pro-apoptotic pathways are initiated, leading to neuronal dysfunction and cell death."
+      ],
+      "specific_effects": [
+        "The interaction between mutant ATXN3 and PNKP abrogates PNKP's 3'-phosphatase activity, leading to inefficient DNA repair.",
+        "Inactivation of PNKP by mutant ATXN3 results in the chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway.",
+        "Pharmacological inhibition of ATM can block cell death mediated by mutant ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3.",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "PNKP",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "PNKP"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The activation of ATM is not a direct physiological function of ATXN3. Rather, it is a pathological consequence of the loss-of-function of the DNA repair enzyme PNKP, which is caused by its interaction with mutant, polyQ-expanded ATXN3.",
+  "mechanism": "ATM (Ataxia-Telangiectasia Mutated) is a primary sensor and signal transducer for DNA double-strand breaks (DSBs). Upon sensing DNA damage, it autophosphorylates and initiates a broad signaling cascade that arrests the cell cycle and promotes DNA repair or apoptosis.",
+  "effect": "Mutant ATXN3 (containing a polyglutamine expansion) interacts with and inactivates the DNA strand break repair enzyme PNKP. This abrogation of PNKP's function leads to the failure of DNA repair and the persistent accumulation of DNA strand breaks. This accumulation of genomic damage serves as a potent trigger for the chronic activation of the ATM kinase signaling pathway.",
+  "summary": "ATXN3 activates ATM to modulate dna damage signaling activation (pathological), ultimately affecting pro-apoptotic pathways are initiated, leading to neuronal dysfunction and cell death.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "PNKP --activates--> ATM:",
+  "protein_a": "ATXN3",
+  "protein_b": "ATM",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.776668Z",
+  "last_updated": "2025-12-01T05:51:49.776668Z"
+}

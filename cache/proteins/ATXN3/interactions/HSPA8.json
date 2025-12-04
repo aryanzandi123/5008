@@ -1,0 +1,89 @@
+{
+  "primary": "HSPA8",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with HSPA8 (also known as Hsc70) through its ubiquitin-interacting motifs (UIMs). This interaction has been shown to enhance ataxin-3 aggregation and toxicity.",
+  "functions": [
+    {
+      "function": "Promotion of ATXN3 Aggregation",
+      "arrow": "activates",
+      "cellular_process": "HSPA8 (also known as Hsc70) is a molecular chaperone involved in protein quality control. Under normal conditions, chaperones are expected to refold or degrade misfolded proteins like polyglutamine (polyQ)-expanded ATXN3.",
+      "effect_description": "Counterintuitively, the interaction between HSPA8 and polyQ-expanded ATXN3, mediated by ATXN3's ubiquitin-interacting motifs (UIMs), enhances the aggregation of pathogenic ATXN3 and increases its cellular toxicity. Instead of alleviating toxicity, HSPA8 appears to adopt a dominant-negative role, exacerbating the pathogenic phenotype.",
+      "biological_consequence": [
+        "PolyQ-expanded ATXN3 binds to HSPA8 via its UIMs → HSPA8 fails to properly refold or clear the pathogenic ATXN3 → The chaperone-ATXN3 complex facilitates the formation of toxic oligomers → Enhanced ATXN3 aggregation → Increased cellular toxicity and neurodegeneration."
+      ],
+      "specific_effects": [
+        "The interaction is dependent on the ubiquitin-interacting motifs (UIMs) of ATXN3.",
+        "Hsc70-4 (the Drosophila homolog of HSPA8) enhances the aggregation and toxicity of pathogenic ataxin-3.",
+        "This interaction represents a pathogenic gain-of-function where a chaperone protein exacerbates the toxicity of a polyQ protein."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
+          "journal": "eLife",
+          "year": 2020,
+          "relevant_quote": "UIMs interact with heat shock protein cognate 4 (Hsc70-4), which enhances ataxin-3 aggregation and toxicity in a manner dependent on these ubiquitin-binding domains.",
+          "pmid": "32955441"
+        }
+      ],
+      "pathway": {
+        "name": "Protein Aggregation Pathway",
+        "canonical_name": "Protein Aggregation Pathway",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "32955441"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HSPA8 (also known as Hsc70) is a molecular chaperone involved in protein quality control. Under normal conditions, chaperones are expected to refold or degrade misfolded proteins like polyglutamine (polyQ)-expanded ATXN3.",
+  "effect": "Counterintuitively, the interaction between HSPA8 and polyQ-expanded ATXN3, mediated by ATXN3's ubiquitin-interacting motifs (UIMs), enhances the aggregation of pathogenic ATXN3 and increases its cellular toxicity. Instead of alleviating toxicity, HSPA8 appears to adopt a dominant-negative role, exacerbating the pathogenic phenotype.",
+  "summary": "ATXN3 activates HSPA8 to modulate promotion of atxn3 aggregation, ultimately affecting increased cellular toxicity and neurodegeneration.",
+  "evidence": [
+    {
+      "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
+      "journal": "eLife",
+      "year": 2020,
+      "relevant_quote": "UIMs interact with heat shock protein cognate 4 (Hsc70-4), which enhances ataxin-3 aggregation and toxicity in a manner dependent on these ubiquitin-binding domains."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Protein Aggregation Pathway",
+      "canonical_name": "Protein Aggregation Pathway",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> HSPA8:",
+  "protein_a": "ATXN3",
+  "protein_b": "HSPA8",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.754532Z",
+  "last_updated": "2025-12-01T05:51:49.754532Z"
+}

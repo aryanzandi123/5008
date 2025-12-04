@@ -1,0 +1,96 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Co-immunoprecipitation and in vitro pulldown assays confirm a direct interaction between ATXN3 and YAP, where ATXN3 deubiquitinates and stabilizes YAP.",
+  "functions": [
+    {
+      "function": "YAP Protein Stabilization",
+      "arrow": "activates",
+      "cellular_process": "Yes-associated protein (YAP) is a transcriptional co-activator and the primary downstream effector of the Hippo signaling pathway. Its activity is tightly controlled by its stability, which is negatively regulated by the ubiquitin-proteasome system. Polyubiquitination, particularly with K48-linked chains, targets YAP for degradation, thus suppressing its pro-proliferative and anti-apoptotic functions.",
+      "effect_description": "ATXN3 functions as a bona fide deubiquitinase (DUB) for YAP. It directly interacts with YAP and removes K48-linked polyubiquitin chains, thereby protecting YAP from proteasomal degradation. This stabilization increases YAP protein abundance, leading to its accumulation and enhanced transcriptional co-activator function in the nucleus.",
+      "biological_consequence": [
+        "ATXN3 directly binds to the WW domains of YAP → ATXN3's deubiquitinase activity removes K48-linked polyubiquitin chains from YAP → Prevention of YAP recognition by the proteasome → Increased YAP protein half-life and stability → Enhanced nuclear localization and accumulation of YAP → Increased formation of YAP/TEAD transcriptional complexes → Upregulation of target genes (e.g., CTGF, CYR61) → Promotion of cell proliferation, migration, and tumor growth."
+      ],
+      "specific_effects": [
+        "ATXN3 directly interacts with, deubiquitinates, and stabilizes YAP in a manner dependent on its deubiquitinase activity.",
+        "ATXN3 specifically removes K48-linked polyubiquitin chains from YAP, protecting it from degradation.",
+        "Depletion of ATXN3 leads to decreased YAP protein levels and reduced expression of YAP target genes, such as CTGF and CYR61.",
+        "The interaction is mediated by ATXN3 binding to the WW domains of YAP."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+          "journal": "Cell Communication and Signaling",
+          "year": 2023,
+          "relevant_quote": "Our results suggested that ATXN3 promotes prostate cancer progression by regulating YAP. As shown in Fig. 6A-G, reconstitution of YAP efficiently rescued the suppressive effects induced by ATXN3 depletion.",
+          "pmid": "37349820"
+        }
+      ],
+      "pathway": {
+        "name": "Hippo Signaling Pathway",
+        "canonical_name": "Hippo Signaling",
+        "ontology_id": "hsa04390",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37349820"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Yes-associated protein (YAP) is a transcriptional co-activator and the primary downstream effector of the Hippo signaling pathway. Its activity is tightly controlled by its stability, which is negatively regulated by the ubiquitin-proteasome system. Polyubiquitination, particularly with K48-linked chains, targets YAP for degradation, thus suppressing its pro-proliferative and anti-apoptotic functions.",
+  "effect": "ATXN3 functions as a bona fide deubiquitinase (DUB) for YAP. It directly interacts with YAP and removes K48-linked polyubiquitin chains, thereby protecting YAP from proteasomal degradation. This stabilization increases YAP protein abundance, leading to its accumulation and enhanced transcriptional co-activator function in the nucleus.",
+  "summary": "ATXN3 activates YAP to modulate yap protein stabilization, ultimately affecting promotion of cell proliferation, migration, and tumor growth.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth and metastasis in breast cancer",
+      "journal": "American Journal of Cancer Research",
+      "year": 2023,
+      "relevant_quote": "At the molecular level, ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation. Immunohistology analysis revealed a strong positive correlation between ATXN3 and YAP1 protein expression in human breast and pancreatic cancers. Collectively, our study defines ATXN3 as a previously unknown YAP1 deubiquitinase in tumorigenesis..."
+    },
+    {
+      "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+      "journal": "Cell Communication and Signaling",
+      "year": 2023,
+      "relevant_quote": "Our results suggested that ATXN3 promotes prostate cancer progression by regulating YAP. As shown in Fig. 6A-G, reconstitution of YAP efficiently rescued the suppressive effects induced by ATXN3 depletion."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Hippo Signaling Pathway",
+      "canonical_name": "Hippo Signaling",
+      "ontology_id": "hsa04390",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> YAP:",
+  "protein_a": "YAP",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.732669Z",
+  "last_updated": "2025-12-01T05:51:49.732669Z"
+}

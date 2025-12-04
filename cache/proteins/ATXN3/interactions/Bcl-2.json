@@ -1,0 +1,107 @@
+{
+  "primary": "Bcl-2",
+  "interaction_type": "indirect",
+  "upstream_interactor": "Parkin",
+  "mediator_chain": [
+    "Parkin"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 regulates the activity of the E3 ligase Parkin, which in turn monoubiquitinates the autophagy inhibitor Bcl-2.",
+  "functions": [
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 regulates the E3 ligase activity of Parkin. Parkin can monoubiquitinate the anti-autophagic protein Bcl-2. By modulating Parkin, ATXN3 indirectly influences the inhibition of autophagy by Bcl-2.",
+      "effect_description": "By counteracting Parkin's auto-ubiquitination, ATXN3 keeps Parkin active, allowing it to ubiquitinate Bcl-2, which in turn promotes the initiation of autophagy.",
+      "biological_consequence": [
+        "Regulation of Parkin activity → Ubiquitination of Bcl-2 → Dissociation of Beclin-1 from Bcl-2 → Autophagy initiation"
+      ],
+      "specific_effects": [
+        "ATXN3 counteracts Parkin auto-ubiquitination.",
+        "ATXN3 regulates the activity of Parkin, which ubiquitinates the autophagy inhibitor Bcl-2."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2024,
+          "pmid": "39320846"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846"
+      ],
+      "direct_arrow": "inhibits",
+      "consequences": [
+        "ATXN3 inhibits Parkin's E3 ligase activity → Reduced mono-ubiquitination and stabilization of Bcl-2 by Parkin → Weakened Bcl-2/Beclin-1 interaction → Autophagy initiation"
+      ],
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "Parkin",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "Parkin"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 regulates the E3 ligase activity of Parkin. Parkin can monoubiquitinate the anti-autophagic protein Bcl-2. By modulating Parkin, ATXN3 indirectly influences the inhibition of autophagy by Bcl-2.",
+  "effect": "By counteracting Parkin's auto-ubiquitination, ATXN3 keeps Parkin active, allowing it to ubiquitinate Bcl-2, which in turn promotes the initiation of autophagy.",
+  "summary": "ATXN3 activates Bcl-2 to modulate autophagy, ultimately affecting autophagy initiation.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibits",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "Parkin --inhibits--> Bcl-2:",
+  "protein_a": "ATXN3",
+  "protein_b": "Bcl-2",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.747699Z",
+  "last_updated": "2025-12-01T05:51:49.747699Z"
+}

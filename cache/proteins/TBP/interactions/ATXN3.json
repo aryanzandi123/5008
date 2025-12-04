@@ -1,0 +1,114 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "As part of its role in transcriptional regulation, ATXN3 interacts with the general transcription factor TATA-binding protein (TBP).",
+  "functions": [
+    {
+      "function": "Transcriptional",
+      "arrow": "regulates",
+      "cellular_process": "TATA-binding protein (TBP) is a general transcription factor essential for the formation of the RNA polymerase II preinitiation complex (PIC) at the core promoter of most eukaryotic genes.",
+      "effect_description": "ATXN3 interacts with TBP, indicating a role in modulating the assembly and function of the basal transcription machinery. However, this interaction does not equate to simple activation. Given ATXN3's established role as a transcriptional repressor that cooperates with histone deacetylases, its interaction with TBP is likely part of a broader mechanism to control gene expression, potentially by influencing the recruitment or stability of the PIC on specific gene promoters.",
+      "biological_consequence": [
+        "ATXN3 localizes to the nucleus → ATXN3 interacts with TBP and other regulators (e.g., PCAF, HDAC3) → ATXN3 modulates the assembly or activity of the preinitiation complex at specific gene promoters → Context-dependent regulation of gene transcription."
+      ],
+      "specific_effects": [
+        "ATXN3 has been shown to cooperate with the general transcription factor TBP.",
+        "The functional outcome of the ATXN3-TBP interaction is not well defined but occurs in the context of ATXN3's broader role in transcriptional control, which is often repressive."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+          "journal": "PLoS One",
+          "year": 2018,
+          "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes.",
+          "pmid": "30231063"
+        },
+        {
+          "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
+          "journal": "Cells",
+          "year": 2021,
+          "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)...",
+          "pmid": "24293103"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30231063",
+        "24293103"
+      ],
+      "interaction_effect": "regulates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim that ATXN3 'activates' transcription via TBP is unsubstantiated and likely a 'Contextual Error'. The literature confirms an interaction but does not support a simple activating role. ATXN3's primary documented effect on transcription is repressive, often through recruitment of HDACs. The interaction with the general transcription factor TBP is better described as 'regulatory' or 'modulatory' within the context of larger transcriptional complexes.",
+  "mechanism": "TATA-binding protein (TBP) is a general transcription factor essential for the formation of the RNA polymerase II preinitiation complex (PIC) at the core promoter of most eukaryotic genes.",
+  "effect": "ATXN3 interacts with TBP, indicating a role in modulating the assembly and function of the basal transcription machinery. However, this interaction does not equate to simple activation. Given ATXN3's established role as a transcriptional repressor that cooperates with histone deacetylases, its interaction with TBP is likely part of a broader mechanism to control gene expression, potentially by influencing the recruitment or stability of the PIC on specific gene promoters.",
+  "summary": "ATXN3 interacts with TBP to modulate transcriptional regulation, ultimately affecting context-dependent regulation of gene transcription.",
+  "evidence": [
+    {
+      "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+      "journal": "PLoS One",
+      "year": 2018,
+      "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
+    },
+    {
+      "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
+      "journal": "Cells",
+      "year": 2021,
+      "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)..."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> TBP:",
+  "protein_a": "TBP",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.759280Z",
+  "last_updated": "2025-12-01T05:51:49.759280Z"
+}

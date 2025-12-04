@@ -1,0 +1,102 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "VDAC1",
+  "mediator_chain": [
+    "VDAC1"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly influences the levels of Mitofusin-2 (Mfn2). The presence of a toxic, truncated fragment of mutant ATXN3 causes a reduction in Mfn2 expression, impairing mitochondrial fusion.",
+  "functions": [
+    {
+      "function": "Mitochondrial Fusion",
+      "arrow": "inhibits",
+      "cellular_process": "Mitofusin-2 (Mfn2) is a key protein on the outer mitochondrial membrane that, along with Mfn1, mediates mitochondrial fusion. Mfn2 is also involved in maintaining the contact sites between mitochondria and the endoplasmic reticulum (ER).",
+      "effect_description": "In Spinocerebellar Ataxia Type 3 (SCA3), a truncated C-terminal fragment of mutant ATXN3 is produced. This toxic fragment causes a reduction in the expression of Mfn2. The loss of Mfn2 impairs mitochondrial fusion, leading to a fragmented mitochondrial network, mitochondrial dysfunction, and contributes to neuronal cell death.",
+      "biological_consequence": [
+        "Expression of truncated mutant ATXN3 fragment → Reduced expression of Mfn2 protein → Impaired mitochondrial fusion → Increased mitochondrial fragmentation → Mitochondrial dysfunction and potential disruption of ER-mitochondria contacts → Neuronal death"
+      ],
+      "specific_effects": [
+        "The presence of a truncated mutant ATXN3 fragment leads to decreased protein levels of Mfn2.",
+        "Reduced Mfn2 levels disrupt mitochondrial dynamics, favoring fission over fusion."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2017,
+          "relevant_quote": "In this study, truncated ATXN3 led to more mitochondrial fission (Figure 3), and decreased levels of Mfn-1 and Mfn-2, not OPA1 and Drp-1, were observed (Figure 4).",
+          "pmid": "28676741"
+        }
+      ],
+      "pathway": {
+        "name": "Mitochondrial Dynamics",
+        "canonical_name": "Mitochondrial Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28676741"
+      ],
+      "direct_arrow": "regulates",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "VDAC1",
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "VDAC1"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim contains a contextual error. The described effect is specific to a toxic fragment of MUTANT ATXN3 and results in a DECREASE in Mfn2 levels, making the 'activates' arrow incorrect in the disease context. The link to VDAC1 as a mediator for this specific effect is not supported by primary literature; the effect is a downstream consequence of the toxic fragment. The primary evidence has been corrected.",
+  "mechanism": "Mitofusin-2 (Mfn2) is a key protein on the outer mitochondrial membrane that, along with Mfn1, mediates mitochondrial fusion. Mfn2 is also involved in maintaining the contact sites between mitochondria and the endoplasmic reticulum (ER).",
+  "effect": "In Spinocerebellar Ataxia Type 3 (SCA3), a truncated C-terminal fragment of mutant ATXN3 is produced. This toxic fragment causes a reduction in the expression of Mfn2. The loss of Mfn2 impairs mitochondrial fusion, leading to a fragmented mitochondrial network, mitochondrial dysfunction, and contributes to neuronal cell death.",
+  "summary": "ATXN3 inhibits Mfn2 to modulate mitochondrial fusion, ultimately affecting neuronal death.",
+  "evidence": [
+    {
+      "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2017,
+      "relevant_quote": "In this study, truncated ATXN3 led to more mitochondrial fission (Figure 3), and decreased levels of Mfn-1 and Mfn-2, not OPA1 and Drp-1, were observed (Figure 4)."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitochondrial Dynamics",
+      "canonical_name": "Mitochondrial Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VDAC1 --inhibits--> Mfn2:",
+  "protein_a": "Mfn2",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.810309Z",
+  "last_updated": "2025-12-01T05:51:49.810309Z"
+}

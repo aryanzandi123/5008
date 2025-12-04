@@ -1,0 +1,89 @@
+{
+  "primary": "p300",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 has been shown to interact with the transcriptional coactivator p300, which has histone acetyltransferase (HAT) activity.",
+  "functions": [
+    {
+      "function": "Transcriptional Co-activator",
+      "arrow": "activates",
+      "cellular_process": "p300 is a transcriptional co-activator and histone acetyltransferase (HAT) that plays a crucial role in activating gene expression by acetylating histones, which decondenses chromatin and facilitates transcription factor binding.",
+      "effect_description": "ATXN3 represses p300-mediated transcription through two distinct activities. Its C-terminal domain binds to p300, and its N-terminal domain directly inhibits the HAT activity of p300. This inhibition appears to be caused by ATXN3 binding to histones and sterically preventing p300 from accessing its acetylation sites.",
+      "biological_consequence": [
+        "ATXN3 C-terminus binds to the p300 co-activator → ATXN3 N-terminus binds to histones → Steric hindrance prevents p300 from accessing acetylation sites on histone tails → Direct inhibition of p300 HAT activity → Reduced histone acetylation at target promoters → Transcriptional repression."
+      ],
+      "specific_effects": [
+        "The C-terminal domain of ATXN3, which contains the polyglutamine tract, is required for binding to p300 and inhibiting coactivator-dependent transcription.",
+        "The N-terminal domain of ATXN3 is sufficient to inhibit histone acetylation by p300 in vitro.",
+        "The mechanism of HAT inhibition involves blocking the access of coactivators to their acetylation sites on histones."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2002,
+          "relevant_quote": "The N-terminal domain of ataxin-3 inhibits histone acetylation by p300 in vitro and inhibits transcription in vivo. Histone binding and blocking access of coactivators to acetylation sites on histones appears to be the mechanism of inhibition.",
+          "pmid": "12297501"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "12297501"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim is validated. ATXN3 functions as a direct transcriptional repressor of p300 through a bimodal mechanism. The C-terminus of ATXN3 mediates the physical interaction with p300, while the N-terminal domain is responsible for directly inhibiting p300's histone acetyltransferase (HAT) activity by blocking its access to histone substrates.",
+  "mechanism": "p300 is a transcriptional co-activator and histone acetyltransferase (HAT) that plays a crucial role in activating gene expression by acetylating histones, which decondenses chromatin and facilitates transcription factor binding.",
+  "effect": "ATXN3 represses p300-mediated transcription through two distinct activities. Its C-terminal domain binds to p300, and its N-terminal domain directly inhibits the HAT activity of p300. This inhibition appears to be caused by ATXN3 binding to histones and sterically preventing p300 from accessing its acetylation sites.",
+  "summary": "ATXN3 inhibits p300 to modulate transcriptional co-activator inhibition, ultimately affecting transcriptional repression.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2002,
+      "relevant_quote": "The N-terminal domain of ataxin-3 inhibits histone acetylation by p300 in vitro and inhibits transcription in vivo. Histone binding and blocking access of coactivators to acetylation sites on histones appears to be the mechanism of inhibition."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> p300:",
+  "protein_a": "ATXN3",
+  "protein_b": "p300",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.730510Z",
+  "last_updated": "2025-12-01T05:51:49.730510Z"
+}

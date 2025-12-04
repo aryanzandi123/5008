@@ -1,0 +1,105 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Surface plasmon resonance (SPR) has provided evidence of a direct binding interaction between ATXN3 and HDAC6. This interaction is implicated in the transport of protein aggregates.",
+  "functions": [
+    {
+      "function": "Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 is a microtubule-associated deacetylase that recognizes and binds polyubiquitinated misfolded proteins, linking them to the dynein motor complex for transport to the microtubule-organizing center (MTOC) to form an aggresome. ATXN3 is a critical component of this pathway.",
+      "effect_description": "ATXN3 directly interacts with HDAC6. In one context, ATXN3, HDAC6, and the dynein motor protein form a complex to facilitate the transport of ubiquitinated cargo to the aggresome. ATXN3's deubiquitinase activity is essential for this process. In another context, ATXN3 acts as a deubiquitinase for HDAC6 itself, removing ubiquitin chains from HDAC6, which prevents its degradation and thereby stabilizes it, promoting its function.",
+      "biological_consequence": [
+        "ATXN3 binds HDAC6 and Dynein → Complex recognizes and binds polyubiquitinated misfolded proteins → Retrograde transport of cargo along microtubules to the MTOC → Aggresome formation → Sequestration and clearance of toxic protein aggregates → Promotion of cell survival under proteotoxic stress.",
+        "ATXN3 deubiquitinates HDAC6 → HDAC6 protein is stabilized and degradation is prevented → Increased HDAC6 availability promotes aggresome formation and other cellular functions."
+      ],
+      "specific_effects": [
+        "ATXN3 co-immunoprecipitates with HDAC6 and dynein.",
+        "The deubiquitinating activity of ATXN3 is required for efficient aggresome formation.",
+        "ATXN3 deubiquitinates HDAC6, leading to its stabilization and reduced degradation.",
+        "Knockdown of ATXN3 impairs the formation of aggresomes, a phenotype that can be rescued by ATXN3 overexpression."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": 2005,
+          "relevant_quote": "AT3 localizes to aggresomes and preaggresome particles and interacts with dynein and HDAC6, and its DUB activity and UIMs are required for CFTRΔF508 aggresome formation.",
+          "pmid": "15767577"
+        },
+        {
+          "paper_title": "Involvement of Ataxin-3 (ATXN3) in the malignant progression of pancreatic cancer via deubiquitinating HDAC6",
+          "journal": "Pancreatology",
+          "year": 2023,
+          "relevant_quote": "ATXN3 was proved to interact with HDAC6 and regulate its degradation through deubiquitination. ... This study confirmed that ATXN3 facilitated malignant phenotypes of pancreatic cancer via reducing the ubiquitination of HDAC6.",
+          "pmid": "37460341"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "15767577",
+        "37460341"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 is a microtubule-associated deacetylase that recognizes and binds polyubiquitinated misfolded proteins, linking them to the dynein motor complex for transport to the microtubule-organizing center (MTOC) to form an aggresome. ATXN3 is a critical component of this pathway.",
+  "effect": "ATXN3 directly interacts with HDAC6. In one context, ATXN3, HDAC6, and the dynein motor protein form a complex to facilitate the transport of ubiquitinated cargo to the aggresome. ATXN3's deubiquitinase activity is essential for this process. In another context, ATXN3 acts as a deubiquitinase for HDAC6 itself, removing ubiquitin chains from HDAC6, which prevents its degradation and thereby stabilizes it, promoting its function.",
+  "summary": "ATXN3 activates HDAC6 to modulate aggresome formation, ultimately affecting promotion of cell survival under proteotoxic stress.",
+  "evidence": [
+    {
+      "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "year": 2005,
+      "relevant_quote": "AT3 localizes to aggresomes and preaggresome particles and interacts with dynein and HDAC6, and its DUB activity and UIMs are required for CFTRΔF508 aggresome formation."
+    },
+    {
+      "paper_title": "Involvement of Ataxin-3 (ATXN3) in the malignant progression of pancreatic cancer via deubiquitinating HDAC6",
+      "journal": "Pancreatology",
+      "year": 2023,
+      "relevant_quote": "ATXN3 was proved to interact with HDAC6 and regulate its degradation through deubiquitination. ... This study confirmed that ATXN3 facilitated malignant phenotypes of pancreatic cancer via reducing the ubiquitination of HDAC6."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> HDAC6:",
+  "protein_a": "HDAC6",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.715144Z",
+  "last_updated": "2025-12-01T05:51:49.715144Z"
+}

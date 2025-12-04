@@ -1,0 +1,90 @@
+{
+  "primary": "VDAC1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly deubiquitinates the mitochondrial protein VDAC1, as demonstrated by in vitro deubiquitination assays. This interaction links ATXN3 to the regulation of mitochondrial function and quality control.",
+  "functions": [
+    {
+      "function": "VDAC1 Deubiquitination",
+      "arrow": "activates",
+      "cellular_process": "VDAC1, a protein in the outer mitochondrial membrane, is a key substrate for the E3 ligase Parkin. Parkin-mediated ubiquitination of VDAC1 on damaged mitochondria serves as a signal for their removal via mitophagy.",
+      "effect_description": "Wild-type ATXN3 functions as a deubiquitinating enzyme (DUB) for VDAC1, removing ubiquitin chains that are added by Parkin. This activity modulates the overall ubiquitination status of VDAC1, thereby regulating the threshold for initiating mitophagy and maintaining mitochondrial homeostasis.",
+      "biological_consequence": [
+        "Mitochondrial damage → Parkin recruitment to mitochondria → Parkin ubiquitinates VDAC1 → ATXN3 removes ubiquitin chains from VDAC1 → Regulation of VDAC1 ubiquitination state → Modulation of mitophagy initiation → Maintenance of mitochondrial quality control."
+      ],
+      "specific_effects": [
+        "Wild-type ataxin-3 deubiquitinates VDAC1 in vitro.",
+        "ATXN3 removes both monoubiquitinated and polyubiquitinated forms of VDAC1.",
+        "This deubiquitination activity links ATXN3 to the canonical Parkin-VDAC1-mediated mitophagy pathway.",
+        "In SCA3 patient-derived fibroblasts, VDAC1 deubiquitination is altered, which is associated with dysregulation of mitophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Mitochondrial Dysfunction in Spinocerebellar Ataxia Type 3 Is Linked to VDAC1 Deubiquitination",
+          "journal": "International Journal of Molecular Sciences",
+          "year": 2022,
+          "relevant_quote": "We show that wildtype ataxin-3 deubiquitinates VDAC1 (voltage-dependent anion channel 1), a member of the mitochondrial permeability transition pore and a parkin substrate.",
+          "pmid": "35682609"
+        }
+      ],
+      "pathway": {
+        "name": "Mitochondrial Quality Control",
+        "canonical_name": "Mitochondrial Quality Control",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "35682609"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim is largely correct but can be refined. While ATXN3 deubiquitinates VDAC1, the term 'activates' is ambiguous. The functional consequence is the modulation of mitophagy. Specifically, by removing ubiquitin chains from VDAC1, wild-type ATXN3 counteracts the Parkin-mediated signal for mitophagy, thereby regulating mitochondrial quality control. Mutant ATXN3's activity on VDAC1 impairs this process, hindering the clearance of damaged mitochondria.",
+  "mechanism": "VDAC1, a protein in the outer mitochondrial membrane, is a key substrate for the E3 ligase Parkin. Parkin-mediated ubiquitination of VDAC1 on damaged mitochondria serves as a signal for their removal via mitophagy.",
+  "effect": "Wild-type ATXN3 functions as a deubiquitinating enzyme (DUB) for VDAC1, removing ubiquitin chains that are added by Parkin. This activity modulates the overall ubiquitination status of VDAC1, thereby regulating the threshold for initiating mitophagy and maintaining mitochondrial homeostasis.",
+  "summary": "ATXN3 interacts with VDAC1 to modulate vdac1 deubiquitination, ultimately affecting maintenance of mitochondrial quality control.",
+  "evidence": [
+    {
+      "paper_title": "Mitochondrial Dysfunction in Spinocerebellar Ataxia Type 3 Is Linked to VDAC1 Deubiquitination",
+      "journal": "International Journal of Molecular Sciences",
+      "year": 2022,
+      "relevant_quote": "We show that wildtype ataxin-3 deubiquitinates VDAC1 (voltage-dependent anion channel 1), a member of the mitochondrial permeability transition pore and a parkin substrate."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitochondrial Quality Control",
+      "canonical_name": "Mitochondrial Quality Control",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> VDAC1:",
+  "protein_a": "ATXN3",
+  "protein_b": "VDAC1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.790583Z",
+  "last_updated": "2025-12-01T05:51:49.790583Z"
+}

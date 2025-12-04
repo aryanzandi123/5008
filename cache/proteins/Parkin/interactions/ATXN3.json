@@ -1,0 +1,104 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly interacts with the E3 ligase Parkin, counteracting its auto-ubiquitination and modulating its activity in autophagy.",
+  "functions": [
+    {
+      "function": "E3 Ligase Activity and Mitophagy",
+      "arrow": "inhibits",
+      "cellular_process": "Parkin is an E3 ubiquitin ligase crucial for mitochondrial quality control via mitophagy. Upon mitochondrial damage, Parkin is recruited and activated, leading to the ubiquitination of mitochondrial outer membrane proteins, flagging the organelle for autophagic clearance. Parkin's activity is regulated by its own auto-ubiquitination.",
+      "effect_description": "ATXN3 directly interacts with the E3 ligase Parkin and functions as its deubiquitinase, counteracting Parkin's auto-ubiquitination. By removing ubiquitin chains from Parkin, wild-type ATXN3 stabilizes the E3 ligase and inhibits its activity. Mechanistically, ATXN3 stabilizes the complex between Parkin and its E2 ubiquitin-conjugating enzyme, which impedes the efficient transfer of ubiquitin from the E2 to Parkin, thereby reducing Parkin's E3 ligase activity.",
+      "biological_consequence": [
+        "ATXN3 binds to Parkin → ATXN3 stabilizes the Parkin-E2 enzyme complex → Transfer of ubiquitin from E2 to Parkin is impeded → Parkin auto-ubiquitination is reduced → Parkin E3 ligase activity is inhibited → Downstream processes like mitophagy are modulated."
+      ],
+      "specific_effects": [
+        "ATXN3 directly interacts with Parkin via multiple domains: Parkin's N-terminal Ub-like (Ubl) domain binds to the UIMs of ATXN3.",
+        "ATXN3 deubiquitinates Parkin both in vitro and in cells, counteracting its self-ubiquitination.",
+        "ATXN3 does not hydrolyze pre-assembled ubiquitin chains on Parkin but interferes with the attachment of new ubiquitin molecules in real-time.",
+        "Mutant (polyQ-expanded) ATXN3, while still able to deubiquitinate Parkin, paradoxically promotes the clearance and degradation of Parkin via the autophagy pathway, leading to reduced Parkin levels."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+          "journal": "Human Molecular Genetics",
+          "year": 2011,
+          "relevant_quote": "The interaction between ataxin-3 and parkin is direct, involves multiple domains and is greatly enhanced by parkin self-ubiquitination. Moreover, ataxin-3 deubiquitinates parkin directly in vitro and in cells. ... Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway.",
+          "pmid": "20940148"
+        },
+        {
+          "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2012,
+          "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub.",
+          "pmid": "22081612"
+        }
+      ],
+      "pathway": {
+        "name": "Mitophagy",
+        "canonical_name": "Mitophagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20940148",
+        "22081612"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Parkin is an E3 ubiquitin ligase crucial for mitochondrial quality control via mitophagy. Upon mitochondrial damage, Parkin is recruited and activated, leading to the ubiquitination of mitochondrial outer membrane proteins, flagging the organelle for autophagic clearance. Parkin's activity is regulated by its own auto-ubiquitination.",
+  "effect": "ATXN3 directly interacts with the E3 ligase Parkin and functions as its deubiquitinase, counteracting Parkin's auto-ubiquitination. By removing ubiquitin chains from Parkin, wild-type ATXN3 stabilizes the E3 ligase and inhibits its activity. Mechanistically, ATXN3 stabilizes the complex between Parkin and its E2 ubiquitin-conjugating enzyme, which impedes the efficient transfer of ubiquitin from the E2 to Parkin, thereby reducing Parkin's E3 ligase activity.",
+  "summary": "ATXN3 inhibits Parkin to modulate regulation of e3 ligase activity and mitophagy, ultimately affecting downstream processes like mitophagy are modulated.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+      "journal": "Human Molecular Genetics",
+      "year": 2011,
+      "relevant_quote": "The interaction between ataxin-3 and parkin is direct, involves multiple domains and is greatly enhanced by parkin self-ubiquitination. Moreover, ataxin-3 deubiquitinates parkin directly in vitro and in cells. ... Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway."
+    },
+    {
+      "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2012,
+      "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitophagy",
+      "canonical_name": "Mitophagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> Parkin:",
+  "protein_a": "Parkin",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.719593Z",
+  "last_updated": "2025-12-01T05:51:49.719593Z"
+}

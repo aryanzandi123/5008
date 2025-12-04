@@ -1,0 +1,87 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "As part of its role in transcriptional regulation, ATXN3 is known to interact with TATA box-binding protein (TBP)-associated factor 4 (TAF4), a component of the TFIID general transcription factor complex.",
+  "functions": [
+    {
+      "function": "Transcriptional",
+      "arrow": "regulates",
+      "cellular_process": "TAF4 is a component of the general transcription factor TFIID, which is essential for the initiation of transcription by RNA polymerase II. ATXN3's interaction with TAF4 suggests its involvement in modulating the assembly or activity of the preinitiation complex at gene promoters.",
+      "effect_description": "ATXN3 interacts with TAF4, a subunit of the TFIID complex. This interaction places ATXN3 in proximity to the core transcriptional machinery, indicating a role in regulating gene expression. However, whether this interaction leads to transcriptional activation or repression is likely context-dependent and promoter-specific.",
+      "biological_consequence": [
+        "ATXN3 binds to TAF4 → ATXN3 is recruited to the TFIID complex at gene promoters → Modulation of preinitiation complex assembly or function → Regulation of transcription initiation for specific target genes."
+      ],
+      "specific_effects": [
+        "ATXN3 physically interacts with TATA box-binding protein (TBP)-associated factor 4 (TAF4)."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
+          "journal": "International Journal of Molecular Sciences",
+          "year": 2021,
+          "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)...",
+          "pmid": "24293103"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "24293103"
+      ],
+      "interaction_effect": "regulates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The provided information is superficial. The interaction is mentioned in a review, but the primary literature detailing the direct binding and its precise functional consequence (activation vs. repression, and on which specific gene targets) is not cited. The claim of 'activates' is an oversimplification without further context.",
+  "mechanism": "TAF4 is a component of the general transcription factor TFIID, which is essential for the initiation of transcription by RNA polymerase II. ATXN3's interaction with TAF4 suggests its involvement in modulating the assembly or activity of the preinitiation complex at gene promoters.",
+  "effect": "ATXN3 interacts with TAF4, a subunit of the TFIID complex. This interaction places ATXN3 in proximity to the core transcriptional machinery, indicating a role in regulating gene expression. However, whether this interaction leads to transcriptional activation or repression is likely context-dependent and promoter-specific.",
+  "summary": "ATXN3 interacts with TAF4 to modulate transcriptional regulation, ultimately affecting regulation of transcription initiation for specific target genes.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
+      "journal": "International Journal of Molecular Sciences",
+      "year": 2021,
+      "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)..."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> TAF4:",
+  "protein_a": "TAF4",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.794580Z",
+  "last_updated": "2025-12-01T05:51:49.794580Z"
+}

@@ -1,0 +1,104 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "VDAC1",
+  "mediator_chain": [
+    "VDAC1"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly affects the levels of Mitofusin-1 (Mfn1). Expression of a toxic, truncated fragment of mutant ATXN3 leads to decreased expression of Mfn1, disrupting mitochondrial fusion dynamics.",
+  "functions": [
+    {
+      "function": "Mitochondrial Fusion",
+      "arrow": "inhibits",
+      "cellular_process": "Mitofusin-1 (Mfn1) is a GTPase on the outer mitochondrial membrane that is essential for mitochondrial fusion. This process is vital for maintaining a healthy, interconnected mitochondrial network, which supports cellular energy production and quality control.",
+      "effect_description": "In the context of Spinocerebellar Ataxia Type 3 (SCA3), proteolytic cleavage of mutant ATXN3 produces a toxic C-terminal fragment. The expression of this truncated fragment leads to a decrease in the expression of Mfn1, which disrupts the mitochondrial fusion process and promotes mitochondrial fission, ultimately contributing to mitochondrial dysfunction and neurodegeneration.",
+      "biological_consequence": [
+        "Expression of truncated mutant ATXN3 fragment → Decreased expression of Mfn1 protein → Impaired outer mitochondrial membrane fusion → Increased mitochondrial fission and fragmentation → Disrupted mitochondrial network dynamics → Mitochondrial dysfunction → Increased reactive oxygen species and cell death"
+      ],
+      "specific_effects": [
+        "Expression of a truncated C-terminal fragment of mutant ATXN3 causes a significant decrease in the protein levels of Mfn1.",
+        "This reduction in Mfn1 contributes to a shift from mitochondrial fusion to fission, resulting in fragmented mitochondria."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2017,
+          "relevant_quote": "In addition, truncated mutant ATXN3 caused more mitochondrial fission, and decreased the expression of mitochondrial fusion markers, including Mfn-1 and Mfn-2.",
+          "pmid": "28676741"
+        }
+      ],
+      "pathway": {
+        "name": "Mitochondrial Dynamics",
+        "canonical_name": "Mitochondrial Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28676741"
+      ],
+      "direct_arrow": "regulates",
+      "interaction_effect": "inhibition",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "VDAC1",
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "VDAC1"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim is contextually erroneous. The effect described is specific to a toxic, truncated fragment of MUTANT ATXN3, not the normal protein. The effect is a DECREASE in Mfn1 expression, making the 'activates' arrow incorrect for the pathogenic context. The mediator is not VDAC1; the effect is a downstream consequence of the toxic fragment's presence. The primary evidence has been corrected to a more relevant publication.",
+  "mechanism": "Mitofusin-1 (Mfn1) is a GTPase on the outer mitochondrial membrane that is essential for mitochondrial fusion. This process is vital for maintaining a healthy, interconnected mitochondrial network, which supports cellular energy production and quality control.",
+  "effect": "In the context of Spinocerebellar Ataxia Type 3 (SCA3), proteolytic cleavage of mutant ATXN3 produces a toxic C-terminal fragment. The expression of this truncated fragment leads to a decrease in the expression of Mfn1, which disrupts the mitochondrial fusion process and promotes mitochondrial fission, ultimately contributing to mitochondrial dysfunction and neurodegeneration.",
+  "summary": "ATXN3 inhibits Mfn1 to modulate mitochondrial fusion, ultimately affecting increased reactive oxygen species and cell death.",
+  "evidence": [
+    {
+      "paper_title": "The Truncated C-terminal Fragment of Mutant ATXN3 Disrupts Mitochondria Dynamics in Spinocerebellar Ataxia Type 3 Models",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2017,
+      "relevant_quote": "In addition, truncated mutant ATXN3 caused more mitochondrial fission, and decreased the expression of mitochondrial fusion markers, including Mfn-1 and Mfn-2."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitochondrial Dynamics",
+      "canonical_name": "Mitochondrial Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VDAC1 --inhibits--> Mfn1:",
+  "protein_a": "Mfn1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.808025Z",
+  "last_updated": "2025-12-01T05:51:49.808025Z"
+}

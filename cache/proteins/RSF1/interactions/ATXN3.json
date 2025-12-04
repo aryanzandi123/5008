@@ -1,0 +1,115 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Remodeling and spacing factor 1 (RSF1), a chromatin remodeling protein, was identified as a direct interactor of ATXN3 through Affinity Capture-Mass Spectrometry.",
+  "functions": [
+    {
+      "function": "Chromatin Remodeling and Transcriptional",
+      "arrow": "inhibits",
+      "cellular_process": "RSF1 (Remodeling and spacing factor 1) is the core subunit of the RSF complex, an ATP-dependent chromatin remodeler that positions nucleosomes to regulate gene expression and DNA repair. ATXN3 is also a nuclear protein that modulates transcription, in part by binding chromatin and recruiting co-repressors like HDAC3 to promote a more compact chromatin state.",
+      "effect_description": "The physical interaction between ATXN3 and RSF1 suggests a functional link between two different modes of chromatin regulation: histone modification (via ATXN3-recruited HDACs) and nucleosome remodeling (via RSF1). This cooperation could provide a mechanism for more precise control over chromatin accessibility and gene expression. However, the specific targets and functional outcome of this collaboration are currently unknown.",
+      "biological_consequence": [
+        "ATXN3 binds to specific chromatin regions → ATXN3 recruits HDAC3, leading to histone deacetylation → ATXN3 interacts with the chromatin remodeler RSF1 → Coordinated histone modification and nucleosome repositioning → Altered chromatin accessibility → Transcriptional repression of target genes"
+      ],
+      "specific_effects": [
+        "RSF1 is an ATP-dependent chromatin remodeling factor that alters nucleosome positioning.",
+        "ATXN3 recruits the histone deacetylase HDAC3 to chromatin, promoting a condensed, transcriptionally repressive state.",
+        "The interaction between ATXN3 and RSF1 was identified by affinity capture mass spectrometry, but the functional consequence of this direct interaction has not been characterized."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+          "journal": "Nucleic Acids Research",
+          "year": 2023,
+          "relevant_quote": "The lack of ATXN3 leads to abnormalities in nuclear and nucleolar morphology, alters DNA replication timing and increases transcription. Additionally, indicators of more open chromatin... were detected in the absence of ATXN3. Interestingly, the effects observed in cells lacking ATXN3 are epistatic to the inhibition or lack of the histone deacetylase 3 (HDAC3), an interaction partner of ATXN3.",
+          "pmid": "36971114"
+        },
+        {
+          "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+          "journal": "The EMBO Journal",
+          "year": 2009,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
+        }
+      ],
+      "pathway": {
+        "name": "Chromatin Remodeling",
+        "canonical_name": "Chromatin Remodeling",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "36971114",
+        "17079677"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "is_valid": true,
+  "mechanism_correction": "The direct interaction is supported by proteomic data. However, the functional description is hypothetical. The input claim that ATXN3 'activates' this process is incorrect and unsupported. Both proteins are known to function in chromatin dynamics—RSF1 as a nucleosome remodeler and ATXN3 as a transcriptional repressor that recruits HDAC3. Their interaction suggests they may cooperate in regulating gene expression, but the precise mechanism and the outcome of their interaction on specific gene targets have not been experimentally demonstrated.",
+  "intent": "regulation",
+  "mechanism": "RSF1 (Remodeling and spacing factor 1) is the core subunit of the RSF complex, an ATP-dependent chromatin remodeler that positions nucleosomes to regulate gene expression and DNA repair. ATXN3 is also a nuclear protein that modulates transcription, in part by binding chromatin and recruiting co-repressors like HDAC3 to promote a more compact chromatin state.",
+  "effect": "The physical interaction between ATXN3 and RSF1 suggests a functional link between two different modes of chromatin regulation: histone modification (via ATXN3-recruited HDACs) and nucleosome remodeling (via RSF1). This cooperation could provide a mechanism for more precise control over chromatin accessibility and gene expression. However, the specific targets and functional outcome of this collaboration are currently unknown.",
+  "summary": "ATXN3 interacts with RSF1 to modulate chromatin remodeling and transcriptional regulation, ultimately affecting transcriptional repression of target genes.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+      "journal": "Nucleic Acids Research",
+      "year": 2023,
+      "relevant_quote": "The lack of ATXN3 leads to abnormalities in nuclear and nucleolar morphology, alters DNA replication timing and increases transcription. Additionally, indicators of more open chromatin... were detected in the absence of ATXN3. Interestingly, the effects observed in cells lacking ATXN3 are epistatic to the inhibition or lack of the histone deacetylase 3 (HDAC3), an interaction partner of ATXN3."
+    },
+    {
+      "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+      "journal": "The EMBO Journal",
+      "year": 2009,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chromatin Remodeling",
+      "canonical_name": "Chromatin Remodeling",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> RSF1:",
+  "protein_a": "RSF1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.803439Z",
+  "last_updated": "2025-12-01T05:51:49.803439Z"
+}

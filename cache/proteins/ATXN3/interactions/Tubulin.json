@@ -1,0 +1,89 @@
+{
+  "primary": "Tubulin",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly binds to tubulin, which is a component of microtubules. This interaction, demonstrated by surface plasmon resonance (SPR), is involved in the cellular machinery that sorts protein aggregates.",
+  "functions": [
+    {
+      "function": "Microtubule-Based Transport",
+      "arrow": "activates",
+      "cellular_process": "Microtubules, polymers of α/β-tubulin heterodimers, are cytoskeletal filaments that serve as tracks for motor proteins like dynein to transport cellular cargo, including misfolded protein aggregates, to the aggresome.",
+      "effect_description": "ATXN3 directly binds to the tubulin dimer with high affinity. This interaction is a key part of the aggresome formation pathway, where ATXN3, along with HDAC6 and dynein, forms a larger complex on the microtubule surface to facilitate the transport of ubiquitinated proteins. ATXN3's multiple binding domains allow it to act as an adaptor, linking components of the transport machinery together on the microtubule tracks.",
+      "biological_consequence": [
+        "ATXN3 directly binds tubulin dimers → ATXN3 oligomerizes and forms a complex with HDAC6 and dynein on the microtubule surface → The complex recruits polyubiquitinated misfolded proteins → Dynein motor transports the entire complex along microtubule tracks → Cargo is delivered to the MTOC → Aggresome formation and clearance of protein aggregates."
+      ],
+      "specific_effects": [
+        "ATXN3 binds directly to tubulin dimers with a 50 nM affinity, as measured by Surface Plasmon Resonance (SPR).",
+        "The interaction involves three distinct tubulin-binding regions (TBRs) on ATXN3: one in the Josephin domain and two in the C-terminal disordered domain.",
+        "Small-Angle X-ray Scattering (SAXS) results show an ATXN3 oligomer (6-7 subunits) tightly binding to a tubulin hexameric oligomer in a 'parallel' fashion."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
+          "journal": "The International Journal of Biochemistry & Cell Biology",
+          "year": 2014,
+          "relevant_quote": "By taking advantage of small angle X-ray scattering (SAXS) and surface plasmon resonance (SPR), we have investigated the interaction of AT3 with tubulin and HDAC6. Based on SAXS results, the AT3 oligomer, consisting of 6-7 subunits, tightly binds to the tubulin hexameric oligomer in a \"parallel\" fashion. By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity.",
+          "pmid": "24685680"
+        }
+      ],
+      "pathway": {
+        "name": "Microtubule-Based Transport",
+        "canonical_name": "Microtubule-Based Transport",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "24685680"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim of direct interaction is validated. The mechanism involves ATXN3 acting as a molecular bridge within the aggresome transport machinery, linking cargo to the microtubule network, rather than directly modifying tubulin dynamics.",
+  "mechanism": "Microtubules, polymers of α/β-tubulin heterodimers, are cytoskeletal filaments that serve as tracks for motor proteins like dynein to transport cellular cargo, including misfolded protein aggregates, to the aggresome.",
+  "effect": "ATXN3 directly binds to the tubulin dimer with high affinity. This interaction is a key part of the aggresome formation pathway, where ATXN3, along with HDAC6 and dynein, forms a larger complex on the microtubule surface to facilitate the transport of ubiquitinated proteins. ATXN3's multiple binding domains allow it to act as an adaptor, linking components of the transport machinery together on the microtubule tracks.",
+  "summary": "ATXN3 interacts with Tubulin to modulate microtubule-based transport, ultimately affecting aggresome formation and clearance of protein aggregates.",
+  "evidence": [
+    {
+      "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
+      "journal": "The International Journal of Biochemistry & Cell Biology",
+      "year": 2014,
+      "relevant_quote": "By taking advantage of small angle X-ray scattering (SAXS) and surface plasmon resonance (SPR), we have investigated the interaction of AT3 with tubulin and HDAC6. Based on SAXS results, the AT3 oligomer, consisting of 6-7 subunits, tightly binds to the tubulin hexameric oligomer in a \"parallel\" fashion. By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Microtubule-Based Transport",
+      "canonical_name": "Microtubule-Based Transport",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> Tubulin:",
+  "protein_a": "ATXN3",
+  "protein_b": "Tubulin",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.717565Z",
+  "last_updated": "2025-12-01T05:51:49.717565Z"
+}

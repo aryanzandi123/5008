@@ -1,0 +1,90 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 forms a complex with p97/VCP to regulate the homeostasis of the E3 ubiquitin ligase RNF8, which is a key mediator of the DNA damage response.",
+  "functions": [
+    {
+      "function": "RNF8 Chromatin Extraction",
+      "arrow": "activates",
+      "cellular_process": "The E3 ubiquitin ligase RNF8 is a key factor in the DNA double-strand break (DSB) response, responsible for ubiquitinating histones to create a scaffold for repair protein recruitment. After its initial function, RNF8 must be removed from chromatin to allow the repair process to proceed and to prevent its hyper-accumulation, which can be toxic.",
+      "effect_description": "ATXN3, in a complex with the ATPase p97/VCP, regulates RNF8 homeostasis. Following the initial DNA damage response, the p97-ATXN3 complex stimulates the extraction of RNF8 from chromatin. This action helps to balance the DNA repair pathway choice and is crucial for cell survival after DNA damage.",
+      "biological_consequence": [
+        "Extraction of RNF8 from chromatin → Regulation of DSB repair pathway choice (e.g., NHEJ) → Prevention of RNF8 hyper-accumulation → Promotion of cell survival after genotoxic stress"
+      ],
+      "specific_effects": [
+        "ATXN3 forms a physical and functional complex with p97/VCP and RNF8.",
+        "The p97-ATXN3 complex regulates the proteasome-dependent homeostasis of RNF8 under normal conditions.",
+        "Under genotoxic stress, the p97-ATXN3 machinery extracts RNF8 from chromatin at DNA damage sites.",
+        "Inactivation of the p97-ATXN3 complex impairs non-homologous end joining (NHEJ) and sensitizes cancer cells to ionizing radiation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "year": 2019,
+          "pmid": "31613024"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31613024"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "The E3 ubiquitin ligase RNF8 is a key factor in the DNA double-strand break (DSB) response, responsible for ubiquitinating histones to create a scaffold for repair protein recruitment. After its initial function, RNF8 must be removed from chromatin to allow the repair process to proceed and to prevent its hyper-accumulation, which can be toxic.",
+  "effect": "ATXN3, in a complex with the ATPase p97/VCP, regulates RNF8 homeostasis. Following the initial DNA damage response, the p97-ATXN3 complex stimulates the extraction of RNF8 from chromatin. This action helps to balance the DNA repair pathway choice and is crucial for cell survival after DNA damage.",
+  "summary": "ATXN3 activates RNF8 to modulate rnf8 chromatin extraction, ultimately affecting promotion of cell survival after genotoxic stress.",
+  "evidence": [
+    {
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "year": 2019
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> RNF8:",
+  "protein_a": "RNF8",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.752190Z",
+  "last_updated": "2025-12-01T05:51:49.752190Z"
+}

@@ -1,0 +1,89 @@
+{
+  "primary": "p62",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly interacts with p62 (SQSTM1), an autophagic protein involved in the formation of aggresomes.",
+  "functions": [
+    {
+      "function": "Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "p62 (SQSTM1) is a multifunctional protein that serves as a selective autophagy receptor, linking ubiquitinated cargo to the autophagic machinery. It plays a crucial role in the formation of aggresomes, which are cellular inclusion bodies that sequester misfolded proteins.",
+      "effect_description": "p62 directly interacts with polyglutamine (polyQ)-expanded ATXN3, but not normal ATXN3, and promotes its assembly into aggresomes. This process is dependent on the microtubule network, as p62 facilitates the transport of ATXN3 aggregates to the microtubule-organizing center (MTOC).",
+      "biological_consequence": [
+        "p62 directly binds to polyQ-expanded ATXN3 → p62 facilitates the sequestration of ubiquitinated ATXN3 aggregates → Aggregates are transported along microtubules to the MTOC → Formation of a single large aggresome → Cellular protection against polyQ-expanded ATXN3-induced cell death"
+      ],
+      "specific_effects": [
+        "p62 physically and directly interacts with pathogenic, polyQ-expanded ataxin-3.",
+        "p62 acts as a master regulator of ataxin-3 aggresome formation.",
+        "The formation of aggresomes mediated by p62 protects cells against the toxicity induced by polyQ-expanded ataxin-3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "p62/Sequestosome 1 Regulates Aggresome Formation of Pathogenic Ataxin-3 with Expanded Polyglutamine",
+          "journal": "International Journal of Molecular Sciences",
+          "year": 2014,
+          "relevant_quote": "In this study we demonstrate that p62 directly interacts with pathogenic Machado Joseph Disease (MJD)-associated protein ataxin-3 with polyglutamine (polyQ) expansion. Moreover, p62 could regulate the aggresome formation of pathogenic ataxin-3 and protect cells against pathogenic ataxin-3-induced cell death.",
+          "pmid": "25158237"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25158237"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "p62 (SQSTM1) is a multifunctional protein that serves as a selective autophagy receptor, linking ubiquitinated cargo to the autophagic machinery. It plays a crucial role in the formation of aggresomes, which are cellular inclusion bodies that sequester misfolded proteins.",
+  "effect": "p62 directly interacts with polyglutamine (polyQ)-expanded ATXN3, but not normal ATXN3, and promotes its assembly into aggresomes. This process is dependent on the microtubule network, as p62 facilitates the transport of ATXN3 aggregates to the microtubule-organizing center (MTOC).",
+  "summary": "ATXN3 activates p62 to modulate aggresome formation, ultimately affecting cellular protection against polyq-expanded atxn3-induced cell death.",
+  "evidence": [
+    {
+      "paper_title": "p62/Sequestosome 1 Regulates Aggresome Formation of Pathogenic Ataxin-3 with Expanded Polyglutamine",
+      "journal": "International Journal of Molecular Sciences",
+      "year": 2014,
+      "relevant_quote": "In this study we demonstrate that p62 directly interacts with pathogenic Machado Joseph Disease (MJD)-associated protein ataxin-3 with polyglutamine (polyQ) expansion. Moreover, p62 could regulate the aggresome formation of pathogenic ataxin-3 and protect cells against pathogenic ataxin-3-induced cell death."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--binds-- p62:",
+  "protein_a": "ATXN3",
+  "protein_b": "p62",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.767743Z",
+  "last_updated": "2025-12-01T05:51:49.767743Z"
+}

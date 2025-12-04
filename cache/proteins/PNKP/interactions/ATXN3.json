@@ -1,0 +1,91 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The association between ATXN3 and PNKP promotes the 3' phosphatase activity of PNKP, which is involved in single-strand break repair.",
+  "functions": [
+    {
+      "function": "DNA Single-Strand Break Repair",
+      "arrow": "regulates",
+      "cellular_process": "Polynucleotide kinase 3'-phosphatase (PNKP) is a dual-function enzyme critical for repairing DNA single-strand breaks (SSBs) and double-strand breaks (DSBs). It possesses 5'-kinase and 3'-phosphatase activities that process damaged DNA termini, making them suitable for ligation.",
+      "effect_description": "Wild-type ATXN3 directly interacts with PNKP and stimulates its 3'-phosphatase activity, which is essential for efficient DNA strand break repair. This interaction helps maintain genomic stability. Conversely, mutant ATXN3, which causes Spinocerebellar Ataxia Type 3 (SCA3), also binds to PNKP but inhibits its enzymatic activity. This leads to the accumulation of DNA damage and triggers pro-apoptotic signaling.",
+      "biological_consequence": [
+        "Wild-Type ATXN3 binds to PNKP → Stimulation of PNKP's 3'-phosphatase activity → Efficient processing and repair of DNA strand breaks → Maintenance of genomic integrity and neuronal survival.",
+        "Mutant (polyQ-expanded) ATXN3 binds to PNKP → Inhibition of PNKP's 3'-phosphatase activity → Accumulation of unrepaired DNA strand breaks → Chronic activation of the ATM kinase-dependent DNA damage response → p53-dependent apoptosis → Neurodegeneration in SCA3."
+      ],
+      "specific_effects": [
+        "Wild-type ATXN3 interacts with and stimulates the 3'-phosphatase activity of PNKP.",
+        "Cells deficient in ATXN3 show decreased PNKP activity and an associated increase in DNA strand breaks.",
+        "Mutant ATXN3 (containing a polyglutamine expansion) physically interacts with and inactivates PNKP.",
+        "The inactivation of PNKP by mutant ATXN3 leads to persistent DNA damage, chronic activation of the ATM signaling pathway, and ultimately apoptosis."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "Collectively, these data, together with the data presented in the accompanying manuscript by Chatterjee et al, suggest that the wild-type ATXN3 interacts with and stimulates PNKP’s 3’-phosphatase activity, and this interaction possibly modulates the efficacy of DNA repair, and helps maintain genomic integrity and neuronal survival. In contrast, mutant ATXN3 interacts with PNKP and abrogates its 3’-phosphatase activity, resulting in increased accumulation of DNA damage that chronically activates ATM→p53 and ATM→c-Abl→PKCδ pro-apoptotic signaling to trigger neuronal dysfunction and apoptosis in SCA3.",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "interaction_effect": "regulates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Polynucleotide kinase 3'-phosphatase (PNKP) is a dual-function enzyme critical for repairing DNA single-strand breaks (SSBs) and double-strand breaks (DSBs). It possesses 5'-kinase and 3'-phosphatase activities that process damaged DNA termini, making them suitable for ligation.",
+  "effect": "Wild-type ATXN3 directly interacts with PNKP and stimulates its 3'-phosphatase activity, which is essential for efficient DNA strand break repair. This interaction helps maintain genomic stability. Conversely, mutant ATXN3, which causes Spinocerebellar Ataxia Type 3 (SCA3), also binds to PNKP but inhibits its enzymatic activity. This leads to the accumulation of DNA damage and triggers pro-apoptotic signaling.",
+  "summary": "ATXN3 activates PNKP to modulate dna single-strand break repair, ultimately affecting maintenance of genomic integrity and neuronal survival.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "Collectively, these data, together with the data presented in the accompanying manuscript by Chatterjee et al, suggest that the wild-type ATXN3 interacts with and stimulates PNKP’s 3’-phosphatase activity, and this interaction possibly modulates the efficacy of DNA repair, and helps maintain genomic integrity and neuronal survival. In contrast, mutant ATXN3 interacts with PNKP and abrogates its 3’-phosphatase activity, resulting in increased accumulation of DNA damage that chronically activates ATM→p53 and ATM→c-Abl→PKCδ pro-apoptotic signaling to trigger neuronal dysfunction and apoptosis in SCA3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> PNKP:",
+  "protein_a": "PNKP",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.741181Z",
+  "last_updated": "2025-12-01T05:51:49.741181Z"
+}

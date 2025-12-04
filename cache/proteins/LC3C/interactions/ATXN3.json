@@ -1,0 +1,91 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with LC3C in the early stages of autophagy, promoting this cellular degradation process.",
+  "functions": [
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "LC3C (MAP1LC3C) is a member of the ATG8 family of proteins, which are central to autophagy. Upon autophagy induction, LC3 is lipidated and incorporated into the membranes of forming autophagosomes, where it functions in cargo recognition and vesicle closure.",
+      "effect_description": "ATXN3 interacts with ATG8 family members, including LC3C, during the early stages of autophagy. This interaction is thought to facilitate the initiation and progression of autophagosome formation, thereby promoting the clearance of cellular waste.",
+      "biological_consequence": [
+        "Interaction with LC3C → Promotion of autophagosome formation → Sequestration of cytoplasmic cargo → Cellular clearance and homeostasis"
+      ],
+      "specific_effects": [
+        "ATXN3 interacts with members of the ATG8 family (LC3/GABARAP) to promote the early steps of autophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2024,
+          "pmid": "39320846"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "LC3C (MAP1LC3C) is a member of the ATG8 family of proteins, which are central to autophagy. Upon autophagy induction, LC3 is lipidated and incorporated into the membranes of forming autophagosomes, where it functions in cargo recognition and vesicle closure.",
+  "effect": "ATXN3 interacts with ATG8 family members, including LC3C, during the early stages of autophagy. This interaction is thought to facilitate the initiation and progression of autophagosome formation, thereby promoting the clearance of cellular waste.",
+  "summary": "ATXN3 activates LC3C to modulate autophagy, ultimately affecting cellular clearance and homeostasis.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase ataxin-3 mediates the VCP-dependent degradation of misfolded proteins of the endoplasmic reticulum",
+      "year": 2012
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> LC3C:",
+  "protein_a": "LC3C",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-01T05:51:49.737161Z",
+  "last_updated": "2025-12-01T05:51:49.737161Z"
+}
