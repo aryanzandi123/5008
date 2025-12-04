@@ -4,21 +4,29 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with RAD23B, a key component of the ubiquitin-proteasome pathway. This interaction has been confirmed through co-immunoprecipitation experiments.",
+  "support_summary": "ATXN3 directly interacts with the human homologs of yeast DNA repair protein RAD23, including RAD23B.",
   "functions": [
     {
-      "function": "Inhibition of ATXN3 Proteasomal Degradation",
+      "function": "ATXN3 Protein Stability",
       "arrow": "activates",
-      "cellular_process": "Similar to its homolog RAD23A, ATXN3 directly interacts with the proteasome shuttle protein RAD23B through its Ubiquitin-binding site 2 (UbS2). This binding event protects ATXN3 from proteasomal turnover.",
-      "effect_description": "The interaction with RAD23B shields ATXN3 from degradation, thus increasing its stability and cellular protein levels. This function is considered redundant with RAD23A.",
+      "cellular_process": "ATXN3 directly interacts with RAD23B (also known as HHR23B), a human homolog of the yeast DNA repair and proteasome shuttle protein RAD23. This interaction occurs between the ubiquitin-like (UBL) domain of RAD23B and the ubiquitin-binding site 2 (UbS2) of ATXN3. This association protects ATXN3 from being degraded by the proteasome.",
+      "effect_description": "The binding of RAD23B to ATXN3 increases the stability of the ATXN3 protein. This interaction links ATXN3 to the ubiquitin-proteasome system and suggests a role in modulating protein turnover.",
       "biological_consequence": [
-        "ATXN3 binds to RAD23B via its UbS2 domain → This interaction prevents ATXN3 from being targeted for proteasomal degradation → Steady-state levels of ATXN3 protein are maintained."
+        "RAD23B binds to the UbS2 site on ATXN3 → ATXN3 is shielded from the proteasome → Proteasomal degradation of ATXN3 is inhibited → The cellular concentration of ATXN3 protein is maintained."
       ],
       "specific_effects": [
-        "The interaction is mediated by the Ubiquitin-binding site 2 (UbS2) on ATXN3.",
-        "Binding of RAD23B to UbS2 impedes the ubiquitination-independent proteasomal degradation of ATXN3."
+        "The interaction is mediated by the N-terminal ubiquitin-like domain of RAD23B.",
+        "The binding affinity of RAD23B to ATXN3 is not affected by the expansion of the polyglutamine tract in ATXN3.",
+        "The interaction with RAD23B, along with RAD23A, prevents the proteasomal turnover of ATXN3."
       ],
       "evidence": [
+        {
+          "paper_title": "Ataxin-3, the MJD1 gene product, interacts with the two human homologs of yeast DNA repair protein RAD23, HHR23A and HHR23B",
+          "journal": "Human Molecular Genetics",
+          "year": 2000,
+          "relevant_quote": "We found that ataxin-3 interacts with two human homologs of the yeast DNA repair protein RAD23, HHR23A and HHR23B. Furthermore, we confirmed that ataxin-3 interacts with the ubiquitin-like domain at the N-terminus of the HHR23 proteins... The normal and mutant ataxin-3 proteins show no difference in their ability to bind to the HHR23 proteins.",
+          "pmid": "10915768"
+        },
         {
           "paper_title": "Ubiquitin-binding site 2 of ataxin-3 prevents its proteasomal degradation by interacting with Rad23",
           "journal": "Nature Communications",
@@ -35,73 +43,39 @@
         "confidence": 0.8
       },
       "pmids": [
+        "10915768",
         "25144244"
       ],
       "interaction_effect": "activates",
       "interaction_direction": "primary_to_main",
       "function_effect": "activation"
-    },
-    {
-      "function": "Protein Phase Separation",
-      "arrow": "inhibits",
-      "cellular_process": "ATXN3 is capable of undergoing liquid-liquid phase separation (LLPS), forming protein-rich droplets that can mature into solid, amyloid-like fibrillar aggregates, a hallmark of polyglutamine diseases. RAD23B, a key component of proteasomal condensates, directly interacts with ATXN3.",
-      "effect_description": "Through heterotypic interactions, RAD23B inhibits the maturation or 'aging' of ATXN3 liquid droplets. This interaction delays the liquid-to-solid phase transition, thereby preventing the rapid formation of pathological, solid ATXN3 aggregates.",
-      "biological_consequence": [
-        "ATXN3 undergoes liquid-liquid phase separation to form droplets → RAD23B interacts with ATXN3 within these condensates → The interaction with RAD23B delays the maturation of ATXN3 droplets → The transition to solid, amyloid-like aggregates is slowed."
-      ],
-      "specific_effects": [
-        "RAD23B is a known interactor of ATXN3 that drives the formation of proteasomal condensates.",
-        "Heterotypic interactions with RAD23B inhibit the maturation of ATXN3 droplets but do not prevent amyloid formation in dilute conditions."
-      ],
-      "evidence": [
-        {
-          "paper_title": "Rad23B Delays Ataxin-3 Liquid-to-solid Phase Transition Through Heterotypic Buffering",
-          "journal": "Journal of Molecular Biology",
-          "year": 2025,
-          "relevant_quote": "Rad23B, the main constituent driving the formation of proteasomal condensates, is a known Ataxin-3 interactor. We found that heterotypic interactions with Rad23B inhibit Ataxin-3 droplet maturation but do not inhibit amyloid formation under dilute conditions, suggesting that Ataxin-3 aggregation via misfolding pathway is distinct from condensation pathway.",
-          "pmid": "40684934"
-        }
-      ],
-      "pathway": {
-        "name": "Regulation of Protein Phase Separation",
-        "canonical_name": "Regulation Of Protein Phase Separation",
-        "ontology_id": null,
-        "ontology_source": null,
-        "confidence": 0.8
-      },
-      "pmids": [
-        "40684934"
-      ],
-      "interaction_effect": "inhibits",
-      "interaction_direction": "primary_to_main",
-      "function_effect": "inhibition"
     }
   ],
-  "arrow": "regulates",
+  "arrow": "binds",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "binds"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The input claim that ATXN3 'activates' proteasomal degradation via RAD23B is a contextual error and mechanistic opposite. The primary literature shows this interaction *prevents* ATXN3's own degradation. Furthermore, RAD23B has a specific role in regulating the material state of ATXN3.",
-  "mechanism": "Similar to its homolog RAD23A, ATXN3 directly interacts with the proteasome shuttle protein RAD23B through its Ubiquitin-binding site 2 (UbS2). This binding event protects ATXN3 from proteasomal turnover. ATXN3 is capable of undergoing liquid-liquid phase separation (LLPS), forming protein-rich droplets that can mature into solid, amyloid-like fibrillar aggregates, a hallmark of polyglutamine diseases. RAD23B, a key component of proteasomal condensates, directly interacts with ATXN3.",
-  "effect": "The interaction with RAD23B shields ATXN3 from degradation, thus increasing its stability and cellular protein levels. This function is considered redundant with RAD23A.; Through heterotypic interactions, RAD23B inhibits the maturation or 'aging' of ATXN3 liquid droplets. This interaction delays the liquid-to-solid phase transition, thereby preventing the rapid formation of pathological, solid ATXN3 aggregates.",
-  "summary": "ATXN3 inhibits RAD23B to regulate inhibition of atxn3 proteasomal degradation and regulation of protein phase separation, ultimately affecting steady-state levels of atxn3 protein are maintained.",
+  "mechanism_correction": "Similar to RAD23A, the interaction is not merely a binding event but has a defined role in regulating ATXN3 protein stability. RAD23B binding protects ATXN3 from proteasomal degradation.",
+  "mechanism": "ATXN3 directly interacts with RAD23B (also known as HHR23B), a human homolog of the yeast DNA repair and proteasome shuttle protein RAD23. This interaction occurs between the ubiquitin-like (UBL) domain of RAD23B and the ubiquitin-binding site 2 (UbS2) of ATXN3. This association protects ATXN3 from being degraded by the proteasome.",
+  "effect": "The binding of RAD23B to ATXN3 increases the stability of the ATXN3 protein. This interaction links ATXN3 to the ubiquitin-proteasome system and suggests a role in modulating protein turnover.",
+  "summary": "ATXN3 interacts with RAD23B to modulate atxn3 protein stability, ultimately affecting the cellular concentration of atxn3 protein is maintained.",
   "evidence": [
+    {
+      "paper_title": "Ataxin-3, the MJD1 gene product, interacts with the two human homologs of yeast DNA repair protein RAD23, HHR23A and HHR23B",
+      "journal": "Human Molecular Genetics",
+      "year": 2000,
+      "relevant_quote": "We found that ataxin-3 interacts with two human homologs of the yeast DNA repair protein RAD23, HHR23A and HHR23B. Furthermore, we confirmed that ataxin-3 interacts with the ubiquitin-like domain at the N-terminus of the HHR23 proteins... The normal and mutant ataxin-3 proteins show no difference in their ability to bind to the HHR23 proteins."
+    },
     {
       "paper_title": "Ubiquitin-binding site 2 of ataxin-3 prevents its proteasomal degradation by interacting with Rad23",
       "journal": "Nature Communications",
       "year": 2014,
       "relevant_quote": "Ataxin-3 interacts with the proteasome-associated proteins Rad23A/B through UbS2. Knockdown of Rad23 in cultured cells and in Drosophila results in lower levels of ataxin-3 protein."
-    },
-    {
-      "paper_title": "Rad23B Delays Ataxin-3 Liquid-to-solid Phase Transition Through Heterotypic Buffering",
-      "journal": "Journal of Molecular Biology",
-      "year": 2025,
-      "relevant_quote": "Rad23B, the main constituent driving the formation of proteasomal condensates, is a known Ataxin-3 interactor. We found that heterotypic interactions with Rad23B inhibit Ataxin-3 droplet maturation but do not inhibit amyloid formation under dilute conditions, suggesting that Ataxin-3 aggregation via misfolding pathway is distinct from condensation pathway."
     }
   ],
   "pathways": [
@@ -111,26 +85,19 @@
       "ontology_id": null,
       "ontology_source": null,
       "confidence": 0.8
-    },
-    {
-      "name": "Regulation of Protein Phase Separation",
-      "canonical_name": "Regulation Of Protein Phase Separation",
-      "ontology_id": null,
-      "ontology_source": null,
-      "confidence": 0.8
     }
   ],
-  "interaction_effect": "regulation",
+  "interaction_effect": "binding",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 4
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--regulates-- RAD23B:",
+  "arrow_notation": "ATXN3 <--binds-- RAD23B:",
   "protein_a": "RAD23B",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.709932Z",
-  "last_updated": "2025-12-01T05:51:49.709932Z"
+  "first_discovered": "2025-12-04T13:20:02.596856Z",
+  "last_updated": "2025-12-04T13:20:02.596856Z"
 }

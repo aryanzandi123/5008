@@ -4,21 +4,20 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "During the early phase of the double-strand break response, ATXN3 antagonizes RNF4-induced polyubiquitination and subsequent chromatin-release of MDC1.",
+  "support_summary": "As a deubiquitinase, ATXN3 stabilizes MDC1 by removing polyubiquitin chains, ensuring accurate DNA damage response activation.",
   "functions": [
     {
-      "function": "DNA Double-Strand Break Response",
+      "function": "MDC1 Protein Stability",
       "arrow": "activates",
-      "cellular_process": "Mediator of DNA damage checkpoint 1 (MDC1) is a scaffold protein that accumulates at DNA double-strand breaks (DSBs) and is essential for recruiting downstream repair factors. Its retention on chromatin is dynamically regulated by ubiquitination, particularly by the SUMO-targeted ubiquitin ligase (STUbL) RNF4, which promotes its removal.",
-      "effect_description": "ATXN3 is recruited to DSB sites in a SUMO-dependent manner where it functions as a deubiquitinase to counteract the activity of the E3 ligase RNF4. By removing ubiquitin chains from MDC1, ATXN3 prevents the premature release of MDC1 from chromatin. This action stabilizes MDC1 at the site of damage, prolonging its residence time and thereby consolidating the DNA damage response by ensuring the efficient recruitment of downstream effectors like RNF8, RNF168, and 53BP1.",
+      "cellular_process": "ATXN3 is a deubiquitinating enzyme (DUB) that directly counteracts the activity of the SUMO-targeted ubiquitin ligase (STUbL) RNF4 at sites of DNA double-strand breaks (DSBs). RNF4 promotes the ubiquitination of the checkpoint mediator MDC1, targeting it for removal from chromatin. ATXN3 is recruited to DSBs in a SUMOylation-dependent manner where it deubiquitinates MDC1.",
+      "effect_description": "By removing ubiquitin chains from MDC1, ATXN3 prevents its premature removal from DNA lesions. This action prolongs the chromatin dwell time of MDC1, which is critical for consolidating a robust and sustained DNA damage response (DDR).",
       "biological_consequence": [
-        "DNA double-strand break occurs → ATXN3 is recruited to the damage site via SUMOylation signals → ATXN3 deubiquitinates MDC1, counteracting RNF4-mediated ubiquitination → MDC1 chromatin dwell time is increased → Enhanced recruitment of downstream factors (RNF8, RNF168, 53BP1, BRCA1) → Robust DSB signaling and efficient repair via NHEJ and HR pathways."
+        "SUMOylation-dependent recruitment of ATXN3 to DSBs → ATXN3 deubiquitinates MDC1, antagonizing RNF4 ligase activity → MDC1 chromatin retention time is increased → Sustained platform for recruitment of downstream repair factors (RNF8, RNF168, 53BP1, BRCA1) → Robust DSB signaling and efficient repair via NHEJ and HR pathways."
       ],
       "specific_effects": [
-        "ATXN3 directly counteracts RNF4-mediated polyubiquitination of MDC1 at sites of DNA damage.",
-        "Loss of ATXN3 significantly decreases the residence time of MDC1 on chromatin at DSBs, an effect that is reversed by the co-depletion of RNF4.",
-        "The stabilization of MDC1 by ATXN3 is necessary for the efficient recruitment of downstream DNA damage response proteins, including RNF8, RNF168, 53BP1, and BRCA1.",
-        "ATXN3 promotes efficient MDC1-dependent repair of DSBs through both non-homologous end-joining (NHEJ) and homologous recombination (HR)."
+        "Loss of ATXN3 markedly decreases the chromatin dwell time of MDC1 at DSBs.",
+        "ATXN3 depletion impairs the recruitment of the ubiquitin ligases RNF8 and RNF168, as well as 53BP1 and BRCA1, to sites of DNA damage.",
+        "Cells lacking ATXN3 exhibit increased sensitivity to ionizing radiation and PARP inhibitors due to defective DSB repair."
       ],
       "evidence": [
         {
@@ -54,9 +53,9 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "Mediator of DNA damage checkpoint 1 (MDC1) is a scaffold protein that accumulates at DNA double-strand breaks (DSBs) and is essential for recruiting downstream repair factors. Its retention on chromatin is dynamically regulated by ubiquitination, particularly by the SUMO-targeted ubiquitin ligase (STUbL) RNF4, which promotes its removal.",
-  "effect": "ATXN3 is recruited to DSB sites in a SUMO-dependent manner where it functions as a deubiquitinase to counteract the activity of the E3 ligase RNF4. By removing ubiquitin chains from MDC1, ATXN3 prevents the premature release of MDC1 from chromatin. This action stabilizes MDC1 at the site of damage, prolonging its residence time and thereby consolidating the DNA damage response by ensuring the efficient recruitment of downstream effectors like RNF8, RNF168, and 53BP1.",
-  "summary": "ATXN3 activates MDC1 to modulate dna double-strand break response, ultimately affecting robust dsb signaling and efficient repair via nhej and hr pathways.",
+  "mechanism": "ATXN3 is a deubiquitinating enzyme (DUB) that directly counteracts the activity of the SUMO-targeted ubiquitin ligase (STUbL) RNF4 at sites of DNA double-strand breaks (DSBs). RNF4 promotes the ubiquitination of the checkpoint mediator MDC1, targeting it for removal from chromatin. ATXN3 is recruited to DSBs in a SUMOylation-dependent manner where it deubiquitinates MDC1.",
+  "effect": "By removing ubiquitin chains from MDC1, ATXN3 prevents its premature removal from DNA lesions. This action prolongs the chromatin dwell time of MDC1, which is critical for consolidating a robust and sustained DNA damage response (DDR).",
+  "summary": "ATXN3 activates MDC1 to modulate mdc1 protein stability, ultimately affecting robust dsb signaling and efficient repair via nhej and hr pathways.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 consolidates the MDC1-dependent DNA double-strand break response by counteracting the SUMO-targeted ubiquitin ligase RNF4",
@@ -85,6 +84,6 @@
   "protein_a": "MDC1",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.745425Z",
-  "last_updated": "2025-12-01T05:51:49.745425Z"
+  "first_discovered": "2025-12-04T13:20:02.624147Z",
+  "last_updated": "2025-12-04T13:20:02.624147Z"
 }

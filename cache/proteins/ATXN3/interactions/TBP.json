@@ -4,34 +4,34 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "As part of its role in transcriptional regulation, ATXN3 interacts with the general transcription factor TATA-binding protein (TBP).",
+  "support_summary": "ATXN3 is known to cooperate with several transcriptional regulators, including the TATA-binding protein (TBP), to control gene expression.",
   "functions": [
     {
-      "function": "Transcriptional",
-      "arrow": "regulates",
-      "cellular_process": "TATA-binding protein (TBP) is a general transcription factor essential for the formation of the RNA polymerase II preinitiation complex (PIC) at the core promoter of most eukaryotic genes.",
-      "effect_description": "ATXN3 interacts with TBP, indicating a role in modulating the assembly and function of the basal transcription machinery. However, this interaction does not equate to simple activation. Given ATXN3's established role as a transcriptional repressor that cooperates with histone deacetylases, its interaction with TBP is likely part of a broader mechanism to control gene expression, potentially by influencing the recruitment or stability of the PIC on specific gene promoters.",
+      "function": "Transcriptional Repression",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 functions as a transcriptional co-repressor by binding to specific DNA sequences in gene promoters. This binding event serves as a scaffold for the recruitment of a larger repressor complex that includes Histone Deacetylase 3 (HDAC3) and the Nuclear Receptor Corepressor (NCoR).",
+      "effect_description": "The recruitment of the HDAC3/NCoR complex by ATXN3 leads to the deacetylation of histone proteins in the vicinity of the gene promoter. This enzymatic modification results in a more compact chromatin structure, which physically obstructs the access of the basal transcriptional machinery, including the TATA-binding protein (TBP), to the DNA. Consequently, the initiation of transcription is inhibited.",
       "biological_consequence": [
-        "ATXN3 localizes to the nucleus → ATXN3 interacts with TBP and other regulators (e.g., PCAF, HDAC3) → ATXN3 modulates the assembly or activity of the preinitiation complex at specific gene promoters → Context-dependent regulation of gene transcription."
+        "Normal ATXN3 binds to target DNA sequences in gene promoters → ATXN3 recruits the HDAC3/NCoR repressor complex → HDAC3 deacetylates histones bound to the promoter → Chromatin structure becomes more condensed → The basal transcription machinery, including TBP, is blocked from accessing the promoter → Transcription of the target gene is repressed."
       ],
       "specific_effects": [
-        "ATXN3 has been shown to cooperate with the general transcription factor TBP.",
-        "The functional outcome of the ATXN3-TBP interaction is not well defined but occurs in the context of ATXN3's broader role in transcriptional control, which is often repressive."
+        "Normal ATXN3-containing protein complexes show increased histone deacetylase activity.",
+        "In Spinocerebellar Ataxia Type 3 (SCA3), expanded ATXN3 fails to recruit the HDAC3/NCoR complex, leading to increased histone acetylation and aberrant gene transcription."
       ],
       "evidence": [
         {
-          "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
-          "journal": "PLoS One",
-          "year": 2018,
-          "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes.",
-          "pmid": "30231063"
+          "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+          "journal": "Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
         },
         {
-          "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
-          "journal": "Cells",
-          "year": 2021,
-          "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)...",
-          "pmid": "24293103"
+          "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+          "journal": "PLOS ONE",
+          "year": 2018,
+          "relevant_quote": "An additional role for ATXN3 in transcriptional regulation is suggested by the ability of ATXN3 to bind DNA and cooperate with transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes.",
+          "pmid": "30231063"
         }
       ],
       "pathway": {
@@ -42,51 +42,51 @@
         "confidence": 0.8
       },
       "pmids": [
-        "30231063",
-        "24293103"
+        "17079677",
+        "30231063"
       ],
-      "interaction_effect": "regulates",
+      "interaction_effect": "activation",
       "interaction_direction": "main_to_primary",
-      "function_effect": "regulation",
+      "function_effect": "activation",
       "arrow_context": {
         "direct_from": null,
-        "direct_arrow": "regulates",
+        "direct_arrow": "activates",
         "net_from": "ATXN3",
-        "net_arrow": "regulates",
+        "net_arrow": "activates",
         "mediator_chain": [],
         "is_indirect": true
       },
-      "net_arrow": "regulates",
-      "direct_arrow": "regulates",
-      "net_effect": "regulation",
-      "direct_effect": "regulation"
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
     }
   ],
-  "arrow": "binds",
+  "arrow": "inhibits",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "binds"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The input claim that ATXN3 'activates' transcription via TBP is unsubstantiated and likely a 'Contextual Error'. The literature confirms an interaction but does not support a simple activating role. ATXN3's primary documented effect on transcription is repressive, often through recruitment of HDACs. The interaction with the general transcription factor TBP is better described as 'regulatory' or 'modulatory' within the context of larger transcriptional complexes.",
-  "mechanism": "TATA-binding protein (TBP) is a general transcription factor essential for the formation of the RNA polymerase II preinitiation complex (PIC) at the core promoter of most eukaryotic genes.",
-  "effect": "ATXN3 interacts with TBP, indicating a role in modulating the assembly and function of the basal transcription machinery. However, this interaction does not equate to simple activation. Given ATXN3's established role as a transcriptional repressor that cooperates with histone deacetylases, its interaction with TBP is likely part of a broader mechanism to control gene expression, potentially by influencing the recruitment or stability of the PIC on specific gene promoters.",
-  "summary": "ATXN3 interacts with TBP to modulate transcriptional regulation, ultimately affecting context-dependent regulation of gene transcription.",
+  "mechanism_correction": "The initial claim of a direct binding event leading to transcriptional modulation is an oversimplification. The more accurate mechanism is that ATXN3 acts as a transcriptional co-repressor. It binds to promoter regions and recruits a histone deacetylase complex (containing HDAC3 and NCoR), which leads to chromatin condensation and repression of gene expression. TBP, as part of the basal transcription machinery, is prevented from binding to the TATA box in this repressed chromatin state. Therefore, ATXN3's effect on TBP is indirect and inhibitory.",
+  "mechanism": "ATXN3 functions as a transcriptional co-repressor by binding to specific DNA sequences in gene promoters. This binding event serves as a scaffold for the recruitment of a larger repressor complex that includes Histone Deacetylase 3 (HDAC3) and the Nuclear Receptor Corepressor (NCoR).",
+  "effect": "The recruitment of the HDAC3/NCoR complex by ATXN3 leads to the deacetylation of histone proteins in the vicinity of the gene promoter. This enzymatic modification results in a more compact chromatin structure, which physically obstructs the access of the basal transcriptional machinery, including the TATA-binding protein (TBP), to the DNA. Consequently, the initiation of transcription is inhibited.",
+  "summary": "ATXN3 inhibits TBP to modulate transcriptional repression, ultimately affecting transcription of the target gene is repressed.",
   "evidence": [
     {
-      "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
-      "journal": "PLoS One",
-      "year": 2018,
-      "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
+      "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+      "journal": "Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
     },
     {
-      "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
-      "journal": "Cells",
-      "year": 2021,
-      "relevant_quote": "Transcriptional regulation by ataxin-3 might arise through different mechanisms, since ataxin-3 is known to interact with numerous transcriptional regulators such as TATA box-binding protein (TBP)-associated factor 4 (TAF4)..."
+      "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+      "journal": "PLOS ONE",
+      "year": 2018,
+      "relevant_quote": "An additional role for ATXN3 in transcriptional regulation is suggested by the ability of ATXN3 to bind DNA and cooperate with transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
     }
   ],
   "pathways": [
@@ -98,17 +98,17 @@
       "confidence": 0.8
     }
   ],
-  "interaction_effect": "binding",
+  "interaction_effect": "inhibition",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
     "corrections_applied": 2
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --binds--> TBP:",
+  "arrow_notation": "ATXN3 --inhibits--> TBP:",
   "protein_a": "ATXN3",
   "protein_b": "TBP",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.759280Z",
-  "last_updated": "2025-12-01T05:51:49.759280Z"
+  "first_discovered": "2025-12-04T13:20:02.676270Z",
+  "last_updated": "2025-12-04T13:20:02.676270Z"
 }

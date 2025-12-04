@@ -4,24 +4,25 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with LC3C in the early stages of autophagy, promoting this cellular degradation process.",
+  "support_summary": "ATXN3 contains two conserved LIR domains that directly interact with the autophagy adaptor LC3C, suggesting a regulatory role in the early stages of autophagy.",
   "functions": [
     {
       "function": "Autophagy",
       "arrow": "activates",
-      "cellular_process": "LC3C (MAP1LC3C) is a member of the ATG8 family of proteins, which are central to autophagy. Upon autophagy induction, LC3 is lipidated and incorporated into the membranes of forming autophagosomes, where it functions in cargo recognition and vesicle closure.",
-      "effect_description": "ATXN3 interacts with ATG8 family members, including LC3C, during the early stages of autophagy. This interaction is thought to facilitate the initiation and progression of autophagosome formation, thereby promoting the clearance of cellular waste.",
+      "cellular_process": "ATXN3 directly interacts with the autophagy adaptor LC3C via LIR (LC3-interacting region) motifs in its Josephin domain. This interaction occurs on early autophagosomes.",
+      "effect_description": "ATXN3 stimulates efficient autophagic flux. Depletion of ATXN3 leads to an accumulation of autophagosomes but a reduction in autophagic degradation, suggesting ATXN3 prevents superfluous initiation to promote effective autophagy.",
       "biological_consequence": [
-        "Interaction with LC3C → Promotion of autophagosome formation → Sequestration of cytoplasmic cargo → Cellular clearance and homeostasis"
+        "ATXN3 binds LC3C on early autophagosomes -> Superfluous autophagosome initiation is prevented -> Autophagic flux is promoted -> Efficient degradation of autophagic substrates"
       ],
       "specific_effects": [
-        "ATXN3 interacts with members of the ATG8 family (LC3/GABARAP) to promote the early steps of autophagy."
+        "Depletion of ATXN3 in human cells causes a reduction in the autophagosomal degradation of proteins.",
+        "ATXN3 localizes to early autophagosomes but is not itself degraded by lysosomes."
       ],
       "evidence": [
         {
-          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-          "year": 2024,
-          "pmid": "39320846"
+          "paper_title": "The Machado-Joseph disease deubiquitylase ataxin-3 interacts with LC3C/GABARAP and promotes autophagy",
+          "year": 2019,
+          "pmid": "31625269"
         }
       ],
       "_context": {
@@ -40,7 +41,7 @@
         "confidence": 0.8
       },
       "pmids": [
-        "39320846"
+        "31625269"
       ],
       "function_effect": "activation"
     }
@@ -53,17 +54,17 @@
       "activates"
     ]
   },
-  "mechanism": "LC3C (MAP1LC3C) is a member of the ATG8 family of proteins, which are central to autophagy. Upon autophagy induction, LC3 is lipidated and incorporated into the membranes of forming autophagosomes, where it functions in cargo recognition and vesicle closure.",
-  "effect": "ATXN3 interacts with ATG8 family members, including LC3C, during the early stages of autophagy. This interaction is thought to facilitate the initiation and progression of autophagosome formation, thereby promoting the clearance of cellular waste.",
-  "summary": "ATXN3 activates LC3C to modulate autophagy, ultimately affecting cellular clearance and homeostasis.",
+  "mechanism": "ATXN3 directly interacts with the autophagy adaptor LC3C via LIR (LC3-interacting region) motifs in its Josephin domain. This interaction occurs on early autophagosomes.",
+  "effect": "ATXN3 stimulates efficient autophagic flux. Depletion of ATXN3 leads to an accumulation of autophagosomes but a reduction in autophagic degradation, suggesting ATXN3 prevents superfluous initiation to promote effective autophagy.",
+  "summary": "ATXN3 activates LC3C to modulate autophagy.",
   "evidence": [
     {
-      "paper_title": "The deubiquitinase ataxin-3 mediates the VCP-dependent degradation of misfolded proteins of the endoplasmic reticulum",
-      "year": 2012
+      "paper_title": "The Machado-Joseph disease deubiquitylase ataxin-3 interacts with LC3C/GABARAP and promotes autophagy",
+      "year": 2019
     },
     {
-      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-      "year": 2024
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3 - PMC",
+      "year": 2018
     }
   ],
   "pathways": [
@@ -86,6 +87,6 @@
   "protein_a": "ATXN3",
   "protein_b": "LC3C",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.737161Z",
-  "last_updated": "2025-12-01T05:51:49.737161Z"
+  "first_discovered": "2025-12-04T13:20:02.617863Z",
+  "last_updated": "2025-12-04T13:20:02.617863Z"
 }

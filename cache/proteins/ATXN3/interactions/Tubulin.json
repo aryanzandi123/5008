@@ -4,43 +4,59 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 directly binds to tubulin, which is a component of microtubules. This interaction, demonstrated by surface plasmon resonance (SPR), is involved in the cellular machinery that sorts protein aggregates.",
+  "support_summary": "Biophysical studies (SAXS and SPR) have demonstrated a direct, high-affinity interaction between ATXN3 and tubulin dimers.",
   "functions": [
     {
-      "function": "Microtubule-Based Transport",
-      "arrow": "activates",
-      "cellular_process": "Microtubules, polymers of α/β-tubulin heterodimers, are cytoskeletal filaments that serve as tracks for motor proteins like dynein to transport cellular cargo, including misfolded protein aggregates, to the aggresome.",
-      "effect_description": "ATXN3 directly binds to the tubulin dimer with high affinity. This interaction is a key part of the aggresome formation pathway, where ATXN3, along with HDAC6 and dynein, forms a larger complex on the microtubule surface to facilitate the transport of ubiquitinated proteins. ATXN3's multiple binding domains allow it to act as an adaptor, linking components of the transport machinery together on the microtubule tracks.",
+      "function": "Cytoskeletal Dynamics",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 directly binds to α- and β-tubulin dimers, the fundamental components of microtubules. This interaction is crucial for maintaining the organization and integrity of the microtubule network, which is essential for intracellular transport, cell morphology, and the sequestration of protein aggregates.",
+      "effect_description": "The direct, high-affinity binding of ATXN3 to tubulin suggests its role in modulating microtubule-dependent cellular processes. Depletion of ATXN3 leads to severe disorganization of the microtubule, microfilament, and intermediate filament networks, resulting in altered cell morphology and increased cell death. This interaction is also implicated in the transport of misfolded proteins to aggresomes, which are located near the microtubule-organizing center.",
       "biological_consequence": [
-        "ATXN3 directly binds tubulin dimers → ATXN3 oligomerizes and forms a complex with HDAC6 and dynein on the microtubule surface → The complex recruits polyubiquitinated misfolded proteins → Dynein motor transports the entire complex along microtubule tracks → Cargo is delivered to the MTOC → Aggresome formation and clearance of protein aggregates."
+        "ATXN3 directly binds tubulin dimers via its Josephin and C-terminal domains → Modulates microtubule network stability and organization → Facilitates microtubule-dependent processes like intracellular transport → Influences cell morphology, adhesion, and the formation of aggresomes for protein aggregate clearance."
       ],
       "specific_effects": [
-        "ATXN3 binds directly to tubulin dimers with a 50 nM affinity, as measured by Surface Plasmon Resonance (SPR).",
-        "The interaction involves three distinct tubulin-binding regions (TBRs) on ATXN3: one in the Josephin domain and two in the C-terminal disordered domain.",
-        "Small-Angle X-ray Scattering (SAXS) results show an ATXN3 oligomer (6-7 subunits) tightly binding to a tubulin hexameric oligomer in a 'parallel' fashion."
+        "ATXN3 binds to tubulin dimers with a high affinity, showing a dissociation constant (Kd) of 50-70 nM.",
+        "Depletion of ATXN3 results in compromised and disorganized microtubule, microfilament, and intermediate filament networks.",
+        "Normal ATXN3 partially colocalizes with microtubules in cells, whereas the polyQ-expanded variant shows reduced colocalization, likely due to aggregation."
       ],
       "evidence": [
         {
+          "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+          "journal": "Biochemical Journal",
+          "year": 2007,
+          "relevant_quote": "Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70 nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo.",
+          "pmid": "19666135"
+        },
+        {
+          "paper_title": "Absence of ataxin-3 leads to cytoskeletal disorganization and increased cell death",
+          "journal": "Biochimica et Biophysica Acta (BBA) - Molecular Cell Research",
+          "year": 2010,
+          "relevant_quote": "At a structural level, the microtubule, microfilament and intermediate filament networks are severely compromised and disorganized. This cytoskeletal phenotype is reversible and dependent on ATXN3 levels.",
+          "pmid": "20637808"
+        },
+        {
           "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
-          "journal": "The International Journal of Biochemistry & Cell Biology",
+          "journal": "Journal of Molecular Biology",
           "year": 2014,
-          "relevant_quote": "By taking advantage of small angle X-ray scattering (SAXS) and surface plasmon resonance (SPR), we have investigated the interaction of AT3 with tubulin and HDAC6. Based on SAXS results, the AT3 oligomer, consisting of 6-7 subunits, tightly binds to the tubulin hexameric oligomer in a \"parallel\" fashion. By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity.",
+          "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface.",
           "pmid": "24685680"
         }
       ],
       "pathway": {
-        "name": "Microtubule-Based Transport",
-        "canonical_name": "Microtubule-Based Transport",
+        "name": "Cytoskeletal Dynamics",
+        "canonical_name": "Cytoskeletal Dynamics",
         "ontology_id": null,
         "ontology_source": null,
         "confidence": 0.8
       },
       "pmids": [
+        "19666135",
+        "20637808",
         "24685680"
       ],
-      "interaction_effect": "activates",
+      "interaction_effect": "regulation",
       "interaction_direction": "main_to_primary",
-      "function_effect": "activation"
+      "function_effect": "regulation"
     }
   ],
   "arrow": "binds",
@@ -48,26 +64,38 @@
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "binds"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The input claim of direct interaction is validated. The mechanism involves ATXN3 acting as a molecular bridge within the aggresome transport machinery, linking cargo to the microtubule network, rather than directly modifying tubulin dynamics.",
-  "mechanism": "Microtubules, polymers of α/β-tubulin heterodimers, are cytoskeletal filaments that serve as tracks for motor proteins like dynein to transport cellular cargo, including misfolded protein aggregates, to the aggresome.",
-  "effect": "ATXN3 directly binds to the tubulin dimer with high affinity. This interaction is a key part of the aggresome formation pathway, where ATXN3, along with HDAC6 and dynein, forms a larger complex on the microtubule surface to facilitate the transport of ubiquitinated proteins. ATXN3's multiple binding domains allow it to act as an adaptor, linking components of the transport machinery together on the microtubule tracks.",
-  "summary": "ATXN3 interacts with Tubulin to modulate microtubule-based transport, ultimately affecting aggresome formation and clearance of protein aggregates.",
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 directly binds to α- and β-tubulin dimers, the fundamental components of microtubules. This interaction is crucial for maintaining the organization and integrity of the microtubule network, which is essential for intracellular transport, cell morphology, and the sequestration of protein aggregates.",
+  "effect": "The direct, high-affinity binding of ATXN3 to tubulin suggests its role in modulating microtubule-dependent cellular processes. Depletion of ATXN3 leads to severe disorganization of the microtubule, microfilament, and intermediate filament networks, resulting in altered cell morphology and increased cell death. This interaction is also implicated in the transport of misfolded proteins to aggresomes, which are located near the microtubule-organizing center.",
+  "summary": "ATXN3 interacts with Tubulin to modulate cytoskeletal dynamics, ultimately affecting influences cell morphology, adhesion, and the formation of aggresomes for protein aggregate clearance.",
   "evidence": [
     {
+      "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+      "journal": "Biochemical Journal",
+      "year": 2007,
+      "relevant_quote": "Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70 nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo."
+    },
+    {
+      "paper_title": "Absence of ataxin-3 leads to cytoskeletal disorganization and increased cell death",
+      "journal": "Biochimica et Biophysica Acta (BBA) - Molecular Cell Research",
+      "year": 2010,
+      "relevant_quote": "At a structural level, the microtubule, microfilament and intermediate filament networks are severely compromised and disorganized. This cytoskeletal phenotype is reversible and dependent on ATXN3 levels."
+    },
+    {
       "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
-      "journal": "The International Journal of Biochemistry & Cell Biology",
+      "journal": "Journal of Molecular Biology",
       "year": 2014,
-      "relevant_quote": "By taking advantage of small angle X-ray scattering (SAXS) and surface plasmon resonance (SPR), we have investigated the interaction of AT3 with tubulin and HDAC6. Based on SAXS results, the AT3 oligomer, consisting of 6-7 subunits, tightly binds to the tubulin hexameric oligomer in a \"parallel\" fashion. By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity."
+      "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface."
     }
   ],
   "pathways": [
     {
-      "name": "Microtubule-Based Transport",
-      "canonical_name": "Microtubule-Based Transport",
+      "name": "Cytoskeletal Dynamics",
+      "canonical_name": "Cytoskeletal Dynamics",
       "ontology_id": null,
       "ontology_source": null,
       "confidence": 0.8
@@ -84,6 +112,6 @@
   "protein_a": "ATXN3",
   "protein_b": "Tubulin",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.717565Z",
-  "last_updated": "2025-12-01T05:51:49.717565Z"
+  "first_discovered": "2025-12-04T13:20:02.641573Z",
+  "last_updated": "2025-12-04T13:20:02.641573Z"
 }

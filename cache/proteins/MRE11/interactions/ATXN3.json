@@ -1,0 +1,84 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 is involved in the DNA damage response and interacts with the MRE11/RAD50/NBS1 (MRN) complex, which acts as a sensor for DNA double-strand breaks.",
+  "functions": [
+    {
+      "function": "DNA Damage Sensing",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 interacts with MRE11, a component of the MRN complex (MRE11/RAD50/NBN), which is a primary sensor of DNA double-strand breaks and initiates the DNA damage response cascade.",
+      "effect_description": "This interaction suggests ATXN3 is involved in the early stages of DNA damage recognition and repair, potentially modulating the recruitment or activity of the MRN complex at sites of DNA lesions.",
+      "biological_consequence": [
+        "ATXN3 binds MRE11 -> Potential modulation of MRN complex activity -> Regulation of DNA damage signaling and repair"
+      ],
+      "specific_effects": [],
+      "evidence": [],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 interacts with MRE11, a component of the MRN complex (MRE11/RAD50/NBN), which is a primary sensor of DNA double-strand breaks and initiates the DNA damage response cascade.",
+  "effect": "This interaction suggests ATXN3 is involved in the early stages of DNA damage recognition and repair, potentially modulating the recruitment or activity of the MRN complex at sites of DNA lesions.",
+  "summary": "ATXN3 interacts with MRE11 to modulate dna damage sensing.",
+  "evidence": [],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> MRE11:",
+  "protein_a": "MRE11",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-04T13:20:02.685943Z",
+  "last_updated": "2025-12-04T13:20:02.685943Z"
+}

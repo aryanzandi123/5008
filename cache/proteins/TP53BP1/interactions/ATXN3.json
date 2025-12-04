@@ -1,0 +1,103 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "ATM",
+  "mediator_chain": [
+    "PNKP",
+    "ATM"
+  ],
+  "depth": 3,
+  "support_summary": "Expression of polyQ-expanded ATXN3 leads to an accumulation of DNA damage, indicated by a dramatic increase in the formation of TP53BP1 (53BP1) foci.",
+  "functions": [
+    {
+      "function": "DNA Damage Foci Formation",
+      "arrow": "activates",
+      "cellular_process": "The inhibition of the DNA repair enzyme PNKP by mutant ATXN3 results in an accumulation of DNA double-strand breaks. These breaks trigger the activation of ATM kinase, which then orchestrates the recruitment of downstream DNA damage response factors to the sites of damage.",
+      "effect_description": "As a direct consequence of ATM activation, the tumor suppressor p53-binding protein 1 (TP53BP1) is recruited to the DNA double-strand breaks, where it accumulates and forms distinct nuclear foci. These foci serve as a key cellular marker for DNA damage and an active DNA damage response pathway.",
+      "biological_consequence": [
+        "Mutant ATXN3 inactivates PNKP -> DNA double-strand breaks accumulate -> ATM is activated -> TP53BP1 is recruited to the sites of DNA damage -> TP53BP1 forms nuclear foci, signaling an active DNA damage response."
+      ],
+      "specific_effects": [
+        "SH-SY5Y cells expressing mutant ATXN3 (ATXN3-Q84) show approximately a 5-fold increase in the formation of 53BP1 nuclear foci compared to cells expressing wild-type ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "To assess the accumulation of genomic DNA damage in cells expressing mutant ATXN3, we used anti-phospho-53BP1 (p-53BP1-S1778) antibody to perform immunohistochemical (IHC) analysis on the SH-SY5Y cells expressing wild-type vs. mutant ATXN3. We observed about a 5-fold increase in 53BP1 focus formation in the SH-SY5Y cells expressing ATXN3-Q84 over the cells expressing ATXN3-Q28...",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "direct_arrow": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "ATM",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "PNKP",
+          "ATM"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The inhibition of the DNA repair enzyme PNKP by mutant ATXN3 results in an accumulation of DNA double-strand breaks. These breaks trigger the activation of ATM kinase, which then orchestrates the recruitment of downstream DNA damage response factors to the sites of damage.",
+  "effect": "As a direct consequence of ATM activation, the tumor suppressor p53-binding protein 1 (TP53BP1) is recruited to the DNA double-strand breaks, where it accumulates and forms distinct nuclear foci. These foci serve as a key cellular marker for DNA damage and an active DNA damage response pathway.",
+  "summary": "ATXN3 activates TP53BP1 to modulate dna damage foci formation.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "To assess the accumulation of genomic DNA damage in cells expressing mutant ATXN3, we used anti-phospho-53BP1 (p-53BP1-S1778) antibody to perform immunohistochemical (IHC) analysis on the SH-SY5Y cells expressing wild-type vs. mutant ATXN3. We observed about a 5-fold increase in 53BP1 focus formation in the SH-SY5Y cells expressing ATXN3-Q84 over the cells expressing ATXN3-Q28..."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATM --activates--> TP53BP1:",
+  "protein_a": "TP53BP1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-04T13:20:02.656954Z",
+  "last_updated": "2025-12-04T13:20:02.656954Z"
+}

@@ -1,4 +1,4 @@
-PPPPPPPPPPPPPPPPPPPPPPPPP #!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Pathway Hierarchy Orchestrator
 

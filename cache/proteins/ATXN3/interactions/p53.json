@@ -4,48 +4,39 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with and stabilizes the tumor suppressor p53 by removing polyubiquitin chains, which has implications for DNA repair and apoptosis.",
+  "support_summary": "ATXN3 stabilizes the tumor suppressor p53 by removing polyubiquitin chains, and this interaction is prolonged by the polyQ expansion in ATXN3.",
   "functions": [
     {
-      "function": "p53 Protein Stabilization and Apoptotic Function",
+      "function": "p53 Protein Stability",
       "arrow": "activates",
-      "cellular_process": "The tumor suppressor p53 is a transcription factor that responds to cellular stress, such as DNA damage. Its stability is tightly controlled by E3 ubiquitin ligases like Mdm2, which target p53 for degradation by the ubiquitin-proteasome system. Stabilized p53 activates genes involved in cell cycle arrest, DNA repair, and apoptosis.",
-      "effect_description": "ATXN3 directly binds to p53 and removes polyubiquitin chains, functioning as a p53 deubiquitinase (DUB). This action prevents p53 from being degraded by the proteasome, leading to increased p53 protein levels, enhanced transcriptional activity, and promotion of p53-dependent apoptosis.",
+      "cellular_process": "ATXN3 functions as a deubiquitinating enzyme (DUB) for the tumor suppressor p53. It directly binds to polyubiquitinated p53 and removes its ubiquitin chains, thereby preventing its degradation by the ubiquitin-proteasome system. This stabilization leads to an accumulation of p53 protein.",
+      "effect_description": "By removing ubiquitin chains from p53, ATXN3 increases its protein stability and half-life, leading to elevated cellular levels of p53 and consequently enhancing its transcriptional and pro-apoptotic activities.",
       "biological_consequence": [
-        "ATXN3 binds to native and polyubiquitinated p53 → ATXN3 removes polyubiquitin chains from p53 → p53 degradation via the ubiquitin-proteasome pathway is inhibited → p53 protein levels increase → p53-dependent transcription of target genes (e.g., for apoptosis) is enhanced → Cell cycle arrest or apoptosis is induced."
+        "ATXN3 binds to ubiquitinated p53 → ATXN3 cleaves polyubiquitin chains from p53 → p53 degradation by the proteasome is inhibited → p53 protein levels increase → p53-mediated transcriptional activation and apoptosis are promoted."
       ],
       "specific_effects": [
-        "ATXN3 directly binds, deubiquitinates, and stabilizes p53.",
-        "ATXN3 deletion leads to p53 destabilization and reduced p53 activity.",
-        "ATXN3 promotes p53-dependent apoptosis in both cell and in vivo zebrafish models.",
-        "PolyQ-expanded ATXN3 exhibits enhanced interaction and deubiquitination activity towards p53, causing more severe p53-dependent neurodegeneration."
+        "ATXN3 deletion results in a shorter p53 protein half-life and destabilization.",
+        "The polyQ-expanded form of ATXN3 exhibits an enhanced binding affinity and deubiquitination activity towards p53 compared to the wild-type protein.",
+        "Enhanced stabilization of p53 by polyQ-expanded ATXN3 leads to increased p53-dependent apoptosis, which is observed in cellular and animal models of Spinocerebellar Ataxia Type 3."
       ],
       "evidence": [
         {
           "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
           "journal": "PLoS Biology",
           "year": 2016,
-          "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish.",
+          "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway... Furthermore, the polyglutamine (polyQ)-expanded ATX-3 retains enhanced interaction and deubiquitination catalytic activity to p53 and causes more severe p53-dependent neurodegeneration in zebrafish brains and in the substantia nigra pars compacta (SNpc) or striatum of a transgenic SCA3 mouse model.",
           "pmid": "27851749"
-        },
-        {
-          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-          "journal": "Expert Reviews in Molecular Medicine",
-          "year": 2024,
-          "relevant_quote": "On the other hand, ATXN3-PolyQ inhibits PNKP-dependent DNA repair and prolongs p53-signaling through enhanced p53-binding and stabilization. This leads to increased activation of pro-apoptotic pathways and cell vulnerability to DNA damage.",
-          "pmid": "39320846"
         }
       ],
       "pathway": {
-        "name": "Apoptosis",
-        "canonical_name": "Apoptosis",
+        "name": "p53 Signaling Pathway",
+        "canonical_name": "P53 Signaling Pathway",
         "ontology_id": null,
         "ontology_source": null,
         "confidence": 0.8
       },
       "pmids": [
-        "27851749",
-        "39320846"
+        "27851749"
       ],
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
@@ -62,27 +53,21 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "The tumor suppressor p53 is a transcription factor that responds to cellular stress, such as DNA damage. Its stability is tightly controlled by E3 ubiquitin ligases like Mdm2, which target p53 for degradation by the ubiquitin-proteasome system. Stabilized p53 activates genes involved in cell cycle arrest, DNA repair, and apoptosis.",
-  "effect": "ATXN3 directly binds to p53 and removes polyubiquitin chains, functioning as a p53 deubiquitinase (DUB). This action prevents p53 from being degraded by the proteasome, leading to increased p53 protein levels, enhanced transcriptional activity, and promotion of p53-dependent apoptosis.",
-  "summary": "ATXN3 activates p53 to modulate p53 protein stabilization and apoptotic function, ultimately affecting cell cycle arrest or apoptosis is induced.",
+  "mechanism": "ATXN3 functions as a deubiquitinating enzyme (DUB) for the tumor suppressor p53. It directly binds to polyubiquitinated p53 and removes its ubiquitin chains, thereby preventing its degradation by the ubiquitin-proteasome system. This stabilization leads to an accumulation of p53 protein.",
+  "effect": "By removing ubiquitin chains from p53, ATXN3 increases its protein stability and half-life, leading to elevated cellular levels of p53 and consequently enhancing its transcriptional and pro-apoptotic activities.",
+  "summary": "ATXN3 activates p53 to modulate p53 protein stability, ultimately affecting p53-mediated transcriptional activation and apoptosis are promoted.",
   "evidence": [
     {
       "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
       "journal": "PLoS Biology",
       "year": 2016,
-      "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish."
-    },
-    {
-      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-      "journal": "Expert Reviews in Molecular Medicine",
-      "year": 2024,
-      "relevant_quote": "On the other hand, ATXN3-PolyQ inhibits PNKP-dependent DNA repair and prolongs p53-signaling through enhanced p53-binding and stabilization. This leads to increased activation of pro-apoptotic pathways and cell vulnerability to DNA damage."
+      "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway... Furthermore, the polyglutamine (polyQ)-expanded ATX-3 retains enhanced interaction and deubiquitination catalytic activity to p53 and causes more severe p53-dependent neurodegeneration in zebrafish brains and in the substantia nigra pars compacta (SNpc) or striatum of a transgenic SCA3 mouse model."
     }
   ],
   "pathways": [
     {
-      "name": "Apoptosis",
-      "canonical_name": "Apoptosis",
+      "name": "p53 Signaling Pathway",
+      "canonical_name": "P53 Signaling Pathway",
       "ontology_id": null,
       "ontology_source": null,
       "confidence": 0.8
@@ -99,6 +84,6 @@
   "protein_a": "ATXN3",
   "protein_b": "p53",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.723541Z",
-  "last_updated": "2025-12-01T05:51:49.723541Z"
+  "first_discovered": "2025-12-04T13:20:02.603829Z",
+  "last_updated": "2025-12-04T13:20:02.603829Z"
 }

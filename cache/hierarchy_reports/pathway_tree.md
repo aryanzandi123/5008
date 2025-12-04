@@ -1,8 +1,8 @@
 # Pathway Hierarchy Tree
-# Generated: 2025-12-03T22:49:35.382288
-# Total pathways: 199
+# Generated: 2025-12-04T05:42:08.992312
+# Total pathways: 210
 
-- Acetylation (1 interactions)
+- Acetylation
 
 - Aggresome Formation (2 interactions)
 
@@ -23,18 +23,23 @@
 - Cell Communication
 
 - Cell Cycle
-  - Cell Cycle Checkpoint (1 interactions)
-  - Cell Cycle Checkpoints
+  - Cell Cycle Checkpoints (1 interactions)
     - G1/S Transition
     - G2/M Transition
+  - Cell Cycle Phases
+    - Mitosis
   - Cell Cycle Regulation
-    - Cell Cycle Checkpoint (1 interactions)
-  - G1/S Transition
-  - G2/M Transition
+    - Cell Cycle Checkpoint
+  - Interphase
+    - G1/S Transition
   - M Phase
     - Mitosis
-  - Mitosis
+  - Regulation of Cell Cycle Progression
+    - Cell Cycle Checkpoint
+    - G2/M Transition
   - S Phase
+    - DNA Replication
+  - S Phase of Cell Cycle
     - DNA Replication
 
 - Cell Cycle & Division
@@ -42,6 +47,8 @@
 - Cell Death
   - Programmed Cell Death
     - Apoptosis
+    - Autophagy-Dependent Cell Death
+    - Ferroptosis
     - Necroptosis
     - Pyroptosis
   - Regulated Cell Death
@@ -79,18 +86,29 @@
     - PI3K-Akt Signaling
       - mTOR Signaling
     - mTOR Signaling
+  - Metabolic and Growth Control Signaling
+    - Cell Growth Regulation
   - Regulation of Cytoskeleton Dynamics
     - Cell Migration
+  - Regulation of Cytoskeleton Organization
+    - Cell Migration
+  - Second Messenger Signaling
+    - Calcium Signaling
+    - cAMP Signaling
   - Second Messenger-mediated Signaling
     - Calcium Signaling
     - cAMP Signaling
   - Signal Transduction
     - Cytokine Signaling
       - JAK-STAT Signaling
+    - JAK-STAT Signaling
     - Second Messenger Signaling
       - Calcium Signaling
       - cAMP Signaling
     - TGF-beta Signaling
+  - Signal Transduction by Protein Kinases
+    - MAPK Signaling
+    - mTOR Signaling
 
 - Cellular Stress Response
 
@@ -98,22 +116,30 @@
 
 - Chaperone-Mediated Autophagy
 
-- Chromatin Remodeling (3 interactions)
+- Chromatin Remodeling
 
 - Chromosome Organization
 
 - Crosstalk With Cellular Signaling Pathways
 
+- Cytoskeletal Dynamics
+
 - Cytoskeleton Organization
 
-- DNA Damage Response (5 interactions)
-  - DNA Repair (4 interactions)
+- DNA Damage Response
+  - DNA Double-Strand Break Repair (11 interactions)
+    - Homologous Recombination
+    - Non-Homologous End Joining
+  - DNA Repair
     - Base Excision Repair
     - Double-Strand Break Repair
       - Homologous Recombination
       - Non-Homologous End Joining
     - Homologous Recombination
     - Non-Homologous End Joining
+    - Nucleotide Excision Repair
+  - Excision Repair (1 interactions)
+    - Base Excision Repair
     - Nucleotide Excision Repair
 
 - DNA Replication & Repair
@@ -124,7 +150,7 @@
 
 - ER Function
 
-- Epigenetic Regulation (3 interactions)
+- Epigenetic Regulation (4 interactions)
 
 - Gene Expression
 
@@ -134,9 +160,9 @@
 
 - Hippo Signaling
 
-- Hippo Signaling Pathway Regulation (1 interactions)
+- Hippo Signaling Pathway Regulation
 
-- Histone Deacetylation (3 interactions)
+- Histone Deacetylation (2 interactions)
 
 - Host Defense
 
@@ -170,7 +196,6 @@
 - Metabolic Processes
 
 - Metabolism
-  - Amino Acid Metabolism
   - Carbohydrate Metabolism
     - Glycolysis
   - Cellular Respiration
@@ -178,19 +203,20 @@
     - Oxidative Phosphorylation
   - Energy Metabolism
     - Mitochondrial Function
+  - Lipid Metabolism
   - Macromolecule Metabolism
     - Amino Acid Metabolism
     - Lipid Metabolism
 
-- Microtubule-Based Transport (3 interactions)
+- Microtubule-Based Transport
 
 - Mismatch Repair
 
 - Mitochondrial Dynamics
 
-- Mitochondrial Electron Transport Chain (1 interactions)
+- Mitochondrial Electron Transport Chain
 
-- Mitochondrial Quality Control (3 interactions)
+- Mitochondrial Quality Control
 
 - Negative Regulation Of Atf6 Signaling
 
@@ -209,7 +235,7 @@
   - Synaptic Transmission
     - Neurotransmitter Release
 
-- Neuronal Survival Pathway (1 interactions)
+- Neuronal Survival Pathway
 
 - Nf-Κb And Inflammatory Signaling
 
@@ -219,11 +245,11 @@
 
 - Other Biological Processes
 
-- Oxidative Stress Response (2 interactions)
+- Oxidative Stress Response (1 interactions)
 
-- P53 Signaling Pathway (3 interactions)
+- P53 Signaling Pathway (1 interactions)
 
-- Phosphorylation (1 interactions)
+- Phosphorylation
 
 - Pml Nuclear Body Dynamics
 
@@ -233,11 +259,13 @@
 
 - Pp2A Signaling Pathway
 
-- Proteasomal Degradation (2 interactions)
+- Proteasomal Degradation (8 interactions)
 
 - Protein Aggregation (1 interactions)
 
-- Protein Aggregation Pathway (1 interactions)
+- Protein Aggregation Pathway
+
+- Protein Folding And Quality Control
 
 - Protein Homeostasis
 
@@ -259,15 +287,16 @@
   - Endoplasmic Reticulum Stress Response (1 interactions)
     - ER-Associated Degradation
   - Protein Degradation
+    - ER-Associated Degradation
     - Ubiquitin-Proteasome System
-  - Protein Folding
+  - Protein Folding (2 interactions)
     - Chaperone-Mediated Protein Folding
-  - Proteostasis (1 interactions)
+  - Proteostasis
     - Chaperone-Mediated Protein Folding
   - Unfolded Protein Response
     - ER-Associated Degradation
 
-- Protein Stability Regulation (10 interactions)
+- Protein Stability Regulation (6 interactions)
 
 - Protein Sumoylation
 
@@ -275,13 +304,13 @@
 
 - Protein Transport & Localization
 
-- Protein Ubiquitination (5 interactions)
+- Protein Ubiquitination (3 interactions)
 
 - RNA Processing
 
 - Receptor Signaling
 
-- Regulation Of Atxn3 Stability And Modification (1 interactions)
+- Regulation Of Atxn3 Stability And Modification (6 interactions)
 
 - Regulation Of Cellular Signaling
 
@@ -289,11 +318,11 @@
 
 - Regulation Of Lipid Metabolism
 
-- Regulation Of Mitochondrial Dynamics (4 interactions)
+- Regulation Of Mitochondrial Dynamics
 
 - Regulation Of Mtor Signaling
 
-- Regulation Of Protein Phase Separation (1 interactions)
+- Regulation Of Protein Phase Separation
 
 - Regulation Of Smn Complex And Splicing
 
@@ -309,7 +338,7 @@
 
 - Stress Response
 
-- Synaptic Plasticity
+- Synaptic Plasticity (2 interactions)
 
 - Tgf-Β Signaling Pathway
 
@@ -317,15 +346,16 @@
 
 - Tp53 Signaling Pathway
 
-- Transcription (9 interactions)
+- Transcription (5 interactions)
 
 - Translation
 
-- Ubiquitination
+- Ubiquitination (2 interactions)
 
 - Vesicle Transport
   - Endocytic Pathway
     - Endocytosis
+  - Endocytosis
   - Endolysosomal Pathway
     - Lysosomal Transport
   - Endosomal Transport

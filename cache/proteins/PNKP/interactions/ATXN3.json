@@ -4,29 +4,69 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "The association between ATXN3 and PNKP promotes the 3' phosphatase activity of PNKP, which is involved in single-strand break repair.",
+  "support_summary": "ATXN3 is a native interacting protein of PNKP (polynucleotide kinase 3'-phosphatase), an essential DNA strand break repair enzyme, and modulates its phosphatase activity.",
   "functions": [
     {
-      "function": "DNA Single-Strand Break Repair",
-      "arrow": "regulates",
-      "cellular_process": "Polynucleotide kinase 3'-phosphatase (PNKP) is a dual-function enzyme critical for repairing DNA single-strand breaks (SSBs) and double-strand breaks (DSBs). It possesses 5'-kinase and 3'-phosphatase activities that process damaged DNA termini, making them suitable for ligation.",
-      "effect_description": "Wild-type ATXN3 directly interacts with PNKP and stimulates its 3'-phosphatase activity, which is essential for efficient DNA strand break repair. This interaction helps maintain genomic stability. Conversely, mutant ATXN3, which causes Spinocerebellar Ataxia Type 3 (SCA3), also binds to PNKP but inhibits its enzymatic activity. This leads to the accumulation of DNA damage and triggers pro-apoptotic signaling.",
+      "function": "DNA Strand Break Repair",
+      "arrow": "activates",
+      "cellular_process": "Wild-type ATXN3 directly interacts with Polynucleotide Kinase 3'-Phosphatase (PNKP), an essential DNA strand break repair enzyme. This interaction stimulates the 3'-phosphatase activity of PNKP, which is a critical step in processing DNA ends for ligation, thereby enhancing the efficiency of DNA repair pathways.",
+      "effect_description": "The stimulation of PNKP's phosphatase activity by wild-type ATXN3 promotes effective DNA strand break repair, which is crucial for maintaining genomic integrity and neuronal survival.",
       "biological_consequence": [
-        "Wild-Type ATXN3 binds to PNKP → Stimulation of PNKP's 3'-phosphatase activity → Efficient processing and repair of DNA strand breaks → Maintenance of genomic integrity and neuronal survival.",
-        "Mutant (polyQ-expanded) ATXN3 binds to PNKP → Inhibition of PNKP's 3'-phosphatase activity → Accumulation of unrepaired DNA strand breaks → Chronic activation of the ATM kinase-dependent DNA damage response → p53-dependent apoptosis → Neurodegeneration in SCA3."
+        "Wild-type ATXN3 binds to PNKP → PNKP's 3'-phosphatase enzymatic activity is stimulated → Damaged DNA 3' ends are processed efficiently → DNA strand break repair is enhanced → Genomic stability is maintained"
       ],
       "specific_effects": [
-        "Wild-type ATXN3 interacts with and stimulates the 3'-phosphatase activity of PNKP.",
-        "Cells deficient in ATXN3 show decreased PNKP activity and an associated increase in DNA strand breaks.",
-        "Mutant ATXN3 (containing a polyglutamine expansion) physically interacts with and inactivates PNKP.",
-        "The inactivation of PNKP by mutant ATXN3 leads to persistent DNA damage, chronic activation of the ATM signaling pathway, and ultimately apoptosis."
+        "ATXN3, along with Huntingtin (HTT) and PNKP, is a component of a transcription-coupled DNA repair (TCR) complex that also includes RNA polymerase II.",
+        "The interaction enhances the repair of DNA breaks that occur in actively transcribed genes."
       ],
       "evidence": [
         {
           "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
-          "journal": "PLoS Genetics",
+          "journal": "Cell Death & Disease",
           "year": 2015,
-          "relevant_quote": "Collectively, these data, together with the data presented in the accompanying manuscript by Chatterjee et al, suggest that the wild-type ATXN3 interacts with and stimulates PNKP’s 3’-phosphatase activity, and this interaction possibly modulates the efficacy of DNA repair, and helps maintain genomic integrity and neuronal survival. In contrast, mutant ATXN3 interacts with PNKP and abrogates its 3’-phosphatase activity, resulting in increased accumulation of DNA damage that chronically activates ATM→p53 and ATM→c-Abl→PKCδ pro-apoptotic signaling to trigger neuronal dysfunction and apoptosis in SCA3.",
+          "relevant_quote": "The wild-type ATXN3 protein stimulated, and in contrast, the mutant ATXN3 dramatically diminished, the 3' phosphatase activity of PNKP in vitro.",
+          "pmid": "25590633"
+        },
+        {
+          "paper_title": "Mutant huntingtin impairs PNKP and ATXN3, disrupting DNA repair and transcription",
+          "journal": "Nucleic Acids Research",
+          "year": 2019,
+          "relevant_quote": "We recently reported that the wild-type (wt) form of the deubiquitinating enzyme ataxin-3 (wtATXN3) enhances the activity of polynucleotide kinase-3'-phosphatase (PNKP), a bifunctional DNA repair enzyme with both 3'-phosphatase and 5'-kinase activities that processes unligatable DNA ends to maintain genome integrity and promote neuronal survival.",
+          "pmid": "30994454"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633",
+        "30994454"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    },
+    {
+      "function": "PNKP 3'-Phosphatase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "The mutant, polyglutamine-expanded form of ATXN3 directly binds to PNKP and abrogates its 3'-phosphatase activity. This inactivation of PNKP leads to the accumulation of unrepaired DNA strand breaks.",
+      "effect_description": "The inhibition of PNKP by mutant ATXN3 is a toxic gain-of-function that impairs DNA repair, leading to persistent DNA damage. This chronic damage activates the ATM signaling pathway, ultimately triggering apoptosis and contributing to neurodegeneration in Spinocerebellar Ataxia Type 3 (SCA3).",
+      "biological_consequence": [
+        "Mutant ATXN3 binds to PNKP → PNKP 3'-phosphatase activity is inhibited → DNA strand breaks fail to be repaired and accumulate → The DNA damage-response ATM signaling pathway is chronically activated → Pro-apoptotic pathways (p53, protein kinase C-δ) are triggered → Neuronal apoptosis occurs"
+      ],
+      "specific_effects": [
+        "This is a loss-of-function effect on PNKP caused by the toxic gain-of-function of mutant ATXN3.",
+        "Overexpression of PNKP can block the cell death mediated by mutant ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "Cell Death & Disease",
+          "year": 2015,
+          "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3.",
           "pmid": "25590633"
         }
       ],
@@ -40,9 +80,9 @@
       "pmids": [
         "25590633"
       ],
-      "interaction_effect": "regulates",
+      "interaction_effect": "inhibits",
       "interaction_direction": "main_to_primary",
-      "function_effect": "regulation"
+      "function_effect": "inhibition"
     }
   ],
   "arrow": "regulates",
@@ -50,20 +90,33 @@
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "activates",
+      "inhibits"
     ]
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "Polynucleotide kinase 3'-phosphatase (PNKP) is a dual-function enzyme critical for repairing DNA single-strand breaks (SSBs) and double-strand breaks (DSBs). It possesses 5'-kinase and 3'-phosphatase activities that process damaged DNA termini, making them suitable for ligation.",
-  "effect": "Wild-type ATXN3 directly interacts with PNKP and stimulates its 3'-phosphatase activity, which is essential for efficient DNA strand break repair. This interaction helps maintain genomic stability. Conversely, mutant ATXN3, which causes Spinocerebellar Ataxia Type 3 (SCA3), also binds to PNKP but inhibits its enzymatic activity. This leads to the accumulation of DNA damage and triggers pro-apoptotic signaling.",
-  "summary": "ATXN3 activates PNKP to modulate dna single-strand break repair, ultimately affecting maintenance of genomic integrity and neuronal survival.",
+  "mechanism": "Wild-type ATXN3 directly interacts with Polynucleotide Kinase 3'-Phosphatase (PNKP), an essential DN; The mutant, polyglutamine-expanded form of ATXN3 directly binds to PNKP and abrogates its 3'-phospha",
+  "effect": "The stimulation of PNKP's phosphatase activity by wild-type ATXN3 promotes effective DNA strand break repair, which is crucial for maintaining genomic integrity and neuronal survival.; The inhibition of PNKP by mutant ATXN3 is a toxic gain-of-function that impairs DNA repair, leading to persistent DNA damage. This chronic damage activates the ATM signaling pathway, ultimately triggering apoptosis and contributing to neurodegeneration in Spinocerebellar Ataxia Type 3 (SCA3).",
+  "summary": "ATXN3 regulates PNKP to regulate dna strand break repair and pnkp 3'-phosphatase activity, ultimately affecting genomic stability is maintained.",
   "evidence": [
     {
       "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
-      "journal": "PLoS Genetics",
+      "journal": "Cell Death & Disease",
       "year": 2015,
-      "relevant_quote": "Collectively, these data, together with the data presented in the accompanying manuscript by Chatterjee et al, suggest that the wild-type ATXN3 interacts with and stimulates PNKP’s 3’-phosphatase activity, and this interaction possibly modulates the efficacy of DNA repair, and helps maintain genomic integrity and neuronal survival. In contrast, mutant ATXN3 interacts with PNKP and abrogates its 3’-phosphatase activity, resulting in increased accumulation of DNA damage that chronically activates ATM→p53 and ATM→c-Abl→PKCδ pro-apoptotic signaling to trigger neuronal dysfunction and apoptosis in SCA3."
+      "relevant_quote": "The wild-type ATXN3 protein stimulated, and in contrast, the mutant ATXN3 dramatically diminished, the 3' phosphatase activity of PNKP in vitro."
+    },
+    {
+      "paper_title": "Mutant huntingtin impairs PNKP and ATXN3, disrupting DNA repair and transcription",
+      "journal": "Nucleic Acids Research",
+      "year": 2019,
+      "relevant_quote": "We recently reported that the wild-type (wt) form of the deubiquitinating enzyme ataxin-3 (wtATXN3) enhances the activity of polynucleotide kinase-3'-phosphatase (PNKP), a bifunctional DNA repair enzyme with both 3'-phosphatase and 5'-kinase activities that processes unligatable DNA ends to maintain genome integrity and promote neuronal survival."
+    },
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "Cell Death & Disease",
+      "year": 2015,
+      "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3."
     }
   ],
   "pathways": [
@@ -75,17 +128,17 @@
       "confidence": 0.8
     }
   ],
-  "interaction_effect": "regulates",
+  "interaction_effect": "regulation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
   "arrow_notation": "ATXN3 --regulates--> PNKP:",
   "protein_a": "PNKP",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.741181Z",
-  "last_updated": "2025-12-01T05:51:49.741181Z"
+  "first_discovered": "2025-12-04T13:20:02.605677Z",
+  "last_updated": "2025-12-04T13:20:02.605677Z"
 }

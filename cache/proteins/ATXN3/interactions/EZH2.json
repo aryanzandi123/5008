@@ -1,0 +1,98 @@
+{
+  "primary": "EZH2",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with EZH2, the catalytic subunit of the PRC2 complex, thereby modulating histone methylation and gene silencing.",
+  "functions": [
+    {
+      "function": "Histone H3K27 Methylation",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 interacts with EZH2, the catalytic subunit of the PRC2 complex responsible for methylating histone H3 on lysine 27 (H3K27me3), a mark associated with transcriptional repression.",
+      "effect_description": "By interacting with EZH2, ATXN3 may influence the epigenetic landscape and gene expression by modulating the catalytic activity or targeting of the PRC2 complex.",
+      "biological_consequence": [
+        "ATXN3 binds EZH2 -> Potential regulation of EZH2's methyltransferase activity -> Altered H3K27me3 levels at target genes -> Control of gene silencing"
+      ],
+      "specific_effects": [],
+      "evidence": [
+        {
+          "paper_title": "EZH2-mediated H3K27 trimethylation mediates neurodegeneration in ataxia-telangiectasia",
+          "year": null,
+          "pmid": "24162653"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Chromatin Remodeling",
+        "canonical_name": "Chromatin Remodeling",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "24162653"
+      ],
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 interacts with EZH2, the catalytic subunit of the PRC2 complex responsible for methylating histone H3 on lysine 27 (H3K27me3), a mark associated with transcriptional repression.",
+  "effect": "By interacting with EZH2, ATXN3 may influence the epigenetic landscape and gene expression by modulating the catalytic activity or targeting of the PRC2 complex.",
+  "summary": "ATXN3 interacts with EZH2 to modulate histone h3k27 methylation.",
+  "evidence": [
+    {
+      "paper_title": "EZH2-mediated H3K27 trimethylation mediates neurodegeneration in ataxia-telangiectasia",
+      "year": null
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chromatin Remodeling",
+      "canonical_name": "Chromatin Remodeling",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> EZH2:",
+  "protein_a": "ATXN3",
+  "protein_b": "EZH2",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-04T13:20:02.683665Z",
+  "last_updated": "2025-12-04T13:20:02.683665Z"
+}

@@ -1,0 +1,89 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The E3 ligase PJA1 (also known as RING finger protein 76) interacts with ATXN3 to promote its degradation by both the proteasome and autophagy.",
+  "functions": [
+    {
+      "function": "ATXN3 Degradation",
+      "arrow": "activates",
+      "cellular_process": "The E3 ubiquitin ligase PJA1 (Praja1) directly interacts with ATXN3 and mediates its polyubiquitination. This process marks ATXN3 for degradation by two major cellular clearance pathways: the ubiquitin-proteasome system (UPS) and the autophagy-lysosomal pathway.",
+      "effect_description": "PJA1 facilitates the turnover of both wild-type and polyQ-expanded ATXN3, thereby reducing its cellular levels and suppressing the formation of toxic protein aggregates associated with Spinocerebellar Ataxia Type 3 (SCA3).",
+      "biological_consequence": [
+        "PJA1 binds to ATXN3 -> PJA1 catalyzes the attachment of polyubiquitin chains to ATXN3 -> Ubiquitinated ATXN3 is recognized by the proteasome and autophagic machinery -> ATXN3 is degraded, reducing its accumulation and aggregation."
+      ],
+      "specific_effects": [
+        "PJA1 enhances the ubiquitination of ATXN3.",
+        "Silencing of PJA1 via shRNA or siRNA leads to decreased polyubiquitination and subsequent stabilization and increased levels of ATXN3.",
+        "PJA1-mediated degradation of ATXN3 occurs through both the proteasome and the lysosomal/autophagy pathways."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Praja1 ubiquitin ligase facilitates degradation of polyglutamine proteins and suppresses polyglutamine-mediated toxicity",
+          "journal": "Molecular Biology of the Cell",
+          "year": 2021,
+          "relevant_quote": "We report here that PJA1 acts as an ubiquitin ligase of polyQ proteins, ataxin-3 and huntingtin, and inhibits their accumulation as toxic aggregates... PJA1 interacts with polyQ proteins and enhances their degradation, resulting in reduced aggregate formation.... these results corroborate the fact that PJA1 is an E3 ubiquitin ligase that ubiquitinates ataxin-3 and hence promotes its degradation.",
+          "pmid": "34161122"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Ubiquitin-Proteasome System",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "34161122"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The E3 ubiquitin ligase PJA1 (Praja1) directly interacts with ATXN3 and mediates its polyubiquitination. This process marks ATXN3 for degradation by two major cellular clearance pathways: the ubiquitin-proteasome system (UPS) and the autophagy-lysosomal pathway.",
+  "effect": "PJA1 facilitates the turnover of both wild-type and polyQ-expanded ATXN3, thereby reducing its cellular levels and suppressing the formation of toxic protein aggregates associated with Spinocerebellar Ataxia Type 3 (SCA3).",
+  "summary": "ATXN3 activates PJA1 to modulate atxn3 degradation.",
+  "evidence": [
+    {
+      "paper_title": "Praja1 ubiquitin ligase facilitates degradation of polyglutamine proteins and suppresses polyglutamine-mediated toxicity",
+      "journal": "Molecular Biology of the Cell",
+      "year": 2021,
+      "relevant_quote": "We report here that PJA1 acts as an ubiquitin ligase of polyQ proteins, ataxin-3 and huntingtin, and inhibits their accumulation as toxic aggregates... PJA1 interacts with polyQ proteins and enhances their degradation, resulting in reduced aggregate formation.... these results corroborate the fact that PJA1 is an E3 ubiquitin ligase that ubiquitinates ataxin-3 and hence promotes its degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Ubiquitin-Proteasome System",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--regulates-- PJA1:",
+  "protein_a": "PJA1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-04T13:20:02.635878Z",
+  "last_updated": "2025-12-04T13:20:02.635878Z"
+}

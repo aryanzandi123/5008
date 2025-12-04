@@ -4,33 +4,32 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with HDAC3, recruiting it to chromatin to regulate chromatin structure, DNA replication, and transcription.",
+  "support_summary": "ATXN3 cooperates with transcriptional regulators, including histone deacetylase 3 (HDAC3), to control gene expression.",
   "functions": [
     {
       "function": "Transcriptional Repression",
       "arrow": "activates",
-      "cellular_process": "Histone deacetylase 3 (HDAC3) is an enzyme that removes acetyl groups from histone proteins. This deacetylation leads to chromatin condensation, making the DNA less accessible to transcription factors and resulting in the repression of gene expression.",
-      "effect_description": "Normal ATXN3 binds to specific gene promoters (e.g., MMP-2) and recruits a corepressor complex containing HDAC3 and NCoR. This recruitment facilitates local histone deacetylation, chromatin condensation, and transcriptional repression of the target gene. The ubiquitin-interacting motifs (UIMs) of ATXN3 are required for this repressive function.",
+      "cellular_process": "Normal ATXN3 functions as a transcriptional corepressor by recruiting Histone Deacetylase 3 (HDAC3) to specific gene promoters, such as the MMP-2 promoter. This action is independent of ATXN3's deubiquitinase activity but requires its ubiquitin-interacting motifs (UIMs). The recruitment of HDAC3 leads to the deacetylation of histones, resulting in a more condensed chromatin structure and repression of gene transcription.",
+      "effect_description": "ATXN3 acts as a scaffold protein, facilitating the localization of HDAC3 to chromatin. This targeted histone deacetylation silences gene expression, playing a role in global chromatin organization and the regulation of DNA replication and transcription.",
       "biological_consequence": [
-        "Normal ATXN3 binds to a target gene promoter → ATXN3 recruits HDAC3 and the NCoR corepressor → The complex increases local histone deacetylase activity → Histones at the promoter are deacetylated → Chromatin condenses → Transcription of the target gene is repressed."
+        "ATXN3 binds to chromatin and interacts with HDAC3 via its UIMs → HDAC3 is recruited to target gene promoters → Local histone tails (e.g., on H3) are deacetylated → Chromatin structure becomes more compact (heterochromatin formation) → Access of transcriptional machinery is blocked → Gene transcription is repressed"
       ],
       "specific_effects": [
-        "Normal ATXN3 binds to the MMP-2 gene promoter and represses its transcription by recruiting HDAC3 and NCoR.",
-        "The interaction requires ATXN3's ubiquitin-interacting motifs (UIMs) to form the repressive complex.",
-        "ATXN3 controls the subcellular localization of HDAC3, and its absence decreases HDAC3 recruitment to chromatin.",
-        "PolyQ-expanded ATXN3 loses the ability to form these deacetylating repressor complexes, leading to aberrant gene expression."
+        "This function of ATXN3 is independent of its catalytic (deubiquitinase) activity.",
+        "The interaction requires the ubiquitin-interacting motifs (UIMs) of ATXN3.",
+        "PolyQ-expanded ATXN3 loses this repressor function, fails to properly recruit HDAC3, and can lead to aberrant gene activation."
       ],
       "evidence": [
         {
           "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
-          "journal": "The Journal of Neuroscience",
+          "journal": "The Journal of Cell Biology",
           "year": 2006,
           "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
           "pmid": "17079677"
         },
         {
           "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
-          "journal": "Nucleic Acids Research",
+          "journal": "Cell & Bioscience",
           "year": 2023,
           "relevant_quote": "The absence of ATXN3 decreases the recruitment of endogenous HDAC3 to the chromatin, as well as the HDAC3 nuclear/cytoplasm ratio after HDAC3 overexpression, suggesting that ATXN3 controls the subcellular localization of HDAC3.",
           "pmid": "36971114"
@@ -50,42 +49,6 @@
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
       "function_effect": "activation"
-    },
-    {
-      "function": "HDAC3 Protein Stabilization",
-      "arrow": "activates",
-      "cellular_process": "Protein stability is often regulated by ubiquitination, which can target proteins for proteasomal degradation. Deubiquitinases (DUBs) can reverse this process, thereby increasing the half-life of a protein.",
-      "effect_description": "In the context of the type I interferon (IFN-I) antiviral response, ATXN3 physically interacts with and deubiquitinates HDAC3. This action enhances the protein stability of HDAC3, leading to its accumulation and potentiation of the IFN-I-mediated signaling pathway.",
-      "biological_consequence": [
-        "Viral infection increases ATXN3-HDAC3 interaction → ATXN3 deubiquitinates HDAC3 → HDAC3 protein stability is enhanced → Increased HDAC3 levels promote IFN-I-induced signaling → The cellular antiviral response is potentiated."
-      ],
-      "specific_effects": [
-        "ATXN3 physically interacts with HDAC3 and upregulates its protein level.",
-        "ATXN3 deubiquitinates HDAC3, leading to enhanced protein stability.",
-        "The ATXN3/HDAC3 axis positively regulates the type I IFN antiviral response."
-      ],
-      "evidence": [
-        {
-          "paper_title": "ATXN3 Positively Regulates Type I IFN Antiviral Response by Deubiquitinating and Stabilizing HDAC3",
-          "journal": "The Journal of Immunology",
-          "year": 2018,
-          "relevant_quote": "Furthermore, ATXN3 physically interacts with histone deacetylase 3 (HDAC3) and upregulates the level of HDAC3 protein. Moreover, ATXN3 deubiquitinates HDAC3, thereby enhancing HDAC3 protein stability.",
-          "pmid": "29802126"
-        }
-      ],
-      "pathway": {
-        "name": "Ubiquitin-Proteasome System",
-        "canonical_name": "Ubiquitin-Proteasome System",
-        "ontology_id": null,
-        "ontology_source": null,
-        "confidence": 0.8
-      },
-      "pmids": [
-        "29802126"
-      ],
-      "interaction_effect": "activates",
-      "interaction_direction": "main_to_primary",
-      "function_effect": "activation"
     }
   ],
   "arrow": "activates",
@@ -97,38 +60,25 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The input claim correctly identifies the interaction but uses a potentially confusing 'activates' arrow. The mechanism is clarified: ATXN3 *activates* the recruitment of HDAC3 to form a repressive complex, which in turn *inhibits* gene transcription. The interaction is multifaceted, as other studies show ATXN3 can also stabilize HDAC3 via deubiquitination in different contexts.",
-  "mechanism": "Histone deacetylase 3 (HDAC3) is an enzyme that removes acetyl groups from histone proteins. This deacetylation leads to chromatin condensation, making the DNA less accessible to transcription factors and resulting in the repression of gene expression. Protein stability is often regulated by ubiquitination, which can target proteins for proteasomal degradation. Deubiquitinases (DUBs) can reverse this process, thereby increasing the half-life of a protein.",
-  "effect": "Normal ATXN3 binds to specific gene promoters (e.g., MMP-2) and recruits a corepressor complex containing HDAC3 and NCoR. This recruitment facilitates local histone deacetylation, chromatin condensation, and transcriptional repression of the target gene. The ubiquitin-interacting motifs (UIMs) of ATXN3 are required for this repressive function.; In the context of the type I interferon (IFN-I) antiviral response, ATXN3 physically interacts with and deubiquitinates HDAC3. This action enhances the protein stability of HDAC3, leading to its accumulation and potentiation of the IFN-I-mediated signaling pathway.",
-  "summary": "ATXN3 activates HDAC3 to regulate transcriptional repression and hdac3 protein stabilization, ultimately affecting transcription of the target gene is repressed.",
+  "mechanism_correction": null,
+  "mechanism": "Normal ATXN3 functions as a transcriptional corepressor by recruiting Histone Deacetylase 3 (HDAC3) to specific gene promoters, such as the MMP-2 promoter. This action is independent of ATXN3's deubiquitinase activity but requires its ubiquitin-interacting motifs (UIMs). The recruitment of HDAC3 leads to the deacetylation of histones, resulting in a more condensed chromatin structure and repression of gene transcription.",
+  "effect": "ATXN3 acts as a scaffold protein, facilitating the localization of HDAC3 to chromatin. This targeted histone deacetylation silences gene expression, playing a role in global chromatin organization and the regulation of DNA replication and transcription.",
+  "summary": "ATXN3 activates HDAC3 to modulate transcriptional repression, ultimately affecting gene transcription is repressed.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
-      "journal": "The Journal of Neuroscience",
+      "journal": "The Journal of Cell Biology",
       "year": 2006,
       "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
     },
     {
       "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
-      "journal": "Nucleic Acids Research",
+      "journal": "Cell & Bioscience",
       "year": 2023,
       "relevant_quote": "The absence of ATXN3 decreases the recruitment of endogenous HDAC3 to the chromatin, as well as the HDAC3 nuclear/cytoplasm ratio after HDAC3 overexpression, suggesting that ATXN3 controls the subcellular localization of HDAC3."
-    },
-    {
-      "paper_title": "ATXN3 Positively Regulates Type I IFN Antiviral Response by Deubiquitinating and Stabilizing HDAC3",
-      "journal": "The Journal of Immunology",
-      "year": 2018,
-      "relevant_quote": "Furthermore, ATXN3 physically interacts with histone deacetylase 3 (HDAC3) and upregulates the level of HDAC3 protein. Moreover, ATXN3 deubiquitinates HDAC3, thereby enhancing HDAC3 protein stability."
     }
   ],
   "pathways": [
-    {
-      "name": "Ubiquitin-Proteasome System",
-      "canonical_name": "Ubiquitin-Proteasome System",
-      "ontology_id": null,
-      "ontology_source": null,
-      "confidence": 0.8
-    },
     {
       "name": "Transcriptional Regulation",
       "canonical_name": "Transcription",
@@ -141,13 +91,13 @@
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 2
+    "corrections_applied": 1
   },
   "_arrow_validated": true,
   "arrow_notation": "ATXN3 --activates--> HDAC3:",
   "protein_a": "HDAC3",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.725642Z",
-  "last_updated": "2025-12-01T05:51:49.725642Z"
+  "first_discovered": "2025-12-04T13:20:02.607822Z",
+  "last_updated": "2025-12-04T13:20:02.607822Z"
 }

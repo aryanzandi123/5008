@@ -1,32 +1,37 @@
 {
   "summary": {
-    "total_pathways": 199,
-    "root_categories": 109,
-    "leaf_pathways": 148,
-    "total_edges": 116,
+    "total_pathways": 210,
+    "root_categories": 111,
+    "leaf_pathways": 150,
+    "total_edges": 140,
     "max_depth": 3
   },
   "by_level": {
-    "0": 109,
-    "1": 36,
+    "0": 111,
+    "1": 45,
     "2": 45,
     "3": 9
   },
   "top_pathways": [
     {
-      "name": "Protein Stability Regulation",
-      "usage": 10,
-      "proteins": 10
-    },
-    {
-      "name": "Transcription",
-      "usage": 9,
+      "name": "DNA Double-Strand Break Repair",
+      "usage": 11,
       "proteins": 9
     },
     {
-      "name": "Protein Ubiquitination",
-      "usage": 5,
-      "proteins": 6
+      "name": "Proteasomal Degradation",
+      "usage": 8,
+      "proteins": 9
+    },
+    {
+      "name": "Protein Stability Regulation",
+      "usage": 6,
+      "proteins": 7
+    },
+    {
+      "name": "Regulation Of Atxn3 Stability And Modification",
+      "usage": 6,
+      "proteins": 7
     },
     {
       "name": "Autophagy",
@@ -34,49 +39,34 @@
       "proteins": 6
     },
     {
-      "name": "DNA Damage Response",
+      "name": "Transcription",
       "usage": 5,
-      "proteins": 5
-    },
-    {
-      "name": "DNA Repair",
-      "usage": 4,
       "proteins": 6
     },
     {
-      "name": "Regulation Of Mitochondrial Dynamics",
-      "usage": 4,
-      "proteins": 4
-    },
-    {
-      "name": "Microtubule-Based Transport",
-      "usage": 3,
-      "proteins": 4
-    },
-    {
-      "name": "P53 Signaling Pathway",
-      "usage": 3,
-      "proteins": 3
-    },
-    {
       "name": "Epigenetic Regulation",
-      "usage": 3,
-      "proteins": 4
+      "usage": 4,
+      "proteins": 5
     },
     {
-      "name": "Mitochondrial Quality Control",
+      "name": "Protein Ubiquitination",
       "usage": 3,
       "proteins": 4
     },
     {
       "name": "Histone Deacetylation",
-      "usage": 3,
-      "proteins": 4
+      "usage": 2,
+      "proteins": 3
     },
     {
-      "name": "Chromatin Remodeling",
-      "usage": 3,
-      "proteins": 4
+      "name": "Protein Folding",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Ubiquitination",
+      "usage": 2,
+      "proteins": 3
     },
     {
       "name": "Neuronal Cytoskeleton And Axonal Transport",
@@ -84,12 +74,7 @@
       "proteins": 3
     },
     {
-      "name": "Oxidative Stress Response",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Proteasomal Degradation",
+      "name": "Synaptic Plasticity",
       "usage": 2,
       "proteins": 3
     },
@@ -99,17 +84,32 @@
       "proteins": 3
     },
     {
-      "name": "Mitochondrial Electron Transport Chain",
+      "name": "Excision Repair",
       "usage": 1,
       "proteins": 2
     },
     {
-      "name": "Protein Aggregation Pathway",
+      "name": "Protein Aggregation",
       "usage": 1,
       "proteins": 2
     },
     {
       "name": "Aggresome Formation And Transport",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Oxidative Stress Response",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Cell Cycle Checkpoints",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "P53 Signaling Pathway",
       "usage": 1,
       "proteins": 2
     }

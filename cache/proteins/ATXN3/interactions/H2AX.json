@@ -1,0 +1,105 @@
+{
+  "primary": "H2AX",
+  "interaction_type": "indirect",
+  "upstream_interactor": "ATM",
+  "mediator_chain": [
+    "PNKP",
+    "ATM"
+  ],
+  "depth": 3,
+  "support_summary": "The presence of polyQ-expanded ATXN3 causes an accumulation of DNA damage, leading to increased focus formation of phosphorylated H2AX (gamma-H2AX).",
+  "functions": [
+    {
+      "function": "DNA Damage Foci Formation",
+      "arrow": "activates",
+      "cellular_process": "The presence of mutant ATXN3 leads to the inhibition of the DNA repair enzyme PNKP, causing an accumulation of DNA double-strand breaks. This genomic damage activates the ATM kinase, a primary sensor of such lesions.",
+      "effect_description": "Once activated, ATM rapidly phosphorylates the histone variant H2AX at Serine 139. This phosphorylated form, known as gamma-H2AX (γH2AX), accumulates extensively at the chromatin flanking the DNA double-strand breaks, forming nuclear foci that are a hallmark of the early DNA damage response.",
+      "biological_consequence": [
+        "Mutant ATXN3 inhibits PNKP -> DNA double-strand breaks accumulate -> ATM is activated -> ATM phosphorylates H2AX at Serine 139 -> Phosphorylated H2AX (γH2AX) forms nuclear foci at sites of DNA damage."
+      ],
+      "specific_effects": [
+        "Cells expressing mutant ATXN3 (ATXN3-Q84) exhibit a significant, approximately 10-fold increase in γH2AX foci compared to control cells expressing wild-type ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "IHC analysis also revealed significantly more (~10-fold) γH2AX foci in the mutant ATXN3-expressing cells compared to control cells... The dramatic increase in ATM, H2AX, Chk2 and p53 phosphorylation and formation of 53BP1 and γH2AX foci in response to mutant ATXN3 expression suggest that mutant ATXN3-induced genomic DNA strand breaks/damage is sufficient to activate the DNA damage- response pathway.",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "ATM",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "PNKP",
+          "ATM"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The presence of mutant ATXN3 leads to the inhibition of the DNA repair enzyme PNKP, causing an accumulation of DNA double-strand breaks. This genomic damage activates the ATM kinase, a primary sensor of such lesions.",
+  "effect": "Once activated, ATM rapidly phosphorylates the histone variant H2AX at Serine 139. This phosphorylated form, known as gamma-H2AX (γH2AX), accumulates extensively at the chromatin flanking the DNA double-strand breaks, forming nuclear foci that are a hallmark of the early DNA damage response.",
+  "summary": "ATXN3 activates H2AX to modulate dna damage foci formation.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "IHC analysis also revealed significantly more (~10-fold) γH2AX foci in the mutant ATXN3-expressing cells compared to control cells... The dramatic increase in ATM, H2AX, Chk2 and p53 phosphorylation and formation of 53BP1 and γH2AX foci in response to mutant ATXN3 expression suggest that mutant ATXN3-induced genomic DNA strand breaks/damage is sufficient to activate the DNA damage- response pathway."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATM --activates--> H2AX:",
+  "protein_a": "ATXN3",
+  "protein_b": "H2AX",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-04T13:20:02.674154Z",
+  "last_updated": "2025-12-04T13:20:02.674154Z"
+}

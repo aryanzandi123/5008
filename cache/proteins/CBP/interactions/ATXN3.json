@@ -4,28 +4,28 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "Co-immunoprecipitation experiments have shown that ATXN3 interacts with the transcriptional coactivator CBP (CREB-binding protein).",
+  "support_summary": "Co-immunoprecipitation studies show that ATXN3 interacts with the major transcriptional coactivator CREB-binding protein (CBP).",
   "functions": [
     {
-      "function": "Transcriptional Co-activator",
+      "function": "Transcriptional Repression via HDAC3 Recruitment",
       "arrow": "activates",
-      "cellular_process": "CREB-binding protein (CBP) is a transcriptional co-activator possessing intrinsic histone acetyltransferase (HAT) activity. By acetylating histone tails, CBP relaxes chromatin structure, making DNA more accessible for transcription machinery and thereby activating gene expression.",
-      "effect_description": "ATXN3 acts as a transcriptional co-repressor by directly interacting with and inhibiting the function of CBP. The C-terminal region of ATXN3 binds to CBP, while the N-terminal Josephin domain is responsible for inhibiting CBP's HAT activity, leading to a decrease in histone acetylation and subsequent repression of target gene transcription.",
+      "cellular_process": "Wild-type ATXN3 acts as a transcriptional repressor by binding to specific DNA regions within gene promoters, such as that of the MMP-2 gene. Upon binding, ATXN3 recruits a corepressor complex consisting of the Nuclear Receptor Corepressor (NCoR) and Histone Deacetylase 3 (HDAC3).",
+      "effect_description": "The recruitment of the HDAC3/NCoR complex by ATXN3 leads to the enzymatic removal of acetyl groups from histone tails at the target promoter. This increases the positive charge of the histones, leading to a more condensed chromatin structure, which is inaccessible to the transcriptional machinery, thereby repressing gene expression.",
       "biological_consequence": [
-        "ATXN3 C-terminal domain binds to CBP → ATXN3 N-terminal domain sterically hinders CBP's access to histone substrates → Inhibition of CBP's histone acetyltransferase (HAT) activity → Decreased local histone acetylation → Chromatin remains in a condensed state → Repression of transcription of CBP target genes."
+        "ATXN3 binds to target DNA sequences in a gene promoter (e.g., MMP-2) → ATXN3 recruits the NCoR/HDAC3 corepressor complex → The assembled complex actively deacetylates histones (e.g., Histone H3) at the promoter → Local chromatin structure becomes condensed and transcriptionally silent → Expression of the target gene is repressed."
       ],
       "specific_effects": [
-        "The C-terminal, polyglutamine-containing domain of ATXN3 is required for binding to CBP.",
-        "The N-terminal domain of ATXN3 directly inhibits the histone acetyltransferase activity of CBP's paralog, p300, in vitro, suggesting a similar mechanism for CBP.",
-        "Endogenous ATXN3 co-immunoprecipitates with CBP in non-transfected cells, confirming the interaction occurs under physiological conditions."
+        "Forms a functional histone-deacetylating repressor complex with HDAC3 and NCoR.",
+        "Increases the local enzymatic activity of HDAC3 at target gene promoters.",
+        "Mediates transcriptional repression of GATA-2-dependent target genes."
       ],
       "evidence": [
         {
-          "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
-          "journal": "The Journal of Biological Chemistry",
-          "year": 2002,
-          "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators.",
-          "pmid": "12297501"
+          "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+          "journal": "The Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
         }
       ],
       "pathway": {
@@ -36,14 +36,48 @@
         "confidence": 0.8
       },
       "pmids": [
-        "12297501"
+        "17079677"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    },
+    {
+      "function": "CBP Stability (in Huntington's Disease Context)",
+      "arrow": "activates",
+      "cellular_process": "In the context of Huntington's disease, the mutant huntingtin (HTT) protein impairs the function of a transcription-coupled DNA repair complex containing ATXN3, POLR2A, PNKP, and CBP. This disruption leads to a decrease in the functional activity of ATXN3.",
+      "effect_description": "The functional impairment of ATXN3 by mutant HTT leads to increased ubiquitination and subsequent proteasomal degradation of the transcriptional coactivator CBP. This loss of CBP contributes to the transcriptional dysregulation observed in Huntington's disease.",
+      "biological_consequence": [
+        "Mutant HTT impairs the function of the ATXN3-containing TCR complex → ATXN3 activity is reduced → CBP is no longer protected from ubiquitination → CBP undergoes ubiquitination and proteasomal degradation → Cellular levels of CBP decrease → Transcription and DNA repair processes are adversely impacted."
+      ],
+      "specific_effects": [
+        "Reduced ATXN3 activity facilitates the ubiquitination and degradation of CBP."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Mutant huntingtin impairs PNKP and ATXN3, disrupting DNA repair and transcription",
+          "journal": "Human Molecular Genetics",
+          "year": 2019,
+          "relevant_quote": "A concomitant decrease in Ataxin-3 activity facilitates CBP ubiquitination and degradation, adversely impacting transcription and DNA repair.",
+          "pmid": "30994454"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Ubiquitin-Proteasome System",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30994454"
       ],
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
       "function_effect": "activation"
     }
   ],
-  "arrow": "inhibits",
+  "arrow": "regulates",
   "direction": "primary_to_main",
   "intent": "regulation",
   "arrows": {
@@ -52,19 +86,32 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The initial claim that ATXN3 represses CBP's transcriptional activity is correct. However, the mechanism is more complex than simple binding. ATXN3 employs a two-pronged approach: the C-terminal domain of ATXN3 is responsible for binding to CBP, while the N-terminal domain independently inhibits histone acetylation by sterically blocking CBP's access to histone tails. This is a direct inhibition of CBP's enzymatic function, leading to transcriptional repression.",
-  "mechanism": "CREB-binding protein (CBP) is a transcriptional co-activator possessing intrinsic histone acetyltransferase (HAT) activity. By acetylating histone tails, CBP relaxes chromatin structure, making DNA more accessible for transcription machinery and thereby activating gene expression.",
-  "effect": "ATXN3 acts as a transcriptional co-repressor by directly interacting with and inhibiting the function of CBP. The C-terminal region of ATXN3 binds to CBP, while the N-terminal Josephin domain is responsible for inhibiting CBP's HAT activity, leading to a decrease in histone acetylation and subsequent repression of target gene transcription.",
-  "summary": "ATXN3 inhibits CBP to modulate transcriptional co-activator inhibition, ultimately affecting repression of transcription of cbp target genes.",
+  "mechanism_correction": "CRITICAL MECHANISTIC CORRECTION: The input claim that ATXN3 directly inhibits CBP's Histone Acetyltransferase (HAT) activity is incorrect. This is a \"Mechanistic Opposite\" error. The primary literature demonstrates that ATXN3 causes transcriptional repression not by inhibiting a HAT (like CBP), but by actively recruiting a Histone Deacetylase (HDAC3) to gene promoters. The net effect is reduced histone acetylation and gene repression, but the mechanism is via activation of a deacetylating complex.",
+  "mechanism": "Wild-type ATXN3 acts as a transcriptional repressor by binding to specific DNA regions within gene p; In the context of Huntington's disease, the mutant huntingtin (HTT) protein impairs the function of ",
+  "effect": "The recruitment of the HDAC3/NCoR complex by ATXN3 leads to the enzymatic removal of acetyl groups from histone tails at the target promoter. This increases the positive charge of the histones, leading to a more condensed chromatin structure, which is inaccessible to the transcriptional machinery, thereby repressing gene expression.; The functional impairment of ATXN3 by mutant HTT leads to increased ubiquitination and subsequent proteasomal degradation of the transcriptional coactivator CBP. This loss of CBP contributes to the transcriptional dysregulation observed in Huntington's disease.",
+  "summary": "ATXN3 inhibits CBP to regulate transcriptional repression via hdac3 recruitment and regulation of cbp stability (in huntington's disease context), ultimately affecting expression of the target gene is repressed.",
   "evidence": [
     {
-      "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
-      "journal": "The Journal of Biological Chemistry",
-      "year": 2002,
-      "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators."
+      "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+      "journal": "The Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
+    },
+    {
+      "paper_title": "Mutant huntingtin impairs PNKP and ATXN3, disrupting DNA repair and transcription",
+      "journal": "Human Molecular Genetics",
+      "year": 2019,
+      "relevant_quote": "A concomitant decrease in Ataxin-3 activity facilitates CBP ubiquitination and degradation, adversely impacting transcription and DNA repair."
     }
   ],
   "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Ubiquitin-Proteasome System",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    },
     {
       "name": "Transcriptional Regulation",
       "canonical_name": "Transcription",
@@ -73,17 +120,17 @@
       "confidence": 0.8
     }
   ],
-  "interaction_effect": "inhibition",
+  "interaction_effect": "regulation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 1
+    "corrections_applied": 4
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --inhibits--> CBP:",
+  "arrow_notation": "ATXN3 --regulates--> CBP:",
   "protein_a": "CBP",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-01T05:51:49.728210Z",
-  "last_updated": "2025-12-01T05:51:49.728210Z"
+  "first_discovered": "2025-12-04T13:20:02.611507Z",
+  "last_updated": "2025-12-04T13:20:02.611507Z"
 }
