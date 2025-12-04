@@ -32,6 +32,8 @@ from scripts.pathway_hierarchy.ai_hierarchy_builder import (
     classify_pathways_batch,
     format_hierarchy_tree,
 )
+# Import ensure_hierarchy_chain - we define it locally to avoid circular imports
+# The same logic from Script 04 is reimplemented here
 from scripts.pathway_hierarchy.hierarchy_utils import (
     setup_logging,
     CheckpointManager,
@@ -45,6 +47,102 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
 
 
 BATCH_SIZE = 10  # Pathways per AI call
+
+# ROOT categories that are valid starting points for hierarchy chains
+ROOT_CATEGORIES = {
+    'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+    'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+    'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+    'Cytoskeleton Organization'
+}
+
+
+def ensure_hierarchy_chain_local(session, chain: List[str], confidence: float = 0.85, logger=None) -> int:
+    """
+    Ensure all pathways in chain exist with proper parent-child links.
+    Returns the ID of the leaf (last) pathway.
+
+    This is a local implementation to avoid circular imports with Script 04.
+    """
+    from models import Pathway, PathwayParent
+
+    if not chain or len(chain) < 1:
+        return None
+
+    # Validate ROOT category
+    if chain[0] not in ROOT_CATEGORIES:
+        if logger:
+            logger.warning(f"Invalid ROOT '{chain[0]}' in chain, prepending Cellular Signaling")
+        chain = ['Cellular Signaling'] + list(chain)
+
+    parent_id = None
+
+    for i, pathway_name in enumerate(chain):
+        # Check if pathway exists
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+
+        if pathway:
+            # Pathway exists - ensure hierarchy_level is correct
+            if pathway.hierarchy_level != i:
+                if logger:
+                    logger.debug(f"Updating '{pathway_name}' hierarchy_level from {pathway.hierarchy_level} to {i}")
+                pathway.hierarchy_level = i
+
+            # Ensure parent link exists (except for root)
+            if i > 0 and parent_id:
+                existing_link = session.query(PathwayParent).filter_by(
+                    child_pathway_id=pathway.id,
+                    parent_pathway_id=parent_id
+                ).first()
+                if not existing_link:
+                    link = PathwayParent(
+                        child_pathway_id=pathway.id,
+                        parent_pathway_id=parent_id,
+                        relationship_type='is_a',
+                        confidence=confidence,
+                        source='AI',
+                    )
+                    session.add(link)
+                    if logger:
+                        logger.debug(f"Created missing link: {chain[i-1]} -> {pathway_name}")
+
+            parent_id = pathway.id
+        else:
+            # Create new pathway with correct level
+            is_leaf = (i == len(chain) - 1)
+            pathway = Pathway(
+                name=pathway_name,
+                description=f"AI-inferred pathway (level {i})",
+                ai_generated=True,
+                hierarchy_level=i,
+                is_leaf=is_leaf
+            )
+            session.add(pathway)
+            session.flush()
+
+            # Create parent link (except for root at index 0)
+            if i > 0 and parent_id:
+                link = PathwayParent(
+                    child_pathway_id=pathway.id,
+                    parent_pathway_id=parent_id,
+                    relationship_type='is_a',
+                    confidence=confidence,
+                    source='AI',
+                )
+                session.add(link)
+
+            if logger:
+                logger.info(f"Created pathway '{pathway_name}' at level {i}")
+            parent_id = pathway.id
+
+    # Update is_leaf for all pathways in chain
+    for i, pathway_name in enumerate(chain):
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+        if pathway:
+            pathway.is_leaf = (i == len(chain) - 1)
+
+    session.flush()
+    return parent_id  # Returns leaf pathway ID
 
 
 def get_hierarchy_tree_string(session) -> str:
@@ -187,8 +285,13 @@ def process_ai_classification_batch(
     hierarchy_tree: str,
     session,
     logger
-) -> Dict[int, List[Dict]]:
-    """Process a batch of pathways through AI classification."""
+) -> Dict[int, Dict]:
+    """
+    Process a batch of pathways through AI classification.
+
+    NEW: Uses hierarchy_chain response format from AI.
+    Each classification contains a full chain from ROOT to the pathway.
+    """
     from models import Pathway
 
     # Format batch for AI
@@ -198,32 +301,41 @@ def process_ai_classification_batch(
     ]
 
     try:
+        # NEW: classify_pathways_batch now returns {name: {hierarchy_chain, confidence, reasoning}}
         classifications = classify_pathways_batch(batch_for_ai, hierarchy_tree)
 
-        # Map results back to pathway IDs
+        # Map results back to pathway IDs and process hierarchy chains
         results = {}
         for pw in batch:
-            ai_parents = classifications.get(pw['name'], [])
-            if ai_parents:
-                # Resolve parent names to IDs
-                parent_ids = []
-                for parent in ai_parents:
-                    parent_pathway = session.query(Pathway).filter_by(
-                        name=parent['name']
-                    ).first()
-                    if parent_pathway:
-                        parent_ids.append({
-                            'id': parent_pathway.id,
-                            'confidence': parent.get('confidence', 0.8),
-                            'relationship': parent.get('relationship', 'is_a'),
-                        })
-                if parent_ids:
-                    results[pw['id']] = parent_ids
+            classification = classifications.get(pw['name'], {})
+            hierarchy_chain = classification.get('hierarchy_chain', [])
+            confidence = classification.get('confidence', 0.85)
+
+            if hierarchy_chain and len(hierarchy_chain) >= 2:
+                # NEW: Use hierarchy_chain to create full chain
+                logger.info(f"  {pw['name']} -> chain: {' -> '.join(hierarchy_chain)}")
+
+                # Ensure the full chain exists with proper links
+                leaf_id = ensure_hierarchy_chain_local(
+                    session, hierarchy_chain, confidence, logger
+                )
+
+                if leaf_id:
+                    results[pw['id']] = {
+                        'leaf_id': leaf_id,
+                        'hierarchy_chain': hierarchy_chain,
+                        'confidence': confidence
+                    }
+            else:
+                # Fallback: No valid chain returned
+                logger.warning(f"  {pw['name']} -> No valid hierarchy chain returned")
 
         return results
 
     except Exception as e:
         logger.error(f"AI classification failed: {e}")
+        import traceback
+        traceback.print_exc()
         return {}
 
 
@@ -320,11 +432,11 @@ def main():
 
             db.session.commit()
 
-            # Phase 3: AI-based classification
+            # Phase 3: AI-based classification (now uses hierarchy_chain)
             if ai_needed:
                 logger.info("")
                 logger.info("-" * 40)
-                logger.info("Phase 3: AI-based classification")
+                logger.info("Phase 3: AI-based classification with hierarchy chains")
                 logger.info("-" * 40)
 
                 # Get hierarchy tree for prompts
@@ -341,30 +453,20 @@ def main():
 
                     logger.info(f"[Batch {batch_num}/{total_batches}] Processing {len(batch)} pathways...")
 
+                    # NEW: process_ai_classification_batch now uses hierarchy_chain
+                    # and calls ensure_hierarchy_chain_local() which creates all links
                     results = process_ai_classification_batch(
                         batch, hierarchy_tree, db.session, logger
                     )
 
-                    # Create links
-                    for child_id, parents in results.items():
-                        for parent in parents:
-                            existing = db.session.query(PathwayParent).filter_by(
-                                child_pathway_id=child_id,
-                                parent_pathway_id=parent['id']
-                            ).first()
-
-                            if not existing:
-                                link = PathwayParent(
-                                    child_pathway_id=child_id,
-                                    parent_pathway_id=parent['id'],
-                                    relationship_type=parent.get('relationship', 'is_a'),
-                                    confidence=parent.get('confidence', 0.8),
-                                    source='AI',
-                                )
-                                db.session.add(link)
-                                stats.items_created += 1
-
-                            logger.info(f"  {db.session.query(Pathway).get(child_id).name} -> parent ID {parent['id']}")
+                    # NEW: Results format is {child_id: {leaf_id, hierarchy_chain, confidence}}
+                    # Links are already created by ensure_hierarchy_chain_local()
+                    for child_id, result in results.items():
+                        hierarchy_chain = result.get('hierarchy_chain', [])
+                        if hierarchy_chain:
+                            # Count new pathways created (estimate by chain length - existing)
+                            chain_len = len(hierarchy_chain)
+                            stats.items_created += max(0, chain_len - 2)  # Approximate new intermediates
 
                         processed_ids.add(child_id)
                         stats.items_processed += 1

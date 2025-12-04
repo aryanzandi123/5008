@@ -2078,18 +2078,24 @@ function renderExpandableFunction(fn, mainProtein, interactorProtein, defaultInt
   // Pathway badge logic: read pathway from function data (not text matching!)
   let pathwayBadgeHTML = '';
   const fnPathway = fn.pathway?.canonical_name || fn.pathway?.name;
+  const fnHierarchy = fn.pathway?.hierarchy || [];
 
   if (fnPathway) {
-    // Function has its own pathway assigned - show it
+    // Function has its own pathway assigned - show it with hierarchy tooltip
     const matchesContext = pathwayContext?.name &&
       fnPathway.toLowerCase() === pathwayContext.name.toLowerCase();
 
+    // Build tooltip showing full hierarchy chain
+    const tooltipText = fnHierarchy.length > 1
+      ? fnHierarchy.join(' → ')
+      : fnPathway;
+
     if (matchesContext) {
       // Green badge: function's pathway matches current viewing context
-      pathwayBadgeHTML = `<span class="pathway-badge current" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; background: #10b981; color: white;">${escapeHtml(fnPathway)}</span>`;
+      pathwayBadgeHTML = `<span class="pathway-badge current" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; background: #10b981; color: white; cursor: help;" title="${escapeHtml(tooltipText)}">${escapeHtml(fnPathway)}</span>`;
     } else {
       // Gray badge: show actual pathway name (NOT "Other pathway")
-      pathwayBadgeHTML = `<span class="pathway-badge other" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; background: #6b7280; color: white; opacity: 0.7;">${escapeHtml(fnPathway)}</span>`;
+      pathwayBadgeHTML = `<span class="pathway-badge other" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 8px; background: #6b7280; color: white; opacity: 0.7; cursor: help;" title="${escapeHtml(tooltipText)}">${escapeHtml(fnPathway)}</span>`;
     }
   } else if (pathwayContext?.name) {
     // No pathway on function - show "Uncategorized" if in pathway context
@@ -3524,24 +3530,41 @@ function showFunctionModal({ fn, interactor, affected, label, linkArrow }){
     : '<div class="expanded-empty">Molecular mechanism not specified</div>';
 
   // ========== PATHWAY CONTEXT ==========
-  // Find which pathway(s) this interactor belongs to
+  // FIXED: Use fn.pathway directly instead of searching nodes
+  // This ensures the function's pathway matches what was assigned in Script 05
   let pathwayContextHTML = '';
-  if (pathwayMode && interactor) {
-    const interactorId = interactor.primary || interactor.id || affected;
+  if (pathwayMode) {
     const relevantPathways = [];
 
-    // Check all pathway nodes to find ones containing this interactor
-    nodes.filter(n => n.type === 'pathway').forEach(pathwayNode => {
-      const interactorIds = pathwayNode.interactorIds || [];
-      if (interactorIds.includes(interactorId)) {
-        relevantPathways.push({
-          name: pathwayNode.label,
-          id: pathwayNode.id,
-          ontologyId: pathwayNode.ontologyId,
-          ontologySource: pathwayNode.ontologySource
-        });
-      }
-    });
+    // NEW: First check if function has pathway assigned directly
+    if (fn.pathway && fn.pathway.name) {
+      const fnPathway = fn.pathway;
+      relevantPathways.push({
+        name: fnPathway.canonical_name || fnPathway.name,
+        hierarchy: fnPathway.hierarchy || [fnPathway.name],
+        level: fnPathway.level || 0,
+        is_leaf: fnPathway.is_leaf !== false,
+        id: fnPathway.name,
+        ontologyId: fnPathway.ontology_id,
+        ontologySource: fnPathway.ontology_source
+      });
+    } else if (interactor) {
+      // Fallback: Check pathway nodes to find ones containing this interactor
+      const interactorId = interactor.primary || interactor.id || affected;
+      nodes.filter(n => n.type === 'pathway').forEach(pathwayNode => {
+        const interactorIds = pathwayNode.interactorIds || [];
+        if (interactorIds.includes(interactorId)) {
+          relevantPathways.push({
+            name: pathwayNode.label,
+            id: pathwayNode.id,
+            hierarchy: pathwayNode.hierarchy || [pathwayNode.label],
+            level: pathwayNode.level || 0,
+            ontologyId: pathwayNode.ontologyId,
+            ontologySource: pathwayNode.ontologySource
+          });
+        }
+      });
+    }
 
     if (relevantPathways.length > 0) {
       // Determine role based on function arrow
@@ -3559,9 +3582,28 @@ function showFunctionModal({ fn, interactor, affected, label, linkArrow }){
               ? `<a href="https://www.ebi.ac.uk/QuickGO/term/${pw.ontologyId}" target="_blank" class="ontology-link">${pw.ontologyId}</a>`
               : `<span class="ontology-badge">${pw.ontologyId}</span>`)
           : '';
+
+        // NEW: Show hierarchy chain if available
+        const hierarchyChain = pw.hierarchy && pw.hierarchy.length > 1
+          ? `<div class="pathway-hierarchy-chain" style="font-size: 10px; color: #6b7280; margin-top: 4px;">${pw.hierarchy.join(' → ')}</div>`
+          : '';
+
+        // NEW: Show level and leaf badge
+        const levelBadge = pw.level !== undefined
+          ? `<span class="pathway-level-badge" style="font-size: 9px; background: #e0e7ff; color: #4338ca; padding: 1px 4px; border-radius: 3px; margin-left: 6px;">Level ${pw.level}</span>`
+          : '';
+        const leafBadge = pw.is_leaf
+          ? `<span class="pathway-leaf-badge" style="font-size: 9px; background: #d1fae5; color: #059669; padding: 1px 4px; border-radius: 3px; margin-left: 4px;">LEAF</span>`
+          : '';
+
         return `<div class="pathway-context-badge">
-          <span class="pathway-name">${pw.name}</span>
-          ${ontologyLink}
+          <div style="display: flex; align-items: center; flex-wrap: wrap;">
+            <span class="pathway-name">${pw.name}</span>
+            ${levelBadge}
+            ${leafBadge}
+            ${ontologyLink}
+          </div>
+          ${hierarchyChain}
         </div>`;
       }).join('');
 

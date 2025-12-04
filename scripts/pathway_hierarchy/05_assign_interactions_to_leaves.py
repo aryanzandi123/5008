@@ -40,6 +40,91 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
 
 BATCH_SIZE = 5  # Interactions per AI call
 
+# ROOT categories that are valid starting points for hierarchy chains
+ROOT_CATEGORIES = {
+    'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+    'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+    'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+    'Cytoskeleton Organization'
+}
+
+
+def ensure_hierarchy_chain_local(session, chain: List[str], confidence: float = 0.85, logger=None) -> int:
+    """
+    Ensure all pathways in chain exist with proper parent-child links.
+    Returns the ID of the leaf (last) pathway.
+    """
+    from models import Pathway, PathwayParent
+
+    if not chain or len(chain) < 1:
+        return None
+
+    # Validate ROOT category
+    if chain[0] not in ROOT_CATEGORIES:
+        if logger:
+            logger.warning(f"Invalid ROOT '{chain[0]}' in chain, prepending Cellular Signaling")
+        chain = ['Cellular Signaling'] + list(chain)
+
+    parent_id = None
+
+    for i, pathway_name in enumerate(chain):
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+
+        if pathway:
+            if pathway.hierarchy_level != i:
+                pathway.hierarchy_level = i
+
+            if i > 0 and parent_id:
+                existing_link = session.query(PathwayParent).filter_by(
+                    child_pathway_id=pathway.id,
+                    parent_pathway_id=parent_id
+                ).first()
+                if not existing_link:
+                    link = PathwayParent(
+                        child_pathway_id=pathway.id,
+                        parent_pathway_id=parent_id,
+                        relationship_type='is_a',
+                        confidence=confidence,
+                        source='AI',
+                    )
+                    session.add(link)
+
+            parent_id = pathway.id
+        else:
+            is_leaf = (i == len(chain) - 1)
+            pathway = Pathway(
+                name=pathway_name,
+                description=f"AI-inferred pathway (level {i})",
+                ai_generated=True,
+                hierarchy_level=i,
+                is_leaf=is_leaf
+            )
+            session.add(pathway)
+            session.flush()
+
+            if i > 0 and parent_id:
+                link = PathwayParent(
+                    child_pathway_id=pathway.id,
+                    parent_pathway_id=parent_id,
+                    relationship_type='is_a',
+                    confidence=confidence,
+                    source='AI',
+                )
+                session.add(link)
+
+            if logger:
+                logger.info(f"Created pathway '{pathway_name}' at level {i}")
+            parent_id = pathway.id
+
+    # Update is_leaf for all pathways in chain
+    for i, pathway_name in enumerate(chain):
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+        if pathway:
+            pathway.is_leaf = (i == len(chain) - 1)
+
+    session.flush()
+    return parent_id
+
 
 def get_interactions_with_pathways(session) -> List[Dict]:
     """Get all interactions with their current pathway assignments."""
@@ -183,15 +268,54 @@ def compute_pathway_ancestry(session, pathway_id: int) -> List[str]:
 
 
 def update_interaction_jsonb_pathways(session, interaction_db_id: int, pathways: List[Dict]):
-    """Update the pathways array in interaction JSONB data."""
+    """
+    Update the pathways array in interaction JSONB data AND sync function pathways.
+
+    This ensures that function pathways match the interaction's most specific pathway,
+    fixing the mismatch where modals would show a different pathway than expected.
+    """
     from models import Interaction
+    import logging
+    logger = logging.getLogger(__name__)
 
     inter = session.query(Interaction).get(interaction_db_id)
     if not inter:
         return
 
     data = inter.data or {}
+
+    # Update interaction-level pathways
     data['pathways'] = pathways
+
+    # Find the most specific (deepest level) pathway
+    most_specific = None
+    if pathways:
+        most_specific = max(pathways, key=lambda p: p.get('level', 0))
+
+    # SYNC FUNCTION PATHWAYS with the most specific interaction pathway
+    if most_specific and 'functions' in data:
+        pathway_obj = {
+            'name': most_specific.get('name'),
+            'canonical_name': most_specific.get('name'),
+            'hierarchy': most_specific.get('hierarchy', [most_specific.get('name')]),
+            'level': most_specific.get('level', 0),
+            'is_leaf': most_specific.get('is_leaf', True),
+            'confidence': most_specific.get('confidence', 0.85)
+        }
+
+        functions_updated = 0
+        for func in data.get('functions', []):
+            # Update function's pathway to match interaction's most specific pathway
+            old_pathway = func.get('pathway', {}).get('name') if isinstance(func.get('pathway'), dict) else func.get('pathway')
+            func['pathway'] = pathway_obj
+            functions_updated += 1
+
+            if old_pathway and old_pathway != most_specific.get('name'):
+                logger.debug(f"Synced function pathway: '{old_pathway}' -> '{most_specific.get('name')}'")
+
+        if functions_updated > 0:
+            logger.debug(f"Synced {functions_updated} function(s) to pathway '{most_specific.get('name')}'")
+
     inter.data = data
 
     # Mark as modified for SQLAlchemy
@@ -274,35 +398,57 @@ def main():
                     # Call AI
                     assignments = assign_interactions_batch(batch_for_ai, available_pathways)
 
-                    # Apply assignments
+                    # Apply assignments - NEW: Uses hierarchy_chain from AI response
                     for inter in batch:
                         new_pathways = assignments.get(inter['id'], [])
 
                         if new_pathways:
-                            # Resolve pathway names to IDs
                             pathway_ids = []
                             pathway_data = []
 
                             for pw in new_pathways:
-                                pw_name = pw['name']
-                                pw_id = leaf_pathways.get(pw_name)
+                                # NEW: Get hierarchy_chain from AI response
+                                hierarchy_chain = pw.get('hierarchy_chain', [])
+                                confidence = pw.get('confidence', 0.85)
 
-                                if not pw_id:
-                                    # Try non-leaf pathways
-                                    pw_obj = db.session.query(Pathway).filter_by(name=pw_name).first()
-                                    if pw_obj:
-                                        pw_id = pw_obj.id
+                                if hierarchy_chain and len(hierarchy_chain) >= 2:
+                                    # Ensure full chain exists with proper links
+                                    leaf_id = ensure_hierarchy_chain_local(
+                                        db.session, hierarchy_chain, confidence, logger
+                                    )
 
-                                if pw_id:
-                                    pathway_ids.append(pw_id)
-                                    ancestry = compute_pathway_ancestry(db.session, pw_id)
-                                    pathway_data.append({
-                                        'name': pw_name,
-                                        'hierarchy': ancestry,
-                                        'level': len(ancestry) - 1,
-                                        'is_leaf': pw_name in leaf_pathways,
-                                        'confidence': pw.get('confidence', 0.85),
-                                    })
+                                    if leaf_id:
+                                        pathway_ids.append(leaf_id)
+                                        leaf_name = hierarchy_chain[-1]
+                                        pathway_data.append({
+                                            'name': leaf_name,
+                                            'hierarchy': hierarchy_chain,
+                                            'level': len(hierarchy_chain) - 1,
+                                            'is_leaf': True,  # Last in chain is always leaf
+                                            'confidence': confidence,
+                                        })
+                                        logger.info(f"  {inter['id']}: {' -> '.join(hierarchy_chain)}")
+                                else:
+                                    # Fallback: old format with just 'name'
+                                    pw_name = pw.get('name') or (hierarchy_chain[-1] if hierarchy_chain else None)
+                                    if pw_name:
+                                        pw_id = leaf_pathways.get(pw_name)
+                                        if not pw_id:
+                                            pw_obj = db.session.query(Pathway).filter_by(name=pw_name).first()
+                                            if pw_obj:
+                                                pw_id = pw_obj.id
+
+                                        if pw_id:
+                                            pathway_ids.append(pw_id)
+                                            ancestry = compute_pathway_ancestry(db.session, pw_id)
+                                            pathway_data.append({
+                                                'name': pw_name,
+                                                'hierarchy': ancestry,
+                                                'level': len(ancestry) - 1,
+                                                'is_leaf': pw_name in leaf_pathways,
+                                                'confidence': confidence,
+                                            })
+                                            logger.info(f"  {inter['id']}: {pw_name} (fallback)")
 
                             if pathway_ids:
                                 # Update PathwayInteraction table
@@ -313,14 +459,13 @@ def main():
                                     confidence=0.85
                                 )
 
-                                # Update JSONB data
+                                # Update JSONB data (also syncs function pathways)
                                 update_interaction_jsonb_pathways(
                                     db.session,
                                     inter['db_id'],
                                     pathway_data
                                 )
 
-                                logger.info(f"  {inter['id']}: {[p['name'] for p in new_pathways]}")
                                 stats.items_updated += 1
                         else:
                             logger.info(f"  {inter['id']}: No change needed")

@@ -134,14 +134,48 @@ def get_hierarchy_tree_for_ai(session) -> str:
     return format_hierarchy_tree(tree_data, max_depth=5)
 
 
-def create_intermediate_pathway(session, name: str, description: str, go_id: str = None) -> int:
-    """Create a new intermediate pathway in the database."""
+def create_intermediate_pathway(
+    session,
+    name: str,
+    description: str,
+    parent_id: int = None,
+    go_id: str = None,
+    hierarchy_level: int = None
+) -> int:
+    """
+    Create a new intermediate pathway in the database with proper hierarchy.
+
+    Args:
+        session: Database session
+        name: Pathway name
+        description: Pathway description
+        parent_id: ID of parent pathway (if known)
+        go_id: GO ontology ID (optional)
+        hierarchy_level: Explicit level (if not provided, computed from parent)
+
+    Returns:
+        ID of the created (or existing) pathway
+    """
     from models import Pathway
+    import logging
+    logger = logging.getLogger(__name__)
 
     # Check if already exists
     existing = session.query(Pathway).filter_by(name=name).first()
     if existing:
+        # If exists but wrong level, update it
+        if hierarchy_level is not None and existing.hierarchy_level != hierarchy_level:
+            logger.info(f"Updating '{name}' hierarchy_level from {existing.hierarchy_level} to {hierarchy_level}")
+            existing.hierarchy_level = hierarchy_level
         return existing.id
+
+    # Calculate hierarchy level based on parent if not explicitly provided
+    if hierarchy_level is None:
+        hierarchy_level = 0
+        if parent_id:
+            parent = session.query(Pathway).get(parent_id)
+            if parent:
+                hierarchy_level = (parent.hierarchy_level or 0) + 1
 
     pathway = Pathway(
         name=name,
@@ -149,10 +183,17 @@ def create_intermediate_pathway(session, name: str, description: str, go_id: str
         ontology_id=go_id,
         ontology_source='GO' if go_id and go_id.startswith('GO:') else None,
         ai_generated=True,
-        is_leaf=True,  # Will be updated
+        is_leaf=True,  # Will be updated later
+        hierarchy_level=hierarchy_level,  # EXPLICITLY SET
     )
     session.add(pathway)
     session.flush()
+
+    # Create parent link if parent_id provided
+    if parent_id:
+        create_parent_link(session, pathway.id, parent_id, confidence=0.85, source='AI')
+
+    logger.info(f"Created pathway '{name}' at level {hierarchy_level}")
     return pathway.id
 
 
@@ -177,6 +218,108 @@ def create_parent_link(session, child_id: int, parent_id: int, confidence: float
     )
     session.add(link)
     return True
+
+
+def ensure_hierarchy_chain(session, chain: List[str], confidence: float = 0.85) -> int:
+    """
+    Ensure all pathways in chain exist with proper parent-child links.
+    Returns the ID of the leaf (last) pathway.
+
+    This is the KEY function for creating proper hierarchy chains.
+    It ensures that every pathway in the chain exists and has the correct
+    hierarchy_level and parent-child links.
+
+    Example:
+        chain = ["Cellular Signaling", "Transcription", "Epigenetic Regulation", "Histone Deacetylation"]
+        Creates/links: Root(0) -> L1(1) -> L2(2) -> Leaf(3)
+
+    Args:
+        session: Database session
+        chain: List of pathway names from ROOT to LEAF
+        confidence: Confidence score for parent links
+
+    Returns:
+        ID of the leaf (last) pathway in the chain
+    """
+    from models import Pathway, PathwayParent
+    import logging
+    logger = logging.getLogger(__name__)
+
+    if not chain or len(chain) < 1:
+        return None
+
+    # Validate ROOT category
+    ROOT_CATEGORIES = {
+        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+        'Cytoskeleton Organization'
+    }
+
+    if chain[0] not in ROOT_CATEGORIES:
+        logger.warning(f"Invalid ROOT '{chain[0]}' in chain, defaulting to Cellular Signaling")
+        chain = ['Cellular Signaling'] + list(chain)
+
+    parent_id = None
+    created_pathways = []
+
+    for i, pathway_name in enumerate(chain):
+        # Check if pathway exists
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+
+        if pathway:
+            # Pathway exists - ensure hierarchy_level is correct
+            if pathway.hierarchy_level != i:
+                logger.info(f"Updating '{pathway_name}' hierarchy_level from {pathway.hierarchy_level} to {i}")
+                pathway.hierarchy_level = i
+
+            # Ensure parent link exists (except for root)
+            if i > 0 and parent_id:
+                existing_link = session.query(PathwayParent).filter_by(
+                    child_pathway_id=pathway.id,
+                    parent_pathway_id=parent_id
+                ).first()
+                if not existing_link:
+                    create_parent_link(session, pathway.id, parent_id, confidence, 'AI')
+                    logger.info(f"Created missing link: {chain[i-1]} -> {pathway_name}")
+
+            parent_id = pathway.id
+        else:
+            # Create new pathway with correct level
+            is_leaf = (i == len(chain) - 1)
+            pathway = Pathway(
+                name=pathway_name,
+                description=f"AI-inferred pathway (level {i})",
+                ai_generated=True,
+                hierarchy_level=i,
+                is_leaf=is_leaf
+            )
+            session.add(pathway)
+            session.flush()
+            created_pathways.append(pathway_name)
+
+            # Create parent link (except for root at index 0)
+            if i > 0 and parent_id:
+                create_parent_link(session, pathway.id, parent_id, confidence, 'AI')
+
+            logger.info(f"Created pathway '{pathway_name}' at level {i}, parent={chain[i-1] if i > 0 else 'ROOT'}")
+            parent_id = pathway.id
+
+    # Update is_leaf for all pathways in chain (only last should be leaf)
+    for i, pathway_name in enumerate(chain):
+        pathway = session.query(Pathway).filter_by(name=pathway_name).first()
+        if pathway:
+            should_be_leaf = (i == len(chain) - 1)
+            if pathway.is_leaf != should_be_leaf:
+                pathway.is_leaf = should_be_leaf
+                logger.debug(f"Updated '{pathway_name}' is_leaf to {should_be_leaf}")
+
+    session.flush()
+
+    if created_pathways:
+        logger.info(f"ensure_hierarchy_chain created: {' -> '.join(created_pathways)}")
+
+    return parent_id  # Returns leaf pathway ID
 
 
 def update_hierarchy_metadata(session):
@@ -365,11 +508,11 @@ def main():
                     import time
                     time.sleep(1.5)
 
-            # Phase 4: Handle orphan pathways
+            # Phase 4: Handle orphan pathways using hierarchy_chain
             if orphans:
                 logger.info("")
                 logger.info("-" * 40)
-                logger.info("Phase 4: Handling orphan pathways")
+                logger.info("Phase 4: Handling orphan pathways with hierarchy chains")
                 logger.info("-" * 40)
 
                 for i in range(0, len(orphans), BATCH_SIZE):
@@ -388,50 +531,55 @@ def main():
                             if not orphan_pw:
                                 continue
 
-                            solution_type = solution.get('solution_type')
-                            parent_info = solution.get('parent', {})
+                            # NEW: Use hierarchy_chain from AI response
+                            hierarchy_chain = solution.get('hierarchy_chain', [])
                             confidence = solution.get('confidence', 0.7)
+                            new_intermediates = solution.get('new_intermediates', [])
 
-                            if solution_type == 'existing_parent':
-                                # Find existing parent
-                                parent_pw = db.session.query(Pathway).filter_by(
-                                    name=parent_info['name']
-                                ).first()
+                            if hierarchy_chain and len(hierarchy_chain) >= 2:
+                                # Ensure full chain exists with proper links
+                                logger.info(f"  {orphan_name} -> chain: {' -> '.join(hierarchy_chain)}")
 
-                                if parent_pw:
-                                    create_parent_link(db.session, orphan_pw.id, parent_pw.id, confidence, 'AI')
-                                    logger.info(f"  {orphan_name} -> existing '{parent_info['name']}'")
+                                # Create any new intermediates with descriptions
+                                intermediate_descs = {
+                                    inter['name']: inter.get('description', '')
+                                    for inter in new_intermediates
+                                }
 
-                            elif solution_type == 'new_intermediate':
-                                # Create new intermediate
-                                inter_id = create_intermediate_pathway(
-                                    db.session,
-                                    parent_info['name'],
-                                    parent_info.get('description', ''),
-                                    parent_info.get('go_id')
-                                )
+                                # Build the chain
+                                ensure_hierarchy_chain(db.session, hierarchy_chain, confidence)
 
-                                # Find a suitable root parent for the intermediate
-                                # Default to "Cellular Signaling" if unclear
-                                root_pw = db.session.query(Pathway).filter_by(
-                                    name="Cellular Signaling"
-                                ).first()
-                                if root_pw:
-                                    create_parent_link(db.session, inter_id, root_pw.id, 0.7, 'AI')
+                                # Update descriptions for new intermediates
+                                for inter in new_intermediates:
+                                    inter_pw = db.session.query(Pathway).filter_by(
+                                        name=inter['name']
+                                    ).first()
+                                    if inter_pw and inter.get('description'):
+                                        inter_pw.description = inter['description']
+                                    if inter_pw and inter.get('go_id'):
+                                        inter_pw.ontology_id = inter['go_id']
+                                        inter_pw.ontology_source = 'GO'
 
-                                create_parent_link(db.session, orphan_pw.id, inter_id, confidence, 'AI')
-                                logger.info(f"  {orphan_name} -> new '{parent_info['name']}'")
-                                stats.items_created += 1
-
-                            elif solution_type == 'broad_category':
-                                # Assign to broad category as last resort
-                                parent_pw = db.session.query(Pathway).filter_by(
-                                    name=parent_info['name']
-                                ).first()
-
-                                if parent_pw:
-                                    create_parent_link(db.session, orphan_pw.id, parent_pw.id, confidence, 'AI_fallback')
-                                    logger.info(f"  {orphan_name} -> broad '{parent_info['name']}' (fallback)")
+                                stats.items_created += len(new_intermediates)
+                            else:
+                                # Fallback: old format or no chain
+                                # Try to get parent from old format
+                                parent_info = solution.get('parent', {})
+                                if parent_info and parent_info.get('name'):
+                                    parent_pw = db.session.query(Pathway).filter_by(
+                                        name=parent_info['name']
+                                    ).first()
+                                    if parent_pw:
+                                        create_parent_link(db.session, orphan_pw.id, parent_pw.id, confidence, 'AI')
+                                        logger.info(f"  {orphan_name} -> fallback to '{parent_info['name']}'")
+                                else:
+                                    # Last resort: assign to Cellular Signaling
+                                    root_pw = db.session.query(Pathway).filter_by(
+                                        name="Cellular Signaling"
+                                    ).first()
+                                    if root_pw:
+                                        create_parent_link(db.session, orphan_pw.id, root_pw.id, 0.5, 'AI_fallback')
+                                        logger.warning(f"  {orphan_name} -> default fallback to 'Cellular Signaling'")
 
                             processed_orphans.add(orphan_pw.id)
                             stats.items_processed += 1

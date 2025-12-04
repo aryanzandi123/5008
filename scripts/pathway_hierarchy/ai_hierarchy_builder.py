@@ -103,39 +103,65 @@ def _call_gemini_json(
 # Pathway Classification Prompts
 # =============================================================================
 
-CLASSIFY_PATHWAYS_PROMPT = """You are a biological pathway classification expert. Your task is to classify pathways into a hierarchical structure.
+CLASSIFY_PATHWAYS_PROMPT = """You are a biological pathway classification expert. Your task is to classify pathways into a FULL hierarchical chain from ROOT to the pathway itself.
 
-## AVAILABLE HIERARCHY (parent categories to assign to):
+## EXISTING ROOT CATEGORIES (level 0 - these are the ONLY valid starting points):
+- Cellular Signaling
+- Metabolism
+- Protein Quality Control
+- Cell Death
+- Cell Cycle
+- DNA Damage Response
+- Vesicle Transport
+- Immune Response
+- Neuronal Function
+- Cytoskeleton Organization
+
+## AVAILABLE HIERARCHY (for context):
 {hierarchy_tree}
 
 ## PATHWAYS TO CLASSIFY (batch of {batch_size}):
 {pathways_to_classify}
 
 ## INSTRUCTIONS:
-For each pathway, determine the most appropriate parent pathway(s) from the hierarchy above.
+For each pathway, determine its FULL hierarchy chain from a ROOT category down to itself.
 
 CRITICAL RULES:
-1. Assign to the MOST SPECIFIC appropriate parent (not overly broad categories)
-2. A pathway CAN have multiple parents (DAG structure) if it genuinely belongs to multiple categories
-3. If a pathway is already at the right level, don't force it deeper
-4. Confidence should be 0.7-1.0 (only assign if confident)
-5. Provide brief reasoning (1 sentence max)
+1. hierarchy_chain[0] MUST be one of the ROOT categories listed above
+2. hierarchy_chain[-1] MUST be the pathway being classified
+3. Create intermediate pathways as needed using standard biological terminology
+4. Chain length should be 2-5 (root + 1-4 levels of specificity)
+5. More specific = deeper in hierarchy (e.g., "Histone Deacetylation" is MORE specific than "Epigenetic Regulation")
+6. Use established biology terms: "Transcription", "Epigenetic Regulation", "Histone Modification", etc.
+7. Confidence should be 0.7-1.0 (only assign if confident)
 
 ## RESPONSE FORMAT (strict JSON):
 {{
   "classifications": [
     {{
       "pathway_name": "Original Pathway Name",
-      "parents": [
-        {{
-          "name": "Parent Pathway Name",
-          "confidence": 0.95,
-          "relationship": "is_a"
-        }}
-      ],
+      "hierarchy_chain": ["Root Category", "Intermediate 1", "Intermediate 2", "This Pathway"],
+      "confidence": 0.85,
       "reasoning": "Brief explanation"
     }}
   ]
+}}
+
+## EXAMPLES:
+For "Histone Deacetylation":
+{{
+  "pathway_name": "Histone Deacetylation",
+  "hierarchy_chain": ["Cellular Signaling", "Transcription", "Epigenetic Regulation", "Histone Deacetylation"],
+  "confidence": 0.9,
+  "reasoning": "Histone deacetylation is a specific epigenetic mechanism controlling transcription"
+}}
+
+For "Mitophagy":
+{{
+  "pathway_name": "Mitophagy",
+  "hierarchy_chain": ["Protein Quality Control", "Autophagy", "Selective Autophagy", "Mitophagy"],
+  "confidence": 0.95,
+  "reasoning": "Mitophagy is selective autophagy targeting mitochondria"
 }}
 
 Respond with ONLY the JSON, no other text."""
@@ -145,7 +171,7 @@ def classify_pathways_batch(
     pathways: List[Dict[str, str]],
     hierarchy_tree: str,
     api_key: str = None
-) -> Dict[str, List[Dict]]:
+) -> Dict[str, Dict]:
     """
     Classify a batch of pathways into the hierarchy.
 
@@ -155,7 +181,7 @@ def classify_pathways_batch(
         api_key: Google API key
 
     Returns:
-        Dict mapping pathway_name -> list of parent assignments
+        Dict mapping pathway_name -> {hierarchy_chain: [...], confidence: float, reasoning: str}
     """
     pathways_str = "\n".join([
         f"{i+1}. \"{p['name']}\" - {p.get('description', 'No description')}"
@@ -170,12 +196,37 @@ def classify_pathways_batch(
 
     result = _call_gemini_json(prompt, api_key)
 
-    # Parse into dict
+    # Parse into dict with hierarchy_chain
     classifications = {}
     for item in result.get('classifications', []):
         name = item.get('pathway_name', '')
-        parents = item.get('parents', [])
-        classifications[name] = parents
+        hierarchy_chain = item.get('hierarchy_chain', [])
+        confidence = item.get('confidence', 0.85)
+        reasoning = item.get('reasoning', '')
+
+        # Validate chain starts with ROOT and ends with pathway
+        ROOT_CATEGORIES = {
+            'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+            'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+            'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+            'Cytoskeleton Organization'
+        }
+
+        if hierarchy_chain:
+            # Ensure chain starts with valid ROOT
+            if hierarchy_chain[0] not in ROOT_CATEGORIES:
+                logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for '{name}', defaulting to Cellular Signaling")
+                hierarchy_chain = ['Cellular Signaling'] + hierarchy_chain
+
+            # Ensure chain ends with the pathway
+            if hierarchy_chain[-1] != name:
+                hierarchy_chain.append(name)
+
+        classifications[name] = {
+            'hierarchy_chain': hierarchy_chain,
+            'confidence': confidence,
+            'reasoning': reasoning
+        }
 
     return classifications
 
@@ -264,7 +315,19 @@ def create_intermediate_pathways_batch(
 # Assign Interactions to Specific Pathways
 # =============================================================================
 
-ASSIGN_INTERACTIONS_PROMPT = """You are a biological pathway assignment expert. Your task is to assign protein-protein interactions to their MOST SPECIFIC appropriate pathway(s).
+ASSIGN_INTERACTIONS_PROMPT = """You are a biological pathway assignment expert. Your task is to assign protein-protein interactions to their MOST SPECIFIC appropriate pathway(s) with FULL hierarchy chains.
+
+## EXISTING ROOT CATEGORIES (level 0):
+- Cellular Signaling
+- Metabolism
+- Protein Quality Control
+- Cell Death
+- Cell Cycle
+- DNA Damage Response
+- Vesicle Transport
+- Immune Response
+- Neuronal Function
+- Cytoskeleton Organization
 
 ## AVAILABLE PATHWAYS (hierarchical):
 {available_pathways}
@@ -273,14 +336,15 @@ ASSIGN_INTERACTIONS_PROMPT = """You are a biological pathway assignment expert. 
 {interactions_to_assign}
 
 ## INSTRUCTIONS:
-For each interaction, determine the most specific pathway(s) it belongs to.
+For each interaction, determine the MOST SPECIFIC pathway(s) it belongs to and provide the FULL hierarchy chain.
 
 CRITICAL RULES:
 1. Choose the MOST SPECIFIC pathway that accurately describes the interaction
-2. Consider the biological functions listed for each interaction
-3. An interaction CAN belong to multiple specific pathways if it has multiple roles
-4. Confidence threshold: Only assign if confidence > 0.7
-5. If current assignment is already optimal, keep it
+2. Consider the biological functions listed - they indicate the pathway type
+3. Provide the FULL hierarchy_chain from ROOT to the most specific leaf pathway
+4. hierarchy_chain[0] MUST be one of the ROOT categories
+5. Confidence threshold: Only assign if confidence > 0.7
+6. Create appropriate intermediate pathways in the chain as needed
 
 ## RESPONSE FORMAT (strict JSON):
 {{
@@ -290,14 +354,28 @@ CRITICAL RULES:
       "current_pathways": ["Current Pathway 1"],
       "recommended_pathways": [
         {{
-          "name": "Most Specific Pathway",
+          "hierarchy_chain": ["Root Category", "Intermediate", "Most Specific Leaf"],
           "confidence": 0.9,
-          "reason": "Brief explanation"
+          "reason": "Brief explanation based on functions"
         }}
       ],
       "change_needed": true
     }}
   ]
+}}
+
+## EXAMPLES:
+For interaction with functions ["Histone deacetylation", "Transcriptional repression"]:
+{{
+  "interaction_id": "ATXN3-HDAC3",
+  "recommended_pathways": [
+    {{
+      "hierarchy_chain": ["Cellular Signaling", "Transcription", "Epigenetic Regulation", "Histone Deacetylation"],
+      "confidence": 0.92,
+      "reason": "Functions indicate histone deacetylase activity in epigenetic regulation"
+    }}
+  ],
+  "change_needed": true
 }}
 
 Respond with ONLY the JSON, no other text."""
@@ -309,7 +387,7 @@ def assign_interactions_batch(
     api_key: str = None
 ) -> Dict[str, List[Dict]]:
     """
-    Assign interactions to their most specific pathways.
+    Assign interactions to their most specific pathways with full hierarchy chains.
 
     Args:
         interactions: List of interaction dicts with keys:
@@ -320,7 +398,7 @@ def assign_interactions_batch(
         api_key: Google API key
 
     Returns:
-        Dict mapping interaction_id -> list of recommended pathways
+        Dict mapping interaction_id -> list of {hierarchy_chain: [...], confidence: float, reason: str}
     """
     interactions_str = "\n".join([
         f"{i+1}. {inter['id']}\n"
@@ -337,14 +415,45 @@ def assign_interactions_batch(
 
     result = _call_gemini_json(prompt, api_key)
 
-    # Parse into dict
+    # Validate ROOT categories
+    ROOT_CATEGORIES = {
+        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+        'Cytoskeleton Organization'
+    }
+
+    # Parse into dict with hierarchy_chain validation
     assignments = {}
     for item in result.get('assignments', []):
         inter_id = item.get('interaction_id', '')
         recommended = item.get('recommended_pathways', [])
         change_needed = item.get('change_needed', False)
+
         if change_needed and recommended:
-            assignments[inter_id] = recommended
+            # Validate and fix hierarchy chains
+            validated_pathways = []
+            for pw in recommended:
+                hierarchy_chain = pw.get('hierarchy_chain', [])
+
+                # Backward compatibility: if only 'name' provided, wrap it
+                if not hierarchy_chain and 'name' in pw:
+                    hierarchy_chain = [pw['name']]
+
+                if hierarchy_chain:
+                    # Ensure chain starts with valid ROOT
+                    if hierarchy_chain[0] not in ROOT_CATEGORIES:
+                        logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for interaction '{inter_id}', defaulting to Cellular Signaling")
+                        hierarchy_chain = ['Cellular Signaling'] + hierarchy_chain
+
+                    validated_pathways.append({
+                        'hierarchy_chain': hierarchy_chain,
+                        'confidence': pw.get('confidence', 0.85),
+                        'reason': pw.get('reason', '')
+                    })
+
+            if validated_pathways:
+                assignments[inter_id] = validated_pathways
 
     return assignments
 
@@ -407,41 +516,66 @@ def validate_hierarchy(
 # Orphan Pathway Handling
 # =============================================================================
 
-HANDLE_ORPHAN_PROMPT = """You are a biological pathway expert. Your task is to find or create appropriate parent pathways for orphan pathways that don't fit the existing hierarchy.
+HANDLE_ORPHAN_PROMPT = """You are a biological pathway expert. Your task is to find the FULL hierarchy chain for orphan pathways from ROOT to the pathway itself.
 
-## ORPHAN PATHWAYS (need parents):
+## EXISTING ROOT CATEGORIES (level 0 - these are the ONLY valid starting points):
+- Cellular Signaling
+- Metabolism
+- Protein Quality Control
+- Cell Death
+- Cell Cycle
+- DNA Damage Response
+- Vesicle Transport
+- Immune Response
+- Neuronal Function
+- Cytoskeleton Organization
+
+## ORPHAN PATHWAYS (need full hierarchy chains):
 {orphan_pathways}
 
-## EXISTING HIERARCHY (available parents):
+## EXISTING HIERARCHY (for context):
 {existing_hierarchy}
 
 ## INSTRUCTIONS:
-For each orphan pathway, either:
-A) Find the best existing parent pathway(s) from the hierarchy
-B) If no suitable parent exists, suggest a NEW intermediate pathway that could serve as parent
+For each orphan pathway, determine its FULL hierarchy chain from a ROOT category down to itself.
+Create intermediate pathways as needed using standard biological terminology.
 
 CRITICAL RULES:
-1. FIRST try to find existing parents (prefer A over B)
-2. Only create new intermediates if absolutely necessary
-3. New intermediates must be biologically meaningful and apply to many proteins
-4. Confidence must be > 0.6 to assign
+1. hierarchy_chain[0] MUST be one of the ROOT categories listed above
+2. hierarchy_chain[-1] MUST be the orphan pathway itself
+3. Chain length should be 2-5 (root + 1-4 levels of specificity)
+4. Use established biology terms for intermediates
+5. Confidence must be > 0.6 to assign
 
 ## RESPONSE FORMAT (strict JSON):
 {{
   "orphan_solutions": [
     {{
       "orphan_name": "Orphan Pathway Name",
-      "solution_type": "existing_parent|new_intermediate|broad_category",
-      "parent": {{
-        "name": "Parent Name",
-        "is_new": false,
-        "description": "Description if new",
-        "go_id": "GO:0000000 or null"
-      }},
+      "hierarchy_chain": ["Root Category", "Intermediate 1", "Intermediate 2", "Orphan Pathway"],
+      "new_intermediates": [
+        {{
+          "name": "Intermediate Name",
+          "description": "Brief description",
+          "go_id": "GO:0000000 or null"
+        }}
+      ],
       "confidence": 0.85,
-      "reasoning": "Why this is the best solution"
+      "reasoning": "Why this hierarchy is biologically appropriate"
     }}
   ]
+}}
+
+## EXAMPLES:
+For orphan "Transcriptional Repression":
+{{
+  "orphan_name": "Transcriptional Repression",
+  "hierarchy_chain": ["Cellular Signaling", "Transcription", "Transcriptional Repression"],
+  "new_intermediates": [
+    {{"name": "Transcription", "description": "Gene transcription regulation", "go_id": "GO:0006351"}}
+  ],
+  "confidence": 0.9,
+  "reasoning": "Transcriptional repression is a specific mechanism within transcription regulation"
 }}
 
 Respond with ONLY the JSON, no other text."""
@@ -453,12 +587,7 @@ def handle_orphan_pathways(
     api_key: str = None
 ) -> List[Dict]:
     """
-    Find or create parent pathways for orphans.
-
-    Implements the hybrid A+B strategy:
-    - First tries to find existing parents
-    - Falls back to creating intermediates if needed
-    - Last resort: assigns to broad category
+    Find full hierarchy chains for orphan pathways.
 
     Args:
         orphans: List of {"name": "...", "description": "..."} dicts
@@ -466,7 +595,7 @@ def handle_orphan_pathways(
         api_key: Google API key
 
     Returns:
-        List of solutions for each orphan
+        List of solutions with hierarchy_chain for each orphan
     """
     orphans_str = "\n".join([
         f"{i+1}. \"{o['name']}\" - {o.get('description', 'No description')}"
@@ -479,7 +608,31 @@ def handle_orphan_pathways(
     )
 
     result = _call_gemini_json(prompt, api_key)
-    return result.get('orphan_solutions', [])
+    solutions = result.get('orphan_solutions', [])
+
+    # Validate ROOT categories in each solution
+    ROOT_CATEGORIES = {
+        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
+        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
+        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
+        'Cytoskeleton Organization'
+    }
+
+    for solution in solutions:
+        hierarchy_chain = solution.get('hierarchy_chain', [])
+        orphan_name = solution.get('orphan_name', '')
+
+        if hierarchy_chain:
+            # Ensure chain starts with valid ROOT
+            if hierarchy_chain[0] not in ROOT_CATEGORIES:
+                logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for orphan '{orphan_name}', defaulting to Cellular Signaling")
+                solution['hierarchy_chain'] = ['Cellular Signaling'] + hierarchy_chain
+
+            # Ensure chain ends with the orphan
+            if hierarchy_chain[-1] != orphan_name:
+                solution['hierarchy_chain'].append(orphan_name)
+
+    return solutions
 
 
 # =============================================================================
