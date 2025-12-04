@@ -1,0 +1,152 @@
+{
+  "primary": "YOD1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "YOD1 is a deubiquitinase that directly interacts with VCP and is involved in processing ubiquitinated substrates.",
+  "functions": [
+    {
+      "function": "Lysosome Clearance (Lysophagy)",
+      "arrow": "activates",
+      "cellular_process": "YOD1 is a core component of the Endo-Lysosomal Damage Response (ELDR) complex, which also includes VCP, UBXN6 (UBXD1), and PLAA. Following lysosomal damage, this complex is recruited to the organelle. YOD1 then deubiquitinates K48-linked ubiquitin chains on lysosomal proteins, a crucial step that facilitates subsequent clearance by autophagy (lysophagy).",
+      "effect_description": "Serves as the deubiquitinase for the VCP-ELDR complex, removing specific K48-linked ubiquitin signals from damaged lysosomes to enable their autophagic degradation.",
+      "biological_consequence": [
+        "Lysosomal damage (e.g., by LLOMe) → K48- and K63-linked ubiquitin chains form on lysosomal proteins → The VCP-YOD1-UBXD1-PLAA (ELDR) complex is recruited to damaged lysosomes → YOD1 specifically removes K48-linked ubiquitin chains → Autophagosome formation around the damaged lysosome is promoted → Lysophagy leads to the clearance of the ruptured organelle."
+      ],
+      "specific_effects": [
+        "The VCP-YOD1 complex, as part of the ELDR, specifically removes K48-linked ubiquitin conjugates from damaged lysosomes.",
+        "The deubiquitinating activity of YOD1 is essential for the autophagic clearance of ruptured lysosomes.",
+        "Expression of a catalytically inactive YOD1 mutant (YOD1-CS) impairs the removal of K48-linked ubiquitin chains and traps ubiquitinated substrates on damaged lysosomes."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP/p97 cooperates with YOD1, UBXD1 and PLAA to drive clearance of ruptured lysosomes by autophagy",
+          "journal": "The EMBO Journal",
+          "year": 2016,
+          "relevant_quote": "Upon damage, p97 translocates to lysosomes and there cooperates with a distinct set of cofactors including UBXD1, PLAA, and the deubiquitinating enzyme YOD1, which we term ELDR components for Endo-Lysosomal Damage Response. Together, they act downstream of K63-linked ubiquitination and p62 recruitment, and selectively remove K48-linked ubiquitin conjugates from a subpopulation of damaged lysosomes to promote autophagosome formation.",
+          "pmid": "27753622"
+        }
+      ],
+      "pathway": {
+        "name": "Lysophagy",
+        "canonical_name": "Lysophagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "27753622"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    },
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "activates",
+      "cellular_process": "YOD1 is a VCP-associated deubiquitinase that is required for the disposal of misfolded ERAD substrates. Its deubiquitinating activity is necessary to process ubiquitinated substrates, allowing VCP to extract them from the ER membrane for subsequent degradation by the proteasome.",
+      "effect_description": "Facilitates the degradation of ERAD substrates by deubiquitinating them in conjunction with VCP's segregase activity, either at the retro-translocation step or during downstream processing.",
+      "biological_consequence": [
+        "Misfolded protein in the ER is ubiquitinated → The VCP-YOD1 complex is recruited → YOD1 deubiquitinates the substrate, facilitating its extraction from the ER by VCP → The substrate is retro-translocated to the cytosol → The substrate is degraded by the proteasome, maintaining ER proteostasis."
+      ],
+      "specific_effects": [
+        "YOD1's deubiquitinating activity is required for the efficient disposal of ERAD substrates.",
+        "Expression of a catalytically inactive YOD1 variant stalls the dislocation reaction and leads to the accumulation of polyubiquitinated ERAD intermediates associated with VCP.",
+        "The functional role of YOD1 in ERAD is substrate-dependent; for some substrates it is required for retro-translocation, while for others it acts in downstream events like deglycosylation and proteasomal degradation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The otubain YOD1 is a deubiquitinating enzyme that associates with p97 to facilitate protein dislocation from the ER",
+          "journal": "Molecular Cell",
+          "year": 2009,
+          "relevant_quote": "Expression of a YOD1 variant deprived of its deubiquitinating activity imposes a halt on the dislocation reaction, as judged by the stabilization of various dislocation substrates. Accordingly, we observe an increase in polyubiquitinated dislocation intermediates in association with p97 in the cytosol.",
+          "pmid": "19818707"
+        },
+        {
+          "paper_title": "The VCP/p97 and YOD1 Proteins Have Different Substrate-dependent Activities in Endoplasmic Reticulum-associated Degradation (ERAD)",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2015,
+          "relevant_quote": "Using different ERAD substrates, we found that both proteins participate in two distinct retro-translocation steps. For CD4 and MHC-Iα... p97 and YOD1 have a retro-translocation-triggering role. In contrast, for three other spontaneous ERAD model substrates (NS1, NHK-α1AT, and BST-2/Tetherin), p97 and YOD1 are required in the downstream events of substrate deglycosylation and proteasomal degradation.",
+          "pmid": "26463207"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19818707",
+        "26463207"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "YOD1 is a core component of the Endo-Lysosomal Damage Response (ELDR) complex, which also includes V; YOD1 is a VCP-associated deubiquitinase that is required for the disposal of misfolded ERAD substrat",
+  "effect": "Serves as the deubiquitinase for the VCP-ELDR complex, removing specific K48-linked ubiquitin signals from damaged lysosomes to enable their autophagic degradation.; Facilitates the degradation of ERAD substrates by deubiquitinating them in conjunction with VCP's segregase activity, either at the retro-translocation step or during downstream processing.",
+  "summary": "VCP activates YOD1 to regulate lysosome clearance (lysophagy) and er-associated degradation (erad), ultimately affecting lysophagy leads to the clearance of the ruptured organelle.",
+  "evidence": [
+    {
+      "paper_title": "VCP/p97 cooperates with YOD1, UBXD1 and PLAA to drive clearance of ruptured lysosomes by autophagy",
+      "journal": "The EMBO Journal",
+      "year": 2016,
+      "relevant_quote": "Upon damage, p97 translocates to lysosomes and there cooperates with a distinct set of cofactors including UBXD1, PLAA, and the deubiquitinating enzyme YOD1, which we term ELDR components for Endo-Lysosomal Damage Response. Together, they act downstream of K63-linked ubiquitination and p62 recruitment, and selectively remove K48-linked ubiquitin conjugates from a subpopulation of damaged lysosomes to promote autophagosome formation."
+    },
+    {
+      "paper_title": "The otubain YOD1 is a deubiquitinating enzyme that associates with p97 to facilitate protein dislocation from the ER",
+      "journal": "Molecular Cell",
+      "year": 2009,
+      "relevant_quote": "Expression of a YOD1 variant deprived of its deubiquitinating activity imposes a halt on the dislocation reaction, as judged by the stabilization of various dislocation substrates. Accordingly, we observe an increase in polyubiquitinated dislocation intermediates in association with p97 in the cytosol."
+    },
+    {
+      "paper_title": "The VCP/p97 and YOD1 Proteins Have Different Substrate-dependent Activities in Endoplasmic Reticulum-associated Degradation (ERAD)",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2015,
+      "relevant_quote": "Using different ERAD substrates, we found that both proteins participate in two distinct retro-translocation steps. For CD4 and MHC-Iα... p97 and YOD1 have a retro-translocation-triggering role. In contrast, for three other spontaneous ERAD model substrates (NS1, NHK-α1AT, and BST-2/Tetherin), p97 and YOD1 are required in the downstream events of substrate deglycosylation and proteasomal degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Lysophagy",
+      "canonical_name": "Lysophagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> YOD1:",
+  "protein_a": "VCP",
+  "protein_b": "YOD1",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.336383Z",
+  "last_updated": "2025-12-04T19:56:00.336383Z"
+}

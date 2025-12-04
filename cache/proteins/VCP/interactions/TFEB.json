@@ -1,0 +1,130 @@
+{
+  "primary": "TFEB",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "VCP regulates the activation of the transcription factor TFEB, which promotes the expression of autophagy and lysosomal genes, particularly in response to lysosomal damage.",
+  "functions": [
+    {
+      "function": "Lysosomal & Autophagy Gene Expression",
+      "arrow": "inhibits",
+      "cellular_process": "VCP indirectly regulates the activity of the transcription factor TFEB by participating in the endo-lysosomal damage response (ELDR). Lysosomal membrane permeabilization (LMP) is a signal that leads to the dephosphorylation and subsequent nuclear translocation of TFEB, where it activates the transcription of genes in the CLEAR (Coordinated Lysosomal Expression and Regulation) network. VCP is essential for the clearance of these damaged lysosomes. By resolving the upstream damage signal, VCP's function leads to the termination of TFEB activation and its return to the cytoplasm, thereby restoring cellular homeostasis.",
+      "effect_description": "Acts as an indirect negative regulator of TFEB activity. VCP does not directly inhibit TFEB but is required for clearing the lysosomal damage that triggers TFEB activation. Consequently, loss of VCP function or the presence of pathogenic VCP mutations results in the accumulation of damaged lysosomes and persistent, unresolved TFEB activation.",
+      "biological_consequence": [
+        "Lysosomal damage (LMP) → Galectin-3 recruitment to damaged lysosome membranes → mTORC1 inactivation/dissociation → TFEB dephosphorylation and nuclear translocation → Transcription of CLEAR network genes → VCP-mediated clearance of damaged lysosomes (lysophagy) → Removal of activating signal → TFEB re-phosphorylation and return to cytoplasm → Termination of transcriptional response"
+      ],
+      "specific_effects": [
+        "Inactivation of VCP or expression of VCP disease mutants leads to persistent nuclear localization of TFEB following lysosomal damage.",
+        "VCP is a central mediator of both the clearance of damaged lysosomes and, consequently, the regulation of lysosomal biogenesis via TFEB.",
+        "Loss of VCP function leads to an accumulation of LGALS3/Galectin-3-positive damaged lysosomes, a trigger for TFEB activation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP maintains lysosomal homeostasis and TFEB activity in differentiated skeletal muscle",
+          "journal": "Autophagy",
+          "year": 2019,
+          "relevant_quote": "Moreover, TFEB was activated after LMP in cells, but activation and nuclear localization of TFEB persisted upon VCP inactivation or disease mutant expression. Our data identifies VCP as central mediator of both lysosomal clearance and biogenesis in skeletal muscle.",
+          "pmid": "30654731"
+        },
+        {
+          "paper_title": "Valosin Containing Protein (VCP): A Multistep Regulator of Autophagy",
+          "journal": "Int J Mol Sci",
+          "year": 2022,
+          "relevant_quote": "In particular, in the presence of lysosomal damage, VCP regulates the activation of TFEB and TFE3 that promote the expression of the CLEAR genes. When lysosomal damage is induced, the silencing or inhibition of VCP activity stabilizes TFEB activation.",
+          "pmid": "35216053"
+        },
+        {
+          "paper_title": "Pathogenic variants of Valosin-containing protein induce lysosomal damage and transcriptional activation of autophagy regulators in neuronal cells",
+          "journal": "Neuropathology and Applied Neurobiology",
+          "year": 2022,
+          "relevant_quote": "This suggests that WT and mutant VCP modulate TFEB activity. Notably, lysosomal damage with LGALS3 and LAMP1-positive puncta and TFEB activation is detectable in muscles of the VCP-disease mouse model.",
+          "pmid": "35501124"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation of Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30654731",
+        "35216053",
+        "35501124"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "VCP",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCP indirectly regulates the activity of the transcription factor TFEB by participating in the endo-lysosomal damage response (ELDR). Lysosomal membrane permeabilization (LMP) is a signal that leads to the dephosphorylation and subsequent nuclear translocation of TFEB, where it activates the transcription of genes in the CLEAR (Coordinated Lysosomal Expression and Regulation) network. VCP is essential for the clearance of these damaged lysosomes. By resolving the upstream damage signal, VCP's function leads to the termination of TFEB activation and its return to the cytoplasm, thereby restoring cellular homeostasis.",
+  "effect": "Acts as an indirect negative regulator of TFEB activity. VCP does not directly inhibit TFEB but is required for clearing the lysosomal damage that triggers TFEB activation. Consequently, loss of VCP function or the presence of pathogenic VCP mutations results in the accumulation of damaged lysosomes and persistent, unresolved TFEB activation.",
+  "summary": "VCP inhibits TFEB to modulate lysosomal & autophagy gene expression, ultimately affecting termination of transcriptional response.",
+  "evidence": [
+    {
+      "paper_title": "VCP maintains lysosomal homeostasis and TFEB activity in differentiated skeletal muscle",
+      "journal": "Autophagy",
+      "year": 2019,
+      "relevant_quote": "Moreover, TFEB was activated after LMP in cells, but activation and nuclear localization of TFEB persisted upon VCP inactivation or disease mutant expression. Our data identifies VCP as central mediator of both lysosomal clearance and biogenesis in skeletal muscle."
+    },
+    {
+      "paper_title": "Valosin Containing Protein (VCP): A Multistep Regulator of Autophagy",
+      "journal": "Int J Mol Sci",
+      "year": 2022,
+      "relevant_quote": "In particular, in the presence of lysosomal damage, VCP regulates the activation of TFEB and TFE3 that promote the expression of the CLEAR genes. When lysosomal damage is induced, the silencing or inhibition of VCP activity stabilizes TFEB activation."
+    },
+    {
+      "paper_title": "Pathogenic variants of Valosin-containing protein induce lysosomal damage and transcriptional activation of autophagy regulators in neuronal cells",
+      "journal": "Neuropathology and Applied Neurobiology",
+      "year": 2022,
+      "relevant_quote": "This suggests that WT and mutant VCP modulate TFEB activity. Notably, lysosomal damage with LGALS3 and LAMP1-positive puncta and TFEB activation is detectable in muscles of the VCP-disease mouse model."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation of Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --regulates--> TFEB:",
+  "protein_a": "VCP",
+  "protein_b": "TFEB",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.354586Z",
+  "last_updated": "2025-12-04T19:56:00.354586Z"
+}

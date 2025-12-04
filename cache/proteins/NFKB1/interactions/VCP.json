@@ -1,0 +1,119 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": "IKBalpha",
+  "mediator_chain": [
+    "IKBalpha"
+  ],
+  "depth": 2,
+  "support_summary": "VCP regulates the NF-κB signaling pathway by promoting the proteasome-dependent degradation of IκBα, which is an inhibitor of NF-κB (p65). Loss of VCP leads to decreased IκBα degradation and subsequent inactivation of the NF-κB pathway.",
+  "functions": [
+    {
+      "function": "NF-κB Signaling Pathway",
+      "arrow": "activates",
+      "cellular_process": "VCP is required for canonical NF-κB signaling by mediating the degradation of the inhibitor protein IκBα. Upon stimulation (e.g., by TNFα), the IKK complex phosphorylates IκBα, targeting it for ubiquitination. VCP, along with its cofactors like the UFD1L-NPL4 heterodimer, acts as a segregase to extract the phosphorylated and ubiquitinated IκBα from the NF-κB/IκBα complex. This action facilitates the timely and efficient degradation of IκBα by the 26S proteasome, thereby liberating the NF-κB1 (p50)/RelA (p65) dimer to translocate to the nucleus and activate target gene transcription.",
+      "effect_description": "Promotes NF-κB signaling by playing an essential role in the proteasomal degradation of its inhibitor, IκBα. Inhibition of VCP function leads to the accumulation of IκBα, sequestration of NF-κB in the cytoplasm, and subsequent inactivation of the pathway.",
+      "biological_consequence": [
+        "TNFα signaling → IKK complex activation → IKK phosphorylates IκBα at Ser32 and Ser36 → SCF(β-TrCP) E3 ligase ubiquitinates IκBα → VCP segregase complex extracts ubiquitinated IκBα from NF-κB → VCP facilitates delivery to the 26S proteasome → IκBα is degraded → NF-κB1/RelA dimer is released → NF-κB translocates to the nucleus → Transcription of inflammatory and survival genes"
+      ],
+      "specific_effects": [
+        "Inhibition of VCP with the inhibitor VCP20 inactivates the NF-κB signaling pathway by preventing the ubiquitination-dependent degradation of IκBα.",
+        "Functional p97/VCP is essentially required for the efficient liberation of RelA from IκBα, which precedes IκBα degradation.",
+        "VCP physically associates with ubiquitinated IκBα to promote its degradation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inhibition of VCP modulates NF-κB signaling pathway to suppress multiple myeloma cell proliferation and osteoclast differentiation",
+          "journal": "Aging (Albany NY)",
+          "year": 2023,
+          "relevant_quote": "Mechanism study revealed that VCP20 inactivated the NF-κB signaling pathway by inhibiting ubiquitination degradation of IκBα.",
+          "pmid": "37606987"
+        },
+        {
+          "paper_title": "p97/VCP promotes Cullin-RING-ubiquitin-ligase/proteasome-dependent degradation of IκBα and the preceding liberation of RelA from ubiquitinated IκBα",
+          "journal": "Journal of Cellular and Molecular Medicine",
+          "year": 2015,
+          "relevant_quote": "Subsequent to CRL-dependent IκBα ubiquitination functional p97/VCP is essentially required for efficient liberation of (phosphorylated) RelA from IκBα, preceding p97/VCP-promoted timely and efficient degradation of IκBα as well as simultaneous NF-κB/RelA nuclear translocation.",
+          "pmid": "26463447"
+        }
+      ],
+      "pathway": {
+        "name": "NF-κB Signaling",
+        "canonical_name": "NF-kB Signaling",
+        "ontology_id": "hsa04064",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37606987",
+        "26463447"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "IKBalpha",
+        "direct_arrow": "inhibits",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "IKBalpha"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCP is required for canonical NF-κB signaling by mediating the degradation of the inhibitor protein IκBα. Upon stimulation (e.g., by TNFα), the IKK complex phosphorylates IκBα, targeting it for ubiquitination. VCP, along with its cofactors like the UFD1L-NPL4 heterodimer, acts as a segregase to extract the phosphorylated and ubiquitinated IκBα from the NF-κB/IκBα complex. This action facilitates the timely and efficient degradation of IκBα by the 26S proteasome, thereby liberating the NF-κB1 (p50)/RelA (p65) dimer to translocate to the nucleus and activate target gene transcription.",
+  "effect": "Promotes NF-κB signaling by playing an essential role in the proteasomal degradation of its inhibitor, IκBα. Inhibition of VCP function leads to the accumulation of IκBα, sequestration of NF-κB in the cytoplasm, and subsequent inactivation of the pathway.",
+  "summary": "VCP activates NFKB1 to modulate nf-κb signaling pathway, ultimately affecting transcription of inflammatory and survival genes.",
+  "evidence": [
+    {
+      "paper_title": "Inhibition of VCP modulates NF-κB signaling pathway to suppress multiple myeloma cell proliferation and osteoclast differentiation",
+      "journal": "Aging (Albany NY)",
+      "year": 2023,
+      "relevant_quote": "Mechanism study revealed that VCP20 inactivated the NF-κB signaling pathway by inhibiting ubiquitination degradation of IκBα."
+    },
+    {
+      "paper_title": "p97/VCP promotes Cullin-RING-ubiquitin-ligase/proteasome-dependent degradation of IκBα and the preceding liberation of RelA from ubiquitinated IκBα",
+      "journal": "Journal of Cellular and Molecular Medicine",
+      "year": 2015,
+      "relevant_quote": "Subsequent to CRL-dependent IκBα ubiquitination functional p97/VCP is essentially required for efficient liberation of (phosphorylated) RelA from IκBα, preceding p97/VCP-promoted timely and efficient degradation of IκBα as well as simultaneous NF-κB/RelA nuclear translocation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "NF-κB Signaling",
+      "canonical_name": "NF-kB Signaling",
+      "ontology_id": "hsa04064",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "IKBalpha --activates--> NFKB1:",
+  "protein_a": "NFKB1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.356969Z",
+  "last_updated": "2025-12-04T19:56:00.356969Z"
+}

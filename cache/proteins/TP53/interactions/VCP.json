@@ -1,0 +1,177 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": "MDM2",
+  "mediator_chain": [
+    "MDM2"
+  ],
+  "depth": 2,
+  "support_summary": "VCP regulates the stability of the tumor suppressor p53 (TP53). It can bind to MDM2, disrupting the MDM2-p53 interaction and thereby protecting mutant p53 from MDM2-mediated ubiquitination and degradation.",
+  "functions": [
+    {
+      "function": "Mutant p53 Protein Stabilization",
+      "arrow": "activates",
+      "cellular_process": "VCP/p97 regulates the stability of mutant p53 (TP53). VCP binds to the E3 ubiquitin ligase MDM2, which is a primary negative regulator of p53. This interaction competitively inhibits the binding of MDM2 to mutant p53, thereby preventing MDM2-mediated ubiquitination and subsequent proteasomal degradation of mutant p53, leading to its stabilization and accumulation.",
+      "effect_description": "Stabilizes mutant p53 protein by binding to MDM2 and disrupting the MDM2-p53 complex, which inhibits MDM2-mediated ubiquitination and degradation of p53.",
+      "biological_consequence": [
+        "VCP binds to MDM2 → VCP-MDM2 interaction sterically hinders MDM2 from binding to mutant p53 → Ubiquitination of mutant p53 by MDM2 is reduced → Proteasomal degradation of mutant p53 is inhibited → Mutant p53 protein levels increase, promoting gain-of-function activities"
+      ],
+      "specific_effects": [
+        "VCP directly binds to MDM2, disrupting its association with mutant p53.",
+        "Inhibition of VCP via genetic depletion or pharmacological inhibitors (e.g., CB-5083) increases the ubiquitination and degradation of mutant p53-R273H, leading to cancer cell death."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Valosin-Containing Protein Stabilizes Mutant p53 to Promote Pancreatic Cancer Growth",
+          "journal": "Cancer Research",
+          "year": 2021,
+          "relevant_quote": "Ectopic or endogenous VCP stabilized p53-R273H by binding to MDM2 and disrupting its association with mutant p53. Inhibition of VCP either by genetic depletion or the pharmacologic inhibitor CB-5083 increased ubiquitination and degradation of p53-R273H, leading to cell death.",
+          "pmid": "34099490"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "34099490"
+      ],
+      "direct_arrow": "inhibits",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "MDM2",
+        "direct_arrow": "inhibits",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "MDM2"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    },
+    {
+      "function": "Induction of Apoptosis via ER Stress",
+      "arrow": "inhibits",
+      "cellular_process": "Inhibition of VCP's ATPase activity disrupts the processing of ubiquitinated proteins, including those in the Endoplasmic Reticulum-Associated Degradation (ERAD) pathway. This leads to an accumulation of misfolded proteins in the ER, causing severe ER stress and activation of the Unfolded Protein Response (UPR). Prolonged and unresolved UPR can trigger p53-independent apoptosis through the activation of caspases.",
+      "effect_description": "VCP inhibition triggers p53-independent apoptosis as a downstream consequence of unresolved ER stress and UPR activation.",
+      "biological_consequence": [
+        "VCP inhibition → Impaired ERAD pathway → Accumulation of poly-ubiquitinated, misfolded proteins → ER stress and UPR activation (PERK, IREα) → Activation of pro-apoptotic factors (e.g., CHOP) → Cleavage and activation of Caspase-3 → Apoptosis"
+      ],
+      "specific_effects": [
+        "VCP inhibition induces the accumulation of poly-ubiquitinated proteins and markers of ER stress such as PERK, CHOP, and IREα.",
+        "Apoptosis induced by VCP inhibitors is mediated by the activation of both intrinsic (Caspase 9) and extrinsic (Caspase 8) apoptotic pathways.",
+        "In p53-null cell lines, VCP inhibition still results in apoptosis, indicating a p53-independent mechanism."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Novel p97/VCP inhibitor induces endoplasmic reticulum stress and apoptosis in both bortezomib-sensitive and -resistant multiple myeloma cells",
+          "journal": "Cancer Science",
+          "year": 2017,
+          "relevant_quote": "Treatment with OSSL_325096 induced the accumulation of poly-ubiquitinated proteins, expression of markers for ER-stress, PERK, CHOP, and IREα, and cleavage of caspase-3... This result indicates that OSSL_325096 induced ER-stress and caspase-3-mediated apoptosis in MM cells...",
+          "pmid": "31368616"
+        },
+        {
+          "paper_title": "VCP inhibitors induce endoplasmic reticulum stress, cause cell cycle arrest, trigger caspase-mediated cell death and synergistically kill ovarian cancer cells in combination with Salubrinal",
+          "journal": "Oncotarget",
+          "year": 2017,
+          "relevant_quote": "Mechanistic studies point to the unresolved unfolded protein response (UPR) as a mechanism by which VCP inhibitors contribute to cytotoxicity.",
+          "pmid": "27729194"
+        }
+      ],
+      "pathway": {
+        "name": "Apoptosis",
+        "canonical_name": "Apoptosis",
+        "ontology_id": "GO:0006915",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31368616",
+        "27729194"
+      ],
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "MDM2",
+        "direct_arrow": "inhibits",
+        "net_from": "VCP",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "MDM2"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCP/p97 regulates the stability of mutant p53 (TP53); Inhibition of VCP's ATPase activity disrupts the processing of ubiquitinated proteins, including tho",
+  "effect": "Stabilizes mutant p53 protein by binding to MDM2 and disrupting the MDM2-p53 complex, which inhibits MDM2-mediated ubiquitination and degradation of p53.; VCP inhibition triggers p53-independent apoptosis as a downstream consequence of unresolved ER stress and UPR activation.",
+  "summary": "VCP activates TP53 to regulate mutant p53 protein stabilization and induction of apoptosis via er stress, ultimately affecting mutant p53 protein levels increase, promoting gain-of-function activities.",
+  "evidence": [
+    {
+      "paper_title": "Valosin-Containing Protein Stabilizes Mutant p53 to Promote Pancreatic Cancer Growth",
+      "journal": "Cancer Research",
+      "year": 2021,
+      "relevant_quote": "Ectopic or endogenous VCP stabilized p53-R273H by binding to MDM2 and disrupting its association with mutant p53. Inhibition of VCP either by genetic depletion or the pharmacologic inhibitor CB-5083 increased ubiquitination and degradation of p53-R273H, leading to cell death."
+    },
+    {
+      "paper_title": "Novel p97/VCP inhibitor induces endoplasmic reticulum stress and apoptosis in both bortezomib-sensitive and -resistant multiple myeloma cells",
+      "journal": "Cancer Science",
+      "year": 2017,
+      "relevant_quote": "Treatment with OSSL_325096 induced the accumulation of poly-ubiquitinated proteins, expression of markers for ER-stress, PERK, CHOP, and IREα, and cleavage of caspase-3... This result indicates that OSSL_325096 induced ER-stress and caspase-3-mediated apoptosis in MM cells..."
+    },
+    {
+      "paper_title": "VCP inhibitors induce endoplasmic reticulum stress, cause cell cycle arrest, trigger caspase-mediated cell death and synergistically kill ovarian cancer cells in combination with Salubrinal",
+      "journal": "Oncotarget",
+      "year": 2017,
+      "relevant_quote": "Mechanistic studies point to the unresolved unfolded protein response (UPR) as a mechanism by which VCP inhibitors contribute to cytotoxicity."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Apoptosis",
+      "canonical_name": "Apoptosis",
+      "ontology_id": "GO:0006915",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "MDM2 --regulates--> TP53:",
+  "protein_a": "TP53",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.412003Z",
+  "last_updated": "2025-12-04T19:56:00.412003Z"
+}

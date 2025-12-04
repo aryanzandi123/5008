@@ -1,0 +1,95 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "SQSTM1/p62 is an autophagy receptor that links ubiquitinated cargo to autophagosomes and interacts with VCP to facilitate the clearance of protein aggregates and damaged organelles.",
+  "functions": [
+    {
+      "function": "Autophagic Clearance of Aggregates (Aggrephagy)",
+      "arrow": "activates",
+      "cellular_process": "SQSTM1/p62 is a selective autophagy receptor that acts as a scaffold protein. Its UBA domain binds to K63-linked polyubiquitin chains on protein aggregates, and its LIR domain binds to LC3 on the nascent autophagosome (phagophore). VCP/p97 interacts directly with SQSTM1/p62, utilizing its segregase activity to potentially remodel or extract ubiquitinated proteins from aggregates, thereby facilitating their recognition and engulfment by the autophagosome for subsequent lysosomal degradation.",
+      "effect_description": "Functions as a critical adaptor protein that links VCP's segregase activity with the core autophagy machinery (LC3) to facilitate the clearance of ubiquitinated protein aggregates.",
+      "biological_consequence": [
+        "Ubiquitinated protein aggregate formation → SQSTM1/p62 binds to ubiquitin chains on the aggregate via its UBA domain → VCP/p97 binds directly to SQSTM1/p62 → VCP segregase activity processes the aggregate → SQSTM1/p62 binds to LC3 on the phagophore via its LIR domain → The aggregate is engulfed by the autophagosome → Autophagosome fuses with the lysosome for degradation"
+      ],
+      "specific_effects": [
+        "The VCP-SQSTM1/p62 interaction is essential for the clearance of ubiquitinated, aggregation-prone proteins.",
+        "SQSTM1/p62 serves as a bridge between ubiquitinated cargo destined for autophagy and the autophagosome itself.",
+        "Mutations in VCP can lead to impaired autophagosome maturation and accumulation of SQSTM1/p62-positive protein aggregates."
+      ],
+      "evidence": [
+        {
+          "paper_title": "p62/SQSTM1 forms protein aggregates degraded by autophagy and has a protective effect on huntingtin-induced cell death",
+          "journal": "The Journal of Cell Biology",
+          "year": 2005,
+          "relevant_quote": "The autophagic marker light chain 3 (LC3) colocalized with p62 bodies and coimmunoprecipitated with p62, suggesting that these two proteins participate in the same complexes... We suggest that p62 may, via LC3, be involved in linking polyubiquitinated protein aggregates to the autophagy machinery.",
+          "pmid": "16286508"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "16286508"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "SQSTM1/p62 is a selective autophagy receptor that acts as a scaffold protein. Its UBA domain binds to K63-linked polyubiquitin chains on protein aggregates, and its LIR domain binds to LC3 on the nascent autophagosome (phagophore). VCP/p97 interacts directly with SQSTM1/p62, utilizing its segregase activity to potentially remodel or extract ubiquitinated proteins from aggregates, thereby facilitating their recognition and engulfment by the autophagosome for subsequent lysosomal degradation.",
+  "effect": "Functions as a critical adaptor protein that links VCP's segregase activity with the core autophagy machinery (LC3) to facilitate the clearance of ubiquitinated protein aggregates.",
+  "summary": "VCP activates SQSTM1 to modulate autophagic clearance of aggregates (aggrephagy), ultimately affecting autophagosome fuses with the lysosome for degradation.",
+  "evidence": [
+    {
+      "paper_title": "p62/SQSTM1 is a direct target of VCP/p97, and their interaction is required for the clearance of protein aggregates",
+      "journal": "The Journal of Cell Biology",
+      "year": 2012,
+      "relevant_quote": "Here, we identify p62 as a direct target of VCP. VCP binds to the central region of p62 through its N-terminal domain. This interaction is required for the recruitment of VCP to p62-positive protein aggregates and for their subsequent clearance."
+    },
+    {
+      "paper_title": "p62/SQSTM1 forms protein aggregates degraded by autophagy and has a protective effect on huntingtin-induced cell death",
+      "journal": "The Journal of Cell Biology",
+      "year": 2005,
+      "relevant_quote": "The autophagic marker light chain 3 (LC3) colocalized with p62 bodies and coimmunoprecipitated with p62, suggesting that these two proteins participate in the same complexes... We suggest that p62 may, via LC3, be involved in linking polyubiquitinated protein aggregates to the autophagy machinery."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --binds--> SQSTM1:",
+  "protein_a": "SQSTM1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.379526Z",
+  "last_updated": "2025-12-04T19:56:00.379526Z"
+}

@@ -1,0 +1,89 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "VCP, along with its cofactors Ufd1-Npl4, targets ubiquitinated Ku80 (XRCC5) to release the Ku70/80 heterodimer that is topologically trapped on DNA following non-homologous end-joining.",
+  "functions": [
+    {
+      "function": "DNA Repair Complex Disassembly",
+      "arrow": "activates",
+      "cellular_process": "After DNA ligation in Non-Homologous End Joining (NHEJ), the Ku80 subunit (XRCC5) of the DNA-bound Ku70/80 heterodimer becomes polyubiquitinated with K48-linked chains. This ubiquitination serves as a signal for the recruitment of the VCP/p97-Ufd1-Npl4 complex. VCP then utilizes its segregase activity, fueled by ATP hydrolysis, to mechanically pull on and extract the entire Ku70/80 ring from its topological entrapment on the DNA, thereby finalizing the repair process.",
+      "effect_description": "Serves as the ubiquitinated substrate that is targeted by the VCP-Ufd1-Npl4 complex for the extraction of the entire Ku70/80 heterodimer from DNA, a critical termination step of the NHEJ pathway.",
+      "biological_consequence": [
+        "NHEJ completion → Ku80 (XRCC5) is modified with K48-linked polyubiquitin chains → VCP-Ufd1-Npl4 complex recognizes and binds to ubiquitinated Ku80 → VCP's ATPase-driven activity extracts the Ku70/80 heterodimer from DNA → Chromatin is cleared of repair factors, preventing genomic instability"
+      ],
+      "specific_effects": [
+        "K48-linked polyubiquitination of Ku80 is the specific modification targeted by the VCP-Ufd1-Npl4 complex.",
+        "VCP-mediated extraction of the Ku70/80 complex is essential for clearing DNA post-repair and allows for subsequent DNA-dependent processes to occur.",
+        "Failure to remove the Ku complex due to VCP inhibition leads to the persistence of repair factors on chromatin."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP/p97 Extracts Sterically Trapped Ku70/80 Rings from DNA in Double-Strand Break Repair",
+          "journal": "Molecular Cell",
+          "year": 2016,
+          "relevant_quote": "By means of reconstitution of DSB repair on beads, we demonstrate here that DNA-locked Ku rings are released by the AAA-ATPase, p97. To achieve this, p97 requires ATP hydrolysis, cooperates with the Ufd1-Npl4 ubiquitin adapter complex and specifically targets Ku80 that is modified by K48-linked ubiquitin chains.",
+          "pmid": "27716483"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "27716483"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "After DNA ligation in Non-Homologous End Joining (NHEJ), the Ku80 subunit (XRCC5) of the DNA-bound Ku70/80 heterodimer becomes polyubiquitinated with K48-linked chains. This ubiquitination serves as a signal for the recruitment of the VCP/p97-Ufd1-Npl4 complex. VCP then utilizes its segregase activity, fueled by ATP hydrolysis, to mechanically pull on and extract the entire Ku70/80 ring from its topological entrapment on the DNA, thereby finalizing the repair process.",
+  "effect": "Serves as the ubiquitinated substrate that is targeted by the VCP-Ufd1-Npl4 complex for the extraction of the entire Ku70/80 heterodimer from DNA, a critical termination step of the NHEJ pathway.",
+  "summary": "VCP activates XRCC5 to modulate dna repair complex disassembly, ultimately affecting chromatin is cleared of repair factors, preventing genomic instability.",
+  "evidence": [
+    {
+      "paper_title": "VCP/p97 Extracts Sterically Trapped Ku70/80 Rings from DNA in Double-Strand Break Repair",
+      "journal": "Molecular Cell",
+      "year": 2016,
+      "relevant_quote": "By means of reconstitution of DSB repair on beads, we demonstrate here that DNA-locked Ku rings are released by the AAA-ATPase, p97. To achieve this, p97 requires ATP hydrolysis, cooperates with the Ufd1-Npl4 ubiquitin adapter complex and specifically targets Ku80 that is modified by K48-linked ubiquitin chains."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --binds--> XRCC5:",
+  "protein_a": "XRCC5",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.374847Z",
+  "last_updated": "2025-12-04T19:56:00.374847Z"
+}

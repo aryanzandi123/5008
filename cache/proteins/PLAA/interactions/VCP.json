@@ -1,0 +1,150 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "PLAA interacts with the C-terminal tail of VCP and is involved in stress granule formation and lysosome clearance.",
+  "functions": [
+    {
+      "function": "Lysosome Clearance",
+      "arrow": "activates",
+      "cellular_process": "PLAA is a cofactor of VCP/p97 and a component of the Endo-Lysosomal Damage Response (ELDR) complex, which also includes YOD1 and UBXD1. This complex is recruited to damaged lysosomes that have been marked with ubiquitin. The VCP-PLAA-YOD1-UBXD1 complex then processes ubiquitin chains on the lysosomal surface, specifically removing K48-linked ubiquitin conjugates, which facilitates the engulfment of the damaged organelle by an autophagosome in a process known as lysophagy.",
+      "effect_description": "Acts as an indispensable component of the VCP-ELDR complex, which recognizes and processes ubiquitin signals on damaged lysosomes to promote their clearance via autophagy.",
+      "biological_consequence": [
+        "Lysosomal membrane damage → Ubiquitination of lysosomal proteins (including K48 linkages) → Recruitment of the VCP-PLAA-YOD1-UBXD1 (ELDR) complex → The ELDR complex removes K48-linked ubiquitin chains → This promotes the formation of an autophagosome around the damaged lysosome → Clearance of the damaged lysosome through lysophagy"
+      ],
+      "specific_effects": [
+        "PLAA, along with VCP, YOD1, and UBXD1, is part of the ELDR complex that drives the clearance of ruptured lysosomes. [2, 9, 14, 16, 17]",
+        "The ELDR complex specifically removes K48-linked ubiquitin conjugates from damaged lysosomes to promote autophagosome formation. [2, 9, 14, 16, 17]"
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP/p97 cooperates with YOD1, UBXD1 and PLAA to drive clearance of ruptured lysosomes by autophagy",
+          "journal": "The EMBO Journal",
+          "year": 2017,
+          "relevant_quote": "Rupture of endosomes and lysosomes is a major cellular stress condition leading to cell death and degeneration. Here, we identified an essential role for the ubiquitin-directed AAA-ATPase, p97, in the clearance of damaged lysosomes by autophagy. Upon damage, p97 translocates to lysosomes and there cooperates with a distinct set of cofactors including UBXD1, PLAA, and the deubiquitinating enzyme YOD1, which we term ELDR components for Endo-Lysosomal Damage Response. Together, they act downstream of K63-linked ubiquitination and p62 recruitment, and selectively remove K48-linked ubiquitin conjugates from a subpopulation of damaged lysosomes to promote autophagosome formation. [14]",
+          "pmid": "27753622"
+        }
+      ],
+      "pathway": {
+        "name": "Lysophagy",
+        "canonical_name": "Lysophagy",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "27753622"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    },
+    {
+      "function": "Stress Granule Assembly",
+      "arrow": "activates",
+      "cellular_process": "PLAA functions as a cofactor for VCP in the regulation of stress granule (SG) dynamics. Proper assembly of SGs, which are aggregates of mRNA and proteins that form in response to cellular stress, requires functional VCP and its cofactors. Silencing of PLAA or inhibition of VCP leads to defective SG formation. This is potentially linked to the role of the VCP-PLAA complex in clearing defective ribosomal products and 60S ribosomal subunits that are released from disassembling polysomes during stress.",
+      "effect_description": "Acts as a VCP cofactor that is essential for the correct and efficient assembly of stress granules.",
+      "biological_consequence": [
+        "Cellular stress (e.g., arsenite treatment) → Disassembly of polysomes → The VCP-PLAA complex facilitates the proper sorting and degradation of released ribosomal components → This allows for the efficient aggregation of mRNA-protein complexes → Formation of functional stress granules"
+      ],
+      "specific_effects": [
+        "Silencing of PLAA impairs the assembly of stress granules. [3, 5]",
+        "VCP and its cofactors UFD1L and PLAA are involved in the degradation of defective ribosomal products (DRIPs) and 60S ribosomes. [3, 5]",
+        "Inhibition of VCP or autophagy leads to the retention of DRIPs and 60S subunits within stress granules. [3, 5]"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inhibition of autophagy, lysosome and VCP function impairs stress granule assembly",
+          "journal": "Cell Death & Differentiation",
+          "year": 2014,
+          "relevant_quote": "Here, we describe that inhibition of autophagy, lysosomes and VCP causes defective SG formation after induction. Silencing the VCP co-factors UFD1L and PLAA, which degrade defective ribosomal products (DRIPs) and 60S ribosomes, also impaired SG assembly. [3]",
+          "pmid": "25034784"
+        }
+      ],
+      "pathway": {
+        "name": "Stress Granule Dynamics",
+        "canonical_name": "Stress Granule Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25034784"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "PLAA is a cofactor of VCP/p97 and a component of the Endo-Lysosomal Damage Response (ELDR) complex, ; PLAA functions as a cofactor for VCP in the regulation of stress granule (SG) dynamics; PLAA, also known as Ufd3 in yeast, is a VCP-interacting protein that functions as a cofactor in the ",
+  "effect": "Acts as an indispensable component of the VCP-ELDR complex, which recognizes and processes ubiquitin signals on damaged lysosomes to promote their clearance via autophagy.; Acts as a VCP cofactor that is essential for the correct and efficient assembly of stress granules.; ...",
+  "summary": "VCP activates PLAA to control multiple cellular processes including lysosome clearance, stress granule assembly, and proteasomal degradation (ufd pathway), ultimately affecting clearance of the damaged lysosome through lysophagy.",
+  "evidence": [
+    {
+      "paper_title": "VCP/p97 cooperates with YOD1, UBXD1 and PLAA to drive clearance of ruptured lysosomes by autophagy",
+      "journal": "The EMBO Journal",
+      "year": 2017,
+      "relevant_quote": "Rupture of endosomes and lysosomes is a major cellular stress condition leading to cell death and degeneration. Here, we identified an essential role for the ubiquitin-directed AAA-ATPase, p97, in the clearance of damaged lysosomes by autophagy. Upon damage, p97 translocates to lysosomes and there cooperates with a distinct set of cofactors including UBXD1, PLAA, and the deubiquitinating enzyme YOD1, which we term ELDR components for Endo-Lysosomal Damage Response. Together, they act downstream of K63-linked ubiquitination and p62 recruitment, and selectively remove K48-linked ubiquitin conjugates from a subpopulation of damaged lysosomes to promote autophagosome formation. [14]"
+    },
+    {
+      "paper_title": "Inhibition of autophagy, lysosome and VCP function impairs stress granule assembly",
+      "journal": "Cell Death & Differentiation",
+      "year": 2014,
+      "relevant_quote": "Here, we describe that inhibition of autophagy, lysosomes and VCP causes defective SG formation after induction. Silencing the VCP co-factors UFD1L and PLAA, which degrade defective ribosomal products (DRIPs) and 60S ribosomes, also impaired SG assembly. [3]"
+    },
+    {
+      "paper_title": "Phospholipase A2-activating protein is a p97/VCP-interacting protein",
+      "journal": "Biochemical and Biophysical Research Communications",
+      "year": 2004,
+      "relevant_quote": "The yeast homolog of PLAA, Doa1/Ufd3, is required for ubiquitin-dependent proteolysis."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Lysophagy",
+      "canonical_name": "Lysophagy",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    },
+    {
+      "name": "Stress Granule Dynamics",
+      "canonical_name": "Stress Granule Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> PLAA:",
+  "protein_a": "PLAA",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.344419Z",
+  "last_updated": "2025-12-04T19:56:00.344419Z"
+}

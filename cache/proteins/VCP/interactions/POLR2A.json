@@ -1,0 +1,107 @@
+{
+  "primary": "POLR2A",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "VCP directly extracts ubiquitinated RNA Polymerase II (POLR2A) that is stalled on chromatin due to DNA damage, a key step in transcription-coupled DNA repair.",
+  "functions": [
+    {
+      "function": "Transcription-Coupled DNA Repair",
+      "arrow": "activates",
+      "cellular_process": "During transcription, DNA lesions can cause RNA Polymerase II (POLR2A) to stall, creating a physical barrier to DNA repair machinery. To resolve this, the stalled POLR2A is polyubiquitinated, which serves as a signal for its removal. VCP/p97 is recruited to the site of damage, where it functions as a segregase. It utilizes ATP hydrolysis to generate the mechanical force needed to extract the ubiquitinated POLR2A complex from the chromatin. This extraction clears the DNA lesion, allowing access for the Transcription-Coupled Nucleotide Excision Repair (TC-NER) machinery to repair the damage.",
+      "effect_description": "VCP/p97 resolves transcriptional blocks at sites of DNA damage by physically extracting the stalled and ubiquitinated RNA Polymerase II complex from chromatin, thereby enabling DNA repair.",
+      "biological_consequence": [
+        "A DNA lesion (e.g., UV-induced photoproduct) blocks the progression of elongating RNA Polymerase II (POLR2A) → The stalled POLR2A complex is polyubiquitinated by an E3 ligase (e.g., CRL4-CSA) → VCP/p97, along with its cofactors like UFD1 and NPL4, is recruited to the ubiquitinated POLR2A → VCP/p97 uses its ATPase-driven segregase activity to unfold and pull the POLR2A complex off the DNA → The DNA lesion is now accessible to TC-NER factors → DNA is repaired, and transcription can resume."
+      ],
+      "specific_effects": [
+        "Functions as a segregase to extract ubiquitinated POLR2A from damaged chromatin.",
+        "VCP/p97 inhibition severely impairs ultraviolet radiation (UVR)-induced degradation of POLR2A.",
+        "The extraction of POLR2A is a key step in the DNA damage-induced transcription stress response, allowing for subsequent repair."
+      ],
+      "evidence": [
+        {
+          "paper_title": "UV-induced proteolysis of RNA polymerase II is mediated by VCP/p97 segregase and timely orchestration by Cockayne syndrome B protein",
+          "journal": "Oncotarget",
+          "year": 2017,
+          "relevant_quote": "Here, we report that Valosin-containing protein (VCP)/p97, a druggable oncotarget, is essential for RNAPII's proteolytic clearance in mammalian cells. We show that inhibition of VCP/p97, or siRNA-mediated ablation of VCP/p97 and its cofactors UFD1 and UBXD7 severely impairs ultraviolet radiation (UVR)-induced RNAPII degradation.",
+          "pmid": "28036256"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28036256"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "During transcription, DNA lesions can cause RNA Polymerase II (POLR2A) to stall, creating a physical barrier to DNA repair machinery. To resolve this, the stalled POLR2A is polyubiquitinated, which serves as a signal for its removal. VCP/p97 is recruited to the site of damage, where it functions as a segregase. It utilizes ATP hydrolysis to generate the mechanical force needed to extract the ubiquitinated POLR2A complex from the chromatin. This extraction clears the DNA lesion, allowing access for the Transcription-Coupled Nucleotide Excision Repair (TC-NER) machinery to repair the damage.",
+  "effect": "VCP/p97 resolves transcriptional blocks at sites of DNA damage by physically extracting the stalled and ubiquitinated RNA Polymerase II complex from chromatin, thereby enabling DNA repair.",
+  "summary": "VCP activates POLR2A to modulate transcription-coupled dna repair, ultimately affecting dna is repaired, and transcription can resume.",
+  "evidence": [
+    {
+      "paper_title": "UV-induced proteolysis of RNA polymerase II is mediated by VCP/p97 segregase and timely orchestration by Cockayne syndrome B protein",
+      "journal": "Oncotarget",
+      "year": 2017,
+      "relevant_quote": "Here, we report that Valosin-containing protein (VCP)/p97, a druggable oncotarget, is essential for RNAPII's proteolytic clearance in mammalian cells. We show that inhibition of VCP/p97, or siRNA-mediated ablation of VCP/p97 and its cofactors UFD1 and UBXD7 severely impairs ultraviolet radiation (UVR)-induced RNAPII degradation."
+    },
+    {
+      "paper_title": "p97/VCP is a key regulator of the DNA damage-induced transcription stress response",
+      "journal": "Nature Communications",
+      "year": 2015,
+      "relevant_quote": "Here we show that p97 is a key regulator of the DNA damage-induced transcription stress response that removes RNA polymerase II (Pol II) stalled at DNA lesions... Our results demonstrate a crucial role for p97 in clearing Pol II from DNA damage sites to allow subsequent DNA repair."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --regulates--> POLR2A:",
+  "protein_a": "VCP",
+  "protein_b": "POLR2A",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.422414Z",
+  "last_updated": "2025-12-04T19:56:00.422414Z"
+}

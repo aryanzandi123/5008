@@ -1,0 +1,138 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "UBXN1 (also known as SAKS1 or p47) is a UBX domain-containing protein that acts as a VCP cofactor, involved in recruiting VCP to mitochondria and regulating aggresome clearance.",
+  "functions": [
+    {
+      "function": "Aggresome Formation & Clearance",
+      "arrow": "activates",
+      "cellular_process": "UBXN1 acts as a VCP adaptor that is recruited to ubiquitinated protein aggregates. The VCP-UBXN1 complex is essential for the formation of aggresomes, which are perinuclear inclusion bodies that sequester misfolded proteins for subsequent clearance.",
+      "effect_description": "Mediates the VCP-dependent formation and clearance of aggresomes, playing a key role in managing cellular protein aggregates.",
+      "biological_consequence": [
+        "Proteasome inhibition or protein misfolding → Ubiquitinated proteins accumulate → UBXN1 is recruited to ubiquitinated aggregates → VCP-UBXN1 complex mediates transport of aggregates along microtubules to the MTOC → Aggresome formation → Subsequent aggregate clearance."
+      ],
+      "specific_effects": [
+        "The VCP(p97)–UBXN1 complex is required for the formation and clearance of aggresomes.",
+        "Loss of UBXN1 prevents aggresome formation, and UBXN1-knockout cells are unable to form aggresomes.",
+        "Loss of the p97–UBXN1 complex leads to an increase in inclusion bodies of proteins such as mutant Huntingtin."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–UBXN1 complex regulates aggresome formation",
+          "journal": "Journal of Cell Science",
+          "year": 2021,
+          "relevant_quote": "We demonstrate that p97 mediates aggresome formation and clearance, and identify a novel role for the adaptor UBXN1 in the process of aggresome formation. UBXN1 is recruited to aggresomes, and UBXN1-knockout cells are unable to form aggresomes. Loss of p97–UBXN1 results in increased Huntingtin polyQ inclusion bodies both in mammalian cells and in a C. elegans model of Huntington's disease.",
+          "pmid": "33712450"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33712450"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    },
+    {
+      "function": "Mitophagy",
+      "arrow": "activates",
+      "cellular_process": "UBXN1 translocates to depolarized mitochondria in a Parkin-dependent manner. It then recruits VCP to the outer mitochondrial membrane to facilitate the extraction of ubiquitinated proteins, such as MFN2, which is a critical step for initiating the clearance of damaged mitochondria.",
+      "effect_description": "Functions as a pro-mitophagic VCP cofactor by promoting the recruitment of VCP to damaged mitochondria, thereby facilitating their removal.",
+      "biological_consequence": [
+        "Mitochondrial depolarization → PINK1 stabilization and Parkin (PRKN) activation → UBXN1 translocates alongside VCP to mitochondria → VCP-UBXN1 complex facilitates the extraction of ubiquitinated Outer Mitochondrial Membrane (OMM) proteins like MFN2 → Mitochondrial fragmentation and clearance via mitophagy."
+      ],
+      "specific_effects": [
+        "UBXN1 is recruited with VCP to depolarized mitochondria to facilitate mitophagy.",
+        "UBXN1 translocation to damaged mitochondria is dependent on Parkin (PRKN).",
+        "UBXN1 facilitates the removal of MFN2 from the mitochondria, acting as a novel regulator of mitophagic initiation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP/p97 cofactor UBXN1/SAKS1 regulates mitophagy by modulating MFN2 removal from mitochondria",
+          "journal": "Autophagy",
+          "year": 2021,
+          "relevant_quote": "Removal of ubiquitinated substrates such as the mitofusin MFN2 from the outer mitochondrial membrane by VCP is critical for PRKN accumulation on mitochondria, which drives mitophagy. Here we characterize the role of the UBA and UBX-domain containing VCP cofactor UBXN1/SAKS1 during mitophagy. Following mitochondrial depolarization and depending on PRKN, UBXN1 translocated alongside VCP to mitochondria.",
+          "pmid": "33966597"
+        }
+      ],
+      "pathway": {
+        "name": "Mitophagy",
+        "canonical_name": "Mitophagy",
+        "ontology_id": "GO:0000423",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33966597"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "UBXN1 acts as a VCP adaptor that is recruited to ubiquitinated protein aggregates; UBXN1 translocates to depolarized mitochondria in a Parkin-dependent manner",
+  "effect": "Mediates the VCP-dependent formation and clearance of aggresomes, playing a key role in managing cellular protein aggregates.; Functions as a pro-mitophagic VCP cofactor by promoting the recruitment of VCP to damaged mitochondria, thereby facilitating their removal.",
+  "summary": "VCP activates UBXN1 to regulate aggresome formation & clearance and mitophagy, ultimately affecting subsequent aggregate clearance.",
+  "evidence": [
+    {
+      "paper_title": "The p97–UBXN1 complex regulates aggresome formation",
+      "journal": "Journal of Cell Science",
+      "year": 2021,
+      "relevant_quote": "We demonstrate that p97 mediates aggresome formation and clearance, and identify a novel role for the adaptor UBXN1 in the process of aggresome formation. UBXN1 is recruited to aggresomes, and UBXN1-knockout cells are unable to form aggresomes. Loss of p97–UBXN1 results in increased Huntingtin polyQ inclusion bodies both in mammalian cells and in a C. elegans model of Huntington's disease."
+    },
+    {
+      "paper_title": "VCP/p97 cofactor UBXN1/SAKS1 regulates mitophagy by modulating MFN2 removal from mitochondria",
+      "journal": "Autophagy",
+      "year": 2021,
+      "relevant_quote": "Removal of ubiquitinated substrates such as the mitofusin MFN2 from the outer mitochondrial membrane by VCP is critical for PRKN accumulation on mitochondria, which drives mitophagy. Here we characterize the role of the UBA and UBX-domain containing VCP cofactor UBXN1/SAKS1 during mitophagy. Following mitochondrial depolarization and depending on PRKN, UBXN1 translocated alongside VCP to mitochondria."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitophagy",
+      "canonical_name": "Mitophagy",
+      "ontology_id": "GO:0000423",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates-- UBXN1:",
+  "protein_a": "UBXN1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.333689Z",
+  "last_updated": "2025-12-04T19:56:00.333689Z"
+}

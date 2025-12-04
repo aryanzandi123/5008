@@ -1,0 +1,108 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "NSFL1C (also known as p47) is a UBX domain-containing protein that functions as a direct cofactor for VCP, binding to its N-domain. The VCP-p47 complex is involved in membrane fusion events, particularly Golgi reassembly after mitosis.",
+  "functions": [
+    {
+      "function": "Golgi Membrane Reassembly",
+      "arrow": "activates",
+      "cellular_process": "NSFL1C (NSFL1 cofactor), also known as p47, is a UBX domain-containing protein that acts as a direct cofactor for VCP. The VCP-p47 complex is essential for the reassembly of the Golgi apparatus following mitosis. This process involves the deubiquitinase VCPIP1, which forms a ternary complex with VCP and p47. This complex deubiquitinates syntaxin-5, a t-SNARE protein, which in turn promotes SNARE-mediated fusion of mitotic Golgi fragments into intact cisternae in the daughter cells.",
+      "effect_description": "Enables VCP to participate in post-mitotic Golgi biogenesis by facilitating the fusion of Golgi membrane fragments through a mechanism involving deubiquitination of key SNARE proteins.",
+      "biological_consequence": [
+        "Completion of mitosis → VCP, NSFL1C (p47), and VCPIP1 form a ternary complex → The complex is recruited to mitotic Golgi fragments → VCPIP1 deubiquitinates syntaxin-5 → Deubiquitinated syntaxin-5 promotes SNARE-mediated membrane fusion → Reassembly of Golgi cisternae and restoration of Golgi structure."
+      ],
+      "specific_effects": [
+        "The VCP/p47 complex is required for the reassembly of Golgi cisternae at the end of mitosis.",
+        "VCPIP1, in a complex with VCP and p47, deubiquitinates syntaxin-5 to allow its binding to the v-SNARE Bet1, resulting in membrane fusion.",
+        "The p47 UBX domain competitively binds to the VCP N-domain."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+          "journal": "The Journal of Cell Biology",
+          "year": 2002,
+          "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis.",
+          "pmid": "12473691"
+        }
+      ],
+      "pathway": {
+        "name": "Golgi Apparatus Reassembly",
+        "canonical_name": "Golgi Apparatus Reassembly",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "12473691"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "NSFL1C (NSFL1 cofactor), also known as p47, is a UBX domain-containing protein that acts as a direct; In addition to its role in membrane fusion, the VCP-p47 complex is involved in the ERAD of a specifi",
+  "effect": "Enables VCP to participate in post-mitotic Golgi biogenesis by facilitating the fusion of Golgi membrane fragments through a mechanism involving deubiquitination of key SNARE proteins.; Participates in the degradation of a select group of ERAD substrates, demonstrating a role for this VCP cofactor in protein quality control beyond its function in organelle biogenesis.",
+  "summary": "VCP activates NSFL1C to regulate golgi membrane reassembly and er-associated degradation (erad), ultimately affecting reassembly of golgi cisternae and restoration of golgi structure.",
+  "evidence": [
+    {
+      "paper_title": "Ternary complex formation of VCP, VCPIP1 and p47 facilitates Golgi reassembly",
+      "journal": "bioRxiv",
+      "year": 2024,
+      "relevant_quote": "In Golgi, mono-ubiquitination of syntaxin-5 (Syn5), a t-SNARE protein essential for Golgi reassembly, allows for the regulation of both assembly and disassembly processes during cell division. VCPIP1, in complex with VCP and p47, deubiquitinates Syn5 thereby controlling the affinity of the SNARE proteins, allowing deubiquitinated Syn5 to bind to v-SNARE Bet1, resulting in membrane fusion and Golgi reassembly."
+    },
+    {
+      "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+      "journal": "The Journal of Cell Biology",
+      "year": 2002,
+      "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis."
+    },
+    {
+      "paper_title": "The p97-p47 complex is involved in the ER-associated degradation of the T-cell receptor alpha chain",
+      "journal": "The EMBO Journal",
+      "year": 2003,
+      "relevant_quote": "Here we show that the p97–p47 complex, which is known to function in membrane fusion, is involved in the ER-associated degradation of the T-cell receptor alpha chain (TCRalpha)."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Golgi Apparatus Reassembly",
+      "canonical_name": "Golgi Apparatus Reassembly",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --complex--> NSFL1C:",
+  "protein_a": "NSFL1C",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.320951Z",
+  "last_updated": "2025-12-04T19:56:00.320951Z"
+}

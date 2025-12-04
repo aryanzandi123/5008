@@ -1,0 +1,110 @@
+{
+  "primary": "IKZF1",
+  "interaction_type": "indirect",
+  "upstream_interactor": "CRBN",
+  "mediator_chain": [
+    "CRBN"
+  ],
+  "depth": 2,
+  "support_summary": "VCP is required for the degradation of IKZF1 (Ikaros), a neosubstrate of the E3 ligase CRBN when modulated by immunomodulatory drugs. VCP acts downstream of CRBN-mediated ubiquitination to process and deliver IKZF1 to the proteasome.",
+  "functions": [
+    {
+      "function": "Proteasomal Degradation of Neosubstrates",
+      "arrow": "activates",
+      "cellular_process": "Immunomodulatory drugs (IMiDs), such as lenalidomide, function by binding to the Cereblon (CRBN) E3 ubiquitin ligase. This binding alters CRBN's substrate specificity, leading to the ubiquitination of neosubstrates, including the lymphoid transcription factor IKZF1 (Ikaros). VCP/p97 is an essential downstream effector in this pathway. It recognizes and segregates the polyubiquitinated IKZF1, preparing it for degradation by the 26S proteasome. This degradation is the key therapeutic mechanism of IMiDs in treating multiple myeloma.",
+      "effect_description": "VCP enables the therapeutic action of IMiD drugs by mediating the crucial final step of processing and presenting the CRBN neosubstrate IKZF1 for proteasomal degradation.",
+      "biological_consequence": [
+        "Immunomodulatory drug (e.g., lenalidomide) binds to the CRBN subunit of the CRL4-CRBN E3 ubiquitin ligase → The CRBN-IMiD complex recognizes and polyubiquitinates the neosubstrate IKZF1 → VCP/p97 recognizes and binds to the ubiquitinated IKZF1 → VCP/p97 utilizes its ATPase activity to extract IKZF1 from chromatin and unfold it → Processed IKZF1 is delivered to the 26S proteasome for degradation → Downregulation of IKZF1 targets, including MYC, leads to anti-myeloma effects."
+      ],
+      "specific_effects": [
+        "Acts downstream of CRBN-mediated ubiquitination to facilitate IKZF1 degradation.",
+        "Required for the degradation of all four known CRBN neosubstrates (IKZF1, IKZF3, CK1α, GSPT1) induced by IMiDs.",
+        "Inhibition of VCP/p97 blocks lenalidomide-induced degradation of IKZF1 and abrogates the drug's anti-myeloma activity."
+      ],
+      "evidence": [
+        {
+          "paper_title": "p97/VCP promotes degradation of CRBN substrate glutamine synthetase and neosubstrates",
+          "journal": "Proceedings of the National Academy of Sciences",
+          "year": 2018,
+          "relevant_quote": "Notably, p97 is also required for the degradation of all four known CRBN neo-substrates [Ikaros family zinc finger proteins 1 (IKZF1) and 3 (IKZF3), casein kinase 1α (CK1α), and the translation termination factor GSPT1] whose ubiquitylation is induced by immunomodulatory drugs. Together, these data point to an unexpectedly intimate relationship between the E3 ubiquitin ligase CRL4CRBN and p97 pathways.",
+          "pmid": "28320958"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28320958"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "CRBN",
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "CRBN"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Immunomodulatory drugs (IMiDs), such as lenalidomide, function by binding to the Cereblon (CRBN) E3 ubiquitin ligase. This binding alters CRBN's substrate specificity, leading to the ubiquitination of neosubstrates, including the lymphoid transcription factor IKZF1 (Ikaros). VCP/p97 is an essential downstream effector in this pathway. It recognizes and segregates the polyubiquitinated IKZF1, preparing it for degradation by the 26S proteasome. This degradation is the key therapeutic mechanism of IMiDs in treating multiple myeloma.",
+  "effect": "VCP enables the therapeutic action of IMiD drugs by mediating the crucial final step of processing and presenting the CRBN neosubstrate IKZF1 for proteasomal degradation.",
+  "summary": "VCP activates IKZF1 to modulate proteasomal degradation of neosubstrates, ultimately affecting downregulation of ikzf1 targets, including myc, leads to anti-myeloma effects.",
+  "evidence": [
+    {
+      "paper_title": "p97/VCP promotes degradation of CRBN substrate glutamine synthetase and neosubstrates",
+      "journal": "Proceedings of the National Academy of Sciences",
+      "year": 2018,
+      "relevant_quote": "Notably, p97 is also required for the degradation of all four known CRBN neo-substrates [Ikaros family zinc finger proteins 1 (IKZF1) and 3 (IKZF3), casein kinase 1α (CK1α), and the translation termination factor GSPT1] whose ubiquitylation is induced by immunomodulatory drugs. Together, these data point to an unexpectedly intimate relationship between the E3 ubiquitin ligase CRL4CRBN and p97 pathways."
+    },
+    {
+      "paper_title": "VCP/p97 is required for the degradation of Ikaros by lenalidomide in multiple myeloma cells",
+      "journal": "Blood",
+      "year": 2016,
+      "relevant_quote": "Our data demonstrate that VCP/p97 is required for the degradation of Ikaros and Aiolos by lenalidomide and for the antimyeloma activity of this IMiD. These findings suggest that VCP/p97 may be a novel therapeutic target in lenalidomide-resistant myeloma."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "downregulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "CRBN --inhibits--> IKZF1:",
+  "protein_a": "VCP",
+  "protein_b": "IKZF1",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.419671Z",
+  "last_updated": "2025-12-04T19:56:00.419671Z"
+}

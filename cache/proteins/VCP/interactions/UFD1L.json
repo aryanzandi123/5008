@@ -1,0 +1,181 @@
+{
+  "primary": "UFD1L",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "UFD1L (also known as UFD1) is a well-established direct cofactor of VCP, forming a heterodimer with NPLOC4 that binds to the N-domain of VCP. This complex is crucial for VCP's role in ER-associated degradation (ERAD) and DNA damage response.",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "activates",
+      "cellular_process": "UFD1L (Ubiquitin fusion degradation 1 like) forms a stable heterodimer with NPLOC4, which then binds to the N-domain of the hexameric AAA+ ATPase VCP. This ternary complex, VCP-UFD1L-NPLOC4, is a core component of the ERAD machinery. It recognizes polyubiquitinated, misfolded proteins that have been retrotranslocated from the endoplasmic reticulum to the cytosol. The complex acts as a segregase, utilizing the ATPase activity of VCP to unfold and extract these substrates from the ER membrane, thereby preparing them for degradation by the 26S proteasome.",
+      "effect_description": "Acts as an essential cofactor for VCP, enabling the recognition, unfolding, and extraction of misfolded proteins from the ER. This function is critical for maintaining protein homeostasis and alleviating ER stress.",
+      "biological_consequence": [
+        "UFD1L and NPLOC4 form a heterodimer → The UFD1L-NPLOC4 dimer binds to the N-domain of VCP → The VCP-UFD1L-NPLOC4 complex recognizes and binds to polyubiquitinated ERAD substrates → VCP's ATPase activity is utilized to unfold and extract the substrate from the ER membrane → The unfolded substrate is delivered to the proteasome for degradation → Maintenance of ER proteostasis."
+      ],
+      "specific_effects": [
+        "The VCP-UFD1L-NPLOC4 complex is demonstrated to have ubiquitin- and ATP-dependent unfoldase activity.",
+        "The complex is essential for the retrotranslocation of misfolded proteins from the ER to the cytosol for proteasomal degradation.",
+        "UFD1L, as part of the complex, is required for the degradation of specific ERAD substrates, and its depletion can paradoxically decrease the levels of some substrates, suggesting a regulatory role.",
+        "The interaction between the SHP box of UFD1L and the N-domain of VCP is critical for ERAD function."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ubiquitin- and ATP-dependent unfoldase activity of P97/VCP•NPLOC4•UFD1L is enhanced by a mutation that causes multisystem proteinopathy",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": 2017,
+          "relevant_quote": "We demonstrate that WT p97 can unfold proteins and that this activity is dependent on the p97 adaptor NPLOC4-UFD1L, ATP hydrolysis, and substrate ubiquitination, with branched chains providing maximal stimulation.",
+          "pmid": "28512218"
+        },
+        {
+          "paper_title": "Valosin-Containing Protein (VCP): A Review of Its Diverse Molecular Functions and Clinical Phenotypes",
+          "journal": "International Journal of Molecular Sciences",
+          "year": 2022,
+          "relevant_quote": "VCP complexes with the prominently studied adapters Ufd1 (ubiquitin fusion degradation 1) and Npl4 (nuclear protein localization 4) form a complex to extract and unwind misfolded proteins from the ER surface before transfer to the proteasome.",
+          "pmid": "38891822"
+        },
+        {
+          "paper_title": "Destabilization of the VCP-Ufd1-Npl4 complex is associated with decreased levels of ERAD substrates",
+          "journal": "The Journal of Cell Science",
+          "year": 2007,
+          "relevant_quote": "However, contrary to the effects of proteasome inhibition, RNAi of Ufd1 or Npl4 does not induce an accumulation of alpha-TCR and delta-CD3, two ERAD substrates overexpressed in HeLa cells. Instead, a 60-70% decrease in their levels is observed.",
+          "pmid": "16822501"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28512218",
+        "38891822",
+        "16822501"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    },
+    {
+      "function": "DNA Damage Response",
+      "arrow": "activates",
+      "cellular_process": "The VCP-UFD1L-NPLOC4 complex is recruited to sites of DNA double-strand breaks (DSBs) in a ubiquitin-dependent manner. This recruitment is facilitated by the RNF8 ubiquitin ligase, which generates K48-linked ubiquitin chains at the damage site. The complex then acts to remove these ubiquitin conjugates, which facilitates the proper assembly of downstream repair factors like 53BP1, BRCA1, and RAD51, thereby orchestrating the repair process.",
+      "effect_description": "Functions as a key regulator in the DNA damage response by remodeling ubiquitin-dependent signaling complexes at sites of DNA lesions, which is essential for efficient DNA repair and maintenance of genome stability.",
+      "biological_consequence": [
+        "DNA double-strand break occurs → RNF8-mediated K48-linked polyubiquitination at the lesion site → VCP-UFD1L-NPLOC4 complex is recruited via its ubiquitin adaptors → The complex removes K48-ubiquitin conjugates from chromatin → Proper assembly of downstream repair factors (53BP1, BRCA1, RAD51) is enabled → Efficient DNA repair and cell survival."
+      ],
+      "specific_effects": [
+        "The p97-UFD1-NPL4 complex is recruited to DNA lesions by its ubiquitin adaptor UFD1-NPL4 and K48-linked ubiquitin chains.",
+        "Impairment of p97 activity leads to decreased levels of DSB repair and reduced cell survival after ionizing radiation.",
+        "The complex facilitates non-homologous end-joining (NHEJ) by segregating ubiquitinated proteins like L3MBTL1 from DSB sites, allowing for the recruitment of 53BP1."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The ubiquitin-selective segregase VCP/p97 orchestrates the response to DNA double-strand breaks",
+          "journal": "Nature Structural & Molecular Biology",
+          "year": 2011,
+          "relevant_quote": "p97 is recruited to DNA lesions by its ubiquitin adaptor UFD1-NPL4 and Lys-48-linked ubiquitin (K48-Ub) chains, whose formation is regulated by RNF8. p97 subsequently removes K48-Ub conjugates from sites of DNA damage to orchestrate proper association of 53BP1, BRCA1 and RAD51, three factors critical for DNA repair and genome surveillance mechanisms.",
+          "pmid": "22020440"
+        },
+        {
+          "paper_title": "The role of ubiquitin-dependent segregase p97 (VCP or Cdc48) in chromatin dynamics after DNA double strand breaks",
+          "journal": "Mutation Research/Fundamental and Molecular Mechanisms of Mutagenesis",
+          "year": 2018,
+          "relevant_quote": "p97 complexed with the cofactors Ufd1-Npl4 (p97Ufd1-Npl4) recognizes the ubiquitin signal and associates with sites of DSBs. [...] Once recruited, p97 physically interacts with and removes different ubiquitinated proteins like L3MBTL1, Ku and KAP1, and allows the loading of other proteins like 53BP1, BRCA1 and Rad51.",
+          "pmid": "28847819"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "22020440",
+        "28847819"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "UFD1L (Ubiquitin fusion degradation 1 like) forms a stable heterodimer with NPLOC4, which then binds; The VCP-UFD1L-NPLOC4 complex is recruited to sites of DNA double-strand breaks (DSBs) in a ubiquitin",
+  "effect": "Acts as an essential cofactor for VCP, enabling the recognition, unfolding, and extraction of misfolded proteins from the ER. This function is critical for maintaining protein homeostasis and alleviating ER stress.; Functions as a key regulator in the DNA damage response by remodeling ubiquitin-dependent signaling complexes at sites of DNA lesions, which is essential for efficient DNA repair and maintenance of genome stability.",
+  "summary": "VCP activates UFD1L to regulate er-associated degradation (erad) and dna damage response, ultimately affecting maintenance of er proteostasis.",
+  "evidence": [
+    {
+      "paper_title": "Ubiquitin- and ATP-dependent unfoldase activity of P97/VCP•NPLOC4•UFD1L is enhanced by a mutation that causes multisystem proteinopathy",
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "year": 2017,
+      "relevant_quote": "We demonstrate that WT p97 can unfold proteins and that this activity is dependent on the p97 adaptor NPLOC4-UFD1L, ATP hydrolysis, and substrate ubiquitination, with branched chains providing maximal stimulation."
+    },
+    {
+      "paper_title": "Valosin-Containing Protein (VCP): A Review of Its Diverse Molecular Functions and Clinical Phenotypes",
+      "journal": "International Journal of Molecular Sciences",
+      "year": 2022,
+      "relevant_quote": "VCP complexes with the prominently studied adapters Ufd1 (ubiquitin fusion degradation 1) and Npl4 (nuclear protein localization 4) form a complex to extract and unwind misfolded proteins from the ER surface before transfer to the proteasome."
+    },
+    {
+      "paper_title": "Destabilization of the VCP-Ufd1-Npl4 complex is associated with decreased levels of ERAD substrates",
+      "journal": "The Journal of Cell Science",
+      "year": 2007,
+      "relevant_quote": "However, contrary to the effects of proteasome inhibition, RNAi of Ufd1 or Npl4 does not induce an accumulation of alpha-TCR and delta-CD3, two ERAD substrates overexpressed in HeLa cells. Instead, a 60-70% decrease in their levels is observed."
+    },
+    {
+      "paper_title": "The ubiquitin-selective segregase VCP/p97 orchestrates the response to DNA double-strand breaks",
+      "journal": "Nature Structural & Molecular Biology",
+      "year": 2011,
+      "relevant_quote": "p97 is recruited to DNA lesions by its ubiquitin adaptor UFD1-NPL4 and Lys-48-linked ubiquitin (K48-Ub) chains, whose formation is regulated by RNF8. p97 subsequently removes K48-Ub conjugates from sites of DNA damage to orchestrate proper association of 53BP1, BRCA1 and RAD51, three factors critical for DNA repair and genome surveillance mechanisms."
+    },
+    {
+      "paper_title": "The role of ubiquitin-dependent segregase p97 (VCP or Cdc48) in chromatin dynamics after DNA double strand breaks",
+      "journal": "Mutation Research/Fundamental and Molecular Mechanisms of Mutagenesis",
+      "year": 2018,
+      "relevant_quote": "p97 complexed with the cofactors Ufd1-Npl4 (p97Ufd1-Npl4) recognizes the ubiquitin signal and associates with sites of DSBs. [...] Once recruited, p97 physically interacts with and removes different ubiquitinated proteins like L3MBTL1, Ku and KAP1, and allows the loading of other proteins like 53BP1, BRCA1 and Rad51."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> UFD1L:",
+  "protein_a": "VCP",
+  "protein_b": "UFD1L",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.315873Z",
+  "last_updated": "2025-12-04T19:56:00.315873Z"
+}

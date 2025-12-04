@@ -1,0 +1,110 @@
+{
+  "primary": "FUS",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "VCP directly interacts with and mediates the clearance of stress-induced and pathological FUS aggregates, a process implicated in ALS.",
+  "functions": [
+    {
+      "function": "Stress Granule & Aggregate Clearance",
+      "arrow": "activates",
+      "cellular_process": "VCP/p97 directly interacts with FUS, particularly when FUS is mislocalized to the cytoplasm and incorporated into stress granules or pathological aggregates. VCP is recruited to these FUS-containing granules and utilizes its ATPase activity to facilitate their clearance. This occurs through multiple proposed mechanisms, including acting as a segregase to extract FUS polypeptides for degradation via autophagy and endocytosis-related pathways, and by regulating the biophysical stability of FUS granules by consuming intra-granular ATP, which acts as a timer leading to their eventual dissolution.",
+      "effect_description": "Facilitates the disassembly of FUS-containing stress granules and the clearance of pathological FUS aggregates, thereby preventing FUS-mediated neurotoxicity.",
+      "biological_consequence": [
+        "Cellular stress or VCP mutation → FUS mislocalizes from the nucleus to the cytoplasm → FUS incorporates into stress granules/aggregates → VCP is recruited to the FUS granules → VCP ATPase activity extracts FUS and/or consumes local ATP → FUS granules are disassembled → Aberrant FUS is cleared by autophagy/endocytosis → Cellular proteostasis is maintained."
+      ],
+      "specific_effects": [
+        "VCP is required for the turnover and clearance of cytoplasmic FUS.",
+        "Mutations in VCP cause the pathological mislocalization and accumulation of FUS in the cytoplasm and neurites of motor neurons.",
+        "Pharmacological inhibition of VCP's D2 ATPase domain can reverse the mislocalization of FUS caused by VCP mutations.",
+        "VCP co-localizes with FUS in granules and regulates their stability via its ATPase activity."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Cdc48/VCP and endocytosis regulate TDP-43 and FUS toxicity and turnover",
+          "journal": "Molecular and Cellular Biology",
+          "year": 2020,
+          "relevant_quote": "Taken together, our data identify a role for Cdc48/VCP and endocytic function in regulating TDP-43 and FUS toxicity and turnover.",
+          "pmid": "31767634"
+        },
+        {
+          "paper_title": "VCP/p97 is essential for maturation of ubiquitin-containing autophagosomes and this function is impaired by mutations that cause IBMPFD",
+          "journal": "Autophagy",
+          "year": 2010,
+          "relevant_quote": "We conclude that VCP is essential for maturation of ubiquitin-containing autophagosomes and that defect in this function may contribute to IBMPFD pathogenesis.",
+          "pmid": "20104022"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31767634",
+        "20104022"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCP/p97 directly interacts with FUS, particularly when FUS is mislocalized to the cytoplasm and incorporated into stress granules or pathological aggregates. VCP is recruited to these FUS-containing granules and utilizes its ATPase activity to facilitate their clearance. This occurs through multiple proposed mechanisms, including acting as a segregase to extract FUS polypeptides for degradation via autophagy and endocytosis-related pathways, and by regulating the biophysical stability of FUS granules by consuming intra-granular ATP, which acts as a timer leading to their eventual dissolution.",
+  "effect": "Facilitates the disassembly of FUS-containing stress granules and the clearance of pathological FUS aggregates, thereby preventing FUS-mediated neurotoxicity.",
+  "summary": "VCP interacts with FUS to modulate stress granule & aggregate clearance, ultimately affecting cellular proteostasis is maintained.",
+  "evidence": [
+    {
+      "paper_title": "The AAA-ATPase VCP/p97 is a new partner of FUS (fused in sarcoma) and is involved in FUS aggregate clearance",
+      "journal": "Human Molecular Genetics",
+      "year": 2014,
+      "relevant_quote": "Here, we identify the AAA-ATPase VCP/p97 as a new partner of FUS. VCP/p97 and FUS interact in the cytoplasm and VCP/p97 is recruited to FUS-positive stress granules... Moreover, we show that VCP/p97 is involved in the clearance of FUS aggregates, as downregulation of VCP/p97 or expression of a dominant-negative mutant of VCP/p97 increase the number of cells with FUS aggregates."
+    },
+    {
+      "paper_title": "Cdc48/VCP and endocytosis regulate TDP-43 and FUS toxicity and turnover",
+      "journal": "Molecular and Cellular Biology",
+      "year": 2020,
+      "relevant_quote": "Taken together, our data identify a role for Cdc48/VCP and endocytic function in regulating TDP-43 and FUS toxicity and turnover."
+    },
+    {
+      "paper_title": "VCP/p97 is essential for maturation of ubiquitin-containing autophagosomes and this function is impaired by mutations that cause IBMPFD",
+      "journal": "Autophagy",
+      "year": 2010,
+      "relevant_quote": "We conclude that VCP is essential for maturation of ubiquitin-containing autophagosomes and that defect in this function may contribute to IBMPFD pathogenesis."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --binds--> FUS:",
+  "protein_a": "VCP",
+  "protein_b": "FUS",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.367415Z",
+  "last_updated": "2025-12-04T19:56:00.367415Z"
+}

@@ -1,0 +1,115 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "VCP inhibition leads to an upregulation of K6-linked ubiquitylation, a process dependent on the HECT-type E3 ligase HUWE1. This indicates a functional link where VCP acts downstream to process substrates ubiquitinated by HUWE1.",
+  "functions": [
+    {
+      "function": "Processing of HUWE1-Ubiquitinated Substrates",
+      "arrow": "activates",
+      "cellular_process": "The HECT E3 ligase HUWE1 recognizes and amplifies ubiquitin modifications on soluble proteins and protein aggregates. This 'Ubiquitin-Directed Ubiquitin Ligase' (UDL) activity rapidly expands the ubiquitin chains on targets. The resulting heavily ubiquitinated substrates are then recognized and processed by the VCP/p97 segregase complex, which unfolds and extracts them for subsequent degradation by the proteasome or clearance through autophagy.",
+      "effect_description": "Acts downstream of HUWE1-mediated ubiquitin signal amplification to process and clear heavily ubiquitinated proteins and aggregates.",
+      "biological_consequence": [
+        "A substrate is initially ubiquitinated → HUWE1 recognizes the ubiquitinated substrate → HUWE1's UDL activity amplifies and expands the ubiquitin chains on the substrate → The amplified ubiquitin signal recruits the VCP/p97 complex → VCP/p97 unfolds/extracts the substrate → Substrate is delivered to the proteasome or autophagosome for clearance"
+      ],
+      "specific_effects": [
+        "Inhibition of VCP leads to a global upregulation of K6-linked ubiquitylation, a process dependent on HUWE1.",
+        "Ubiquitin signal amplification by HUWE1 is shown to recruit the ubiquitin-dependent segregase p97/VCP to process targets for subsequent degradation or clearance."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HUWE1 Amplifies Ubiquitin Modifications to Broadly Stimulate Clearance of Proteins and Aggregates",
+          "journal": "bioRxiv (Preprint)",
+          "year": 2023,
+          "relevant_quote": "Ubiquitin signal amplification by HUWE1 recruits the ubiquitin-dependent segregase p97/VCP to process these targets for subsequent degradation or clearance.",
+          "pmid": "37398461"
+        },
+        {
+          "paper_title": "Proteomic profiling of VCP substrates links VCP to K6-linked ubiquitylation and c-Myc function",
+          "journal": "The EMBO Journal",
+          "year": 2018,
+          "relevant_quote": "VCP inhibition globally upregulates K6-linked ubiquitylation that is dependent on the HECT-type ubiquitin E3 ligase HUWE1.",
+          "pmid": "29467282"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37398461",
+        "29467282"
+      ],
+      "interaction_effect": "positive",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The relationship is more nuanced than the input suggests. HUWE1, a HECT E3 ligase, can generate various ubiquitin chains. Recent evidence shows HUWE1 can amplify ubiquitin signals on already ubiquitinated substrates. This amplified signal then recruits VCP/p97 to process these targets for degradation or clearance. Thus, VCP acts downstream of the signal amplification by HUWE1.",
+  "mechanism": "The HECT E3 ligase HUWE1 recognizes and amplifies ubiquitin modifications on soluble proteins and protein aggregates. This 'Ubiquitin-Directed Ubiquitin Ligase' (UDL) activity rapidly expands the ubiquitin chains on targets. The resulting heavily ubiquitinated substrates are then recognized and processed by the VCP/p97 segregase complex, which unfolds and extracts them for subsequent degradation by the proteasome or clearance through autophagy.",
+  "effect": "Acts downstream of HUWE1-mediated ubiquitin signal amplification to process and clear heavily ubiquitinated proteins and aggregates.",
+  "summary": "VCP interacts with HUWE1 to modulate processing of huwe1-ubiquitinated substrates, ultimately affecting substrate is delivered to the proteasome or autophagosome for clearance.",
+  "evidence": [
+    {
+      "paper_title": "HUWE1 Amplifies Ubiquitin Modifications to Broadly Stimulate Clearance of Proteins and Aggregates",
+      "journal": "bioRxiv (Preprint)",
+      "year": 2023,
+      "relevant_quote": "Ubiquitin signal amplification by HUWE1 recruits the ubiquitin-dependent segregase p97/VCP to process these targets for subsequent degradation or clearance."
+    },
+    {
+      "paper_title": "Proteomic profiling of VCP substrates links VCP to K6-linked ubiquitylation and c-Myc function",
+      "journal": "The EMBO Journal",
+      "year": 2018,
+      "relevant_quote": "VCP inhibition globally upregulates K6-linked ubiquitylation that is dependent on the HECT-type ubiquitin E3 ligase HUWE1."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates--> HUWE1:",
+  "protein_a": "HUWE1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-04T19:56:00.417185Z",
+  "last_updated": "2025-12-04T19:56:00.417185Z"
+}
