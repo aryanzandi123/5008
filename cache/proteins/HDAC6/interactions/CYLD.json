@@ -1,0 +1,103 @@
+{
+  "primary": "CYLD",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The protein cylindromatosis (CYLD) interacts with the dynein motor binding region of HDAC6, influencing its subcellular localization and cell cycle regulation.",
+  "functions": [
+    {
+      "function": "Inhibition of HDAC6 Deacetylase Activity",
+      "arrow": "activates",
+      "cellular_process": "The deubiquitinating enzyme CYLD directly interacts with HDAC6. Specifically, the N-terminal domain of CYLD binds to the catalytic domain(s) of HDAC6.",
+      "effect_description": "This direct binding of CYLD to HDAC6 inhibits the tubulin deacetylase activity of HDAC6. This leads to a subsequent increase in the levels of acetylated α-tubulin, which stabilizes microtubules and affects downstream cellular processes.",
+      "biological_consequence": [
+        "CYLD N-terminal domain binds to HDAC6 catalytic domain → HDAC6 tubulin deacetylase activity is inhibited → α-tubulin acetylation levels increase → Microtubule network is stabilized → Cell cycle progression is delayed at the G1/S transition and ciliogenesis is promoted."
+      ],
+      "specific_effects": [
+        "The CYLD-HDAC6 interaction and subsequent inhibition of HDAC6 activity are independent of CYLD's deubiquitinase function.",
+        "Inhibition of HDAC6 by CYLD facilitates CYLD's translocation to the perinuclear region, causing a delay in the G1/S phase of the cell cycle.",
+        "CYLD-mediated inhibition of HDAC6 is a key mechanism for its role in promoting the assembly of primary and motile cilia."
+      ],
+      "evidence": [
+        {
+          "paper_title": "CYLD negatively regulates cell-cycle progression by inactivating HDAC6 and increasing the levels of acetylated tubulin",
+          "journal": "The EMBO Journal",
+          "year": 2009,
+          "relevant_quote": "Translocation of activated CYLD to the perinuclear region of the cell is achieved by an inhibitory interaction of CYLD with histone deacetylase-6 (HDAC6) leading to an increase in the levels of acetylated α-tubulin around the nucleus.",
+          "pmid": "19893491"
+        },
+        {
+          "paper_title": "CYLD mediates ciliogenesis in multiple organs by deubiquitinating Cep70 and inactivating HDAC6",
+          "journal": "Cell Research",
+          "year": 2014,
+          "relevant_quote": "In addition, CYLD-mediated inhibition of histone deacetylase 6 (HDAC6), which promotes tubulin acetylation, constitutes another mechanism for the ciliary function of CYLD.",
+          "pmid": "25342559"
+        }
+      ],
+      "pathway": {
+        "name": "Post-Translational Modification Regulation",
+        "canonical_name": "Post-Translational Modification Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19893491",
+        "25342559"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input correctly identifies the molecular events but is confusing in its top-level description. The primary mechanism is the INHIBITION of HDAC6 BY CYLD. CYLD is the upstream regulator that acts upon HDAC6.",
+  "mechanism": "The deubiquitinating enzyme CYLD directly interacts with HDAC6. Specifically, the N-terminal domain of CYLD binds to the catalytic domain(s) of HDAC6.",
+  "effect": "This direct binding of CYLD to HDAC6 inhibits the tubulin deacetylase activity of HDAC6. This leads to a subsequent increase in the levels of acetylated α-tubulin, which stabilizes microtubules and affects downstream cellular processes.",
+  "summary": "HDAC6 inhibits CYLD to modulate inhibition of hdac6 deacetylase activity, ultimately affecting cell cycle progression is delayed at the g1/s transition and ciliogenesis is promoted.",
+  "evidence": [
+    {
+      "paper_title": "CYLD negatively regulates cell-cycle progression by inactivating HDAC6 and increasing the levels of acetylated tubulin",
+      "journal": "The EMBO Journal",
+      "year": 2009,
+      "relevant_quote": "Translocation of activated CYLD to the perinuclear region of the cell is achieved by an inhibitory interaction of CYLD with histone deacetylase-6 (HDAC6) leading to an increase in the levels of acetylated α-tubulin around the nucleus."
+    },
+    {
+      "paper_title": "CYLD mediates ciliogenesis in multiple organs by deubiquitinating Cep70 and inactivating HDAC6",
+      "journal": "Cell Research",
+      "year": 2014,
+      "relevant_quote": "In addition, CYLD-mediated inhibition of histone deacetylase 6 (HDAC6), which promotes tubulin acetylation, constitutes another mechanism for the ciliary function of CYLD."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Post-Translational Modification Regulation",
+      "canonical_name": "Post-Translational Modification Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 <--inhibits-- CYLD:",
+  "protein_a": "HDAC6",
+  "protein_b": "CYLD",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.672372Z",
+  "last_updated": "2025-12-04T16:37:52.672372Z"
+}

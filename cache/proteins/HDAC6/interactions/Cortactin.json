@@ -1,0 +1,103 @@
+{
+  "primary": "Cortactin",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Cortactin, an actin-binding protein, is a substrate of HDAC6, and its deacetylation is linked to the regulation of actin filament polymerization and cell motility.",
+  "functions": [
+    {
+      "function": "Actin-Dependent Cell Motility",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 directly binds to and deacetylates the actin-binding protein cortactin. This interaction is a key regulatory mechanism for actin cytoskeleton dynamics and cell motility.",
+      "effect_description": "The deacetylation of cortactin by HDAC6 enhances its ability to bind to filamentous actin (F-actin). This increased binding promotes the polymerization and branching of the actin network, which is essential for cell migration.",
+      "biological_consequence": [
+        "HDAC6 binds to the repeat region of cortactin → HDAC6 deacetylates lysine residues within this region → Deacetylated cortactin has a higher affinity for F-actin → Increased cortactin-F-actin binding promotes actin cytoskeleton rearrangement → Enhanced cell motility and invasion."
+      ],
+      "specific_effects": [
+        "Overexpression of HDAC6 results in the hypoacetylation of cortactin.",
+        "Hyperacetylation of cortactin, due to HDAC6 inhibition, impairs its association with F-actin and reduces cell motility.",
+        "The deacetylation of cortactin by HDAC6 alters its ability to bind F-actin by modulating a 'charge patch' in its repeat region."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 Modulates Cell Motility by Altering the Acetylation Level of Cortactin",
+          "journal": "Molecular Cell",
+          "year": 2007,
+          "relevant_quote": "In this study, we identify the F-actin-binding protein, cortactin, as a HDAC6 substrate. We demonstrate that HDAC6 binds cortactin and that overexpression of HDAC6 leads to hypoacetylation of cortactin, while inhibition of HDAC6 activity leads to cortactin hyperacetylation. HDAC6 alters the ability of cortactin to bind F-actin by modulating a “charge patch” in its repeat region.",
+          "pmid": "17643370"
+        },
+        {
+          "paper_title": "Class IIb HDAC6 regulates endothelial cell migration and angiogenesis by deacetylation of cortactin",
+          "journal": "The EMBO Journal",
+          "year": 2011,
+          "relevant_quote": "Deacetylation of cortactin in the repeat region by HDAC6 abolishes binding of actin, and therefore inhibits cell migration... Instead, we found that HDAC6 interacts with and deacetylates the actin-remodelling protein cortactin in ECs, which is essential for zebrafish vessel formation and which mediates the angiogenic effect of HDAC6.",
+          "pmid": "21847094"
+        }
+      ],
+      "pathway": {
+        "name": "Cell Migration",
+        "canonical_name": "Cell Migration",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17643370",
+        "21847094"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 directly binds to and deacetylates the actin-binding protein cortactin. This interaction is a key regulatory mechanism for actin cytoskeleton dynamics and cell motility.",
+  "effect": "The deacetylation of cortactin by HDAC6 enhances its ability to bind to filamentous actin (F-actin). This increased binding promotes the polymerization and branching of the actin network, which is essential for cell migration.",
+  "summary": "HDAC6 activates Cortactin to modulate actin-dependent cell motility, ultimately affecting enhanced cell motility and invasion.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 Modulates Cell Motility by Altering the Acetylation Level of Cortactin",
+      "journal": "Molecular Cell",
+      "year": 2007,
+      "relevant_quote": "In this study, we identify the F-actin-binding protein, cortactin, as a HDAC6 substrate. We demonstrate that HDAC6 binds cortactin and that overexpression of HDAC6 leads to hypoacetylation of cortactin, while inhibition of HDAC6 activity leads to cortactin hyperacetylation. HDAC6 alters the ability of cortactin to bind F-actin by modulating a “charge patch” in its repeat region."
+    },
+    {
+      "paper_title": "Class IIb HDAC6 regulates endothelial cell migration and angiogenesis by deacetylation of cortactin",
+      "journal": "The EMBO Journal",
+      "year": 2011,
+      "relevant_quote": "Deacetylation of cortactin in the repeat region by HDAC6 abolishes binding of actin, and therefore inhibits cell migration... Instead, we found that HDAC6 interacts with and deacetylates the actin-remodelling protein cortactin in ECs, which is essential for zebrafish vessel formation and which mediates the angiogenic effect of HDAC6."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cell Migration",
+      "canonical_name": "Cell Migration",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> Cortactin:",
+  "protein_a": "HDAC6",
+  "protein_b": "Cortactin",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.652880Z",
+  "last_updated": "2025-12-04T16:37:52.652880Z"
+}

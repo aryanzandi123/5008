@@ -1,0 +1,118 @@
+{
+  "primary": "HDAC6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HDAC6 can bind to and deacetylate beta-catenin, which in turn affects its phosphorylation, nuclear translocation, and transcriptional activity.",
+  "functions": [
+    {
+      "function": "beta-catenin Stability and Nuclear Localization",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 directly interacts with and deacetylates beta-catenin at lysine 49 (Lys-49). This event is a key step in the non-canonical, growth factor-induced activation of beta-catenin signaling.",
+      "effect_description": "The deacetylation of beta-catenin at Lys-49 by HDAC6 has a stabilizing effect. It inhibits the subsequent phosphorylation of beta-catenin at serine 45 (Ser-45), which is a priming step for ubiquitination and proteasomal degradation. This leads to the stabilization and nuclear accumulation of beta-catenin, thereby activating its transcriptional program.",
+      "biological_consequence": [
+        "EGF stimulation → HDAC6 translocates to the plasma membrane → HDAC6 binds and deacetylates beta-catenin at Lys-49 → Phosphorylation at Ser-45 is inhibited → Beta-catenin ubiquitination is reduced → Beta-catenin is stabilized and accumulates in the nucleus → Transcription of target genes (e.g., c-myc) is activated → Tumor cell proliferation is increased."
+      ],
+      "specific_effects": [
+        "HDAC6-mediated deacetylation of Lys-49 specifically inhibits beta-catenin phosphorylation at Ser-45.",
+        "In response to Epidermal Growth Factor (EGF), HDAC6 translocates to the caveolae membrane to associate with beta-catenin.",
+        "Inactivation of HDAC6 blocks EGF-induced nuclear localization of beta-catenin and decreases the expression of its target gene, c-Myc.",
+        "In neuronal cells, HDAC6 inhibition increases Lys-49 acetylation of beta-catenin, leading to its increased localization at the cell membrane rather than the nucleus."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 Is Required for Epidermal Growth Factor-induced β-Catenin Nuclear Localization",
+          "journal": "Journal of Biological Chemistry",
+          "year": 2008,
+          "relevant_quote": "Here we report that EGF-induced β-catenin nuclear localization and activation of c-myc are dependent on the deacetylase HDAC6. We show that EGF induces HDAC6 translocation to the caveolae membrane and association with β-catenin. HDAC6 deacetylates β-catenin at lysine 49, a site frequently mutated in anaplastic thyroid cancer, and inhibits β-catenin phosphorylation at serine 45.",
+          "pmid": "18356165"
+        },
+        {
+          "paper_title": "Regulation of CD133 by HDAC6 promotes β-catenin signaling to suppress cancer cell differentiation",
+          "journal": "Cell Reports",
+          "year": 2012,
+          "relevant_quote": "We further demonstrate that CD133, HDAC6, and the central molecule of the canonical Wnt signaling pathway, β-catenin, can physically associate as a ternary complex. This association stabilizes β-catenin via HDAC6 deacetylase activity, which leads to activation of β-catenin signaling targets.",
+          "pmid": "23084749"
+        },
+        {
+          "paper_title": "HDAC6 Inhibitors Modulate Lys49 Acetylation and Membrane Localization of β-Catenin in Human iPSC-Derived Neuronal Cells",
+          "journal": "ACS Chemical Biology",
+          "year": 2015,
+          "relevant_quote": "We find that HDAC6 inhibitors increase Lys49 acetylation and Ser45 phosphorylation but do not affect Ser33, Ser37, and Thr41 phosphorylation. Lys49 acetylation results in decreased ubiquitination of β-catenin in the presence of proteasome inhibition. While increased Lys49 acetylation does not affect total levels of β-catenin, it results in increased membrane localization of β-catenin.",
+          "pmid": "25546293"
+        }
+      ],
+      "pathway": {
+        "name": "Wnt Signaling Pathway",
+        "canonical_name": "Wnt Signaling",
+        "ontology_id": "hsa04310",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "18356165",
+        "23084749",
+        "25546293"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 directly interacts with and deacetylates beta-catenin at lysine 49 (Lys-49). This event is a key step in the non-canonical, growth factor-induced activation of beta-catenin signaling.",
+  "effect": "The deacetylation of beta-catenin at Lys-49 by HDAC6 has a stabilizing effect. It inhibits the subsequent phosphorylation of beta-catenin at serine 45 (Ser-45), which is a priming step for ubiquitination and proteasomal degradation. This leads to the stabilization and nuclear accumulation of beta-catenin, thereby activating its transcriptional program.",
+  "summary": "HDAC6 activates beta-catenin to modulate beta-catenin stability and nuclear localization, ultimately affecting tumor cell proliferation is increased.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 Is Required for Epidermal Growth Factor-induced β-Catenin Nuclear Localization",
+      "journal": "Journal of Biological Chemistry",
+      "year": 2008,
+      "relevant_quote": "Here we report that EGF-induced β-catenin nuclear localization and activation of c-myc are dependent on the deacetylase HDAC6. We show that EGF induces HDAC6 translocation to the caveolae membrane and association with β-catenin. HDAC6 deacetylates β-catenin at lysine 49, a site frequently mutated in anaplastic thyroid cancer, and inhibits β-catenin phosphorylation at serine 45."
+    },
+    {
+      "paper_title": "Regulation of CD133 by HDAC6 promotes β-catenin signaling to suppress cancer cell differentiation",
+      "journal": "Cell Reports",
+      "year": 2012,
+      "relevant_quote": "We further demonstrate that CD133, HDAC6, and the central molecule of the canonical Wnt signaling pathway, β-catenin, can physically associate as a ternary complex. This association stabilizes β-catenin via HDAC6 deacetylase activity, which leads to activation of β-catenin signaling targets."
+    },
+    {
+      "paper_title": "HDAC6 Inhibitors Modulate Lys49 Acetylation and Membrane Localization of β-Catenin in Human iPSC-Derived Neuronal Cells",
+      "journal": "ACS Chemical Biology",
+      "year": 2015,
+      "relevant_quote": "We find that HDAC6 inhibitors increase Lys49 acetylation and Ser45 phosphorylation but do not affect Ser33, Ser37, and Thr41 phosphorylation. Lys49 acetylation results in decreased ubiquitination of β-catenin in the presence of proteasome inhibition. While increased Lys49 acetylation does not affect total levels of β-catenin, it results in increased membrane localization of β-catenin."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Wnt Signaling Pathway",
+      "canonical_name": "Wnt Signaling",
+      "ontology_id": "hsa04310",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> beta-catenin:",
+  "protein_a": "beta-catenin",
+  "protein_b": "HDAC6",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.679431Z",
+  "last_updated": "2025-12-04T16:37:52.679431Z"
+}

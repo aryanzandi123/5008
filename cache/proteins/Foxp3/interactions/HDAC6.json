@@ -1,0 +1,95 @@
+{
+  "primary": "HDAC6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The transcription factor Foxp3 is a substrate of HDAC6, and its deacetylation by HDAC6 regulates the suppressive functions of regulatory T cells (Tregs).",
+  "functions": [
+    {
+      "function": "Foxp3 Protein Stability",
+      "arrow": "inhibits",
+      "cellular_process": "In the nucleus of activated regulatory T cells (Tregs), HDAC6 directly interacts with and deacetylates the transcription factor Foxp3.",
+      "effect_description": "The deacetylation of Foxp3 by HDAC6 renders it susceptible to K48-linked polyubiquitination by ubiquitin ligases, which targets Foxp3 for degradation by the proteasome. This results in a shorter protein half-life and reduced Foxp3 protein levels, thereby diminishing the suppressive capacity of Treg cells.",
+      "biological_consequence": [
+        "HDAC6 translocates from cytoplasm to nucleus in activated Tregs → HDAC6 binds directly to Foxp3 → HDAC6 deacetylates lysine residues on Foxp3 → Deacetylated Foxp3 is recognized by ubiquitin ligases → K48-linked polyubiquitination of Foxp3 → Foxp3 is targeted to the proteasome for degradation → Foxp3 protein levels are reduced → Treg suppressive function is impaired."
+      ],
+      "specific_effects": [
+        "Loss or inhibition of HDAC6 leads to hyperacetylation of Foxp3, protecting it from proteasomal degradation and thereby increasing its abundance.",
+        "Acetylation of Foxp3 enhances its DNA-binding capability and transcriptional activity, leading to improved Treg suppressive function.",
+        "HDAC6 can co-immunoprecipitate with Foxp3 in Treg lysates, confirming a direct interaction."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Role of Histone Deacetylases in T-Cell Development and Function",
+          "journal": "International Journal of Molecular Sciences",
+          "year": 2021,
+          "relevant_quote": "It was detected that Foxp3 protein was higher in HDAC6−/− Tregs compared to wild-type controls and that the level of acetylated Foxp3 was higher in the absence of HDAC6. This suggested that HDAC6 deacetylates Foxp3 and that its loss promotes the Foxp3 acetylation, with an increase in the resistance of Foxp3 to proteasomal degradation.",
+          "pmid": "35887172"
+        }
+      ],
+      "pathway": {
+        "name": "Immune Response Regulation",
+        "canonical_name": "Immune Response",
+        "ontology_id": "GO:0006955",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "35887172"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "In the nucleus of activated regulatory T cells (Tregs), HDAC6 directly interacts with and deacetylates the transcription factor Foxp3.",
+  "effect": "The deacetylation of Foxp3 by HDAC6 renders it susceptible to K48-linked polyubiquitination by ubiquitin ligases, which targets Foxp3 for degradation by the proteasome. This results in a shorter protein half-life and reduced Foxp3 protein levels, thereby diminishing the suppressive capacity of Treg cells.",
+  "summary": "HDAC6 inhibits Foxp3 to modulate foxp3 protein stability, ultimately affecting treg suppressive function is impaired.",
+  "evidence": [
+    {
+      "paper_title": "Histone Deacetylases 6 and 9 and Sirtuin-1 Control Foxp3+ Regulatory T Cell Function Through Shared and Isotype-Specific Mechanisms",
+      "journal": "Science Signaling",
+      "year": 2017,
+      "relevant_quote": "Our studies showed that HDAC6 can regulate Foxp3 acetylation, which is a signature mechanism of action of several HDACs in Tregs. Acetylation of Foxp3 is an important posttranslational mechanism that affects Foxp3 abundance, because it protects Foxp3 from K48-mediated polyubiquitination and proteasomal degradation."
+    },
+    {
+      "paper_title": "Role of Histone Deacetylases in T-Cell Development and Function",
+      "journal": "International Journal of Molecular Sciences",
+      "year": 2021,
+      "relevant_quote": "It was detected that Foxp3 protein was higher in HDAC6−/− Tregs compared to wild-type controls and that the level of acetylated Foxp3 was higher in the absence of HDAC6. This suggested that HDAC6 deacetylates Foxp3 and that its loss promotes the Foxp3 acetylation, with an increase in the resistance of Foxp3 to proteasomal degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Immune Response Regulation",
+      "canonical_name": "Immune Response",
+      "ontology_id": "GO:0006955",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --inhibits--> Foxp3:",
+  "protein_a": "Foxp3",
+  "protein_b": "HDAC6",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.668029Z",
+  "last_updated": "2025-12-04T16:37:52.668029Z"
+}

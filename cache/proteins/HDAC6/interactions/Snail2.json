@@ -1,0 +1,132 @@
+{
+  "primary": "Snail2",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "HDAC6 activity promotes the epithelial-mesenchymal transition (EMT) program, which relies on the function of key transcription factors like Snail2 (Slug) to repress epithelial genes.",
+  "functions": [
+    {
+      "function": "HDAC6-Mediated Upregulation of Snail2 via TGF-β Signaling to Promote EMT",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 acts upstream in the TGF-β signaling cascade, which is a potent inducer of the Epithelial-Mesenchymal Transition (EMT). HDAC6 activity is required for the activation of the transcription factor SMAD3. Activated SMAD3 then promotes the expression of key EMT-driving transcription factors, including Snail2. Snail2, in turn, acts as a transcriptional repressor of epithelial genes like E-cadherin, a critical step for cells to lose adhesion and gain migratory properties.",
+      "effect_description": "HDAC6 indirectly promotes the function of Snail2 by facilitating the TGF-β signaling pathway that increases Snail2 expression. This leads to the Snail2-mediated transcriptional repression of E-cadherin, which is a hallmark of EMT, resulting in increased cell motility and invasion.",
+      "biological_consequence": [
+        "TGF-β1 stimulation → HDAC6 is required for the activation of SMAD3 → Activated SMAD3 promotes the transcription of EMT-related genes → Snail2 (Slug) expression is increased → Snail2 translocates to the nucleus and recruits a corepressor complex containing G9a, HDAC1, HDAC2, and HDAC3 to the E-cadherin gene promoter → The complex mediates histone deacetylation (H3K4, H3K56) and methylation (H3K9) at the promoter, leading to transcriptional repression of E-cadherin → Loss of E-cadherin expression promotes the loss of cell-cell adhesion and increased cell motility, driving EMT and metastasis."
+      ],
+      "specific_effects": [
+        "Inhibition of HDAC6 with siRNA or tubacin attenuates TGF-β1-induced EMT and impairs the activation of SMAD3.",
+        "TGF-β1 stimulation significantly increases the expression of Snail2 in various cell types, which is a critical event for the induction of EMT.",
+        "Snail2 physically interacts with HDAC1, HDAC2, and HDAC3, but not directly with HDAC6, to form a functional repressor complex on the E-cadherin promoter.",
+        "Inhibition of HDACs (using broad-spectrum inhibitors like TSA) reverses Snail2-mediated repression of E-cadherin.",
+        "A study in hepatocellular carcinoma cells showed that HDAC1 and HDAC3 can directly suppress the Snail2 gene promoter, indicating a complex and potentially opposing regulatory loop for Snail2 expression by different HDACs."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Requirement of HDAC6 for Transforming Growth Factor-β1-induced Epithelial-Mesenchymal Transition",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2008,
+          "relevant_quote": "Reduced expression of HDAC6 also impaired the activation of SMAD3 in response to TGF-β1. Conversely, inhibition of SMAD3 activation substantially impaired HDAC6-dependent deacetylation of α-tubulin as well as the expression of EMT markers. These findings reveal a novel function of HDAC6 in EMT by intercepting the TGF-β-SMAD3 signaling cascade.",
+          "pmid": "18499657"
+        },
+        {
+          "paper_title": "G9a and histone deacetylases are crucial for Snail2-mediated E-cadherin repression and metastasis in hepatocellular carcinoma",
+          "journal": "Cancer Science",
+          "year": 2019,
+          "relevant_quote": "Furthermore, Snail2 interacted with G9a and histone deacetylases (HDACs) to form a complex to suppress E-cadherin transcription... In addition, G9a, HDAC1, HDAC2, and HDAC3 acted together with Snail2 at the E-cadherin promoter to suppress transcription.",
+          "pmid": "31432592"
+        },
+        {
+          "paper_title": "Histone Deacetylases Inhibit the Snail2-Mediated EMT During Metastasis of Hepatocellular Carcinoma Cells",
+          "journal": "Frontiers in Cell and Developmental Biology",
+          "year": 2020,
+          "relevant_quote": "Furthermore, our results show that HDAC1 and HDAC3 could suppress the Snail2 gene promoter... Thus, our results indicate that HDAC1 and HDAC3 epigenetically suppress the expression of Snail2 during the EMT of liver cells, revealing an opposing function of HDACs during the migration of malignant tumors.",
+          "pmid": "32850856"
+        }
+      ],
+      "pathway": {
+        "name": "Epithelial-Mesenchymal Transition (EMT)",
+        "canonical_name": "Epithelial-Mesenchymal Transition (Emt)",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "18499657",
+        "31432592",
+        "32850856"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "HDAC6",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The input claim is broadly correct but lacks mechanistic detail and precision regarding the specific HDACs involved. The interaction is indirect. HDAC6 promotes the TGF-β signaling pathway, which in turn leads to the upregulation of Snail2 (Slug), a key transcription factor driving the Epithelial-Mesenchymal Transition (EMT). However, the direct repression of E-cadherin by Snail2 involves the recruitment of other HDACs, specifically HDAC1, HDAC2, and HDAC3, not HDAC6, to the E-cadherin promoter.",
+  "mechanism": "HDAC6 acts upstream in the TGF-β signaling cascade, which is a potent inducer of the Epithelial-Mesenchymal Transition (EMT). HDAC6 activity is required for the activation of the transcription factor SMAD3. Activated SMAD3 then promotes the expression of key EMT-driving transcription factors, including Snail2. Snail2, in turn, acts as a transcriptional repressor of epithelial genes like E-cadherin, a critical step for cells to lose adhesion and gain migratory properties.",
+  "effect": "HDAC6 indirectly promotes the function of Snail2 by facilitating the TGF-β signaling pathway that increases Snail2 expression. This leads to the Snail2-mediated transcriptional repression of E-cadherin, which is a hallmark of EMT, resulting in increased cell motility and invasion.",
+  "summary": "HDAC6 activates Snail2 to modulate hdac6-mediated upregulation of snail2 via tgf-β signaling to promote emt, ultimately affecting loss of e-cadherin expression promotes the loss of cell-cell adhesion and increased cell motility, driving emt and metastasis.",
+  "evidence": [
+    {
+      "paper_title": "Requirement of HDAC6 for Transforming Growth Factor-β1-induced Epithelial-Mesenchymal Transition",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2008,
+      "relevant_quote": "Reduced expression of HDAC6 also impaired the activation of SMAD3 in response to TGF-β1. Conversely, inhibition of SMAD3 activation substantially impaired HDAC6-dependent deacetylation of α-tubulin as well as the expression of EMT markers. These findings reveal a novel function of HDAC6 in EMT by intercepting the TGF-β-SMAD3 signaling cascade."
+    },
+    {
+      "paper_title": "G9a and histone deacetylases are crucial for Snail2-mediated E-cadherin repression and metastasis in hepatocellular carcinoma",
+      "journal": "Cancer Science",
+      "year": 2019,
+      "relevant_quote": "Furthermore, Snail2 interacted with G9a and histone deacetylases (HDACs) to form a complex to suppress E-cadherin transcription... In addition, G9a, HDAC1, HDAC2, and HDAC3 acted together with Snail2 at the E-cadherin promoter to suppress transcription."
+    },
+    {
+      "paper_title": "Histone Deacetylases Inhibit the Snail2-Mediated EMT During Metastasis of Hepatocellular Carcinoma Cells",
+      "journal": "Frontiers in Cell and Developmental Biology",
+      "year": 2020,
+      "relevant_quote": "Furthermore, our results show that HDAC1 and HDAC3 could suppress the Snail2 gene promoter... Thus, our results indicate that HDAC1 and HDAC3 epigenetically suppress the expression of Snail2 during the EMT of liver cells, revealing an opposing function of HDACs during the migration of malignant tumors."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Epithelial-Mesenchymal Transition (EMT)",
+      "canonical_name": "Epithelial-Mesenchymal Transition (Emt)",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> Snail2:",
+  "protein_a": "HDAC6",
+  "protein_b": "Snail2",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.771082Z",
+  "last_updated": "2025-12-04T16:37:52.771082Z"
+}

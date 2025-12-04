@@ -1,0 +1,117 @@
+{
+  "primary": "STAT3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HDAC6 deacetylates the transcription factor STAT3, which modulates its activity and the expression of target genes like PD-L1.",
+  "functions": [
+    {
+      "function": "STAT3 Transcriptional Activity",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 physically binds to the STAT3 protein, an interaction that occurs in both the cytoplasm and the nucleus. This binding shields STAT3 from cellular phosphatases, thus maintaining its critical phosphorylation at tyrosine 705 (Tyr705).",
+      "effect_description": "By preserving STAT3's phosphorylated state, HDAC6 promotes its activity as a transcription factor. This leads to the recruitment of the HDAC6-STAT3 complex to the promoters of target genes, such as the immunosuppressive cytokine IL-10 and the immune checkpoint ligand PD-L1, thereby activating their transcription.",
+      "biological_consequence": [
+        "HDAC6 forms a molecular complex with STAT3 → STAT3 is shielded from phosphatase-mediated dephosphorylation → Phosphorylation of STAT3 at Tyr705 is sustained → HDAC6-STAT3 complex is recruited to gene promoters → Transcriptional activation of target genes (e.g., IL-10, PD-L1) → Promotion of an immunosuppressive microenvironment"
+      ],
+      "specific_effects": [
+        "Genetic or pharmacological inhibition of HDAC6 leads to a significant decrease in STAT3 phosphorylation at Tyr705.",
+        "Inhibition of HDAC6 diminishes the recruitment of STAT3 to the promoters of its target genes, such as IL-10 and PD-L1.",
+        "The regulation of STAT3 activity by HDAC6 occurs without any detectable changes in the acetylation status of STAT3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "A novel role for histone deacetylase 6 in the regulation of the tolerogenic STAT3/IL-10 pathway in APCs",
+          "journal": "Journal of Immunology",
+          "year": 2014,
+          "relevant_quote": "Mechanistically, we have found that HDAC6 forms a previously unknown molecular complex with STAT3, association that was detected in both the cytoplasmic and nuclear compartments of the APC... Of note, disruption of this complex by knocking down HDAC6 resulted in decreased STAT3 phosphorylation -but no changes in STAT3 acetylation- as well as diminished recruitment of STAT3 to the Il10 gene promoter region.",
+          "pmid": "25108026"
+        },
+        {
+          "paper_title": "Essential role of HDAC6 in the regulation of PD-L1 in melanoma",
+          "journal": "Molecular Oncology",
+          "year": 2016,
+          "relevant_quote": "Our data suggests that this novel mechanism of PD-L1 regulation is mainly mediated by the influence of HDAC6 over the recruitment and activation of STAT3.",
+          "pmid": "26775640"
+        },
+        {
+          "paper_title": "Role of the HDAC6/STAT3 pathway in regulating PD-L1 expression in osteosarcoma cell lines",
+          "journal": "Cancer Chemotherapy and Pharmacology",
+          "year": 2019,
+          "relevant_quote": "As shown by our results, the mechanism by which HDAC6 regulated PD-L1 expression was mediated by the transcription factor STAT3.",
+          "pmid": "30430228"
+        }
+      ],
+      "pathway": {
+        "name": "JAK-STAT Signaling Pathway",
+        "canonical_name": "JAK-STAT Signaling",
+        "ontology_id": "hsa04630",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25108026",
+        "26775640",
+        "30430228"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim that HDAC6 deacetylates STAT3 is a significant 'Mechanistic Error'. The primary literature repeatedly confirms that the regulatory effect of HDAC6 on STAT3 is independent of STAT3's acetylation status. The correct mechanism is that HDAC6 forms a physical complex with STAT3, both in the cytoplasm and nucleus. This interaction is essential to protect STAT3 from dephosphorylation (likely by phosphatases such as PP2A), thereby maintaining STAT3 in its active, phosphorylated state (p-STAT3 Tyr705). This sustained phosphorylation is required for STAT3's recruitment to the promoters of its target genes.",
+  "mechanism": "HDAC6 physically binds to the STAT3 protein, an interaction that occurs in both the cytoplasm and the nucleus. This binding shields STAT3 from cellular phosphatases, thus maintaining its critical phosphorylation at tyrosine 705 (Tyr705).",
+  "effect": "By preserving STAT3's phosphorylated state, HDAC6 promotes its activity as a transcription factor. This leads to the recruitment of the HDAC6-STAT3 complex to the promoters of target genes, such as the immunosuppressive cytokine IL-10 and the immune checkpoint ligand PD-L1, thereby activating their transcription.",
+  "summary": "HDAC6 activates STAT3 to modulate stat3 transcriptional activity, ultimately affecting promotion of an immunosuppressive microenvironment.",
+  "evidence": [
+    {
+      "paper_title": "A novel role for histone deacetylase 6 in the regulation of the tolerogenic STAT3/IL-10 pathway in APCs",
+      "journal": "Journal of Immunology",
+      "year": 2014,
+      "relevant_quote": "Mechanistically, we have found that HDAC6 forms a previously unknown molecular complex with STAT3, association that was detected in both the cytoplasmic and nuclear compartments of the APC... Of note, disruption of this complex by knocking down HDAC6 resulted in decreased STAT3 phosphorylation -but no changes in STAT3 acetylation- as well as diminished recruitment of STAT3 to the Il10 gene promoter region."
+    },
+    {
+      "paper_title": "Essential role of HDAC6 in the regulation of PD-L1 in melanoma",
+      "journal": "Molecular Oncology",
+      "year": 2016,
+      "relevant_quote": "Our data suggests that this novel mechanism of PD-L1 regulation is mainly mediated by the influence of HDAC6 over the recruitment and activation of STAT3."
+    },
+    {
+      "paper_title": "Role of the HDAC6/STAT3 pathway in regulating PD-L1 expression in osteosarcoma cell lines",
+      "journal": "Cancer Chemotherapy and Pharmacology",
+      "year": 2019,
+      "relevant_quote": "As shown by our results, the mechanism by which HDAC6 regulated PD-L1 expression was mediated by the transcription factor STAT3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "JAK-STAT Signaling Pathway",
+      "canonical_name": "JAK-STAT Signaling",
+      "ontology_id": "hsa04630",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> STAT3:",
+  "protein_a": "HDAC6",
+  "protein_b": "STAT3",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.688665Z",
+  "last_updated": "2025-12-04T16:37:52.688665Z"
+}

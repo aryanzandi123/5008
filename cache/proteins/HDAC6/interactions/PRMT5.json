@@ -1,0 +1,88 @@
+{
+  "primary": "PRMT5",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "PRMT5 Methyltransferase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "HDAC6 interacts with and deacetylates Protein Arginine Methyltransferase 5 (PRMT5), an enzyme that catalyzes the symmetric dimethylation of arginine residues on substrate proteins.",
+      "effect_description": "The deacetylation of PRMT5 by HDAC6 at specific lysine residues reduces its enzymatic activity. Conversely, hyperacetylation of PRMT5, which occurs upon HDAC6 inhibition, enhances its methyltransferase activity towards substrates like G3BP1.",
+      "biological_consequence": [
+        "HDAC6 binds and deacetylates PRMT5 → Decreased PRMT5 methyltransferase activity → Reduced symmetric dimethylation of PRMT5 substrates (e.g., H4R3, G3BP1) → Altered gene expression and cellular signaling."
+      ],
+      "specific_effects": [
+        "PRMT5 was validated as a novel HDAC6 substrate using a substrate-trapping proteomics approach.",
+        "Inhibition of HDAC6 with Tubastatin A or SAHA leads to hyperacetylation of PRMT5.",
+        "Acetylation of PRMT5 enhances its enzymatic activity, leading to increased dimethylation of its substrates."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 Substrate Discovery Using Proteomics-Based Substrate Trapping: HDAC6 Deacetylates PRMT5 to Influence Methyltransferase Activity",
+          "journal": "ACS Chemical Biology",
+          "year": 2021,
+          "relevant_quote": "Among the high confidence protein hits after trapping, protein arginine methyl transferase 5 (PRMT5) was successfully validated as a novel HDAC6 substrate. PRMT5 acetylation enhanced its methyltransferase activity and symmetrical dimethylation of downstream substrates, revealing possible crosstalk between acetylation and methylation.",
+          "pmid": "34314149"
+        }
+      ],
+      "pathway": {
+        "name": "Post-Translational Modification Regulation",
+        "canonical_name": "Post-Translational Modification Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "34314149"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 interacts with and deacetylates Protein Arginine Methyltransferase 5 (PRMT5), an enzyme that catalyzes the symmetric dimethylation of arginine residues on substrate proteins.",
+  "effect": "The deacetylation of PRMT5 by HDAC6 at specific lysine residues reduces its enzymatic activity. Conversely, hyperacetylation of PRMT5, which occurs upon HDAC6 inhibition, enhances its methyltransferase activity towards substrates like G3BP1.",
+  "summary": "HDAC6 inhibits PRMT5 to modulate prmt5 methyltransferase activity, ultimately affecting altered gene expression and cellular signaling.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 Substrate Discovery Using Proteomics-Based Substrate Trapping: HDAC6 Deacetylates PRMT5 to Influence Methyltransferase Activity",
+      "journal": "ACS Chemical Biology",
+      "year": 2021,
+      "relevant_quote": "Among the high confidence protein hits after trapping, protein arginine methyl transferase 5 (PRMT5) was successfully validated as a novel HDAC6 substrate. PRMT5 acetylation enhanced its methyltransferase activity and symmetrical dimethylation of downstream substrates, revealing possible crosstalk between acetylation and methylation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Post-Translational Modification Regulation",
+      "canonical_name": "Post-Translational Modification Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --inhibits--> PRMT5:",
+  "protein_a": "HDAC6",
+  "protein_b": "PRMT5",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.762779Z",
+  "last_updated": "2025-12-04T16:37:52.762779Z"
+}

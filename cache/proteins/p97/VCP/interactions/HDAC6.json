@@ -1,0 +1,103 @@
+{
+  "primary": "HDAC6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The ATPase p97/VCP interacts with HDAC6 and modulates its binding to polyubiquitinated proteins, influencing the choice between proteasomal degradation and autophagy.",
+  "functions": [
+    {
+      "function": "Ubiquitinated Protein Fate",
+      "arrow": "activates",
+      "cellular_process": "The AAA ATPase p97/VCP interacts with HDAC6 and modulates the fate of ubiquitinated proteins by determining whether they are sequestered into aggresomes by HDAC6 or processed for proteasomal degradation.",
+      "effect_description": "p97/VCP possesses segregase activity that can disassemble HDAC6-polyubiquitin complexes. This action directly opposes HDAC6's function of accumulating ubiquitinated proteins for aggresome formation. The relative cellular concentrations and activities of HDAC6 and p97/VCP create a dynamic balance: high HDAC6 favors aggresome formation, while high p97/VCP activity favors proteasomal degradation.",
+      "biological_consequence": [
+        "Ubiquitinated protein is bound by HDAC6 → p97/VCP binds to the HDAC6-ubiquitin complex → p97/VCP ATPase activity dissociates HDAC6 from the ubiquitinated protein → The released ubiquitinated protein is channeled to the ubiquitin-proteasome system for degradation → Prevention of aggresome formation."
+      ],
+      "specific_effects": [
+        "p97/VCP directly counteracts the ability of HDAC6 to promote the accumulation of polyubiquitinated proteins.",
+        "The interaction is a key control point, deciding between two major protein clearance pathways: aggresome-autophagy (via HDAC6) and proteasomal degradation (via p97/VCP).",
+        "Dysfunction or mutation in p97/VCP can lead to the accumulation of protein aggregates, a phenotype similar to conditions of HDAC6 overexpression, highlighting their opposing roles."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6-p97/VCP controlled polyubiquitin chain turnover",
+          "journal": "The EMBO Journal",
+          "year": 2006,
+          "relevant_quote": "We further show that HDAC6-interacting chaperone, p97/VCP, dissociates the HDAC6–ubiquitin complexes and counteracts the ability of HDAC6 to promote the accumulation of polyubiquitinated proteins. We propose that a finely tuned balance of HDAC6 and p97/VCP concentrations determines the fate of ubiquitinated misfolded proteins: p97/VCP would promote protein degradation and ubiquitin turnover, whereas HDAC6 would favour the accumulation of ubiquitinated protein aggregates and inclusion body formation.",
+          "pmid": "16810319"
+        },
+        {
+          "paper_title": "To prevent neurodegeneration: HDAC6 uses different strategies for different challenges",
+          "journal": "Cell Cycle",
+          "year": 2010,
+          "relevant_quote": "The balance of HDAC6 and p97/VCP determines whether the ubiquitinated proteins are to be degraded or to form aggresomes, because p97/VCP promotes proteasome-mediated protein degradation whereas HDAC6 stimulates accumulation of ubiquitinated proteins to form aggresomes.",
+          "pmid": "21655425"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "16810319",
+        "21655425"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim's 'activates' arrow is a contextual error. The relationship between HDAC6 and p97/VCP is not a simple activation but a competitive balance that determines the fate of ubiquitinated proteins. p97/VCP actively dissociates HDAC6-ubiquitin complexes, counteracting HDAC6's function in aggresome formation and instead promoting proteasomal degradation. Therefore, p97/VCP acts as a negative regulator or an antagonist of HDAC6's sequestration activity.",
+  "mechanism": "The AAA ATPase p97/VCP interacts with HDAC6 and modulates the fate of ubiquitinated proteins by determining whether they are sequestered into aggresomes by HDAC6 or processed for proteasomal degradation.",
+  "effect": "p97/VCP possesses segregase activity that can disassemble HDAC6-polyubiquitin complexes. This action directly opposes HDAC6's function of accumulating ubiquitinated proteins for aggresome formation. The relative cellular concentrations and activities of HDAC6 and p97/VCP create a dynamic balance: high HDAC6 favors aggresome formation, while high p97/VCP activity favors proteasomal degradation.",
+  "summary": "HDAC6 inhibits p97/VCP to modulate regulation of ubiquitinated protein fate, ultimately affecting prevention of aggresome formation.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6-p97/VCP controlled polyubiquitin chain turnover",
+      "journal": "The EMBO Journal",
+      "year": 2006,
+      "relevant_quote": "We further show that HDAC6-interacting chaperone, p97/VCP, dissociates the HDAC6–ubiquitin complexes and counteracts the ability of HDAC6 to promote the accumulation of polyubiquitinated proteins. We propose that a finely tuned balance of HDAC6 and p97/VCP concentrations determines the fate of ubiquitinated misfolded proteins: p97/VCP would promote protein degradation and ubiquitin turnover, whereas HDAC6 would favour the accumulation of ubiquitinated protein aggregates and inclusion body formation."
+    },
+    {
+      "paper_title": "To prevent neurodegeneration: HDAC6 uses different strategies for different challenges",
+      "journal": "Cell Cycle",
+      "year": 2010,
+      "relevant_quote": "The balance of HDAC6 and p97/VCP determines whether the ubiquitinated proteins are to be degraded or to form aggresomes, because p97/VCP promotes proteasome-mediated protein degradation whereas HDAC6 stimulates accumulation of ubiquitinated proteins to form aggresomes."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibits",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 <--inhibits-- p97/VCP:",
+  "protein_a": "p97/VCP",
+  "protein_b": "HDAC6",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.659492Z",
+  "last_updated": "2025-12-04T16:37:52.659492Z"
+}

@@ -1,0 +1,88 @@
+{
+  "primary": "DNAJA1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "Chaperone Complex Assembly",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 interacts with and deacetylates the Hsp40 co-chaperone DNAJA1, as well as its partner chaperone Hsc70. DNAJA1 and Hsc70 work as a pair to facilitate protein folding and quality control.",
+      "effect_description": "The deacetylation of both Hsc70 and DNAJA1 by HDAC6 is a critical regulatory step that enhances their binding affinity for each other. This strengthened interaction is essential for the proper function of the Hsc70-DNAJA1 chaperone machinery, which plays a key role in cellular proteostasis.",
+      "biological_consequence": [
+        "HDAC6 binds to acetylated DNAJA1 and Hsc70 → HDAC6 removes acetyl groups from lysine residues on both proteins → Deacetylation promotes a conformational state favoring their interaction → Increased formation of the Hsc70-DNAJA1 chaperone complex → Enhanced efficiency in client protein folding and triage for degradation"
+      ],
+      "specific_effects": [
+        "DNAJA1 was identified as a novel HDAC6 substrate through a quantitative proteomic screen of HDAC6 knockout mouse livers, which showed hyperacetylation of 107 proteins.",
+        "The acetylation levels of DNAJA1 are negatively regulated by HDAC6 in both mouse liver and cultured cells.",
+        "The interaction between Hsc70 and DNAJA1 was significantly decreased in HDAC6 knockout cells and in cells treated with an HDAC6-specific inhibitor."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+          "journal": "Protein & Cell",
+          "year": 2014,
+          "relevant_quote": "Three cytoplasmic proteins, including myosin heavy chain 9 (MYH9), heat shock cognate protein 70 (Hsc70), and dnaJ homolog subfamily A member 1 (DNAJA1), were verified to interact with HDAC6. The acetylation levels of these proteins were negatively regulated by HDAC6 both in the mouse liver and in cultured cells. Functional studies reveal that HDAC6-mediated deacetylation modulates the actin-binding ability of MYH9 and the interaction between Hsc70 and DNAJA1.",
+          "pmid": "25311840"
+        }
+      ],
+      "pathway": {
+        "name": "Protein Folding and Chaperone Activity",
+        "canonical_name": "Protein Folding",
+        "ontology_id": "GO:0006457",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25311840"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 interacts with and deacetylates the Hsp40 co-chaperone DNAJA1, as well as its partner chaperone Hsc70. DNAJA1 and Hsc70 work as a pair to facilitate protein folding and quality control.",
+  "effect": "The deacetylation of both Hsc70 and DNAJA1 by HDAC6 is a critical regulatory step that enhances their binding affinity for each other. This strengthened interaction is essential for the proper function of the Hsc70-DNAJA1 chaperone machinery, which plays a key role in cellular proteostasis.",
+  "summary": "HDAC6 activates DNAJA1 to modulate chaperone complex assembly, ultimately affecting enhanced efficiency in client protein folding and triage for degradation.",
+  "evidence": [
+    {
+      "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+      "journal": "Protein & Cell",
+      "year": 2014,
+      "relevant_quote": "Three cytoplasmic proteins, including myosin heavy chain 9 (MYH9), heat shock cognate protein 70 (Hsc70), and dnaJ homolog subfamily A member 1 (DNAJA1), were verified to interact with HDAC6. The acetylation levels of these proteins were negatively regulated by HDAC6 both in the mouse liver and in cultured cells. Functional studies reveal that HDAC6-mediated deacetylation modulates the actin-binding ability of MYH9 and the interaction between Hsc70 and DNAJA1."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Protein Folding and Chaperone Activity",
+      "canonical_name": "Protein Folding",
+      "ontology_id": "GO:0006457",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> DNAJA1:",
+  "protein_a": "HDAC6",
+  "protein_b": "DNAJA1",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.769077Z",
+  "last_updated": "2025-12-04T16:37:52.769077Z"
+}

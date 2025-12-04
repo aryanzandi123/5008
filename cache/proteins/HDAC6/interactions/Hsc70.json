@@ -1,0 +1,102 @@
+{
+  "primary": "Hsc70",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "Chaperone-Mediated Autophagy (CMA)",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 activity is required for efficient Chaperone-Mediated Autophagy (CMA), a selective autophagy pathway where the chaperone Hsc70 delivers substrate proteins to the lysosome for degradation.",
+      "effect_description": "HDAC6 promotes CMA activity, which is critical for protecting cells against oxidative stress. This regulation is likely indirect, through the deacetylation of key chaperone machinery components that partner with Hsc70, such as Hsp90. HDAC6 also directly deacetylates Hsc70 and its co-chaperone DNAJA1, enhancing their interaction.",
+      "biological_consequence": [
+        "HDAC6 deacetylates Hsp90 → Facilitates efficient Hsc70-mediated substrate targeting to the lysosome → Enhanced Chaperone-Mediated Autophagy (CMA) flux → Degradation of damaged proteins → Protection against oxidative damage and apoptosis."
+      ],
+      "specific_effects": [
+        "Inhibition or deficiency of HDAC6 impairs CMA activity in response to hypoxia-ischemia-induced oxidative stress, leading to increased reactive oxygen species (ROS) and apoptosis.",
+        "HDAC6 deacetylates Hsc70 and its co-chaperone DNAJA1, which enhances their interaction, a key step in chaperone function.",
+        "HDAC6 regulates CMA by affecting Hsp90 acetylation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 Regulates the Chaperone-Mediated Autophagy to Prevent Oxidative Damage in Injured Neurons after Experimental Spinal Cord Injury",
+          "journal": "Oxidative Medicine and Cellular Longevity",
+          "year": 2016,
+          "relevant_quote": "Deficiency of HDAC6 hindered the chaperone-mediated autophagy (CMA) activity to resistance of HI-induced oxidative stress. Furthermore, this study provided the experimental evidence for the potential role of HDAC6 in the regulation of CMA by affecting HSP90 acetylation.",
+          "pmid": "26649145"
+        },
+        {
+          "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+          "journal": "Protein & Cell",
+          "year": 2015,
+          "relevant_quote": "Functional studies reveal that HDAC6-mediated deacetylation modulates... the interaction between Hsc70 and DNAJA1.",
+          "pmid": "25311840"
+        }
+      ],
+      "pathway": {
+        "name": "Chaperone-Mediated Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "26649145",
+        "25311840"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 activity is required for efficient Chaperone-Mediated Autophagy (CMA), a selective autophagy pathway where the chaperone Hsc70 delivers substrate proteins to the lysosome for degradation.",
+  "effect": "HDAC6 promotes CMA activity, which is critical for protecting cells against oxidative stress. This regulation is likely indirect, through the deacetylation of key chaperone machinery components that partner with Hsc70, such as Hsp90. HDAC6 also directly deacetylates Hsc70 and its co-chaperone DNAJA1, enhancing their interaction.",
+  "summary": "HDAC6 activates Hsc70 to modulate chaperone-mediated autophagy (cma), ultimately affecting protection against oxidative damage and apoptosis.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 Regulates the Chaperone-Mediated Autophagy to Prevent Oxidative Damage in Injured Neurons after Experimental Spinal Cord Injury",
+      "journal": "Oxidative Medicine and Cellular Longevity",
+      "year": 2016,
+      "relevant_quote": "Deficiency of HDAC6 hindered the chaperone-mediated autophagy (CMA) activity to resistance of HI-induced oxidative stress. Furthermore, this study provided the experimental evidence for the potential role of HDAC6 in the regulation of CMA by affecting HSP90 acetylation."
+    },
+    {
+      "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+      "journal": "Protein & Cell",
+      "year": 2015,
+      "relevant_quote": "Functional studies reveal that HDAC6-mediated deacetylation modulates... the interaction between Hsc70 and DNAJA1."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chaperone-Mediated Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --activates--> Hsc70:",
+  "protein_a": "HDAC6",
+  "protein_b": "Hsc70",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.760690Z",
+  "last_updated": "2025-12-04T16:37:52.760690Z"
+}

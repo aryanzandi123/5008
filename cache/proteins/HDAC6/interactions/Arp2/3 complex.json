@@ -1,0 +1,119 @@
+{
+  "primary": "Arp2/3 complex",
+  "interaction_type": "indirect",
+  "upstream_interactor": "Cortactin",
+  "mediator_chain": [
+    "Cortactin"
+  ],
+  "depth": 2,
+  "support_summary": "HDAC6 indirectly regulates the actin-nucleating activity of the Arp2/3 complex through its deacetylation of Cortactin, which is an Arp2/3 activator.",
+  "functions": [
+    {
+      "function": "Arp2/3-Mediated Actin Nucleation",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 interacts with and deacetylates the actin-binding protein Cortactin. Cortactin is an activator of the Arp2/3 complex. The deacetylation of specific lysine residues in Cortactin's F-actin-binding repeat region increases its ability to bind to filamentous actin (F-actin).",
+      "effect_description": "By deacetylating Cortactin, HDAC6 enhances Cortactin's function as a promoter of Arp2/3 activity. Deacetylated Cortactin more effectively binds to F-actin and subsequently activates the Arp2/3 complex, which nucleates new actin filaments off the sides of existing ones. This results in the formation of a branched actin network, a key driver of lamellipodia formation and cell migration.",
+      "biological_consequence": [
+        "HDAC6 binds to Cortactin → Deacetylates lysine residues in the Cortactin repeat region → Enhanced binding affinity of Cortactin for F-actin → Increased recruitment and activation of the Arp2/3 complex → Promotion of branched actin network formation → Increased cell motility and migration"
+      ],
+      "specific_effects": [
+        "HDAC6 alters the ability of cortactin to bind F-actin by modulating a 'charge patch' in its repeat region.",
+        "The deacetylation of cortactin by HDAC6 is necessary for angiogenesis and endothelial cell migration.",
+        "Inhibition of HDAC6 leads to cortactin hyperacetylation and impaired cell motility."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 Modulates Cell Motility by Altering the Acetylation Level of Cortactin",
+          "journal": "Molecular Cell",
+          "year": 2007,
+          "relevant_quote": "These findings suggest that, in addition to its role in microtubule-dependent cell motility, HDAC6 influences actin-dependent cell motility by altering the acetylation status of cortactin, which, in turn, changes the F-actin binding activity of cortactin.",
+          "pmid": "17643370"
+        },
+        {
+          "paper_title": "Class IIb HDAC6 regulates endothelial cell migration and angiogenesis by deacetylation of cortactin",
+          "journal": "The EMBO Journal",
+          "year": 2011,
+          "relevant_quote": "In summary, we show that HDAC6 is necessary for angiogenesis in vivo and in vitro, involving the interaction and deacetylation of cortactin that regulates EC migration and sprouting.",
+          "pmid": "21847094"
+        }
+      ],
+      "pathway": {
+        "name": "Actin Cytoskeleton Regulation",
+        "canonical_name": "Cytoskeleton Organization",
+        "ontology_id": "GO:0007015",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17643370",
+        "21847094"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "Cortactin",
+        "direct_arrow": "activates",
+        "net_from": "HDAC6",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "Cortactin"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 interacts with and deacetylates the actin-binding protein Cortactin. Cortactin is an activator of the Arp2/3 complex. The deacetylation of specific lysine residues in Cortactin's F-actin-binding repeat region increases its ability to bind to filamentous actin (F-actin).",
+  "effect": "By deacetylating Cortactin, HDAC6 enhances Cortactin's function as a promoter of Arp2/3 activity. Deacetylated Cortactin more effectively binds to F-actin and subsequently activates the Arp2/3 complex, which nucleates new actin filaments off the sides of existing ones. This results in the formation of a branched actin network, a key driver of lamellipodia formation and cell migration.",
+  "summary": "HDAC6 activates Arp2/3 complex to modulate arp2/3-mediated actin nucleation, ultimately affecting increased cell motility and migration.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 Modulates Cell Motility by Altering the Acetylation Level of Cortactin",
+      "journal": "Molecular Cell",
+      "year": 2007,
+      "relevant_quote": "These findings suggest that, in addition to its role in microtubule-dependent cell motility, HDAC6 influences actin-dependent cell motility by altering the acetylation status of cortactin, which, in turn, changes the F-actin binding activity of cortactin."
+    },
+    {
+      "paper_title": "Class IIb HDAC6 regulates endothelial cell migration and angiogenesis by deacetylation of cortactin",
+      "journal": "The EMBO Journal",
+      "year": 2011,
+      "relevant_quote": "In summary, we show that HDAC6 is necessary for angiogenesis in vivo and in vitro, involving the interaction and deacetylation of cortactin that regulates EC migration and sprouting."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Actin Cytoskeleton Regulation",
+      "canonical_name": "Cytoskeleton Organization",
+      "ontology_id": "GO:0007015",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "Cortactin --activates--> Arp2/3 complex:",
+  "protein_a": "HDAC6",
+  "protein_b": "Arp2/3 complex",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.740169Z",
+  "last_updated": "2025-12-04T16:37:52.740169Z"
+}

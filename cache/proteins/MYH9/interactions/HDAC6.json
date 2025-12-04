@@ -1,0 +1,88 @@
+{
+  "primary": "HDAC6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "Actin Binding",
+      "arrow": "inhibits",
+      "cellular_process": "HDAC6 directly interacts with and deacetylates the non-muscle Myosin Heavy Chain 9 (MYH9), a key component of the non-muscle myosin IIA complex.",
+      "effect_description": "The deacetylation of MYH9 by HDAC6 negatively regulates its ability to bind to F-actin. Increased acetylation of MYH9, due to HDAC6 deficiency or inhibition, enhances its interaction with actin.",
+      "biological_consequence": [
+        "HDAC6 deacetylates MYH9 → Decreased binding affinity of MYH9 for F-actin → Alteration of actin cytoskeleton dynamics → Modulation of cellular processes such as cell motility and adhesion."
+      ],
+      "specific_effects": [
+        "MYH9 was identified as a novel substrate of HDAC6 through proteomic analysis of HDAC6 knockout mice, which showed hyperacetylation of MYH9.",
+        "The acetylation level of MYH9 is negatively regulated by HDAC6.",
+        "HDAC6 deficiency or inhibition with tubacin leads to a stronger interaction between MYH9 and actin in cells."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+          "journal": "Protein & Cell",
+          "year": 2015,
+          "relevant_quote": "Functional studies reveal that HDAC6-mediated deacetylation modulates the actin-binding ability of MYH9... We demonstrate that HDAC6 deacetylates MYH9, another actin-binding protein that is part of non-muscle myosin IIA (NM IIA), and thereby negatively regulates the actin-binding affinity of MYH9 in cells.",
+          "pmid": "25311840"
+        }
+      ],
+      "pathway": {
+        "name": "Actin Cytoskeleton Regulation",
+        "canonical_name": "Cytoskeleton Organization",
+        "ontology_id": "GO:0007015",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25311840"
+      ],
+      "interaction_effect": "inhibition",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 directly interacts with and deacetylates the non-muscle Myosin Heavy Chain 9 (MYH9), a key component of the non-muscle myosin IIA complex.",
+  "effect": "The deacetylation of MYH9 by HDAC6 negatively regulates its ability to bind to F-actin. Increased acetylation of MYH9, due to HDAC6 deficiency or inhibition, enhances its interaction with actin.",
+  "summary": "HDAC6 inhibits MYH9 to modulate actin binding, ultimately affecting modulation of cellular processes such as cell motility and adhesion.",
+  "evidence": [
+    {
+      "paper_title": "Proteomic identification and functional characterization of MYH9, Hsc70, and DNAJA1 as novel substrates of HDAC6 deacetylase activity",
+      "journal": "Protein & Cell",
+      "year": 2015,
+      "relevant_quote": "Functional studies reveal that HDAC6-mediated deacetylation modulates the actin-binding ability of MYH9... We demonstrate that HDAC6 deacetylates MYH9, another actin-binding protein that is part of non-muscle myosin IIA (NM IIA), and thereby negatively regulates the actin-binding affinity of MYH9 in cells."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Actin Cytoskeleton Regulation",
+      "canonical_name": "Cytoskeleton Organization",
+      "ontology_id": "GO:0007015",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --inhibits--> MYH9:",
+  "protein_a": "MYH9",
+  "protein_b": "HDAC6",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.758806Z",
+  "last_updated": "2025-12-04T16:37:52.758806Z"
+}

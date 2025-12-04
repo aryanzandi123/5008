@@ -1,0 +1,103 @@
+{
+  "primary": "alpha-tubulin",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "alpha-tubulin is a well-established substrate of HDAC6, which deacetylates it at Lys40, affecting microtubule stability and dynamics.",
+  "functions": [
+    {
+      "function": "Microtubule Dynamics",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 directly binds to and deacetylates alpha-tubulin at lysine 40 (Lys40). This post-translational modification is a key regulatory step in controlling the stability and dynamics of the microtubule network.",
+      "effect_description": "The deacetylation of alpha-tubulin by HDAC6 results in less stable microtubules. This leads to an increase in microtubule turnover and dynamics, which in turn affects various cellular processes.",
+      "biological_consequence": [
+        "HDAC6 binds to β-tubulin, recruiting it to microtubule polymers → HDAC6 deacetylates Lys40 on α-tubulin within the microtubule lattice → Decreased microtubule stability and increased microtubule dynamics → Enhanced cell motility and migration."
+      ],
+      "specific_effects": [
+        "Overexpression of HDAC6 leads to global hypoacetylation of α-tubulin.",
+        "Inhibition of HDAC6, either pharmacologically or genetically, results in the hyperacetylation of tubulin and microtubules.",
+        "Deacetylation of alpha-tubulin by HDAC6 promotes chemotactic cell movement."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC-6 interacts with and deacetylates tubulin and microtubules in vivo",
+          "journal": "The EMBO Journal",
+          "year": 2003,
+          "relevant_quote": "Reversible acetylation on the ε-amino group of α-tubulin Lys40 marks stabilized microtubule structures and may contribute to regulating microtubule dynamics... We find that HDAC-6 is a micro tubule-associated protein capable of deacetylating α-tubulin in vivo and in vitro.",
+          "pmid": "12606581"
+        },
+        {
+          "paper_title": "Histone deacetylase 6 (HDAC6) is an independent deacetylase for alpha-tubulin",
+          "journal": "Protein & Peptide Letters",
+          "year": 2010,
+          "relevant_quote": "The results clearly demonstrated that interaction between HDAC6 and tubulin is independent of other proteins. In addition, HDAC6 can independently catalyze deacetylation of both tubulin dimer and microtubule polymer.",
+          "pmid": "19961433"
+        }
+      ],
+      "pathway": {
+        "name": "Cytoskeleton Dynamics",
+        "canonical_name": "Cytoskeleton Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "12606581",
+        "19961433"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 directly binds to and deacetylates alpha-tubulin at lysine 40 (Lys40). This post-translational modification is a key regulatory step in controlling the stability and dynamics of the microtubule network.",
+  "effect": "The deacetylation of alpha-tubulin by HDAC6 results in less stable microtubules. This leads to an increase in microtubule turnover and dynamics, which in turn affects various cellular processes.",
+  "summary": "HDAC6 inhibits alpha-tubulin to modulate microtubule dynamics, ultimately affecting enhanced cell motility and migration.",
+  "evidence": [
+    {
+      "paper_title": "HDAC-6 interacts with and deacetylates tubulin and microtubules in vivo",
+      "journal": "The EMBO Journal",
+      "year": 2003,
+      "relevant_quote": "Reversible acetylation on the ε-amino group of α-tubulin Lys40 marks stabilized microtubule structures and may contribute to regulating microtubule dynamics... We find that HDAC-6 is a micro tubule-associated protein capable of deacetylating α-tubulin in vivo and in vitro."
+    },
+    {
+      "paper_title": "Histone deacetylase 6 (HDAC6) is an independent deacetylase for alpha-tubulin",
+      "journal": "Protein & Peptide Letters",
+      "year": 2010,
+      "relevant_quote": "The results clearly demonstrated that interaction between HDAC6 and tubulin is independent of other proteins. In addition, HDAC6 can independently catalyze deacetylation of both tubulin dimer and microtubule polymer."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cytoskeleton Dynamics",
+      "canonical_name": "Cytoskeleton Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --regulates--> alpha-tubulin:",
+  "protein_a": "HDAC6",
+  "protein_b": "alpha-tubulin",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.647735Z",
+  "last_updated": "2025-12-04T16:37:52.647735Z"
+}

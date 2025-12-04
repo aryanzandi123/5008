@@ -1,0 +1,89 @@
+{
+  "primary": "TPPP/p25",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Tubulin polymerization promoting protein (TPPP/p25) interacts with the dynein motor binding region of HDAC6 and is associated with decreased tubulin deacetylation.",
+  "functions": [
+    {
+      "function": "HDAC6 Deacetylase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "Tubulin polymerization promoting protein (TPPP/p25) directly binds to HDAC6, a primary enzyme for tubulin deacetylation.",
+      "effect_description": "This direct interaction leads to a potent, concentration-dependent inhibition of HDAC6's deacetylase activity. This inhibition results in an increased level of α-tubulin acetylation at Lys-40.",
+      "biological_consequence": [
+        "TPPP/p25 binds directly to HDAC6 → HDAC6 deacetylase activity is inhibited → α-tubulin acetylation at Lys-40 is increased → Microtubule dynamics are altered (e.g., decreased growth velocity of plus ends) → Cell motility is decreased."
+      ],
+      "specific_effects": [
+        "TPPP/p25 can induce almost complete (90%) inhibition of HDAC6 activity at a 3 μM concentration.",
+        "The expression of TPPP/p25 promotes the acetylation of α-tubulin at residue Lys-40.",
+        "TPPP/p25 influences microtubule dynamics by decreasing the growth velocity of the microtubule plus ends."
+      ],
+      "evidence": [
+        {
+          "paper_title": "TPPP/p25 Promotes Tubulin Acetylation by Inhibiting Histone Deacetylase 6",
+          "journal": "Journal of Biological Chemistry",
+          "year": 2010,
+          "relevant_quote": "Our results indicate that TPPP/p25 binds to HDAC6 (histone deacetylase 6), an enzyme responsible for tubulin deacetylation. Moreover, we demonstrated that the direct interaction of these two proteins resulted in the inhibition of the deacetylase activity of HDAC6. The measurement of HDAC6 activity showed that TPPP/p25 is able to induce almost complete (90%) inhibition at 3 μm concentration.",
+          "pmid": "20308065"
+        }
+      ],
+      "pathway": {
+        "name": "Cytoskeleton Dynamics",
+        "canonical_name": "Cytoskeleton Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20308065"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Tubulin polymerization promoting protein (TPPP/p25) directly binds to HDAC6, a primary enzyme for tubulin deacetylation.",
+  "effect": "This direct interaction leads to a potent, concentration-dependent inhibition of HDAC6's deacetylase activity. This inhibition results in an increased level of α-tubulin acetylation at Lys-40.",
+  "summary": "HDAC6 inhibits TPPP/p25 to modulate hdac6 deacetylase activity, ultimately affecting cell motility is decreased.",
+  "evidence": [
+    {
+      "paper_title": "TPPP/p25 Promotes Tubulin Acetylation by Inhibiting Histone Deacetylase 6",
+      "journal": "Journal of Biological Chemistry",
+      "year": 2010,
+      "relevant_quote": "Our results indicate that TPPP/p25 binds to HDAC6 (histone deacetylase 6), an enzyme responsible for tubulin deacetylation. Moreover, we demonstrated that the direct interaction of these two proteins resulted in the inhibition of the deacetylase activity of HDAC6. The measurement of HDAC6 activity showed that TPPP/p25 is able to induce almost complete (90%) inhibition at 3 μm concentration."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cytoskeleton Dynamics",
+      "canonical_name": "Cytoskeleton Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 <--inhibits-- TPPP/p25:",
+  "protein_a": "HDAC6",
+  "protein_b": "TPPP/p25",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.677302Z",
+  "last_updated": "2025-12-04T16:37:52.677302Z"
+}

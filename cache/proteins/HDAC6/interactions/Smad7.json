@@ -1,0 +1,117 @@
+{
+  "primary": "Smad7",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HDAC6 activity negatively regulates the expression of the inhibitory Smad7, thereby promoting the pro-fibrotic TGF-β/Smad3 signaling pathway.",
+  "functions": [
+    {
+      "function": "TGF-beta Signaling Activation via Smad3 Deacetylation",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 directly interacts with and deacetylates the signal transducer Smad3 in the cytoplasm. This post-translational modification is a key step for the subsequent activation of Smad3 within the TGF-β signaling cascade.",
+      "effect_description": "By deacetylating Smad3, HDAC6 enhances its availability for phosphorylation by the activated TGF-β receptor complex. This phosphorylation is the canonical activation step that leads to the nuclear translocation of the Smad complex and the transcription of target genes associated with fibrosis.",
+      "biological_consequence": [
+        "TGF-β receptor activation → Cytoplasmic HDAC6 deacetylates Smad3 → Enhanced phosphorylation of Smad2/3 by the receptor complex → Smad2/3 nuclear translocation → Activation of pro-fibrotic gene transcription → Fibrosis."
+      ],
+      "specific_effects": [
+        "Directly targets and deacetylates Smad3 in the cytoplasm.",
+        "Inhibition of HDAC6 leads to hyperacetylation of Smad3.",
+        "Acetylation of Smad3 reduces its subsequent phosphorylation and nuclear translocation, thus inhibiting TGF-β signaling."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Pharmacological inhibition of HDAC6 improves muscle phenotypes in dystrophin-deficient mice by downregulating TGF-β via Smad3 acetylation",
+          "journal": "Nature Communications",
+          "year": 2022,
+          "relevant_quote": "By increasing Smad3 acetylation in the cytoplasm, HDAC6 inhibition reduces Smad2/3 phosphorylation, nuclear translocation, and transcriptional activity. These findings provide in vivo evidence that Smad3 is a new target of HDAC6 and implicate HDAC6 as a potential therapeutic target in Duchenne muscular dystrophy.",
+          "pmid": "36402791"
+        },
+        {
+          "paper_title": "Histone deacetylase 6 inhibition mitigates renal fibrosis by suppressing TGF-β and EGFR signaling pathways in obstructive nephropathy",
+          "journal": "American Journal of Physiology-Renal Physiology",
+          "year": 2018,
+          "relevant_quote": "How HDAC6 promotes Smad3 activation remains unclear, but it may be related to the regulation of Smad7... it is also possible that HDAC6 may directly modify Smad3 and then change its phosphorylation levels.",
+          "pmid": "33103445"
+        }
+      ],
+      "pathway": {
+        "name": "TGF-beta Signaling Pathway",
+        "canonical_name": "TGF-beta Signaling",
+        "ontology_id": "hsa04350",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "36402791",
+        "33103445"
+      ],
+      "name": "Activation of HDAC6 Gene Expression",
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "consequences": "In response to TGF-β, Smad7 binds to the regulatory region of the HDAC6 gene. → This binding enhances the transcription of HDAC6 mRNA and increases HDAC6 protein expression. → Increased HDAC6 levels can then influence other cellular processes, such as cell migration and invasion in cancer.",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "HDAC6",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim that HDAC6's primary mechanism is the negative regulation of Smad7 expression is a contextual error and a mechanistic opposite. Primary literature demonstrates that the direct target is Smad3, not Smad7. HDAC6, a cytoplasmic deacetylase, removes acetyl groups from Smad3. This deacetylation promotes Smad3's subsequent phosphorylation and activation by the TGF-β receptor. By activating Smad3, HDAC6 promotes the pro-fibrotic TGF-β signaling pathway. The observed changes in the inhibitory protein Smad7's expression upon HDAC6 inhibition are an indirect, downstream consequence of modulating the entire pathway, not the initiating mechanism. In a different context, Smad7 can act as a transcription factor to increase HDAC6 expression.",
+  "mechanism": "HDAC6 directly interacts with and deacetylates the signal transducer Smad3 in the cytoplasm. This post-translational modification is a key step for the subsequent activation of Smad3 within the TGF-β signaling cascade.",
+  "effect": "By deacetylating Smad3, HDAC6 enhances its availability for phosphorylation by the activated TGF-β receptor complex. This phosphorylation is the canonical activation step that leads to the nuclear translocation of the Smad complex and the transcription of target genes associated with fibrosis.",
+  "summary": "HDAC6 activates Smad7 to modulate tgf-beta signaling activation via smad3 deacetylation, ultimately affecting fibrosis.",
+  "evidence": [
+    {
+      "paper_title": "Pharmacological inhibition of HDAC6 improves muscle phenotypes in dystrophin-deficient mice by downregulating TGF-β via Smad3 acetylation",
+      "journal": "Nature Communications",
+      "year": 2022,
+      "relevant_quote": "By increasing Smad3 acetylation in the cytoplasm, HDAC6 inhibition reduces Smad2/3 phosphorylation, nuclear translocation, and transcriptional activity. These findings provide in vivo evidence that Smad3 is a new target of HDAC6 and implicate HDAC6 as a potential therapeutic target in Duchenne muscular dystrophy."
+    },
+    {
+      "paper_title": "Histone deacetylase 6 inhibition mitigates renal fibrosis by suppressing TGF-β and EGFR signaling pathways in obstructive nephropathy",
+      "journal": "American Journal of Physiology-Renal Physiology",
+      "year": 2018,
+      "relevant_quote": "How HDAC6 promotes Smad3 activation remains unclear, but it may be related to the regulation of Smad7... it is also possible that HDAC6 may directly modify Smad3 and then change its phosphorylation levels."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "TGF-beta Signaling Pathway",
+      "canonical_name": "TGF-beta Signaling",
+      "ontology_id": "hsa04350",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 <--activates-- Smad7:",
+  "protein_a": "HDAC6",
+  "protein_b": "Smad7",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.701818Z",
+  "last_updated": "2025-12-04T16:37:52.701818Z"
+}

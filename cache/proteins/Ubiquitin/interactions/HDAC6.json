@@ -1,0 +1,103 @@
+{
+  "primary": "HDAC6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HDAC6 contains a zinc finger ubiquitin-binding domain (ZnF-UBP) that directly binds to both mono- and poly-ubiquitinated proteins, linking protein deacetylation to protein degradation pathways.",
+  "functions": [
+    {
+      "function": "Misfolded Protein Transport and Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "HDAC6 directly binds to mono- and poly-ubiquitinated proteins, a critical step in the cellular response to the accumulation of misfolded or aggregated proteins.",
+      "effect_description": "This interaction is mediated by the C-terminal Zinc Finger Ubiquitin-Binding Domain (ZnF-UBP) of HDAC6, which recognizes the unanchored C-terminal diglycine motif of ubiquitin. This binding serves as a signal to link the ubiquitinated cargo to the dynein motor complex for transport along microtubules to form a perinuclear inclusion body called an aggresome.",
+      "biological_consequence": [
+        "Accumulation of poly-ubiquitinated misfolded proteins → HDAC6 binds to ubiquitin via its ZnF-UBP domain → HDAC6 links cargo to the dynein motor complex → Retrograde transport of protein aggregates along microtubules → Sequestration of aggregates at the microtubule-organizing center (MTOC) → Aggresome formation and subsequent clearance by autophagy."
+      ],
+      "specific_effects": [
+        "The HDAC6 ZnF-UBP domain has a high affinity for ubiquitin, enabling it to act as a sensor for the accumulation of ubiquitinated proteins.",
+        "HDAC6 binding to ubiquitinated proteins is a prerequisite for their transport to the aggresome.",
+        "The binding of HDAC6 to ubiquitinated proteins can trigger the dissociation of the repressive HSF1/HSP90 complex, leading to the activation of the heat shock response."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 controls major cell response pathways to cytotoxic accumulation of protein aggregates",
+          "journal": "Genes & Development",
+          "year": 2007,
+          "relevant_quote": "The cytoplasmic deacetylase HDAC6 (histone deacetylase 6) was previously shown to be a key element in this response by coordinating the clearance of protein aggregates through aggresome formation and their autophagic degradation. Here, for the first time, we demonstrate that HDAC6 is involved in another crucial cell response to the accumulation of ubiquitinated protein aggregates... our data show that HDAC6 senses ubiquitinated cellular aggregates and consequently induces the expression of major cellular chaperones by triggering the dissociation of a repressive HDAC6/HSF1 (heat-shock factor 1)/HSP90 (heat-shock protein 90) complex and a subsequent HSF1 activation.",
+          "pmid": "17785525"
+        },
+        {
+          "paper_title": "Protein Aggregates Are Recruited to Aggresome by Histone Deacetylase 6 via Unanchored Ubiquitin C Termini",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2012,
+          "relevant_quote": "Misfolded polyubiquitinated protein aggregates are recruited and transported to the aggresome via the microtubule network by a protein complex consisting of histone deacetylase 6 (HDAC6) and the dynein motor complex... HDAC6 recognizes and binds these unanchored ubiquitin C-terminal tails in protein aggregates and recruits them to dynein motor complexes that subsequently transport the aggregated cargo to the aggresomes.",
+          "pmid": "22069321"
+        }
+      ],
+      "pathway": {
+        "name": "Aggresome Formation",
+        "canonical_name": "Aggresome Formation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17785525",
+        "22069321"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "HDAC6 directly binds to mono- and poly-ubiquitinated proteins, a critical step in the cellular response to the accumulation of misfolded or aggregated proteins.",
+  "effect": "This interaction is mediated by the C-terminal Zinc Finger Ubiquitin-Binding Domain (ZnF-UBP) of HDAC6, which recognizes the unanchored C-terminal diglycine motif of ubiquitin. This binding serves as a signal to link the ubiquitinated cargo to the dynein motor complex for transport along microtubules to form a perinuclear inclusion body called an aggresome.",
+  "summary": "HDAC6 activates Ubiquitin to modulate misfolded protein transport and aggresome formation, ultimately affecting aggresome formation and subsequent clearance by autophagy.",
+  "evidence": [
+    {
+      "paper_title": "HDAC6 controls major cell response pathways to cytotoxic accumulation of protein aggregates",
+      "journal": "Genes & Development",
+      "year": 2007,
+      "relevant_quote": "The cytoplasmic deacetylase HDAC6 (histone deacetylase 6) was previously shown to be a key element in this response by coordinating the clearance of protein aggregates through aggresome formation and their autophagic degradation. Here, for the first time, we demonstrate that HDAC6 is involved in another crucial cell response to the accumulation of ubiquitinated protein aggregates... our data show that HDAC6 senses ubiquitinated cellular aggregates and consequently induces the expression of major cellular chaperones by triggering the dissociation of a repressive HDAC6/HSF1 (heat-shock factor 1)/HSP90 (heat-shock protein 90) complex and a subsequent HSF1 activation."
+    },
+    {
+      "paper_title": "Protein Aggregates Are Recruited to Aggresome by Histone Deacetylase 6 via Unanchored Ubiquitin C Termini",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2012,
+      "relevant_quote": "Misfolded polyubiquitinated protein aggregates are recruited and transported to the aggresome via the microtubule network by a protein complex consisting of histone deacetylase 6 (HDAC6) and the dynein motor complex... HDAC6 recognizes and binds these unanchored ubiquitin C-terminal tails in protein aggregates and recruits them to dynein motor complexes that subsequently transport the aggregated cargo to the aggresomes."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggresome Formation",
+      "canonical_name": "Aggresome Formation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --binds--> Ubiquitin:",
+  "protein_a": "Ubiquitin",
+  "protein_b": "HDAC6",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.655135Z",
+  "last_updated": "2025-12-04T16:37:52.655135Z"
+}

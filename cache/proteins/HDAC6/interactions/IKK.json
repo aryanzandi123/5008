@@ -1,0 +1,155 @@
+{
+  "primary": "IKK",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HDAC6 can deacetylate IKKα, a component of the IκB kinase (IKK) complex, which modulates the activity of the NF-κB signaling pathway.",
+  "functions": [
+    {
+      "function": "NF-κB Transcriptional Repression (Nuclear)",
+      "arrow": "activates",
+      "cellular_process": "In the nucleus of non-small cell lung cancer cells, HDAC6 directly interacts with the p65/RelA subunit of the NF-κB transcription factor complex.",
+      "effect_description": "HDAC6 deacetylates p65/RelA. This deacetylation reduces the DNA-binding affinity of the NF-κB complex to the promoters of its target genes, such as Matrix Metalloproteinase 2 (MMP2). This leads to the downregulation of their expression.",
+      "biological_consequence": [
+        "Nuclear translocation of HDAC6 → Direct binding to the p65/RelA subunit of NF-κB → Deacetylation of p65 → Reduced NF-κB DNA-binding activity on the MMP2 promoter → Decreased MMP2 transcription → Inhibition of cancer cell invasion."
+      ],
+      "specific_effects": [
+        "Directly binds to and deacetylates the p65 subunit of NF-κB.",
+        "Reduces the DNA-binding activity of NF-κB on the MMP2 promoter.",
+        "Downregulates MMP2 expression, inhibiting the invasiveness of non-small cell lung cancer cells."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Nuclear HDAC6 inhibits invasion by suppressing NF-κB/MMP2 and is inversely correlated with metastasis of non-small cell lung cancer",
+          "journal": "Oncotarget",
+          "year": 2017,
+          "relevant_quote": "Nuclear HDAC6 directly bound to NF-κB, leading to the deacetylation of NF-κB and the downregulation of matrix metalloproteinase 2 (MMP2). ... These results indicate that nuclear HDAC6 may induce the deacetylation of NF-κB, leading to a reduction in its DNA-binding activity and MMP2 downregulation, which inhibits the invasiveness of NSCLC cells.",
+          "pmid": "26388610"
+        }
+      ],
+      "pathway": {
+        "name": "NF-kappa B Signaling Pathway",
+        "canonical_name": "Nf-Kappa B Signaling Pathway",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "26388610"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "HDAC6",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    },
+    {
+      "function": "NF-κB Activation via IκB Regulation (Cytoplasmic)",
+      "arrow": "activates",
+      "cellular_process": "In chondrocytes stimulated with IL-1, HDAC6 activity is required for the proper regulation of the NF-κB inhibitor, IκB.",
+      "effect_description": "The presence and activity of HDAC6 are necessary for the downstream signaling that leads to the degradation of IκB. Depletion of HDAC6 leads to the post-transcriptional upregulation of IκB, which in turn prevents the nuclear translocation of NF-κB subunits. Therefore, HDAC6 activity promotes NF-κB activation by enabling the degradation of its inhibitor.",
+      "biological_consequence": [
+        "Pro-inflammatory stimulus (e.g., IL-1) → HDAC6-dependent signaling cascade → Degradation of IκB inhibitor → Release of NF-κB subunits (p65/p50) → Nuclear translocation of NF-κB → Transcription of pro-inflammatory and catabolic genes (e.g., MMPs)."
+      ],
+      "specific_effects": [
+        "Required for the IL-1 induction of MMP and pro-inflammatory gene expression.",
+        "Depletion of HDAC6 leads to post-transcriptional upregulation of IκB.",
+        "Depletion of HDAC6 prevents the nuclear translocation of NF-κB subunits."
+      ],
+      "evidence": [
+        {
+          "paper_title": "HDAC6 regulates NF-κB signalling to control chondrocyte IL-1-induced MMP and inflammatory gene expression",
+          "journal": "Scientific Reports",
+          "year": 2022,
+          "relevant_quote": "Depletion of HDAC6 post-transcriptionally up-regulated inhibitor of κB (IκB), prevented the nuclear translocation of NF-κB subunits and down-regulated NF-κB reporter activation.",
+          "pmid": "35459919"
+        }
+      ],
+      "pathway": {
+        "name": "NF-kappa B Signaling Pathway",
+        "canonical_name": "Nf-Kappa B Signaling Pathway",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "35459919"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "HDAC6",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim that HDAC6 directly deacetylates IKKα is a contextual error. The primary literature does not support a direct deacetylation of IKK. Instead, HDAC6 regulates the NF-κB pathway via two distinct, and potentially opposing, mechanisms depending on cellular context and location. 1) In the nucleus, HDAC6 acts as a transcriptional inhibitor by directly deacetylating the p65/RelA subunit of NF-κB, which reduces its DNA-binding activity. 2) In the cytoplasm, HDAC6's activity is required for the degradation of the inhibitor IκBα, an event which releases and activates NF-κB. Therefore, the net effect of HDAC6 on NF-κB signaling is not simply inhibitory but is highly context-dependent.",
+  "mechanism": "In the nucleus of non-small cell lung cancer cells, HDAC6 directly interacts with the p65/RelA subunit of the NF-κB transcription factor complex. In chondrocytes stimulated with IL-1, HDAC6 activity is required for the proper regulation of the NF-κB inhibitor, IκB.",
+  "effect": "HDAC6 deacetylates p65/RelA. This deacetylation reduces the DNA-binding affinity of the NF-κB complex to the promoters of its target genes, such as Matrix Metalloproteinase 2 (MMP2). This leads to the downregulation of their expression.; The presence and activity of HDAC6 are necessary for the downstream signaling that leads to the degradation of IκB. Depletion of HDAC6 leads to the post-transcriptional upregulation of IκB, which in turn prevents the nuclear translocation of NF-κB subunits. Therefore, HDAC6 activity promotes NF-κB activation by enabling the degradation of its inhibitor.",
+  "summary": "HDAC6 regulates IKK to regulate nf-κb transcriptional repression (nuclear) and nf-κb activation via iκb regulation (cytoplasmic), ultimately affecting inhibition of cancer cell invasion.",
+  "evidence": [
+    {
+      "paper_title": "Nuclear HDAC6 inhibits invasion by suppressing NF-κB/MMP2 and is inversely correlated with metastasis of non-small cell lung cancer",
+      "journal": "Oncotarget",
+      "year": 2017,
+      "relevant_quote": "Nuclear HDAC6 directly bound to NF-κB, leading to the deacetylation of NF-κB and the downregulation of matrix metalloproteinase 2 (MMP2). ... These results indicate that nuclear HDAC6 may induce the deacetylation of NF-κB, leading to a reduction in its DNA-binding activity and MMP2 downregulation, which inhibits the invasiveness of NSCLC cells."
+    },
+    {
+      "paper_title": "HDAC6 regulates NF-κB signalling to control chondrocyte IL-1-induced MMP and inflammatory gene expression",
+      "journal": "Scientific Reports",
+      "year": 2022,
+      "relevant_quote": "Depletion of HDAC6 post-transcriptionally up-regulated inhibitor of κB (IκB), prevented the nuclear translocation of NF-κB subunits and down-regulated NF-κB reporter activation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "NF-kappa B Signaling Pathway",
+      "canonical_name": "Nf-Kappa B Signaling Pathway",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "HDAC6 --regulates--> IKK:",
+  "protein_a": "HDAC6",
+  "protein_b": "IKK",
+  "discovered_in_query": "HDAC6",
+  "first_discovered": "2025-12-04T16:37:52.699466Z",
+  "last_updated": "2025-12-04T16:37:52.699466Z"
+}
