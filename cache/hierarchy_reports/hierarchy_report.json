@@ -1,118 +1,18 @@
 {
   "summary": {
-    "total_pathways": 210,
-    "root_categories": 111,
-    "leaf_pathways": 150,
-    "total_edges": 140,
-    "max_depth": 3
+    "total_pathways": 88,
+    "root_categories": 10,
+    "leaf_pathways": 49,
+    "total_edges": 81,
+    "max_depth": 4
   },
   "by_level": {
-    "0": 111,
-    "1": 45,
-    "2": 45,
-    "3": 9
+    "0": 10,
+    "1": 30,
+    "2": 40,
+    "3": 7,
+    "4": 1
   },
-  "top_pathways": [
-    {
-      "name": "DNA Double-Strand Break Repair",
-      "usage": 11,
-      "proteins": 9
-    },
-    {
-      "name": "Proteasomal Degradation",
-      "usage": 8,
-      "proteins": 9
-    },
-    {
-      "name": "Protein Stability Regulation",
-      "usage": 6,
-      "proteins": 7
-    },
-    {
-      "name": "Regulation Of Atxn3 Stability And Modification",
-      "usage": 6,
-      "proteins": 7
-    },
-    {
-      "name": "Autophagy",
-      "usage": 5,
-      "proteins": 6
-    },
-    {
-      "name": "Transcription",
-      "usage": 5,
-      "proteins": 6
-    },
-    {
-      "name": "Epigenetic Regulation",
-      "usage": 4,
-      "proteins": 5
-    },
-    {
-      "name": "Protein Ubiquitination",
-      "usage": 3,
-      "proteins": 4
-    },
-    {
-      "name": "Histone Deacetylation",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Protein Folding",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Ubiquitination",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Neuronal Cytoskeleton And Axonal Transport",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Synaptic Plasticity",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Aggresome Formation",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Excision Repair",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Protein Aggregation",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Aggresome Formation And Transport",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Oxidative Stress Response",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Cell Cycle Checkpoints",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "P53 Signaling Pathway",
-      "usage": 1,
-      "proteins": 2
-    }
-  ],
+  "top_pathways": [],
   "orphan_interactions": 0
 }
