@@ -466,7 +466,8 @@ def main():
 
                                 # Create intermediate pathway
                                 inter_id = create_intermediate_pathway(
-                                    db.session, inter_name, inter_desc, inter_go
+                                    db.session, inter_name, inter_desc,
+                                    parent_id=prev_id, go_id=inter_go
                                 )
 
                                 # Link intermediate to previous (parent or previous intermediate)
@@ -494,6 +495,7 @@ def main():
 
                     except Exception as e:
                         logger.error(f"Batch failed: {e}")
+                        db.session.rollback()  # Prevent cascading transaction errors
                         stats.errors += 1
 
                     # Checkpoint
@@ -588,6 +590,7 @@ def main():
 
                     except Exception as e:
                         logger.error(f"Batch failed: {e}")
+                        db.session.rollback()  # Prevent cascading transaction errors
                         stats.errors += 1
 
                     checkpoint_mgr.save(
