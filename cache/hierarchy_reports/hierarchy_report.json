@@ -1,0 +1,118 @@
+{
+  "summary": {
+    "total_pathways": 110,
+    "root_categories": 10,
+    "leaf_pathways": 67,
+    "total_edges": 103,
+    "max_depth": 3
+  },
+  "by_level": {
+    "0": 10,
+    "1": 32,
+    "2": 57,
+    "3": 11
+  },
+  "top_pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "usage": 10,
+      "proteins": 11
+    },
+    {
+      "name": "Mitophagy",
+      "usage": 7,
+      "proteins": 7
+    },
+    {
+      "name": "Aggrephagy",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "ERK Signaling Pathway",
+      "usage": 5,
+      "proteins": 5
+    },
+    {
+      "name": "Proteasomal Degradation",
+      "usage": 4,
+      "proteins": 4
+    },
+    {
+      "name": "ER Stress-Induced Apoptosis",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Stress Granule Dynamics",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "NF-\u03baB Signaling Pathway",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Lysophagy",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "TP53 Signaling Pathway",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Autophagy Initiation",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "DNA Repair",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Apoptosis",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Autophagy",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Golgi Apparatus Reassembly",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Autophagosome Maturation",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Granulophagy",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Stress Granule Disassembly",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Non-Homologous End Joining (NHEJ)",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Ribosome-Associated Quality Control",
+      "usage": 1,
+      "proteins": 2
+    }
+  ],
+  "orphan_interactions": 0
+}
