@@ -39,6 +39,7 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
     get_app_context,
     ProgressTracker,
 )
+from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORY_NAMES
 
 
 BATCH_SIZE = 5  # Gaps per AI call (complex reasoning needed)
@@ -248,15 +249,8 @@ def ensure_hierarchy_chain(session, chain: List[str], confidence: float = 0.85) 
     if not chain or len(chain) < 1:
         return None
 
-    # Validate ROOT category
-    ROOT_CATEGORIES = {
-        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
-        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
-        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
-        'Cytoskeleton Organization'
-    }
-
-    if chain[0] not in ROOT_CATEGORIES:
+    # Validate ROOT category (imported from pathway_config)
+    if chain[0] not in ROOT_CATEGORY_NAMES:
         logger.warning(f"Invalid ROOT '{chain[0]}' in chain, defaulting to Cellular Signaling")
         chain = ['Cellular Signaling'] + list(chain)
 

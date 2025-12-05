@@ -44,17 +44,13 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
     ProgressTracker,
     normalize_pathway_name,
 )
+from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORY_NAMES
 
 
 BATCH_SIZE = 10  # Pathways per AI call
 
-# ROOT categories that are valid starting points for hierarchy chains
-ROOT_CATEGORIES = {
-    'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
-    'Cell Death', 'Cell Cycle', 'DNA Damage Response',
-    'Vesicle Transport', 'Immune Response', 'Neuronal Function',
-    'Cytoskeleton Organization'
-}
+# ROOT categories imported from central config
+ROOT_CATEGORIES = ROOT_CATEGORY_NAMES
 
 
 def ensure_hierarchy_chain_local(session, chain: List[str], confidence: float = 0.85, logger=None) -> int:

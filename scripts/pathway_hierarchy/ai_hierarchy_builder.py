@@ -26,6 +26,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from utils.llm_response_parser import extract_json_from_llm_response
+from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORY_NAMES
 
 logger = logging.getLogger(__name__)
 
@@ -205,16 +206,9 @@ def classify_pathways_batch(
         reasoning = item.get('reasoning', '')
 
         # Validate chain starts with ROOT and ends with pathway
-        ROOT_CATEGORIES = {
-            'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
-            'Cell Death', 'Cell Cycle', 'DNA Damage Response',
-            'Vesicle Transport', 'Immune Response', 'Neuronal Function',
-            'Cytoskeleton Organization'
-        }
-
         if hierarchy_chain:
-            # Ensure chain starts with valid ROOT
-            if hierarchy_chain[0] not in ROOT_CATEGORIES:
+            # Ensure chain starts with valid ROOT (using imported ROOT_CATEGORY_NAMES)
+            if hierarchy_chain[0] not in ROOT_CATEGORY_NAMES:
                 logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for '{name}', defaulting to Cellular Signaling")
                 hierarchy_chain = ['Cellular Signaling'] + hierarchy_chain
 
@@ -415,15 +409,7 @@ def assign_interactions_batch(
 
     result = _call_gemini_json(prompt, api_key)
 
-    # Validate ROOT categories
-    ROOT_CATEGORIES = {
-        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
-        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
-        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
-        'Cytoskeleton Organization'
-    }
-
-    # Parse into dict with hierarchy_chain validation
+    # Parse into dict with hierarchy_chain validation (using imported ROOT_CATEGORY_NAMES)
     assignments = {}
     for item in result.get('assignments', []):
         inter_id = item.get('interaction_id', '')
@@ -442,7 +428,7 @@ def assign_interactions_batch(
 
                 if hierarchy_chain:
                     # Ensure chain starts with valid ROOT
-                    if hierarchy_chain[0] not in ROOT_CATEGORIES:
+                    if hierarchy_chain[0] not in ROOT_CATEGORY_NAMES:
                         logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for interaction '{inter_id}', defaulting to Cellular Signaling")
                         hierarchy_chain = ['Cellular Signaling'] + hierarchy_chain
 
@@ -610,21 +596,14 @@ def handle_orphan_pathways(
     result = _call_gemini_json(prompt, api_key)
     solutions = result.get('orphan_solutions', [])
 
-    # Validate ROOT categories in each solution
-    ROOT_CATEGORIES = {
-        'Cellular Signaling', 'Metabolism', 'Protein Quality Control',
-        'Cell Death', 'Cell Cycle', 'DNA Damage Response',
-        'Vesicle Transport', 'Immune Response', 'Neuronal Function',
-        'Cytoskeleton Organization'
-    }
-
+    # Validate ROOT categories in each solution (using imported ROOT_CATEGORY_NAMES)
     for solution in solutions:
         hierarchy_chain = solution.get('hierarchy_chain', [])
         orphan_name = solution.get('orphan_name', '')
 
         if hierarchy_chain:
             # Ensure chain starts with valid ROOT
-            if hierarchy_chain[0] not in ROOT_CATEGORIES:
+            if hierarchy_chain[0] not in ROOT_CATEGORY_NAMES:
                 logger.warning(f"Invalid ROOT '{hierarchy_chain[0]}' for orphan '{orphan_name}', defaulting to Cellular Signaling")
                 solution['hierarchy_chain'] = ['Cellular Signaling'] + hierarchy_chain
 
