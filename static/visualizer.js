@@ -613,10 +613,22 @@ function buildInitialGraph(){
       }
     });
 
-    // ONLY show root-level pathways initially (hierarchy_level === 0)
+    // Count root-level pathways (for logging)
     const rootPathways = pathways.filter(pw => (pw.hierarchy_level || 0) === 0);
-    console.log(`🌳 Showing ${rootPathways.length} root pathways (of ${pathways.length} total)`);
+    console.log(`🌳 Found ${rootPathways.length} root pathways (of ${pathways.length} total)`);
 
+    // OPTION A: Empty start - don't create any pathway nodes initially
+    // User will select which pathways to display via the sidebar
+    console.log(`📋 Pathway mode: Empty start - use sidebar to select pathways`);
+
+    // Initialize sidebar after a short delay (to ensure DOM is ready)
+    setTimeout(() => {
+      initPathwaySidebar();
+    }, 100);
+
+    // SKIP creating pathway nodes here - sidebar controls visibility
+    // The old code that created nodes immediately is replaced with sidebar-based selection
+    /*
     rootPathways.forEach((pw, idx) => {
       const pathwayId = pw.id || `pathway_${pw.name.replace(/\s+/g, '_')}`;
       const angle = (idx / rootPathways.length) * 2 * Math.PI - Math.PI / 2;
@@ -656,6 +668,7 @@ function buildInitialGraph(){
         arrow: 'pathway'
       });
     });
+    */
   } else {
     // STANDARD MODE: Create interactor nodes directly
     // First, build a map of protein -> interaction arrow for semantic coloring
@@ -1010,18 +1023,27 @@ function handlePathwayClick(pathwayNode) {
   const hasChildren = (pathwayNode.childPathwayIds?.length || hier?.child_ids?.length || 0) > 0;
   const isLeaf = pathwayNode.isLeaf ?? hier?.is_leaf ?? true;
 
+  // Check current expansion state
+  const hasHierarchyExpanded = expandedHierarchyPathways.has(pathwayNode.id);
+  const hasInteractorsExpanded = expandedPathways.has(pathwayNode.id);
+
   // Decide action based on current state and node properties
-  if (expandedPathways.has(pathwayNode.id)) {
-    // Currently showing interactors - collapse them
-    collapsePathway(pathwayNode);
-  } else if (expandedHierarchyPathways.has(pathwayNode.id)) {
-    // Currently showing sub-pathways - collapse hierarchy
-    collapsePathwayHierarchy(pathwayNode);
-  } else if (hasChildren && !isLeaf) {
-    // Has sub-pathways - expand hierarchy first
-    expandPathwayHierarchy(pathwayNode);
+  if (hasHierarchyExpanded || hasInteractorsExpanded) {
+    // Currently expanded - collapse everything
+    if (hasInteractorsExpanded) {
+      collapsePathway(pathwayNode);
+    }
+    if (hasHierarchyExpanded) {
+      collapsePathwayHierarchy(pathwayNode);
+    }
   } else {
-    // Leaf pathway or no children - show interactors (with lazy loading)
+    // Not expanded - HYBRID EXPANSION: show BOTH sub-pathways AND direct interactors
+    if (hasChildren && !isLeaf) {
+      // Has sub-pathways - expand hierarchy
+      expandPathwayHierarchy(pathwayNode);
+    }
+    // ALWAYS try to show interactors (even for non-leaf pathways)
+    // This allows seeing interactors assigned directly to this level
     expandPathwayWithLazyLoad(pathwayNode);
   }
 
@@ -1156,12 +1178,53 @@ function expandPathway(pathwayNode) {
   indirectByMediator.forEach((indirectIds, mediatorId) => {
     // Find the mediator node (it should exist as a direct interactor)
     const mediatorNodeId = `${mediatorId}@${pathwayNode.id}`;
-    const mediatorNode = nodeMap.get(mediatorNodeId);
+    let mediatorNode = nodeMap.get(mediatorNodeId);
 
     if (!mediatorNode) {
-      // Mediator not in this pathway - skip (shouldn't happen normally)
-      console.warn(`⚠️ Mediator ${mediatorId} not found in pathway ${pathwayNode.id}`);
-      return;
+      // Mediator not in this pathway - create it on-demand
+      console.log(`📍 Creating mediator node ${mediatorId} on-demand for pathway ${pathwayNode.id}`);
+
+      // Position mediator at an offset from pathway center
+      const mediatorAngle = Math.random() * 2 * Math.PI;  // Random angle
+      const mediatorX = pathwayNode.x + expandRadius * 0.7 * Math.cos(mediatorAngle);
+      const mediatorY = pathwayNode.y + expandRadius * 0.7 * Math.sin(mediatorAngle);
+
+      // Get mediator interaction data if available
+      const mediatorInteractionData = getInteractionForInteractor(mediatorId);
+      const mediatorArrow = mediatorInteractionData ? arrowKind(mediatorInteractionData.arrow, mediatorInteractionData.intent, mediatorInteractionData.direction) : 'binds';
+
+      mediatorNode = {
+        id: mediatorNodeId,
+        label: mediatorId,
+        type: 'interactor',
+        originalId: mediatorId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        radius: interactorNodeRadius,
+        arrow: mediatorArrow,
+        interactionData: mediatorInteractionData,
+        isMediatorNode: true,  // Mark as mediator for styling
+        x: mediatorX,
+        y: mediatorY,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(mediatorNode);
+      nodeMap.set(mediatorNodeId, mediatorNode);
+      newlyAddedNodes.add(mediatorNodeId);
+
+      // Link: pathway → mediator
+      links.push({
+        id: `${pathwayNode.id}-${mediatorNodeId}`,
+        source: pathwayNode.id,
+        target: mediatorNodeId,
+        type: 'pathway-interactor-link',
+        linkType: 'mediator-link',
+        arrow: mediatorArrow,
+        data: mediatorInteractionData
+      });
     }
 
     // Use the mediator's target position for indirect node positioning
@@ -7465,3 +7528,321 @@ window.addEventListener('resize', ()=>{
   }
   scheduleFitToView(200, false);
 });
+
+// ===============================================================
+// PATHWAY EXPLORER SIDEBAR
+// ===============================================================
+
+// Track selected root pathways
+const selectedRootPathways = new Set();
+let sidebarCollapsed = false;
+
+/**
+ * Toggle sidebar visibility
+ */
+function togglePathwaySidebar() {
+  const sidebar = document.getElementById('pathway-sidebar');
+  const tab = document.getElementById('pathway-sidebar-tab');
+
+  if (!sidebar || !tab) return;
+
+  sidebarCollapsed = !sidebarCollapsed;
+
+  if (sidebarCollapsed) {
+    sidebar.classList.add('collapsed');
+    tab.style.display = 'flex';
+  } else {
+    sidebar.classList.remove('collapsed');
+    tab.style.display = 'none';
+  }
+}
+
+/**
+ * Filter pathway tree based on search input
+ */
+function filterPathwaySidebar(searchTerm) {
+  const tree = document.getElementById('pathway-tree');
+  if (!tree) return;
+
+  const items = tree.querySelectorAll('.pathway-tree-item');
+  const lowerSearch = searchTerm.toLowerCase();
+
+  items.forEach(item => {
+    const label = item.querySelector('.pathway-tree-label');
+    const text = label ? label.textContent.toLowerCase() : '';
+    const matches = text.includes(lowerSearch);
+
+    // Show/hide based on match
+    item.style.display = matches || searchTerm === '' ? 'flex' : 'none';
+
+    // Also show parent containers if child matches
+    if (matches && searchTerm !== '') {
+      let parent = item.parentElement;
+      while (parent && parent.classList.contains('pathway-tree-children')) {
+        parent.style.display = 'block';
+        parent = parent.parentElement;
+      }
+    }
+  });
+}
+
+/**
+ * Select all root pathways
+ */
+function selectAllRootPathways() {
+  if (!pathwayMode || !allPathwaysData) return;
+
+  const rootPathways = allPathwaysData.filter(pw => (pw.hierarchy_level || 0) === 0);
+
+  rootPathways.forEach(pw => {
+    const pathwayId = pw.id || `pathway_${pw.name.replace(/\s+/g, '_')}`;
+    if (!selectedRootPathways.has(pathwayId)) {
+      selectedRootPathways.add(pathwayId);
+      addRootPathwayToGraph(pw);
+    }
+  });
+
+  updateSidebarCheckboxes();
+  updateSimulation();
+}
+
+/**
+ * Clear all root pathway selections
+ */
+function clearAllRootPathways() {
+  // Remove all root pathway nodes from graph
+  selectedRootPathways.forEach(pathwayId => {
+    removeRootPathwayFromGraph(pathwayId);
+  });
+
+  selectedRootPathways.clear();
+  updateSidebarCheckboxes();
+  updateSimulation();
+}
+
+/**
+ * Toggle a specific root pathway
+ */
+function toggleRootPathway(pathwayId, checkbox) {
+  if (checkbox.checked) {
+    selectedRootPathways.add(pathwayId);
+    const pw = allPathwaysData.find(p => (p.id || `pathway_${p.name.replace(/\s+/g, '_')}`) === pathwayId);
+    if (pw) addRootPathwayToGraph(pw);
+  } else {
+    selectedRootPathways.delete(pathwayId);
+    removeRootPathwayFromGraph(pathwayId);
+  }
+
+  updateSidebarItemState(pathwayId, checkbox.checked);
+  updateSimulation();
+}
+
+/**
+ * Add a root pathway node to the graph
+ */
+function addRootPathwayToGraph(pw) {
+  const pathwayId = pw.id || `pathway_${pw.name.replace(/\s+/g, '_')}`;
+
+  // Check if already exists
+  if (nodeMap.has(pathwayId)) return;
+
+  // Calculate position - spread around center
+  const existingRoots = nodes.filter(n => n.type === 'pathway' && n.hierarchyLevel === 0);
+  const angle = (existingRoots.length / Math.max(selectedRootPathways.size, 1)) * 2 * Math.PI - Math.PI / 2;
+  const x = width / 2 + pathwayRingRadius * Math.cos(angle);
+  const y = height / 2 + pathwayRingRadius * Math.sin(angle);
+
+  const hier = pathwayHierarchy.get(pathwayId);
+  const level = hier?.level || 0;
+  const sizing = PATHWAY_SIZES[Math.min(level, 3)];
+
+  const newNode = {
+    id: pathwayId,
+    label: pw.name,
+    type: 'pathway',
+    radius: sizing.radius,
+    hierarchyLevel: level,
+    isLeaf: hier?.is_leaf ?? true,
+    childPathwayIds: hier?.child_ids || [],
+    ancestry: hier?.ancestry || [pw.name],
+    interactorIds: pw.interactor_ids || [],
+    ontologyId: pw.ontology_id,
+    interactionCount: pw.interaction_count || 0,
+    expanded: false,
+    hierarchyExpanded: false,
+    x: x,
+    y: y,
+    isNewlyExpanded: true
+  };
+
+  nodes.push(newNode);
+  nodeMap.set(pathwayId, newNode);
+
+  // Link to main node
+  const mainNode = nodes.find(n => n.type === 'main');
+  if (mainNode) {
+    links.push({
+      id: `${mainNode.id}-${pathwayId}`,
+      source: mainNode.id,
+      target: pathwayId,
+      type: 'pathway-link'
+    });
+  }
+
+  console.log(`➕ Added root pathway: ${pw.name}`);
+}
+
+/**
+ * Remove a root pathway node from the graph
+ */
+function removeRootPathwayFromGraph(pathwayId) {
+  const pathwayNode = nodeMap.get(pathwayId);
+  if (!pathwayNode) return;
+
+  // First collapse if expanded
+  if (expandedPathways.has(pathwayId)) {
+    collapsePathway(pathwayNode);
+  }
+  if (expandedHierarchyPathways.has(pathwayId)) {
+    collapsePathwayHierarchy(pathwayNode);
+  }
+
+  // Remove node and associated links
+  nodes = nodes.filter(n => n.id !== pathwayId);
+  links = links.filter(l => {
+    const srcId = typeof l.source === 'object' ? l.source.id : l.source;
+    const tgtId = typeof l.target === 'object' ? l.target.id : l.target;
+    return srcId !== pathwayId && tgtId !== pathwayId;
+  });
+
+  nodeMap.delete(pathwayId);
+  console.log(`➖ Removed root pathway: ${pathwayNode.label}`);
+}
+
+/**
+ * Update sidebar checkbox states
+ */
+function updateSidebarCheckboxes() {
+  const tree = document.getElementById('pathway-tree');
+  if (!tree) return;
+
+  tree.querySelectorAll('.pathway-tree-checkbox').forEach(checkbox => {
+    const pathwayId = checkbox.dataset.pathwayId;
+    checkbox.checked = selectedRootPathways.has(pathwayId);
+    updateSidebarItemState(pathwayId, checkbox.checked);
+  });
+}
+
+/**
+ * Update visual state of a sidebar item
+ */
+function updateSidebarItemState(pathwayId, selected) {
+  const item = document.querySelector(`.pathway-tree-item[data-pathway-id="${pathwayId}"]`);
+  if (!item) return;
+
+  if (selected) {
+    item.classList.remove('grayed');
+    item.classList.add('selected');
+  } else {
+    item.classList.add('grayed');
+    item.classList.remove('selected');
+  }
+}
+
+/**
+ * Initialize pathway sidebar with tree structure
+ */
+function initPathwaySidebar() {
+  const tree = document.getElementById('pathway-tree');
+  if (!tree || !pathwayMode || !allPathwaysData || allPathwaysData.length === 0) {
+    // Hide sidebar if no pathways
+    const sidebar = document.getElementById('pathway-sidebar');
+    if (sidebar) sidebar.style.display = 'none';
+    return;
+  }
+
+  // Get root pathways
+  const rootPathways = allPathwaysData.filter(pw => (pw.hierarchy_level || 0) === 0);
+
+  // Sort by interaction count (descending)
+  rootPathways.sort((a, b) => (b.interaction_count || 0) - (a.interaction_count || 0));
+
+  // Build tree HTML
+  let html = '';
+
+  rootPathways.forEach(pw => {
+    const pathwayId = pw.id || `pathway_${pw.name.replace(/\s+/g, '_')}`;
+    const hier = pathwayHierarchy.get(pathwayId);
+    const childIds = hier?.child_ids || [];
+    const hasChildren = childIds.length > 0;
+    const interactionCount = pw.interaction_count || pathwayToInteractors.get(pathwayId)?.size || 0;
+
+    html += buildPathwayTreeItem(pw, pathwayId, hasChildren, interactionCount, 0);
+  });
+
+  tree.innerHTML = html;
+  console.log(`📋 Sidebar initialized with ${rootPathways.length} root pathways`);
+}
+
+/**
+ * Build HTML for a pathway tree item (recursive)
+ */
+function buildPathwayTreeItem(pw, pathwayId, hasChildren, interactionCount, depth) {
+  const hier = pathwayHierarchy.get(pathwayId);
+  const childIds = hier?.child_ids || [];
+
+  let html = `
+    <div class="pathway-tree-item grayed" data-pathway-id="${pathwayId}">
+      ${hasChildren ? '<span class="pathway-tree-expander" onclick="togglePathwayTreeExpand(event, this)">▶</span>' : '<span class="pathway-tree-expander"></span>'}
+      <input type="checkbox" class="pathway-tree-checkbox" data-pathway-id="${pathwayId}"
+             onchange="toggleRootPathway('${pathwayId}', this)">
+      <span class="pathway-tree-label" title="${pw.name}">${pw.name}</span>
+      <span class="pathway-tree-count">${interactionCount}</span>
+    </div>
+  `;
+
+  // Add children container (collapsed by default)
+  if (hasChildren && depth < 2) {  // Limit depth to prevent too deep nesting
+    html += `<div class="pathway-tree-children" style="display: none;">`;
+
+    childIds.forEach(childId => {
+      const childPw = allPathwaysData.find(p => (p.id || `pathway_${p.name.replace(/\s+/g, '_')}`) === childId);
+      if (childPw) {
+        const childHier = pathwayHierarchy.get(childId);
+        const childChildIds = childHier?.child_ids || [];
+        const childHasChildren = childChildIds.length > 0;
+        const childCount = childPw.interaction_count || pathwayToInteractors.get(childId)?.size || 0;
+
+        html += buildPathwayTreeItem(childPw, childId, childHasChildren, childCount, depth + 1);
+      }
+    });
+
+    html += `</div>`;
+  }
+
+  return html;
+}
+
+/**
+ * Toggle expansion of a tree item in sidebar
+ */
+function togglePathwayTreeExpand(event, expander) {
+  event.stopPropagation();
+
+  const item = expander.closest('.pathway-tree-item');
+  const children = item.nextElementSibling;
+
+  if (children && children.classList.contains('pathway-tree-children')) {
+    const isExpanded = children.style.display !== 'none';
+    children.style.display = isExpanded ? 'none' : 'block';
+    expander.textContent = isExpanded ? '▶' : '▼';
+  }
+}
+
+// Make functions globally available
+window.togglePathwaySidebar = togglePathwaySidebar;
+window.filterPathwaySidebar = filterPathwaySidebar;
+window.selectAllRootPathways = selectAllRootPathways;
+window.clearAllRootPathways = clearAllRootPathways;
+window.toggleRootPathway = toggleRootPathway;
+window.togglePathwayTreeExpand = togglePathwayTreeExpand;

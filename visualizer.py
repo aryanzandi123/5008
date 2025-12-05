@@ -93,6 +93,32 @@ HTML = r"""<!DOCTYPE html>
   </div>
 
   <div id="network" class="view-container">
+    <!-- Pathway Explorer Sidebar -->
+    <div id="pathway-sidebar" class="pathway-sidebar">
+      <div class="pathway-sidebar-header">
+        <span class="pathway-sidebar-title">Pathway Explorer</span>
+        <button class="pathway-sidebar-toggle" onclick="togglePathwaySidebar()" title="Collapse">◀</button>
+      </div>
+      <div class="pathway-sidebar-content">
+        <div class="pathway-search-container">
+          <input type="text" id="pathway-search" class="pathway-search-input" placeholder="Filter pathways..." oninput="filterPathwaySidebar(this.value)">
+        </div>
+        <div class="pathway-bulk-actions">
+          <button class="pathway-action-btn" onclick="selectAllRootPathways()">Select All</button>
+          <button class="pathway-action-btn" onclick="clearAllRootPathways()">Clear All</button>
+        </div>
+        <div id="pathway-tree" class="pathway-tree">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsed Sidebar Tab -->
+    <div id="pathway-sidebar-tab" class="pathway-sidebar-tab" style="display:none;" onclick="togglePathwaySidebar()" title="Open Pathway Explorer">
+      <span>▶</span>
+      <span class="pathway-tab-label">Pathways</span>
+    </div>
+
     <div class="controls">
       <button class="control-btn" onclick="zoomIn()" title="Zoom In">+</button>
       <button class="control-btn" onclick="zoomOut()" title="Zoom Out">−</button>
