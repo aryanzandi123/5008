@@ -262,27 +262,62 @@ class ProgressTracker:
 
 def normalize_pathway_name(name: str) -> str:
     """
-    Normalize a pathway name for comparison.
+    Normalize a pathway name for comparison and deduplication.
 
+    Transformations:
     - Lowercase
+    - Greek letter substitution (κ→k, β→beta, α→alpha, γ→gamma, δ→delta)
+    - Remove hyphens between word chars (NF-kB → NFkB)
     - Remove punctuation
     - Collapse whitespace
     - Remove common prefixes/suffixes
+
+    Examples:
+        "NF-κB Signaling Pathway" → "nfkb"
+        "NF-kB Signaling"        → "nfkb"
+        "TGF-beta Signaling"     → "tgfbeta"
     """
     import re
 
-    name = name.lower()
-    name = re.sub(r'[^\w\s]', '', name)  # Remove punctuation
-    name = re.sub(r'\s+', ' ', name).strip()  # Collapse whitespace
+    # Greek letter mapping (common in pathway names)
+    greek_map = {
+        'κ': 'k',
+        'β': 'beta',
+        'α': 'alpha',
+        'γ': 'gamma',
+        'δ': 'delta',
+        'ε': 'epsilon',
+        'ω': 'omega',
+    }
 
-    # Remove common prefixes/suffixes
-    for prefix in ['regulation of ', 'positive regulation of ', 'negative regulation of ']:
+    name = name.lower()
+
+    # Replace Greek letters
+    for greek, latin in greek_map.items():
+        name = name.replace(greek, latin)
+
+    # Remove hyphens between alphanumeric chars (NF-kB → NFkB)
+    name = re.sub(r'(?<=[a-zA-Z0-9])-(?=[a-zA-Z0-9])', '', name)
+
+    # Remove punctuation (except already handled hyphens)
+    name = re.sub(r'[^\w\s]', '', name)
+
+    # Collapse whitespace
+    name = re.sub(r'\s+', ' ', name).strip()
+
+    # Remove common prefixes (order matters - longest first)
+    for prefix in ['positive regulation of ', 'negative regulation of ', 'regulation of ']:
         if name.startswith(prefix):
             name = name[len(prefix):]
 
-    for suffix in [' pathway', ' signaling', ' signalling', ' process']:
-        if name.endswith(suffix):
-            name = name[:-len(suffix)]
+    # Remove common suffixes (apply repeatedly until no more matches)
+    changed = True
+    while changed:
+        changed = False
+        for suffix in [' pathway', ' signaling', ' signalling', ' process', ' cascade', ' response']:
+            if name.endswith(suffix):
+                name = name[:-len(suffix)]
+                changed = True
 
     return name.strip()
 

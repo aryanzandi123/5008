@@ -148,12 +148,22 @@ SUB_CATEGORIES = {
         {"name": "DNA Replication", "go_id": "GO:0006260"},
         {"name": "Cell Cycle Checkpoint", "go_id": "GO:0000075"},
     ],
+    # FIXED: DNA Damage Response hierarchy - repair mechanisms are under DNA Repair, not parallel to it
     "DNA Damage Response": [
-        {"name": "DNA Repair", "go_id": "GO:0006281"},
-        {"name": "Homologous Recombination", "go_id": "GO:0035825"},
-        {"name": "Non-Homologous End Joining", "go_id": "GO:0006303"},
+        {"name": "DNA Repair", "go_id": "GO:0006281"},  # Level 1 - parent for all repair mechanisms
+        {"name": "DNA Damage Checkpoint", "go_id": "GO:0000077"},  # Level 1 - checkpoint signaling
+    ],
+    # Level 2: Specific repair mechanisms under DNA Repair
+    "DNA Repair": [
+        {"name": "Double-Strand Break Repair", "go_id": "GO:0006302"},
         {"name": "Nucleotide Excision Repair", "go_id": "GO:0006289"},
         {"name": "Base Excision Repair", "go_id": "GO:0006284"},
+        {"name": "Mismatch Repair", "go_id": "GO:0006298"},
+    ],
+    # Level 3: DSB repair sub-types
+    "Double-Strand Break Repair": [
+        {"name": "Homologous Recombination", "go_id": "GO:0035825"},
+        {"name": "Non-Homologous End Joining", "go_id": "GO:0006303"},
     ],
     "Immune Response": [
         {"name": "Innate Immunity", "go_id": "GO:0045087"},

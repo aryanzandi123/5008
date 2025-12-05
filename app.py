@@ -826,122 +826,175 @@ def build_full_json_from_db(protein_symbol: str) -> dict:
 
             interactions_list.append(shared_data)
 
-    # Build pathway groups from interactions
-    # Pathways are assigned to each interaction by the PathwayAssigner during pipeline
+    # =========================================================================
+    # BUILD PATHWAY HIERARCHY FROM DATABASE TABLES (NOT JSONB)
+    # =========================================================================
+    # This queries PathwayInteraction junction table to get all pathways linked
+    # to this protein's interactions, then builds the full hierarchy from
+    # Pathway and PathwayParent tables. This ensures we see ALL pathways
+    # including root pathways that may not be directly in interaction JSONB.
+    # =========================================================================
+    from models import Pathway, PathwayParent, PathwayInteraction
+
+    # Step 1: Get all interaction IDs for this protein query
+    interaction_db_ids = [ix.id for ix in db_interactions]
+
+    # Also include shared interaction IDs if any were added
+    # (shared interactions were appended to interactions_list but we need their DB IDs)
+    # For now, we'll work with the direct interactions' pathways
+
+    # Step 2: Query PathwayInteraction junction table to get pathway assignments
+    pathway_interactions = []
+    pathway_ids_set = set()
+    if interaction_db_ids:
+        pathway_interactions = db.session.query(PathwayInteraction).filter(
+            PathwayInteraction.interaction_id.in_(interaction_db_ids)
+        ).all()
+        for pwi in pathway_interactions:
+            pathway_ids_set.add(pwi.pathway_id)
+
+    # Step 3: Query all directly linked pathways
+    pathway_by_id = {}
+    if pathway_ids_set:
+        pathway_objs = Pathway.query.filter(Pathway.id.in_(pathway_ids_set)).all()
+        pathway_by_id = {p.id: p for p in pathway_objs}
+
+    # Step 4: Collect ALL ancestor IDs to include parent pathways in tree
+    all_ancestor_ids = set()
+    for pw in pathway_by_id.values():
+        if pw.ancestor_ids:
+            all_ancestor_ids.update(pw.ancestor_ids)
+
+    # Step 5: Query ancestor pathways (parents/grandparents not directly linked)
+    missing_ancestor_ids = all_ancestor_ids - pathway_ids_set
+    if missing_ancestor_ids:
+        ancestor_objs = Pathway.query.filter(Pathway.id.in_(missing_ancestor_ids)).all()
+        for a in ancestor_objs:
+            pathway_by_id[a.id] = a
+
+    # Step 6: ALWAYS include all root pathways (hierarchy_level = 0)
+    # This ensures the sidebar shows all 10 root categories even if no interactions
+    root_pathways = Pathway.query.filter(Pathway.hierarchy_level == 0).all()
+    for rp in root_pathways:
+        if rp.id not in pathway_by_id:
+            pathway_by_id[rp.id] = rp
+
+    # Step 7: Query PathwayParent for all parent-child relationships
+    all_pathway_ids = list(pathway_by_id.keys())
+    parents_map = {}   # child_id -> [parent_id, ...]
+    children_map = {}  # parent_id -> [child_id, ...]
+
+    if all_pathway_ids:
+        parent_links = PathwayParent.query.filter(
+            (PathwayParent.child_pathway_id.in_(all_pathway_ids)) |
+            (PathwayParent.parent_pathway_id.in_(all_pathway_ids))
+        ).all()
+
+        for link in parent_links:
+            parents_map.setdefault(link.child_pathway_id, []).append(link.parent_pathway_id)
+            children_map.setdefault(link.parent_pathway_id, []).append(link.child_pathway_id)
+
+    # Step 8: Build pathway_groups from DATABASE data (not JSONB!)
     pathway_groups = {}
-    for interaction_data in interactions_list:
-        pathways_in_interaction = interaction_data.get("pathways", [])
-        for pw in pathways_in_interaction:
-            pw_name = pw.get("canonical_name") or pw.get("name")
-            if not pw_name:
-                continue
+    for pw_id, pw_obj in pathway_by_id.items():
+        pw_name = pw_obj.name
 
-            if pw_name not in pathway_groups:
-                pathway_groups[pw_name] = {
-                    "id": f"pathway_{pw_name.replace(' ', '_').replace('-', '_')}",
-                    "name": pw_name,
-                    "ontology_id": pw.get("ontology_id"),
-                    "ontology_source": pw.get("ontology_source"),
-                    "interactor_ids": set(),
-                    "interactions": [],  # Store full interaction objects for leaf pathways
-                    "interaction_count": 0
-                }
+        # Build parent/child IDs for frontend
+        parent_ids = parents_map.get(pw_id, [])
+        child_ids = children_map.get(pw_id, [])
+        parent_pathway_ids = []
+        child_pathway_ids = []
 
-            # Track which interactors belong to this pathway
-            # For direct interactions: source or target that's not the main protein
-            source = interaction_data.get("source")
-            target = interaction_data.get("target")
-            if source and source != protein_symbol:
-                pathway_groups[pw_name]["interactor_ids"].add(source)
-            if target and target != protein_symbol:
-                pathway_groups[pw_name]["interactor_ids"].add(target)
-            pathway_groups[pw_name]["interaction_count"] += 1
+        for pid in parent_ids:
+            if pid in pathway_by_id:
+                p_name = pathway_by_id[pid].name
+                parent_pathway_ids.append(f"pathway_{p_name.replace(' ', '_').replace('-', '_')}")
 
-            # Store the full interaction object for rendering in leaf pathways
-            # Include minimal fields needed for visualization (source, target, arrow, direction, confidence)
-            pathway_groups[pw_name]["interactions"].append({
-                "source": source,
-                "target": target,
-                "arrow": interaction_data.get("arrow", "binds"),
-                "direction": interaction_data.get("direction", "bidirectional"),
-                "confidence": interaction_data.get("confidence", 0.5),
-                "type": interaction_data.get("type", "direct"),
-                "interaction_effect": interaction_data.get("interaction_effect", "binding"),
-                "functions": interaction_data.get("functions", []),
-                "evidence": interaction_data.get("evidence", []),
-                "pmids": interaction_data.get("pmids", [])
-            })
+        for cid in child_ids:
+            if cid in pathway_by_id:
+                c_name = pathway_by_id[cid].name
+                child_pathway_ids.append(f"pathway_{c_name.replace(' ', '_').replace('-', '_')}")
 
-    # Convert sets to lists for JSON serialization
+        # Build ancestry from ancestor_ids
+        ancestor_ids = pw_obj.ancestor_ids or []
+        ancestry = []
+        if ancestor_ids:
+            for aid in ancestor_ids:
+                if aid in pathway_by_id:
+                    ancestry.append(pathway_by_id[aid].name)
+            ancestry.append(pw_name)
+        else:
+            ancestry = [pw_name]
+
+        pathway_groups[pw_name] = {
+            "id": f"pathway_{pw_name.replace(' ', '_').replace('-', '_')}",
+            "name": pw_name,
+            "ontology_id": pw_obj.ontology_id,
+            "ontology_source": pw_obj.ontology_source,
+            "hierarchy_level": pw_obj.hierarchy_level or 0,
+            "is_leaf": pw_obj.is_leaf if pw_obj.is_leaf is not None else True,
+            "protein_count": pw_obj.protein_count or 0,
+            "interactor_ids": set(),
+            "interactions": [],
+            "interaction_count": 0,
+            "parent_pathway_ids": parent_pathway_ids,
+            "child_pathway_ids": child_pathway_ids,
+            "ancestry": ancestry
+        }
+
+    # Step 9: Build interaction_data lookup by DB ID
+    # We need to correlate DB interaction IDs with interaction_data objects
+    interaction_data_by_id = {}
+    for i, ix in enumerate(db_interactions):
+        if i < len(interactions_list):
+            interaction_data_by_id[ix.id] = interactions_list[i]
+
+    # Step 10: Link interactions to pathways from PathwayInteraction junction
+    for pwi in pathway_interactions:
+        pw_obj = pathway_by_id.get(pwi.pathway_id)
+        if not pw_obj:
+            continue
+
+        pw_name = pw_obj.name
+        if pw_name not in pathway_groups:
+            continue
+
+        interaction_data = interaction_data_by_id.get(pwi.interaction_id)
+        if not interaction_data:
+            continue
+
+        # Track interactors
+        source = interaction_data.get("source")
+        target = interaction_data.get("target")
+        if source and source != protein_symbol:
+            pathway_groups[pw_name]["interactor_ids"].add(source)
+        if target and target != protein_symbol:
+            pathway_groups[pw_name]["interactor_ids"].add(target)
+
+        pathway_groups[pw_name]["interaction_count"] += 1
+
+        # Store interaction object for leaf pathway rendering
+        pathway_groups[pw_name]["interactions"].append({
+            "source": source,
+            "target": target,
+            "arrow": interaction_data.get("arrow", "binds"),
+            "direction": interaction_data.get("direction", "bidirectional"),
+            "confidence": interaction_data.get("confidence", 0.5),
+            "type": interaction_data.get("type", "direct"),
+            "interaction_effect": interaction_data.get("interaction_effect", "binding"),
+            "functions": interaction_data.get("functions", []),
+            "evidence": interaction_data.get("evidence", []),
+            "pmids": interaction_data.get("pmids", [])
+        })
+
+    # Step 11: Convert sets to lists for JSON serialization
     pathways_list = []
     for pw_data in pathway_groups.values():
         pw_data["interactor_ids"] = sorted(list(pw_data["interactor_ids"]))
         pathways_list.append(pw_data)
 
-    # Sort pathways by interaction count (descending)
-    pathways_list.sort(key=lambda p: p["interaction_count"], reverse=True)
-
-    # HIERARCHY ENRICHMENT: Add hierarchy metadata to pathway objects
-    # This enables hierarchical pathway visualization on the frontend
-    from models import Pathway, PathwayParent
-
-    pathway_names = list(pathway_groups.keys())
-    if pathway_names:
-        # Query Pathway objects to get hierarchy fields
-        pathway_objs = Pathway.query.filter(Pathway.name.in_(pathway_names)).all()
-        pathway_by_name = {p.name: p for p in pathway_objs}
-
-        # Query PathwayParent to build parent-child relationships
-        pathway_db_ids = [p.id for p in pathway_objs]
-        if pathway_db_ids:
-            parent_links = PathwayParent.query.filter(
-                (PathwayParent.child_pathway_id.in_(pathway_db_ids)) |
-                (PathwayParent.parent_pathway_id.in_(pathway_db_ids))
-            ).all()
-
-            # Build parent/child name maps
-            parents_map = {}  # child_name -> [parent_names]
-            children_map = {}  # parent_name -> [child_names]
-            for link in parent_links:
-                child_name = link.child.name if link.child else None
-                parent_name = link.parent.name if link.parent else None
-                if child_name and parent_name:
-                    parents_map.setdefault(child_name, []).append(parent_name)
-                    children_map.setdefault(parent_name, []).append(child_name)
-
-            # Enrich pathway objects with hierarchy data
-            for pw_data in pathways_list:
-                pw_name = pw_data["name"]
-                pw_obj = pathway_by_name.get(pw_name)
-
-                if pw_obj:
-                    pw_data["hierarchy_level"] = pw_obj.hierarchy_level or 0
-                    pw_data["is_leaf"] = pw_obj.is_leaf if pw_obj.is_leaf is not None else True
-                    pw_data["protein_count"] = pw_obj.protein_count or 0
-
-                    # Build ancestry names from ancestor_ids
-                    ancestor_ids = pw_obj.ancestor_ids or []
-                    if ancestor_ids:
-                        ancestor_objs = Pathway.query.filter(Pathway.id.in_(ancestor_ids)).all()
-                        ancestry_names = [a.name for a in sorted(ancestor_objs, key=lambda x: x.hierarchy_level or 0)]
-                        ancestry_names.append(pw_name)
-                        pw_data["ancestry"] = ancestry_names
-                    else:
-                        pw_data["ancestry"] = [pw_name]
-
-                    # Parent/child pathway IDs (formatted for frontend)
-                    parent_names = parents_map.get(pw_name, [])
-                    child_names = children_map.get(pw_name, [])
-                    pw_data["parent_pathway_ids"] = [f"pathway_{p.replace(' ', '_').replace('-', '_')}" for p in parent_names]
-                    pw_data["child_pathway_ids"] = [f"pathway_{c.replace(' ', '_').replace('-', '_')}" for c in child_names]
-                else:
-                    # Default values for pathways not in DB
-                    pw_data["hierarchy_level"] = 0
-                    pw_data["is_leaf"] = True
-                    pw_data["protein_count"] = len(pw_data.get("interactor_ids", []))
-                    pw_data["ancestry"] = [pw_name]
-                    pw_data["parent_pathway_ids"] = []
-                    pw_data["child_pathway_ids"] = []
+    # Step 12: Sort by hierarchy level (roots first), then by interaction count
+    pathways_list.sort(key=lambda p: (p["hierarchy_level"], -p["interaction_count"]))
 
     # Build snapshot_json with new structure
     snapshot_json = {
