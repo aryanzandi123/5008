@@ -77,6 +77,13 @@ SCRIPTS = [
         'file': '06_validate_and_finalize.py',
         'estimated_time': '2-5 minutes',
     },
+    {
+        'number': 7,
+        'name': '07_merge_duplicate_pathways',
+        'description': 'Merge duplicate pathways by normalized name',
+        'file': '07_merge_duplicate_pathways.py',
+        'estimated_time': '1-2 minutes',
+    },
 ]
 
 
@@ -274,13 +281,13 @@ Examples:
 
     parser.add_argument(
         "--from", dest="from_step", type=int, default=1,
-        choices=[1, 2, 3, 4, 5, 6],
+        choices=[1, 2, 3, 4, 5, 6, 7],
         help="Start from step N (default: 1)"
     )
     parser.add_argument(
-        "--to", dest="to_step", type=int, default=6,
-        choices=[1, 2, 3, 4, 5, 6],
-        help="Stop after step N (default: 6)"
+        "--to", dest="to_step", type=int, default=7,
+        choices=[1, 2, 3, 4, 5, 6, 7],
+        help="Stop after step N (default: 7)"
     )
     parser.add_argument(
         "--force", "-f", action="store_true",

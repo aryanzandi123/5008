@@ -39,7 +39,110 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
     save_run_report,
     get_app_context,
 )
-from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORIES, SUB_CATEGORIES
+
+# =============================================================================
+# INITIAL SUB-CATEGORIES STRUCTURE (for first-time hierarchy build)
+# =============================================================================
+# This defines the initial sub-category structure to create.
+# After this script runs, pathway_config.py will query these from the database.
+# New pathways discovered by AI classification are added dynamically.
+
+INITIAL_SUB_CATEGORIES = {
+    # Cellular Signaling sub-categories
+    "Cellular Signaling": [
+        {"name": "mTOR Signaling", "go_id": "GO:0031929"},
+        {"name": "MAPK Signaling", "go_id": "GO:0000165"},
+        {"name": "NF-kB Signaling", "go_id": "GO:0038061"},
+        {"name": "Wnt Signaling", "go_id": "GO:0016055"},
+        {"name": "Notch Signaling", "go_id": "GO:0007219"},
+        {"name": "TGF-beta Signaling", "go_id": "GO:0007179"},
+        {"name": "JAK-STAT Signaling", "go_id": "GO:0007259"},
+        {"name": "Calcium Signaling", "go_id": "GO:0019722"},
+        {"name": "cAMP Signaling", "go_id": "GO:0019933"},
+        {"name": "Cell Growth Regulation", "go_id": "GO:0001558"},
+        {"name": "Cell Migration", "go_id": "GO:0016477"},
+    ],
+    # Protein Quality Control sub-categories
+    "Protein Quality Control": [
+        {"name": "Autophagy", "go_id": "GO:0006914"},
+        {"name": "Ubiquitin-Proteasome System", "go_id": "GO:0010415"},
+        {"name": "ER-Associated Degradation", "go_id": "GO:0036503"},
+        {"name": "Protein Folding", "go_id": "GO:0006457"},
+        {"name": "Chaperone-Mediated Protein Folding", "go_id": "GO:0061077"},
+        {"name": "Unfolded Protein Response", "go_id": "GO:0030968"},
+        {"name": "Aggrephagy", "go_id": "GO:0035973"},
+    ],
+    # Autophagy sub-categories (level 2)
+    "Autophagy": [
+        {"name": "Macroautophagy", "go_id": "GO:0016236"},
+        {"name": "Selective Autophagy", "go_id": "GO:0061912"},
+        {"name": "Mitophagy", "go_id": "GO:0000423"},
+        {"name": "ER-phagy", "go_id": "GO:0061709"},
+        {"name": "Lipophagy", "go_id": "GO:0061724"},
+        {"name": "Pexophagy", "go_id": "GO:0030242"},
+    ],
+    # Cell Death sub-categories
+    "Cell Death": [
+        {"name": "Apoptosis", "go_id": "GO:0006915"},
+        {"name": "Necroptosis", "go_id": "GO:0070266"},
+        {"name": "Pyroptosis", "go_id": "GO:0070269"},
+        {"name": "Ferroptosis", "go_id": "GO:0097707"},
+        {"name": "Autophagy-Dependent Cell Death", "go_id": "GO:0048102"},
+    ],
+    # Metabolism sub-categories
+    "Metabolism": [
+        {"name": "Glycolysis", "go_id": "GO:0006096"},
+        {"name": "Oxidative Phosphorylation", "go_id": "GO:0006119"},
+        {"name": "Lipid Metabolism", "go_id": "GO:0006629"},
+        {"name": "Amino Acid Metabolism", "go_id": "GO:0006520"},
+        {"name": "Mitochondrial Function", "go_id": "GO:0007005"},
+    ],
+    # Cell Cycle sub-categories
+    "Cell Cycle": [
+        {"name": "G1/S Transition", "go_id": "GO:0000082"},
+        {"name": "G2/M Transition", "go_id": "GO:0000086"},
+        {"name": "Mitosis", "go_id": "GO:0007067"},
+        {"name": "DNA Replication", "go_id": "GO:0006260"},
+        {"name": "Cell Cycle Checkpoint", "go_id": "GO:0000075"},
+    ],
+    # DNA Damage Response sub-categories (FIXED hierarchy)
+    "DNA Damage Response": [
+        {"name": "DNA Repair", "go_id": "GO:0006281"},
+        {"name": "DNA Damage Checkpoint", "go_id": "GO:0000077"},
+    ],
+    "DNA Repair": [
+        {"name": "Double-Strand Break Repair", "go_id": "GO:0006302"},
+        {"name": "Nucleotide Excision Repair", "go_id": "GO:0006289"},
+        {"name": "Base Excision Repair", "go_id": "GO:0006284"},
+        {"name": "Mismatch Repair", "go_id": "GO:0006298"},
+    ],
+    "Double-Strand Break Repair": [
+        {"name": "Homologous Recombination", "go_id": "GO:0035825"},
+        {"name": "Non-Homologous End Joining", "go_id": "GO:0006303"},
+    ],
+    # Immune Response sub-categories
+    "Immune Response": [
+        {"name": "Innate Immunity", "go_id": "GO:0045087"},
+        {"name": "Adaptive Immunity", "go_id": "GO:0002250"},
+        {"name": "Inflammatory Response", "go_id": "GO:0006954"},
+        {"name": "Antiviral Response", "go_id": "GO:0051607"},
+        {"name": "Cytokine Signaling", "go_id": "GO:0019221"},
+    ],
+    # Vesicle Transport sub-categories
+    "Vesicle Transport": [
+        {"name": "Endocytosis", "go_id": "GO:0006897"},
+        {"name": "Exocytosis", "go_id": "GO:0006887"},
+        {"name": "ER-Golgi Transport", "go_id": "GO:0006888"},
+        {"name": "Lysosomal Transport", "go_id": "GO:0007041"},
+    ],
+    # Neuronal Function sub-categories
+    "Neuronal Function": [
+        {"name": "Synaptic Transmission", "go_id": "GO:0007268"},
+        {"name": "Axon Guidance", "go_id": "GO:0007411"},
+        {"name": "Neuronal Development", "go_id": "GO:0048666"},
+        {"name": "Neurotransmitter Release", "go_id": "GO:0007269"},
+    ],
+}
 
 
 def create_or_get_pathway(session, name: str, go_id: str = None, description: str = None, level: int = 0) -> int:
@@ -134,28 +237,27 @@ def main():
         with get_app_context():
             from models import db, Pathway, PathwayParent
 
-            # Phase 1: Create root categories
+            # Phase 1: Get existing root categories (seeded by migration)
             logger.info("")
             logger.info("-" * 40)
-            logger.info("Phase 1: Creating root categories")
+            logger.info("Phase 1: Loading root categories from database")
             logger.info("-" * 40)
 
+            # Query root categories from database (seeded by migrate_add_hierarchy_columns.py)
+            existing_roots = Pathway.query.filter_by(hierarchy_level=0).all()
+
+            if not existing_roots:
+                logger.error("No root categories found in database!")
+                logger.error("Run: python scripts/migrate_add_hierarchy_columns.py")
+                return False
+
             root_ids = {}
-            for cat in ROOT_CATEGORIES:
-                pw_id = create_or_get_pathway(
-                    db.session,
-                    name=cat['name'],
-                    go_id=cat.get('go_id'),
-                    description=cat.get('description'),
-                    level=0
-                )
-                root_ids[cat['name']] = pw_id
-                logger.info(f"  Created/updated root: {cat['name']} (ID: {pw_id})")
+            for pathway in existing_roots:
+                root_ids[pathway.name] = pathway.id
+                logger.info(f"  Found root: {pathway.name} (ID: {pathway.id})")
                 stats.items_processed += 1
 
-            db.session.commit()
-            checkpoint_mgr.save(phase=1, data={'root_ids': root_ids})
-            logger.info(f"Created {len(root_ids)} root categories")
+            logger.info(f"Found {len(root_ids)} root categories in database")
 
             # Phase 2: Create sub-categories
             logger.info("")
@@ -166,7 +268,7 @@ def main():
             sub_ids = {}
             links_created = 0
 
-            for parent_name, subcats in SUB_CATEGORIES.items():
+            for parent_name, subcats in INITIAL_SUB_CATEGORIES.items():
                 # Find parent ID
                 parent_id = root_ids.get(parent_name)
                 if not parent_id:
@@ -238,14 +340,14 @@ def main():
             logger.info("Hierarchy structure:")
             for root_name in sorted(root_ids.keys()):
                 logger.info(f"  {root_name}")
-                if root_name in SUB_CATEGORIES:
-                    for sub in SUB_CATEGORIES[root_name][:3]:
+                if root_name in INITIAL_SUB_CATEGORIES:
+                    for sub in INITIAL_SUB_CATEGORIES[root_name][:3]:
                         logger.info(f"    ├── {sub['name']}")
-                        if sub['name'] in SUB_CATEGORIES:
-                            for subsub in SUB_CATEGORIES[sub['name']][:2]:
+                        if sub['name'] in INITIAL_SUB_CATEGORIES:
+                            for subsub in INITIAL_SUB_CATEGORIES[sub['name']][:2]:
                                 logger.info(f"    │   ├── {subsub['name']}")
-                    if len(SUB_CATEGORIES[root_name]) > 3:
-                        logger.info(f"    └── ... and {len(SUB_CATEGORIES[root_name]) - 3} more")
+                    if len(INITIAL_SUB_CATEGORIES[root_name]) > 3:
+                        logger.info(f"    └── ... and {len(INITIAL_SUB_CATEGORIES[root_name]) - 3} more")
 
             # Clear checkpoint on success
             checkpoint_mgr.clear()

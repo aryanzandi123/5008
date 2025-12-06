@@ -23,6 +23,105 @@ from app import app, db
 from sqlalchemy import text
 
 
+# Initial root categories to seed into database (RUN ONCE)
+# These are the top-level pathway categories for the hierarchy
+INITIAL_ROOT_CATEGORIES = [
+    {
+        "name": "Cellular Signaling",
+        "go_id": "GO:0007165",
+        "description": "Signal transduction pathways that regulate cellular responses",
+    },
+    {
+        "name": "Metabolism",
+        "go_id": "GO:0008152",
+        "description": "Metabolic processes including energy production and biosynthesis",
+    },
+    {
+        "name": "Protein Quality Control",
+        "go_id": "GO:0006457",
+        "description": "Protein folding, degradation, and homeostasis mechanisms",
+    },
+    {
+        "name": "Cell Death",
+        "go_id": "GO:0008219",
+        "description": "Programmed cell death pathways including apoptosis and autophagy-dependent cell death",
+    },
+    {
+        "name": "Cell Cycle",
+        "go_id": "GO:0007049",
+        "description": "Cell division and proliferation control",
+    },
+    {
+        "name": "DNA Damage Response",
+        "go_id": "GO:0006974",
+        "description": "DNA repair and genomic stability mechanisms",
+    },
+    {
+        "name": "Vesicle Transport",
+        "go_id": "GO:0016192",
+        "description": "Intracellular vesicle trafficking and secretion",
+    },
+    {
+        "name": "Immune Response",
+        "go_id": "GO:0006955",
+        "description": "Innate and adaptive immune system pathways",
+    },
+    {
+        "name": "Neuronal Function",
+        "go_id": "GO:0050877",
+        "description": "Nervous system development and synaptic signaling",
+    },
+    {
+        "name": "Cytoskeleton Organization",
+        "go_id": "GO:0007015",
+        "description": "Actin, microtubule, and intermediate filament dynamics",
+    },
+]
+
+
+def seed_root_categories(session):
+    """
+    Seed initial root categories into database.
+    Only runs if no root pathways exist (hierarchy_level = 0).
+    """
+    from models import Pathway
+
+    # Check if roots already exist
+    existing_roots = session.query(Pathway).filter_by(hierarchy_level=0).count()
+    if existing_roots > 0:
+        print(f"   ✓ Root categories already exist ({existing_roots} found), skipping seed")
+        return
+
+    print("   Seeding initial root categories...")
+    for root in INITIAL_ROOT_CATEGORIES:
+        # Check if pathway already exists by name
+        existing = session.query(Pathway).filter_by(name=root["name"]).first()
+        if existing:
+            # Update existing pathway to be a root
+            existing.hierarchy_level = 0
+            existing.ontology_id = root["go_id"]
+            existing.ontology_source = "GO"
+            existing.description = root["description"]
+            existing.is_leaf = True  # Will be updated when children are added
+            print(f"     Updated existing: {root['name']}")
+        else:
+            # Create new root pathway
+            pathway = Pathway(
+                name=root["name"],
+                description=root["description"],
+                ontology_id=root["go_id"],
+                ontology_source="GO",
+                hierarchy_level=0,
+                is_leaf=True,  # Will be updated when children are added
+                ai_generated=False,
+            )
+            session.add(pathway)
+            print(f"     Created: {root['name']}")
+
+    session.flush()
+    print(f"   ✓ Seeded {len(INITIAL_ROOT_CATEGORIES)} root categories")
+
+
 def migrate():
     """Add missing hierarchy columns to pathways table."""
     print("=" * 60)
@@ -98,6 +197,10 @@ def migrate():
                 print(f"   ✓ Index: {idx_name}")
             except Exception as e:
                 print(f"   ✗ Index {idx_name}: {e}")
+
+        # Seed initial root categories (ONLY if database is empty)
+        print("\n[INFO] Checking for root categories...")
+        seed_root_categories(db.session)
 
         # Commit all changes
         db.session.commit()
