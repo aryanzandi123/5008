@@ -1,0 +1,89 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Direct interaction between ATXN3 and YAP1 was confirmed by co-immunoprecipitation (Co-IP) and in vitro pulldown assays, where ATXN3 deubiquitinates and stabilizes YAP1.",
+  "functions": [
+    {
+      "function": "YAP1 Protein Stability & Hippo Pathway Signaling",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a deubiquitinase for YAP1, the primary effector of the Hippo tumor suppressor pathway. ATXN3 removes K48-linked polyubiquitin chains from YAP1, protecting it from proteasomal degradation.",
+      "effect_description": "This interaction stabilizes YAP1 protein, leading to its accumulation and increased transcriptional activity of its target genes, which promotes cell proliferation, invasion, and stem-like properties, particularly in cancer.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates YAP1 → YAP1 protein is stabilized → Increased nuclear YAP1 → Enhanced transcription of YAP target genes (CTGF, ANKRD1, CYR61) → Promotion of cell proliferation and invasion"
+      ],
+      "specific_effects": [
+        "ATXN3 interacts with, deubiquitinates, and stabilizes YAP1 in a deubiquitylation activity-dependent manner.",
+        "The Josephin domain of ATXN3 interacts with the WW domain of YAP1.",
+        "Depletion of ATXN3 decreases YAP protein levels and the expression of YAP/TEAD target genes."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+          "year": 2023,
+          "pmid": "37349820"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Hippo Signaling Pathway",
+        "canonical_name": "Hippo Signaling",
+        "ontology_id": "hsa04390",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37349820"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 acts as a deubiquitinase for YAP1, the primary effector of the Hippo tumor suppressor pathway. ATXN3 removes K48-linked polyubiquitin chains from YAP1, protecting it from proteasomal degradation.",
+  "effect": "This interaction stabilizes YAP1 protein, leading to its accumulation and increased transcriptional activity of its target genes, which promotes cell proliferation, invasion, and stem-like properties, particularly in cancer.",
+  "summary": "ATXN3 activates YAP1 to modulate yap1 protein stability & hippo pathway signaling, ultimately affecting promotion of cell proliferation and invasion.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
+      "year": 2023
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Hippo Signaling Pathway",
+      "canonical_name": "Hippo Signaling",
+      "ontology_id": "hsa04390",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 0
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> YAP1:",
+  "protein_a": "YAP1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.487889Z",
+  "last_updated": "2025-12-07T22:39:21.487889Z"
+}

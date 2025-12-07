@@ -1,0 +1,105 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly interacts with BECN1 (Beclin-1) to deubiquitinate it, leading to its stabilization and the stimulation of autophagy.",
+  "functions": [
+    {
+      "function": "Autophagy Activation via Protein Stabilization",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 directly interacts with BECN1 (Beclin-1), a pivotal protein for the initiation of autophagy. ATXN3 functions as a deubiquitinase (DUB) for BECN1, specifically removing K48-linked polyubiquitin chains, which are signals for proteasomal degradation. This deubiquitination stabilizes the BECN1 protein.",
+      "effect_description": "The stabilization of BECN1 enhances its ability to participate in the class III phosphatidylinositol 3-kinase (PI3K) complex. An increased pool of stable BECN1 promotes the activity of this complex, leading to the production of phosphatidylinositol-3-phosphate (PtdIns3P), which is essential for the nucleation and formation of autophagosomes. This ultimately stimulates autophagic flux, aiding in the clearance of cellular waste.",
+      "biological_consequence": [
+        "ATXN3 binds to BECN1 via its polyQ domain → ATXN3 removes K48-linked polyubiquitin chains from BECN1 → BECN1 protein is stabilized and protected from proteasomal degradation → Increased BECN1 availability promotes the formation of the active class III PI3K complex → Enhanced autophagosome nucleation and maturation → Increased autophagic flux and clearance of cellular aggregates."
+      ],
+      "specific_effects": [
+        "Directly deubiquitinates and stabilizes BECN1, protecting it from proteasome-mediated degradation.",
+        "Removes K48-linked poly-ubiquitin chains from BECN1, specifically at lysine 402 (K402).",
+        "The interaction is mediated by the polyQ domain of wild-type ATXN3.",
+        "Depletion of ATXN3 leads to reduced BECN1 levels and impairs starvation-induced autophagy.",
+        "Overexpression of BECN1 can stimulate autophagic flux and help clear mutant ataxin-3 aggregates."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+          "journal": "Nature",
+          "year": 2017,
+          "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy.",
+          "pmid": "28445460"
+        },
+        {
+          "paper_title": "Beclin 1 Phosphorylation – at the Center of Autophagy Regulation",
+          "journal": "Frontiers in Cell and Developmental Biology",
+          "year": 2018,
+          "relevant_quote": "Ataxin-3, another deubiquitinating enzyme is involved in deubiquitinating K48-linked poly-ubiquitin chains from BECN1-K402, thus stabilizing BECN1 and promoting starvation-induced autophagy.",
+          "pmid": "30370269"
+        }
+      ],
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28445460",
+        "30370269"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 directly interacts with BECN1 (Beclin-1), a pivotal protein for the initiation of autophagy. ATXN3 functions as a deubiquitinase (DUB) for BECN1, specifically removing K48-linked polyubiquitin chains, which are signals for proteasomal degradation. This deubiquitination stabilizes the BECN1 protein.",
+  "effect": "The stabilization of BECN1 enhances its ability to participate in the class III phosphatidylinositol 3-kinase (PI3K) complex. An increased pool of stable BECN1 promotes the activity of this complex, leading to the production of phosphatidylinositol-3-phosphate (PtdIns3P), which is essential for the nucleation and formation of autophagosomes. This ultimately stimulates autophagic flux, aiding in the clearance of cellular waste.",
+  "summary": "ATXN3 activates BECN1 to modulate autophagy activation via protein stabilization, ultimately affecting increased autophagic flux and clearance of cellular aggregates.",
+  "evidence": [
+    {
+      "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+      "journal": "Nature",
+      "year": 2017,
+      "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy."
+    },
+    {
+      "paper_title": "Beclin 1 Phosphorylation – at the Center of Autophagy Regulation",
+      "journal": "Frontiers in Cell and Developmental Biology",
+      "year": 2018,
+      "relevant_quote": "Ataxin-3, another deubiquitinating enzyme is involved in deubiquitinating K48-linked poly-ubiquitin chains from BECN1-K402, thus stabilizing BECN1 and promoting starvation-induced autophagy."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> BECN1:",
+  "protein_a": "BECN1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.490242Z",
+  "last_updated": "2025-12-07T22:39:21.490242Z"
+}

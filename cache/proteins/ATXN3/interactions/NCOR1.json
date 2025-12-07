@@ -1,0 +1,103 @@
+{
+  "primary": "NCOR1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the nuclear corepressor receptor 1 (NCoR1) as part of its role in transcriptional regulation.",
+  "functions": [
+    {
+      "function": "Transcriptional Repression",
+      "arrow": "activates",
+      "cellular_process": "Normal ATXN3 binds to specific DNA sequences in gene promoters and recruits the NCOR1/HDAC3 corepressor complex. This recruitment leads to the deacetylation of histones, resulting in a more compact chromatin state and the repression of gene transcription.",
+      "effect_description": "This mechanism demonstrates that ATXN3 is an integral part of a transcriptional repressor complex. Its function is to target this complex to specific genes, like MMP-2, thereby silencing their expression. In SCA3, the expanded polyQ form of ATXN3 fails to recruit this complex, leading to aberrant gene expression.",
+      "biological_consequence": [
+        "Normal ATXN3 binds to target gene promoters (e.g., MMP-2 promoter) → ATXN3 recruits the NCOR1 and HDAC3 corepressor complex → HDAC3 deacetylates histones at the promoter → Chromatin condenses → Transcription is repressed."
+      ],
+      "specific_effects": [
+        "Normal ATXN3 mediates transcriptional repression by interaction with HDAC3 and NCoR and deacetylation of histones.",
+        "ATXN3-containing protein complexes showed increased histone deacetylase activity, whereas expanded ATXN3-containing complexes had reduced deacetylase activity.",
+        "The interaction and colocalization of normal ATXN3 with HDAC3 and NCoR occur in transcriptionally repressed chromatin regions."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+          "journal": "Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
+        },
+        {
+          "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+          "journal": "Nucleic Acids Research",
+          "year": 2023,
+          "relevant_quote": "ATXN3 was described to control the transcription of the MMP-2 gene through the recruitment of the histone deacetylase HDAC3.",
+          "pmid": "36971114"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17079677",
+        "36971114"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim correctly identifies the interaction but misinterprets the effect with the 'activates' arrow. ATXN3 does not 'activate' NCOR1; rather, it *associates with* or *recruits* the NCOR1/HDAC3 corepressor complex to specific gene promoters to *mediate transcriptional repression*. The arrow should be 'inhibits' to reflect the ultimate outcome on transcription. ATXN3's role is to facilitate the repressive action of the complex.",
+  "mechanism": "Normal ATXN3 binds to specific DNA sequences in gene promoters and recruits the NCOR1/HDAC3 corepressor complex. This recruitment leads to the deacetylation of histones, resulting in a more compact chromatin state and the repression of gene transcription.",
+  "effect": "This mechanism demonstrates that ATXN3 is an integral part of a transcriptional repressor complex. Its function is to target this complex to specific genes, like MMP-2, thereby silencing their expression. In SCA3, the expanded polyQ form of ATXN3 fails to recruit this complex, leading to aberrant gene expression.",
+  "summary": "ATXN3 inhibits NCOR1 to modulate transcriptional repression, ultimately affecting transcription is repressed.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+      "journal": "Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
+    },
+    {
+      "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+      "journal": "Nucleic Acids Research",
+      "year": 2023,
+      "relevant_quote": "ATXN3 was described to control the transcription of the MMP-2 gene through the recruitment of the histone deacetylase HDAC3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> NCOR1:",
+  "protein_a": "ATXN3",
+  "protein_b": "NCOR1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.526905Z",
+  "last_updated": "2025-12-07T22:39:21.526905Z"
+}

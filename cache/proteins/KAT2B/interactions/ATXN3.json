@@ -1,0 +1,101 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 has been shown to interact with the transcriptional coactivator p300/CBP-associated factor (PCAF, or KAT2B).",
+  "functions": [
+    {
+      "function": "Transcriptional Corepressor Activity",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 functions as a transcriptional corepressor by interacting with a complex of proteins that includes histone acetyltransferases (HATs) like KAT2B/PCAF and histone deacetylases (HDACs). This interaction is part of a broader mechanism to regulate chromatin structure and gene expression.",
+      "effect_description": "By associating with transcriptional regulators like KAT2B/PCAF, ATXN3 contributes to the repression of target genes. This repressive function is critical for normal cellular processes, and its disruption by polyglutamine expansion contributes to SCA3 pathology.",
+      "biological_consequence": [
+        "ATXN3 is recruited to the nucleus → ATXN3 associates with transcriptional regulators including KAT2B/PCAF, CBP, p300, and HDACs → The complex is recruited to target gene promoters → Local chromatin structure is modified, leading to transcriptional repression."
+      ],
+      "specific_effects": [
+        "ATXN3 cooperates with transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+          "journal": "PLoS Genetics",
+          "year": 2018,
+          "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes.",
+          "pmid": "30231063"
+        },
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "journal": "Journal of Molecular Medicine",
+          "year": 2024,
+          "relevant_quote": "Indeed, ATXN3 additionally has been shown to interact with several transcriptional components, such as the TATA-binding protein-associated factor TAFII130, the cAMP response element (CRE) binding protein (CREB)-binding protein (CBP), p300 and p300/CBP-associated factor (PCAF), the nuclear corepressor receptor NCoR and HDAC6.",
+          "pmid": "39320846"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30231063",
+        "39320846"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim is broadly correct but lacks detail and specific evidence. ATXN3 interacts with several transcriptional regulators, including KAT2B/PCAF, to act as a transcriptional corepressor. However, the primary literature more strongly emphasizes ATXN3's role in recruiting *deacetylases* (like HDAC3) rather than directly inhibiting *acetylases* (like KAT2B). While the interaction exists and the net effect is repressive, the detailed mechanism involves a larger complex.",
+  "mechanism": "ATXN3 functions as a transcriptional corepressor by interacting with a complex of proteins that includes histone acetyltransferases (HATs) like KAT2B/PCAF and histone deacetylases (HDACs). This interaction is part of a broader mechanism to regulate chromatin structure and gene expression.",
+  "effect": "By associating with transcriptional regulators like KAT2B/PCAF, ATXN3 contributes to the repression of target genes. This repressive function is critical for normal cellular processes, and its disruption by polyglutamine expansion contributes to SCA3 pathology.",
+  "summary": "ATXN3 inhibits KAT2B to modulate transcriptional corepressor activity, ultimately affecting local chromatin structure is modified, leading to transcriptional repression.",
+  "evidence": [
+    {
+      "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
+      "journal": "PLoS Genetics",
+      "year": 2018,
+      "relevant_quote": "First, ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "journal": "Journal of Molecular Medicine",
+      "year": 2024,
+      "relevant_quote": "Indeed, ATXN3 additionally has been shown to interact with several transcriptional components, such as the TATA-binding protein-associated factor TAFII130, the cAMP response element (CRE) binding protein (CREB)-binding protein (CBP), p300 and p300/CBP-associated factor (PCAF), the nuclear corepressor receptor NCoR and HDAC6."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> KAT2B:",
+  "protein_a": "KAT2B",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.524819Z",
+  "last_updated": "2025-12-07T22:39:21.524819Z"
+}

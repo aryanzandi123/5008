@@ -1,0 +1,103 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 was found to associate with the alpha subunit of protein casein kinase 2 (CSNK2A1/CK2), and CK2-dependent phosphorylation of ATXN3 controls its nuclear localization, stability, and aggregation.",
+  "functions": [
+    {
+      "function": "ATXN3 Nuclear Localization and Stability",
+      "arrow": "activates",
+      "cellular_process": "The catalytic alpha subunit of Casein Kinase 2 (CSNK2A1) directly interacts with and phosphorylates ATXN3. This post-translational modification is a key determinant of ATXN3's subcellular distribution, promoting its translocation into the nucleus.",
+      "effect_description": "CK2-mediated phosphorylation enhances the nuclear localization and stability of ATXN3. This is significant in the context of Spinocerebellar Ataxia Type 3 (SCA3), as the nuclear accumulation of polyQ-expanded mutant ATXN3 is a critical step in the formation of toxic nuclear inclusions, a hallmark of the disease. Pharmacological inhibition of CK2 reduces the nuclear levels of ATXN3 and mitigates the formation of these aggregates.",
+      "biological_consequence": [
+        "CSNK2A1 (CK2α) binds to ATXN3 → CSNK2A1 phosphorylates ATXN3 at specific serine residues (S340 and S352) → Phosphorylated ATXN3 shows enhanced nuclear import and increased protein stability → For mutant ATXN3, this leads to increased concentration in the nucleus → Promotes the formation of toxic nuclear inclusions/aggregates → Contributes to cellular cytotoxicity in SCA3."
+      ],
+      "specific_effects": [
+        "ATXN3 directly associates with the catalytic alpha subunit of CK2 (CSNK2A1).",
+        "Phosphorylation by CK2, particularly at serines 340 and 352, controls the nuclear localization, stability, and aggregation of ATXN3.",
+        "Inhibition of CK2 with pharmacological agents leads to a decrease in the nuclear concentration of ATXN3 and a reduction in the formation of nuclear inclusions."
+      ],
+      "evidence": [
+        {
+          "paper_title": "CK2-dependent phosphorylation determines cellular localization and stability of ataxin-3",
+          "journal": "Human Molecular Genetics",
+          "year": 2009,
+          "relevant_quote": "Here we show that protein casein kinase 2 (CK2)-dependent phosphorylation controls the nuclear localization, aggregation and stability of ataxin-3 (ATXN3), the disease protein in spinocerebellar ataxia type 3 (SCA3). Serine 340 and 352 within the third ubiquitin-interacting motif of ATXN3 were particularly important for nuclear localization of normal and expanded ATXN3... ATXN3 associated with CK2alpha and pharmacological inhibition of CK2 decreased nuclear ATXN3 levels and the formation of nuclear inclusions.",
+          "pmid": "19542537"
+        },
+        {
+          "paper_title": "Casein kinase 2 interacts with and phosphorylates ataxin-3",
+          "journal": "Zhonghua Yi Xue Yi Chuan Xue Za Zhi",
+          "year": 2008,
+          "relevant_quote": "Results (1) Both wild type and expanded ataxin-3 interacted with CK2alpha and CK2beta in vitro... (3) CK2 phosphorylated wild type and expanded ataxin-3. Conclusion: Ataxin-3 is a substrate of protein kinase CK2.",
+          "pmid": "18839019"
+        }
+      ],
+      "pathway": {
+        "name": "Protein Trafficking",
+        "canonical_name": "Vesicle Transport",
+        "ontology_id": "GO:0016192",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19542537",
+        "18839019"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The catalytic alpha subunit of Casein Kinase 2 (CSNK2A1) directly interacts with and phosphorylates ATXN3. This post-translational modification is a key determinant of ATXN3's subcellular distribution, promoting its translocation into the nucleus.",
+  "effect": "CK2-mediated phosphorylation enhances the nuclear localization and stability of ATXN3. This is significant in the context of Spinocerebellar Ataxia Type 3 (SCA3), as the nuclear accumulation of polyQ-expanded mutant ATXN3 is a critical step in the formation of toxic nuclear inclusions, a hallmark of the disease. Pharmacological inhibition of CK2 reduces the nuclear levels of ATXN3 and mitigates the formation of these aggregates.",
+  "summary": "ATXN3 activates CSNK2A1 to modulate regulation of atxn3 nuclear localization and stability, ultimately affecting contributes to cellular cytotoxicity in sca3.",
+  "evidence": [
+    {
+      "paper_title": "CK2-dependent phosphorylation determines cellular localization and stability of ataxin-3",
+      "journal": "Human Molecular Genetics",
+      "year": 2009,
+      "relevant_quote": "Here we show that protein casein kinase 2 (CK2)-dependent phosphorylation controls the nuclear localization, aggregation and stability of ataxin-3 (ATXN3), the disease protein in spinocerebellar ataxia type 3 (SCA3). Serine 340 and 352 within the third ubiquitin-interacting motif of ATXN3 were particularly important for nuclear localization of normal and expanded ATXN3... ATXN3 associated with CK2alpha and pharmacological inhibition of CK2 decreased nuclear ATXN3 levels and the formation of nuclear inclusions."
+    },
+    {
+      "paper_title": "Casein kinase 2 interacts with and phosphorylates ataxin-3",
+      "journal": "Zhonghua Yi Xue Yi Chuan Xue Za Zhi",
+      "year": 2008,
+      "relevant_quote": "Results (1) Both wild type and expanded ataxin-3 interacted with CK2alpha and CK2beta in vitro... (3) CK2 phosphorylated wild type and expanded ataxin-3. Conclusion: Ataxin-3 is a substrate of protein kinase CK2."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Protein Trafficking",
+      "canonical_name": "Vesicle Transport",
+      "ontology_id": "GO:0016192",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--binds-- CSNK2A1:",
+  "protein_a": "CSNK2A1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.583411Z",
+  "last_updated": "2025-12-07T22:39:21.583411Z"
+}

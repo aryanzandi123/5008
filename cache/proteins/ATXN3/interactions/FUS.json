@@ -1,0 +1,115 @@
+{
+  "primary": "FUS",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The interaction between ATXN3 and FUS in the nucleus was validated using a proximity ligation assay (PLA).",
+  "functions": [
+    {
+      "function": "DNA Damage Response",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 is involved in the DNA damage response (DDR), particularly in the repair of double-strand breaks. It regulates the homeostasis of key DDR proteins. FUS is also a critical DDR protein that is recruited to sites of DNA damage and interacts with factors like HDAC1. While both proteins function in the DDR, a direct, mechanistic link where ATXN3 activates FUS is not established.",
+      "effect_description": "ATXN3's role in the DDR involves modulating the ubiquitination and chromatin association of repair factors. For example, the p97-ATXN3 complex extracts the E3 ubiquitin ligase RNF8 from chromatin to balance DNA repair pathways. A similar direct regulatory action on FUS has not been demonstrated.",
+      "biological_consequence": [
+        "DNA double-strand break occurs → ATXN3 and its partner p97 are recruited → The p97-ATXN3 complex extracts the ubiquitin ligase RNF8 from chromatin → This balances DNA repair pathway choice (e.g., NHEJ) and promotes cell survival."
+      ],
+      "specific_effects": [
+        "The p97–ATXN3 complex stimulates the extraction of RNF8 from chromatin at sites of DNA lesions.",
+        "Inactivation of the p97–ATXN3 complex affects the non-homologous end joining (NHEJ) DNA repair pathway.",
+        "Mutations in FUS have been shown to impair the DNA damage response."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "journal": "The EMBO Journal",
+          "year": 2019,
+          "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR).",
+          "pmid": "31613024"
+        },
+        {
+          "paper_title": "Interaction of FUS and HDAC1 Regulates DNA Damage Response and Repair in Neurons",
+          "journal": "PLoS Genetics",
+          "year": 2017,
+          "relevant_quote": "We show that the function of FUS in DDR involves a direct interaction with histone deacetylase 1 (HDAC1), and that the recruitment of FUS to double stranded break (DSB) sites is important for proper DDR signaling.",
+          "pmid": "24036913"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31613024",
+        "24036913"
+      ],
+      "interaction_effect": "regulates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "regulation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "regulates",
+        "net_from": "ATXN3",
+        "net_arrow": "regulates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "regulates",
+      "direct_arrow": "regulates",
+      "net_effect": "regulation",
+      "direct_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input claim is speculative and lacks direct evidence for a cooperative role in DNA repair. While both proteins are involved in the DNA damage response (DDR), the literature does not describe a direct, functional interaction where ATXN3 'activates' FUS. Instead, ATXN3 has a more established role in regulating other DDR proteins like RNF8 and PNKP. The interaction with FUS is noted in the context of neurodegeneration, but a specific mechanistic cascade is not defined in the provided search results.",
+  "mechanism": "ATXN3 is involved in the DNA damage response (DDR), particularly in the repair of double-strand breaks. It regulates the homeostasis of key DDR proteins. FUS is also a critical DDR protein that is recruited to sites of DNA damage and interacts with factors like HDAC1. While both proteins function in the DDR, a direct, mechanistic link where ATXN3 activates FUS is not established.",
+  "effect": "ATXN3's role in the DDR involves modulating the ubiquitination and chromatin association of repair factors. For example, the p97-ATXN3 complex extracts the E3 ubiquitin ligase RNF8 from chromatin to balance DNA repair pathways. A similar direct regulatory action on FUS has not been demonstrated.",
+  "summary": "ATXN3 interacts with FUS to modulate dna damage response, ultimately affecting this balances dna repair pathway choice (e.g., nhej) and promotes cell survival.",
+  "evidence": [
+    {
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "journal": "The EMBO Journal",
+      "year": 2019,
+      "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR)."
+    },
+    {
+      "paper_title": "Interaction of FUS and HDAC1 Regulates DNA Damage Response and Repair in Neurons",
+      "journal": "PLoS Genetics",
+      "year": 2017,
+      "relevant_quote": "We show that the function of FUS in DDR involves a direct interaction with histone deacetylase 1 (HDAC1), and that the recruitment of FUS to double stranded break (DSB) sites is important for proper DDR signaling."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> FUS:",
+  "protein_a": "ATXN3",
+  "protein_b": "FUS",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.528980Z",
+  "last_updated": "2025-12-07T22:39:21.528980Z"
+}

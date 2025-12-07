@@ -1,0 +1,105 @@
+{
+  "primary": "MDC1",
+  "interaction_type": "indirect",
+  "upstream_interactor": "RNF4",
+  "mediator_chain": [
+    "RNF4"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 antagonizes RNF4-induced polyubiquitination of MDC1, prolonging its residence time at chromatin to ensure accurate DNA damage response activation.",
+  "functions": [
+    {
+      "function": "DNA Damage Response Signaling",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 indirectly stabilizes the checkpoint mediator MDC1 at sites of DNA double-strand breaks (DSBs). It does this by directly counteracting the SUMO-targeted ubiquitin ligase RNF4, which would otherwise polyubiquitinate MDC1 and promote its removal from chromatin.",
+      "effect_description": "By preventing the premature removal of MDC1 from DSBs, ATXN3 ensures a sustained and robust DNA damage signal. This is critical for the proper recruitment of downstream repair factors such as RNF8, RNF168, and 53BP1, thereby promoting efficient DNA repair.",
+      "biological_consequence": [
+        "ATXN3 counteracts RNF4 → MDC1 polyubiquitination is reduced → MDC1 retention at DSBs is prolonged → Robust recruitment of downstream repair factors → Efficient DSB repair"
+      ],
+      "specific_effects": [
+        "ATXN3 antagonizes RNF4-induced polyubiquitination and subsequent chromatin-release of MDC1.",
+        "Loss of ataxin-3 reduces the chromatin dwell time of MDC1 at DSBs.",
+        "By stabilizing MDC1, ATXN3 is required for efficient recruitment of RNF8, RNF168, 53BP1, and BRCA1 to damage sites."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 consolidates the MDC1-dependent DNA double-strand break response by counteracting the SUMO-targeted ubiquitin ligase RNF4",
+          "year": 2017,
+          "pmid": "28275011"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28275011"
+      ],
+      "direct_arrow": "inhibits",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "RNF4",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "RNF4"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 indirectly stabilizes the checkpoint mediator MDC1 at sites of DNA double-strand breaks (DSBs). It does this by directly counteracting the SUMO-targeted ubiquitin ligase RNF4, which would otherwise polyubiquitinate MDC1 and promote its removal from chromatin.",
+  "effect": "By preventing the premature removal of MDC1 from DSBs, ATXN3 ensures a sustained and robust DNA damage signal. This is critical for the proper recruitment of downstream repair factors such as RNF8, RNF168, and 53BP1, thereby promoting efficient DNA repair.",
+  "summary": "ATXN3 activates MDC1 to modulate dna damage response signaling, ultimately affecting efficient dsb repair.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 consolidates the MDC1-dependent DNA double-strand break response by counteracting the SUMO-targeted ubiquitin ligase RNF4",
+      "year": 2017
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "RNF4 --activates--> MDC1:",
+  "protein_a": "ATXN3",
+  "protein_b": "MDC1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.546486Z",
+  "last_updated": "2025-12-07T22:39:21.546486Z"
+}

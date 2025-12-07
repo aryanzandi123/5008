@@ -1,55 +1,136 @@
 # Pathway Hierarchy Tree
-# Generated: 2025-12-07T12:01:42.319277
-# Total pathways: 30
+# Generated: 2025-12-07T14:59:30.413952
+# Total pathways: 105
 
-- Aggrephagy (4 interactions)
+- Cell Cycle
+  - Cell Cycle Checkpoint
+  - Cell Cycle Phase
+    - Mitosis
+  - Cell Cycle Phase Transition
+    - G1/S Transition
+    - G2/M Transition
+  - S Phase
+    - DNA Replication
 
-- Autophagy (5 interactions)
-  - Macroautophagy
-    - Selective Autophagy
-      - ER-phagy
-      - Lipophagy
-      - Mitophagy (9 interactions)
-      - Pexophagy
-  - Selective Autophagy
-    - ER-phagy
-    - Lipophagy
-    - Mitophagy (9 interactions)
-    - Pexophagy
+- Cell Cycle Regulation (1 interactions)
 
-- Cell Cycle Regulation (6 interactions)
+- Cell Death
+  - Programmed Cell Death
+    - Apoptosis (2 interactions)
+    - Necroptosis
+    - Pyroptosis
+  - Regulated Cell Death
+    - Autophagy-Dependent Cell Death
+    - Ferroptosis
 
-- DNA Damage Response (5 interactions)
-  - DNA Damage Checkpoint
+- Cellular Signaling
+  - Developmental Signaling Pathways
+    - Notch Signaling
+    - Wnt Signaling
+  - Growth and Nutrient Sensing Pathways
+    - mTOR Signaling (1 interactions)
+  - Immune and Inflammatory Signaling Pathways
+    - NF-kB Signaling
+  - Receptor Signaling Pathway
+    - JAK-STAT Signaling
+    - TGF-beta Signaling
+  - Regulation of Actin Cytoskeleton
+    - Cell Migration
+  - Regulation of Cellular Process
+    - Cell Growth Regulation
+  - Second Messenger Signaling
+    - Calcium Signaling
+    - cAMP Signaling
+  - Stress and Mitogen Response Pathways
+    - MAPK Signaling
+
+- Chromatin Remodeling (2 interactions)
+
+- Cytoskeletal Transport (2 interactions)
+
+- Cytoskeleton Organization
+
+- DNA Damage Response (10 interactions)
+  - DNA Damage Signaling
+    - DNA Damage Checkpoint
   - DNA Repair
     - Base Excision Repair
     - Double-Strand Break Repair
-      - Homologous Recombination (2 interactions)
+      - Homologous Recombination
       - Non-Homologous End Joining
     - Mismatch Repair
     - Nucleotide Excision Repair
 
-- ER-Associated Degradation (12 interactions)
+- Hippo Signaling (1 interactions)
 
-- Er Network Dynamics (2 interactions)
+- Immune Response
+  - Adaptive Immunity
+  - Innate Immunity
+    - Antiviral Response
+    - Inflammatory Response
+  - Regulation of Immune Response
+    - Cytokine Signaling
 
-- Lipid Metabolism (3 interactions)
+- Metabolism
+  - Carbohydrate Metabolism
+    - Glycolysis
+  - Energy Metabolism
+    - Mitochondrial Function
+    - Oxidative Phosphorylation
+  - Lipid Metabolism
+  - Small Molecule Metabolism
+    - Amino Acid Metabolism
 
-- Lysosomal Stress Response (1 interactions)
+- Mitochondrial Transport (1 interactions)
 
-- Lysosome Biogenesis And Maintenance (1 interactions)
+- Mrna Translation (1 interactions)
 
-- Nuclear Import/Export (1 interactions)
+- Neuronal Function
+  - Neuronal Development
+    - Axon Guidance
+  - Neuronal Signaling
+    - Synaptic Transmission
+      - Neurotransmitter Release
+  - Synaptic Transmission
+    - Neurotransmitter Release
 
-- Proteasomal Degradation (1 interactions)
+- Oxidative Stress Response (4 interactions)
 
-- Protein Folding (1 interactions)
+- Proteasomal Degradation (8 interactions)
 
-- Protein Synthesis And Trafficking (1 interactions)
+- Protein Quality Control
+  - Autophagy (5 interactions)
+    - ER-phagy
+    - Lipophagy
+    - Macroautophagy
+      - Selective Autophagy
+        - Aggrephagy (2 interactions)
+    - Mitophagy
+    - Pexophagy
+    - Selective Autophagy
+      - Aggrephagy (2 interactions)
+  - ER Stress Response
+    - Unfolded Protein Response
+  - Endoplasmic Reticulum Protein Quality Control
+    - ER-Associated Degradation (1 interactions)
+  - Macroautophagy
+    - Selective Autophagy
+      - Aggrephagy (2 interactions)
+  - Protein Folding (3 interactions)
+    - Chaperone-Mediated Protein Folding
+  - Protein Ubiquitination
+    - Ubiquitin-Proteasome System
 
-- Ribosome-Associated Quality Control (1 interactions)
+- Protein Sumoylation (1 interactions)
 
-- Synaptic Plasticity And Development (1 interactions)
+- Transcription (5 interactions)
 
-- mTOR Signaling (1 interactions)
+- Vesicle Transport (1 interactions)
+  - Endocytic Pathway
+    - Lysosomal Transport
+  - Secretory Pathway
+    - ER-Golgi Transport
+  - Trafficking to/from the Plasma Membrane
+    - Endocytosis
+    - Exocytosis
 

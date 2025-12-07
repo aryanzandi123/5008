@@ -1,0 +1,102 @@
+{
+  "primary": "CHK2",
+  "interaction_type": "indirect",
+  "upstream_interactor": "CHK1",
+  "mediator_chain": [
+    "CHK1"
+  ],
+  "depth": 2,
+  "support_summary": "While ATXN3 directly interacts with and stabilizes CHK1, its effect on CHK2 is likely indirect, occurring downstream of the ATR-CHK1 signaling axis in the DNA damage response pathway. No direct binding to CHK2 has been reported.",
+  "functions": [
+    {
+      "function": "DNA Damage Response Signaling (Pathological)",
+      "arrow": "activates",
+      "cellular_process": "In pathological states, particularly with mutant ATXN3, the cell's capacity for DNA repair is compromised. For instance, mutant ATXN3 can inactivate essential DNA strand break repair enzymes like Polynucleotide Kinase 3'-Phosphatase (PNKP). This leads to an accumulation of DNA lesions, especially double-strand breaks, which are potent triggers of the DNA Damage Response (DDR). The primary sensor for these breaks is the ATM (Ataxia-Telangiectasia Mutated) kinase, which becomes activated and, in turn, phosphorylates a cascade of downstream targets, including the checkpoint kinase CHK2.",
+      "effect_description": "The activation of CHK2 is an indirect, downstream consequence of the genomic instability caused by mutant ATXN3's interference with DNA repair machinery. Increased phosphorylation of CHK2 at Threonine 68 serves as a marker for the activation of the ATM-CHK2 signaling axis, indicating severe cellular stress and the initiation of cell cycle arrest or apoptosis.",
+      "biological_consequence": [
+        "Mutant ATXN3 impairs DNA repair protein function (e.g., PNKP) → DNA double-strand breaks accumulate → ATM kinase is autophosphorylated and activated at Ser1981 → Activated ATM phosphorylates CHK2 at Threonine 68 → Activated CHK2 phosphorylates downstream targets (e.g., p53) → Cell cycle arrest and/or apoptosis is initiated."
+      ],
+      "specific_effects": [
+        "Expression of mutant ATXN3 (ATXN3-Q84) leads to increased phosphorylation of CHK2 at Threonine 68.",
+        "The ATM-CHK2 signaling pathway is principally activated in response to double-strand breaks, which accumulate due to ATXN3-mediated repair defects."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "Expression of ATXN3-Q84 strongly activated the ATM pathway, inducing the phosphorylation of ATM and H2AX and ATM’s downstream substrates Chk2 and p53... By contrast, expression of wild-type ATXN3-Q28 did not activate the ATM pathway, suggesting that mutant ATXN3 strongly activates the DNA damage-response pathway and the polyQ sequence length is important for ATM pathway activation.",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "direct_arrow": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "CHK1",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "CHK1"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The interaction is indirect. ATXN3 does not directly bind to or regulate CHK2. Instead, in pathological conditions, mutant ATXN3 impairs the function of DNA repair proteins (like PNKP), leading to the accumulation of DNA double-strand breaks. This genomic instability triggers a broad DNA Damage Response (DDR) cascade, which involves the activation of the ATM kinase. Activated ATM then phosphorylates and activates CHK2 as a downstream effector of the pathway. Therefore, CHK2 activation is a consequence of the cellular stress induced by ATXN3 dysfunction, not a direct interaction.",
+  "mechanism": "In pathological states, particularly with mutant ATXN3, the cell's capacity for DNA repair is compromised. For instance, mutant ATXN3 can inactivate essential DNA strand break repair enzymes like Polynucleotide Kinase 3'-Phosphatase (PNKP). This leads to an accumulation of DNA lesions, especially double-strand breaks, which are potent triggers of the DNA Damage Response (DDR). The primary sensor for these breaks is the ATM (Ataxia-Telangiectasia Mutated) kinase, which becomes activated and, in turn, phosphorylates a cascade of downstream targets, including the checkpoint kinase CHK2.",
+  "effect": "The activation of CHK2 is an indirect, downstream consequence of the genomic instability caused by mutant ATXN3's interference with DNA repair machinery. Increased phosphorylation of CHK2 at Threonine 68 serves as a marker for the activation of the ATM-CHK2 signaling axis, indicating severe cellular stress and the initiation of cell cycle arrest or apoptosis.",
+  "summary": "ATXN3 activates CHK2 to modulate dna damage response signaling (pathological), ultimately affecting cell cycle arrest and/or apoptosis is initiated.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "Expression of ATXN3-Q84 strongly activated the ATM pathway, inducing the phosphorylation of ATM and H2AX and ATM’s downstream substrates Chk2 and p53... By contrast, expression of wild-type ATXN3-Q28 did not activate the ATM pathway, suggesting that mutant ATXN3 strongly activates the DNA damage-response pathway and the polyQ sequence length is important for ATM pathway activation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "CHK1 --activates--> CHK2:",
+  "protein_a": "ATXN3",
+  "protein_b": "CHK2",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.581156Z",
+  "last_updated": "2025-12-07T22:39:21.581156Z"
+}

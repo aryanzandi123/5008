@@ -1,0 +1,118 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 is known to interact with HDAC1, often as part of larger transcriptional corepressor complexes like NCoR/SMRT, which regulate gene expression.",
+  "functions": [
+    {
+      "function": "Transcriptional Repression via HDAC3 Recruitment",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 functions as a transcriptional corepressor by binding to specific DNA regions and recruiting the Nuclear Receptor Corepressor (NCoR) complex, which includes Histone Deacetylase 3 (HDAC3). This recruitment is essential for mediating the enzymatic activity of HDAC3 at target gene promoters.",
+      "effect_description": "By recruiting the HDAC3/NCoR complex to gene promoters, such as that of the MMP-2 gene, ATXN3 facilitates the deacetylation of histones. This enzymatic activity increases chromatin condensation, leading to the repression of gene transcription. This function of ATXN3 is dependent on its ubiquitin-interacting motifs (UIMs) but not its catalytic activity.",
+      "biological_consequence": [
+        "ATXN3 binds to target gene promoters → ATXN3 recruits the NCoR/HDAC3 corepressor complex → HDAC3 deacetylates local histone tails → Chromatin becomes more compact → Access of transcription factors is blocked → Target gene transcription is repressed."
+      ],
+      "specific_effects": [
+        "Directly interacts with HDAC3 and the NCoR corepressor complex.",
+        "Recruits HDAC3 to specific gene promoters, such as the MMP-2 promoter.",
+        "Promotes histone deacetylation at target promoters, leading to transcriptional silencing.",
+        "Controls the proper subcellular localization and chromatin recruitment of HDAC3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+          "journal": "The Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter.",
+          "pmid": "17079677"
+        },
+        {
+          "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+          "journal": "Nucleic Acids Research",
+          "year": 2023,
+          "relevant_quote": "The absence of ATXN3 decreases the recruitment of endogenous HDAC3 to the chromatin, as well as the HDAC3 nuclear/cytoplasm ratio after HDAC3 overexpression, suggesting that ATXN3 controls the subcellular localization of HDAC3.",
+          "pmid": "36971114"
+        },
+        {
+          "paper_title": "ATXN3 Positively Regulates Type I IFN Antiviral Response by Deubiquitinating and Stabilizing HDAC3",
+          "journal": "The Journal of Immunology",
+          "year": 2018,
+          "relevant_quote": "Furthermore, ATXN3 physically interacts with histone deacetylase 3 (HDAC3) and upregulates the level of HDAC3 protein. Moreover, ATXN3 deubiquitinates HDAC3, thereby enhancing HDAC3 protein stability.",
+          "pmid": "29802126"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17079677",
+        "36971114",
+        "29802126"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "A significant contextual error was detected. The primary literature strongly indicates that ATXN3's role in transcriptional repression is mediated through its interaction with HDAC3, not HDAC1, as part of the NCoR corepressor complex. While both are Class I HDACs, the specific evidence points to HDAC3. ATXN3 acts as a scaffold, recruiting the HDAC3/NCoR complex to gene promoters to mediate histone deacetylation and transcriptional repression. In a different context (antiviral response), ATXN3 can deubiquitinate and stabilize HDAC3.",
+  "mechanism": "ATXN3 functions as a transcriptional corepressor by binding to specific DNA regions and recruiting the Nuclear Receptor Corepressor (NCoR) complex, which includes Histone Deacetylase 3 (HDAC3). This recruitment is essential for mediating the enzymatic activity of HDAC3 at target gene promoters.",
+  "effect": "By recruiting the HDAC3/NCoR complex to gene promoters, such as that of the MMP-2 gene, ATXN3 facilitates the deacetylation of histones. This enzymatic activity increases chromatin condensation, leading to the repression of gene transcription. This function of ATXN3 is dependent on its ubiquitin-interacting motifs (UIMs) but not its catalytic activity.",
+  "summary": "ATXN3 activates HDAC1 to modulate transcriptional repression via hdac3 recruitment, ultimately affecting target gene transcription is repressed.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+      "journal": "The Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Here we report that normal AT3 binds to target DNA sequences in specific chromatin regions of the matrix metalloproteinase-2 (MMP-2) gene promoter and represses transcription by recruitment of the histone deacetylase 3 (HDAC3), the nuclear receptor corepressor (NCoR), and deacetylation of histones bound to the promoter."
+    },
+    {
+      "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+      "journal": "Nucleic Acids Research",
+      "year": 2023,
+      "relevant_quote": "The absence of ATXN3 decreases the recruitment of endogenous HDAC3 to the chromatin, as well as the HDAC3 nuclear/cytoplasm ratio after HDAC3 overexpression, suggesting that ATXN3 controls the subcellular localization of HDAC3."
+    },
+    {
+      "paper_title": "ATXN3 Positively Regulates Type I IFN Antiviral Response by Deubiquitinating and Stabilizing HDAC3",
+      "journal": "The Journal of Immunology",
+      "year": 2018,
+      "relevant_quote": "Furthermore, ATXN3 physically interacts with histone deacetylase 3 (HDAC3) and upregulates the level of HDAC3 protein. Moreover, ATXN3 deubiquitinates HDAC3, thereby enhancing HDAC3 protein stability."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> HDAC1:",
+  "protein_a": "HDAC1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.576128Z",
+  "last_updated": "2025-12-07T22:39:21.576128Z"
+}

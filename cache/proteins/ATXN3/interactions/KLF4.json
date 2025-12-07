@@ -1,0 +1,89 @@
+{
+  "primary": "KLF4",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 functions as a deubiquitinating enzyme for the transcription factor KLF4, stabilizing it and promoting breast cancer metastasis.",
+  "functions": [
+    {
+      "function": "KLF4 Protein Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the transcription factor Krüppel-like factor 4 (KLF4). ATXN3 directly binds to KLF4, removes polyubiquitin chains, and consequently prevents its proteasomal degradation.",
+      "effect_description": "By stabilizing KLF4, ATXN3 elevates its protein levels. This enhancement of KLF4 protein availability boosts its transcriptional activity, which in turn promotes downstream cellular processes such as cell migration and metastasis in the context of breast cancer.",
+      "biological_consequence": [
+        "ATXN3 binds to KLF4 → ATXN3 removes polyubiquitin chains from KLF4 → Proteasomal degradation of KLF4 is inhibited → KLF4 protein levels are stabilized and increased → Enhanced transcriptional activity of KLF4 target genes → Promotion of breast cancer cell metastasis"
+      ],
+      "specific_effects": [
+        "ATXN3 was identified as a KLF4 deubiquitinating enzyme from a screen of 65 DUBs.",
+        "In human breast cancer specimens, there is a significant positive correlation between the protein expression of ATXN3 and KLF4.",
+        "High co-expression of ATXN3 and KLF4 is correlated with a poor prognosis for breast cancer patients."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
+          "journal": "Cancer Letters",
+          "year": 2019,
+          "relevant_quote": "We screened a library of 65 deubiquitinating enzymes and identified ATXN3 as a deubiquitinating enzyme of KLF4. Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo.",
+          "pmid": "31563563"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31563563"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the transcription factor Krüppel-like factor 4 (KLF4). ATXN3 directly binds to KLF4, removes polyubiquitin chains, and consequently prevents its proteasomal degradation.",
+  "effect": "By stabilizing KLF4, ATXN3 elevates its protein levels. This enhancement of KLF4 protein availability boosts its transcriptional activity, which in turn promotes downstream cellular processes such as cell migration and metastasis in the context of breast cancer.",
+  "summary": "ATXN3 activates KLF4 to modulate klf4 protein stability, ultimately affecting promotion of breast cancer cell metastasis.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
+      "journal": "Cancer Letters",
+      "year": 2019,
+      "relevant_quote": "We screened a library of 65 deubiquitinating enzymes and identified ATXN3 as a deubiquitinating enzyme of KLF4. Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> KLF4:",
+  "protein_a": "ATXN3",
+  "protein_b": "KLF4",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.503831Z",
+  "last_updated": "2025-12-07T22:39:21.503831Z"
+}

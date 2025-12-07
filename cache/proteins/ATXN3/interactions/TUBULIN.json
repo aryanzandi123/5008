@@ -1,0 +1,89 @@
+{
+  "primary": "TUBULIN",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Direct binding to tubulin has been demonstrated by Surface Plasmon Resonance (SPR), linking ATXN3 to microtubule-dependent processes.",
+  "functions": [
+    {
+      "function": "Microtubule-Dependent Protein Transport",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 directly binds with high affinity to both alpha- and beta-tubulin dimers, the fundamental components of microtubules. This interaction facilitates the co-localization of ATXN3 with the microtubule network, which serves as a cellular railway for transporting cargo, including misfolded protein aggregates, to the aggresome located near the microtubule-organizing center (MTOC).",
+      "effect_description": "Through its interaction with tubulin, ATXN3 is implicated as a key component in the cellular machinery responsible for recognizing, collecting, and transporting misfolded proteins along microtubules for their eventual sequestration into aggresomes.",
+      "biological_consequence": [
+        "ATXN3 directly binds to tubulin dimers → ATXN3 co-localizes with the microtubule network → ATXN3 facilitates the transport of misfolded protein cargo along microtubules → Misfolded proteins are collected at the microtubule-organizing center → Formation of aggresomes is promoted"
+      ],
+      "specific_effects": [
+        "Surface plasmon resonance experiments determined a strong dissociation constant (Kd) of 50-70 nM for the interaction between ataxin-3 and tubulin dimers.",
+        "In cultured cells, normal ATXN3 shows partial co-localization with microtubules.",
+        "PolyQ-expanded ATXN3, associated with spinocerebellar ataxia type 3, exhibits reduced co-localization with microtubules, potentially due to its propensity to aggregate."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+          "journal": "The International Journal of Biochemistry & Cell Biology",
+          "year": 2009,
+          "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin from soluble rat brain extracts. Coimmunoprecipitation experiments confirmed this interaction. Also, normal ataxin-3 overexpressed in COS7 cultured cells partially colocalized with microtubules... Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo.",
+          "pmid": "19666135"
+        }
+      ],
+      "pathway": {
+        "name": "Cytoskeletal Transport",
+        "canonical_name": "Cytoskeletal Transport",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19666135"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 directly binds with high affinity to both alpha- and beta-tubulin dimers, the fundamental components of microtubules. This interaction facilitates the co-localization of ATXN3 with the microtubule network, which serves as a cellular railway for transporting cargo, including misfolded protein aggregates, to the aggresome located near the microtubule-organizing center (MTOC).",
+  "effect": "Through its interaction with tubulin, ATXN3 is implicated as a key component in the cellular machinery responsible for recognizing, collecting, and transporting misfolded proteins along microtubules for their eventual sequestration into aggresomes.",
+  "summary": "ATXN3 interacts with TUBULIN to modulate microtubule-dependent protein transport, ultimately affecting formation of aggresomes is promoted.",
+  "evidence": [
+    {
+      "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+      "journal": "The International Journal of Biochemistry & Cell Biology",
+      "year": 2009,
+      "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin from soluble rat brain extracts. Coimmunoprecipitation experiments confirmed this interaction. Also, normal ataxin-3 overexpressed in COS7 cultured cells partially colocalized with microtubules... Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cytoskeletal Transport",
+      "canonical_name": "Cytoskeletal Transport",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> TUBULIN:",
+  "protein_a": "ATXN3",
+  "protein_b": "TUBULIN",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.508453Z",
+  "last_updated": "2025-12-07T22:39:21.508453Z"
+}

@@ -1,0 +1,119 @@
+{
+  "primary": "BCL2",
+  "interaction_type": "indirect",
+  "upstream_interactor": "PRKN",
+  "mediator_chain": [
+    "PRKN"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly regulates the autophagy inhibitor BCL2 by modulating the E3 ligase activity of Parkin (PRKN), which ubiquitinates BCL2.",
+  "functions": [
+    {
+      "function": "Autophagy via Parkin-BCL2 Axis",
+      "arrow": "activates",
+      "cellular_process": "The anti-apoptotic protein BCL2 inhibits autophagy by sequestering the essential autophagy protein BECN1. The E3 ligase Parkin (PRKN) can monoubiquitinate BCL2, which paradoxically increases BCL2's stability and enhances its inhibitory binding to BECN1. ATXN3 counteracts Parkin's E3 ligase activity by hampering its auto-ubiquitination.",
+      "effect_description": "By inhibiting Parkin's activity, ATXN3 prevents the Parkin-mediated stabilization of BCL2. This leads to lower availability of BCL2 to bind and inhibit BECN1. The net effect of ATXN3 action through this specific pathway is a promotion of autophagy by liberating BECN1 from its inhibitor BCL2.",
+      "biological_consequence": [
+        "ATXN3 inhibits Parkin (PRKN) auto-ubiquitination → Parkin E3 ligase activity is reduced → Parkin-mediated monoubiquitination and stabilization of BCL2 is decreased → Less BCL2 is available to bind and inhibit BECN1 → Autophagy is promoted."
+      ],
+      "specific_effects": [
+        "ATXN3 counteracts Parkin E3 ligase activity by hampering its auto-ubiquitination.",
+        "Parkin monoubiquitinates BCL2, which increases the steady-state levels and stability of BCL2.",
+        "Parkin-mediated stabilization of BCL2 enhances the inhibitory interaction between BCL2 and BECN1, suppressing autophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Parkin Mono-ubiquitinates Bcl-2 and Regulates Autophagy",
+          "journal": "Journal of Biological Chemistry",
+          "year": 2010,
+          "relevant_quote": "Parkin directly binds to Bcl-2 via its C terminus and mediates the mono-ubiquitination of Bcl-2, which increases the steady-state levels of Bcl-2... Moreover, overexpression of parkin enhances the interactions between Bcl-2 and Beclin 1.",
+          "pmid": "20889974"
+        },
+        {
+          "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+          "journal": "The Journal of biological chemistry",
+          "year": 2012,
+          "relevant_quote": "We reported previously that parkin, a Parkinson disease-associated E3 ubiquitin-ligase interacts with ataxin-3, a deubiquitinating enzyme associated with Machado-Joseph disease. Ataxin-3 was found to counteract parkin self-ubiquitination both in vitro and in cells.",
+          "pmid": "22081612"
+        }
+      ],
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20889974",
+        "22081612"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "PRKN",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "PRKN"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "A 'Mechanistic Opposite' error was corrected. The input claimed Parkin (PRKN) disrupts the BCL2-BECN1 complex to promote autophagy. Primary literature shows the opposite: Parkin monoubiquitinates and STABILIZES BCL2, which ENHANCES its binding to BECN1, thereby INHIBITING autophagy. ATXN3 inhibits Parkin, thus indirectly promoting autophagy by preventing BCL2 stabilization.",
+  "mechanism": "The anti-apoptotic protein BCL2 inhibits autophagy by sequestering the essential autophagy protein BECN1. The E3 ligase Parkin (PRKN) can monoubiquitinate BCL2, which paradoxically increases BCL2's stability and enhances its inhibitory binding to BECN1. ATXN3 counteracts Parkin's E3 ligase activity by hampering its auto-ubiquitination.",
+  "effect": "By inhibiting Parkin's activity, ATXN3 prevents the Parkin-mediated stabilization of BCL2. This leads to lower availability of BCL2 to bind and inhibit BECN1. The net effect of ATXN3 action through this specific pathway is a promotion of autophagy by liberating BECN1 from its inhibitor BCL2.",
+  "summary": "ATXN3 inhibits BCL2 to modulate regulation of autophagy via parkin-bcl2 axis, ultimately affecting autophagy is promoted.",
+  "evidence": [
+    {
+      "paper_title": "Parkin Mono-ubiquitinates Bcl-2 and Regulates Autophagy",
+      "journal": "Journal of Biological Chemistry",
+      "year": 2010,
+      "relevant_quote": "Parkin directly binds to Bcl-2 via its C terminus and mediates the mono-ubiquitination of Bcl-2, which increases the steady-state levels of Bcl-2... Moreover, overexpression of parkin enhances the interactions between Bcl-2 and Beclin 1."
+    },
+    {
+      "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
+      "journal": "The Journal of biological chemistry",
+      "year": 2012,
+      "relevant_quote": "We reported previously that parkin, a Parkinson disease-associated E3 ubiquitin-ligase interacts with ataxin-3, a deubiquitinating enzyme associated with Machado-Joseph disease. Ataxin-3 was found to counteract parkin self-ubiquitination both in vitro and in cells."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "PRKN --inhibits--> BCL2:",
+  "protein_a": "ATXN3",
+  "protein_b": "BCL2",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-07T22:39:21.513184Z",
+  "last_updated": "2025-12-07T22:39:21.513184Z"
+}
