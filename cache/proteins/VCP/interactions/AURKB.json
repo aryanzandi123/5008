@@ -1,0 +1,115 @@
+{
+  "primary": "AURKB",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "VCP directly interacts with and extracts Aurora B kinase (AURKB) from chromatin during mitosis, a process essential for proper chromosome segregation and cell cycle progression.",
+  "functions": [
+    {
+      "function": "Mitotic Exit",
+      "arrow": "activates",
+      "cellular_process": "Aurora B Kinase (AURKB) is a key component of the Chromosomal Passenger Complex (CPC) that regulates chromosome condensation and microtubule attachments. During late mitosis (anaphase/telophase), for the cell to exit mitosis, AURKB activity on chromatin must be terminated. This is achieved through a multi-step process where AURKB is first ubiquitinated by a Cul3-based E3 ligase. The AAA-ATPase VCP/p97 then recognizes and extracts the ubiquitinated AURKB from chromosomes, leading to its inactivation and allowing for downstream events like chromatin decondensation.",
+      "effect_description": "VCP functions as a key regulator of mitotic exit by terminating the activity of AURKB on chromosomes. This segregase activity is essential for resetting the chromatin state for the subsequent interphase.",
+      "biological_consequence": [
+        "Late Mitosis → A Cul3-KLHL9/13 E3 ligase complex ubiquitinates AURKB on chromosomes → VCP/p97 recognizes and binds ubiquitinated AURKB → VCP ATPase activity extracts AURKB from chromatin → Chromatin-associated AURKB activity is reduced → Chromatin decondensation and nuclear envelope formation are initiated → Successful mitotic exit."
+      ],
+      "specific_effects": [
+        "VCP/p97-mediated extraction specifically targets ubiquitinated AURKB.",
+        "The removal of AURKB from chromosomes by VCP/p97 is critical for timely chromatin decondensation at the end of mitosis.",
+        "Inhibition of VCP/p97 leads to the persistence of AURKB on chromosomes and defects in mitotic exit."
+      ],
+      "evidence": [
+        {
+          "paper_title": "A role for Cdc48/p97 and Aurora B in controlling chromatin condensation during exit from mitosis",
+          "journal": "Cell Cycle",
+          "year": 2010,
+          "relevant_quote": "We have recently provided evidence that the AAA ATPase Cdc48/p97 plays a central role in the inactivation of Aurora B, as it extracts ubiquitinated Aurora B from chromosomes and thus reduces chromatin-associated Aurora B activity.",
+          "pmid": "20130676"
+        },
+        {
+          "paper_title": "A Cul3-based E3 ligase removes Aurora B from mitotic chromosomes, regulating mitotic progression and completion of cytokinesis in human cells",
+          "journal": "Developmental Cell",
+          "year": 2007,
+          "relevant_quote": "This Cul3-based E3 ligase removes components of the chromosomal passenger complex from mitotic chromosomes and allows their accumulation on the central spindle during anaphase... Aurora B is ubiquitylated in a Cul3-dependent manner in vivo... We thus propose that the Cul3/KLHL9/KLHL13 E3 ligase controls the dynamic behavior of Aurora B on mitotic chromosomes...",
+          "pmid": "17543862"
+        }
+      ],
+      "pathway": {
+        "name": "Cell Cycle Regulation",
+        "canonical_name": "Cell Cycle Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20130676",
+        "17543862"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input contained a significant contextual error. VCP does not extract AURKB to 'activate' its kinase function. Instead, VCP extracts ubiquitinated AURKB from chromosomes during late mitosis to INACTIVATE it, which is a required step to permit chromatin decondensation, nuclear envelope reformation, and the completion of cytokinesis. Therefore, VCP's action on AURKB activates the process of mitotic exit by terminating AURKB's chromatin-associated signaling.",
+  "mechanism": "Aurora B Kinase (AURKB) is a key component of the Chromosomal Passenger Complex (CPC) that regulates chromosome condensation and microtubule attachments. During late mitosis (anaphase/telophase), for the cell to exit mitosis, AURKB activity on chromatin must be terminated. This is achieved through a multi-step process where AURKB is first ubiquitinated by a Cul3-based E3 ligase. The AAA-ATPase VCP/p97 then recognizes and extracts the ubiquitinated AURKB from chromosomes, leading to its inactivation and allowing for downstream events like chromatin decondensation.",
+  "effect": "VCP functions as a key regulator of mitotic exit by terminating the activity of AURKB on chromosomes. This segregase activity is essential for resetting the chromatin state for the subsequent interphase.",
+  "summary": "VCP inhibits AURKB to modulate regulation of mitotic exit, ultimately affecting successful mitotic exit.",
+  "evidence": [
+    {
+      "paper_title": "A role for Cdc48/p97 and Aurora B in controlling chromatin condensation during exit from mitosis",
+      "journal": "Cell Cycle",
+      "year": 2010,
+      "relevant_quote": "We have recently provided evidence that the AAA ATPase Cdc48/p97 plays a central role in the inactivation of Aurora B, as it extracts ubiquitinated Aurora B from chromosomes and thus reduces chromatin-associated Aurora B activity."
+    },
+    {
+      "paper_title": "A Cul3-based E3 ligase removes Aurora B from mitotic chromosomes, regulating mitotic progression and completion of cytokinesis in human cells",
+      "journal": "Developmental Cell",
+      "year": 2007,
+      "relevant_quote": "This Cul3-based E3 ligase removes components of the chromosomal passenger complex from mitotic chromosomes and allows their accumulation on the central spindle during anaphase... Aurora B is ubiquitylated in a Cul3-dependent manner in vivo... We thus propose that the Cul3/KLHL9/KLHL13 E3 ligase controls the dynamic behavior of Aurora B on mitotic chromosomes..."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cell Cycle Regulation",
+      "canonical_name": "Cell Cycle Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --inhibits--> AURKB:",
+  "protein_a": "VCP",
+  "protein_b": "AURKB",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.423820Z",
+  "last_updated": "2025-12-06T04:46:06.423820Z"
+}

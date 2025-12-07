@@ -1,0 +1,109 @@
+{
+  "primary": "NSFL1C",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "NSFL1C (p47) is a key cofactor of VCP that is essential for VCP-mediated regrowth of Golgi cisternae after mitosis and is involved in membrane fusion events.",
+  "functions": [
+    {
+      "function": "Post-Mitotic Golgi Reassembly",
+      "arrow": "activates",
+      "cellular_process": "NSFL1C (p47) is an essential adaptor protein that recruits VCP to Golgi membranes to mediate their fusion during reassembly after mitosis. The VCP-p47 complex binds to the t-SNARE protein syntaxin-5. This interaction is regulated by the deubiquitinase VCPIP1, which also forms a ternary complex with VCP and p47, to control the ubiquitination status of syntaxin-5 and facilitate membrane fusion.",
+      "effect_description": "NSFL1C/p47 functions as a critical cofactor that directs VCP's ATPase activity towards the process of membrane fusion required for rebuilding the Golgi apparatus at the end of cell division.",
+      "biological_consequence": [
+        "Mitotic Golgi fragmentation → VCP-p47-VCPIP1 ternary complex forms → p47 recruits the complex to ubiquitinated syntaxin-5 on Golgi fragments → VCPIP1 deubiquitinates syntaxin-5, facilitated by VCP → ATP hydrolysis by VCP drives SNARE-dependent membrane fusion → Golgi cisternae are reassembled"
+      ],
+      "specific_effects": [
+        "p47 acts as an adaptor, mediating the binding of VCP to the Golgi t-SNARE syntaxin-5.",
+        "The VCP-p47 complex cooperates with the deubiquitinase VCPIP1 (p135) to dissociate the p97/p47/syntaxin5 complex, which is a key step in membrane fusion.",
+        "A ternary complex of VCP, VCPIP1, and p47 is crucial for Golgi reassembly, with p47's UBX domain binding to the VCP N-domain."
+      ],
+      "evidence": [
+        {
+          "paper_title": "p97 and p47 function in membrane tethering in cooperation with FTCD during mitotic Golgi reassembly",
+          "journal": "The EMBO Journal",
+          "year": 2021,
+          "relevant_quote": "p97ATPase-mediated membrane fusion is required for the biogenesis of the Golgi complex. p97 and its cofactor p47 function in soluble N-ethylmaleimide-sensitive factor (NSF) attachment protein receptor (SNARE) priming, but the tethering complex for p97/p47-mediated membrane fusion remains unknown. In this study, we identified formiminotransferase cyclodeaminase (FTCD) as a novel p47-binding protein.",
+          "pmid": "33555040"
+        },
+        {
+          "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+          "journal": "The Journal of Cell Biology",
+          "year": 2002,
+          "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis.",
+          "pmid": "12473691"
+        }
+      ],
+      "pathway": {
+        "name": "Cell Cycle Regulation",
+        "canonical_name": "Cell Cycle Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33555040",
+        "12473691"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "NSFL1C (p47) is an essential adaptor protein that recruits VCP to Golgi membranes to mediate their fusion during reassembly after mitosis. The VCP-p47 complex binds to the t-SNARE protein syntaxin-5. This interaction is regulated by the deubiquitinase VCPIP1, which also forms a ternary complex with VCP and p47, to control the ubiquitination status of syntaxin-5 and facilitate membrane fusion.",
+  "effect": "NSFL1C/p47 functions as a critical cofactor that directs VCP's ATPase activity towards the process of membrane fusion required for rebuilding the Golgi apparatus at the end of cell division.",
+  "summary": "VCP activates NSFL1C to modulate post-mitotic golgi reassembly, ultimately affecting golgi cisternae are reassembled.",
+  "evidence": [
+    {
+      "paper_title": "p97 and p47 function in membrane tethering in cooperation with FTCD during mitotic Golgi reassembly",
+      "journal": "The EMBO Journal",
+      "year": 2021,
+      "relevant_quote": "p97ATPase-mediated membrane fusion is required for the biogenesis of the Golgi complex. p97 and its cofactor p47 function in soluble N-ethylmaleimide-sensitive factor (NSF) attachment protein receptor (SNARE) priming, but the tethering complex for p97/p47-mediated membrane fusion remains unknown. In this study, we identified formiminotransferase cyclodeaminase (FTCD) as a novel p47-binding protein."
+    },
+    {
+      "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+      "journal": "The Journal of Cell Biology",
+      "year": 2002,
+      "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis."
+    },
+    {
+      "paper_title": "Ternary complex formation of VCP, VCPIP1 and p47 facilitates Golgi reassembly",
+      "journal": "bioRxiv",
+      "year": 2024,
+      "relevant_quote": "VCP/p97 regulates a wide range of cellular processes, including post-mitotic Golgi reassembly. In this context, VCP is assisted by p47, an adapter protein, and VCPIP1, a deubiquitinase (DUB). However, how they organize into a functionally competent complex and promote reassembly remains unknown."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Cell Cycle Regulation",
+      "canonical_name": "Cell Cycle Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> NSFL1C:",
+  "protein_a": "VCP",
+  "protein_b": "NSFL1C",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.412729Z",
+  "last_updated": "2025-12-06T04:46:06.412729Z"
+}

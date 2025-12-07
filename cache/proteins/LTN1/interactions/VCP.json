@@ -1,0 +1,122 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "LTN1 (Listerin) is a key E3 ubiquitin ligase in the Ribosome-associated Quality Control (RQC) pathway. It ubiquitinates aberrant nascent polypeptide chains on stalled ribosomes, which are then extracted by VCP for degradation.",
+  "functions": [
+    {
+      "function": "Ribosome-Associated Quality Control (RQC)",
+      "arrow": "activates",
+      "cellular_process": "During translation, if a ribosome stalls on an aberrant mRNA, the Ribosome-associated Quality Control (RQC) pathway is activated to degrade the toxic nascent polypeptide. The process begins with the splitting of the stalled ribosome into its 40S and 60S subunits. The RQC complex, including the E3 ubiquitin ligase LTN1 (Listerin), is recruited to the 60S subunit containing the peptidyl-tRNA. LTN1 then polyubiquitinates the nascent polypeptide chain, creating a signal for the recruitment of the VCP/p97 ATPase complex.",
+      "effect_description": "VCP, along with its cofactors, is recruited to the ubiquitinated nascent chain on the 60S ribosomal subunit. Utilizing its ATPase activity, VCP extracts the ubiquitinated polypeptide from the ribosome, thereby disassembling the aberrant complex. The extracted polypeptide is then targeted to the proteasome for degradation, which prevents the accumulation of potentially harmful truncated proteins and allows the ribosome to be recycled.",
+      "biological_consequence": [
+        "Ribosome stalling on aberrant mRNA → Ribosome splitting into 40S and 60S subunits → RQC complex (including LTN1) binds to the 60S-peptidyl-tRNA complex → LTN1 polyubiquitinates the nascent polypeptide chain → The ubiquitin signal recruits the VCP/p97 ATPase and its cofactors → VCP utilizes ATP hydrolysis to extract the ubiquitinated nascent chain from the 60S subunit → The extracted polypeptide is delivered to the proteasome for degradation → Proteostasis is maintained and the 60S subunit is recycled."
+      ],
+      "specific_effects": [
+        "LTN1-mediated ubiquitination of the stalled polypeptide is a prerequisite for the recruitment of the VCP/p97 ATPase complex.",
+        "VCP acts as a segregase, using the energy from ATP hydrolysis to pull the ubiquitinated nascent chain out of the ribosomal exit tunnel.",
+        "The extraction of the nascent chain by VCP is essential for its subsequent degradation by the proteasome.",
+        "Mutations in LTN1 (Listerin) that impair this process lead to neurodegeneration in mice, underscoring the critical importance of the RQC pathway for neuronal health."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Mechanisms and functions of ribosome-associated protein quality control",
+          "journal": "Nature Reviews Molecular Cell Biology",
+          "year": 2020,
+          "relevant_quote": "This ubiquitin signal recruits Cdc48 (VCP or p97 in mammals), which is an ATPase of the AAA family, and its cofactors. Cdc48 recruitment also requires the Rqc1 subunit of the RQC complex, the exact function of which remains to be elucidated. Cdc48 extracts and delivers the nascent chains to the proteasome for degradation.",
+          "pmid": "30940912"
+        },
+        {
+          "paper_title": "Structural basis for translational surveillance by the large ribosomal subunit-associated protein quality control complex",
+          "journal": "Proceedings of the National Academy of Sciences",
+          "year": 2014,
+          "relevant_quote": "Ltn1-mediated ubiquitylation of the stalled polypeptide then results in the recruitment of the AAA ATPase Cdc48/p97/VCP. This recruitment also requires Rqc1 and Tae2, and is followed by Cdc48-mediated nascent chain extraction and delivery to the proteasome for degradation.",
+          "pmid": "25349383"
+        }
+      ],
+      "pathway": {
+        "name": "Ribosome-Associated Quality Control",
+        "canonical_name": "Ribosome-Associated Quality Control",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30940912",
+        "25349383"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "During translation, if a ribosome stalls on an aberrant mRNA, the Ribosome-associated Quality Control (RQC) pathway is activated to degrade the toxic nascent polypeptide. The process begins with the splitting of the stalled ribosome into its 40S and 60S subunits. The RQC complex, including the E3 ubiquitin ligase LTN1 (Listerin), is recruited to the 60S subunit containing the peptidyl-tRNA. LTN1 then polyubiquitinates the nascent polypeptide chain, creating a signal for the recruitment of the VCP/p97 ATPase complex.",
+  "effect": "VCP, along with its cofactors, is recruited to the ubiquitinated nascent chain on the 60S ribosomal subunit. Utilizing its ATPase activity, VCP extracts the ubiquitinated polypeptide from the ribosome, thereby disassembling the aberrant complex. The extracted polypeptide is then targeted to the proteasome for degradation, which prevents the accumulation of potentially harmful truncated proteins and allows the ribosome to be recycled.",
+  "summary": "VCP activates LTN1 to modulate ribosome-associated quality control (rqc), ultimately affecting proteostasis is maintained and the 60s subunit is recycled.",
+  "evidence": [
+    {
+      "paper_title": "Mechanisms and functions of ribosome-associated protein quality control",
+      "journal": "Nature Reviews Molecular Cell Biology",
+      "year": 2020,
+      "relevant_quote": "This ubiquitin signal recruits Cdc48 (VCP or p97 in mammals), which is an ATPase of the AAA family, and its cofactors. Cdc48 recruitment also requires the Rqc1 subunit of the RQC complex, the exact function of which remains to be elucidated. Cdc48 extracts and delivers the nascent chains to the proteasome for degradation."
+    },
+    {
+      "paper_title": "Ribosome-associated quality control: A mechanism to deal with ribosome stalling",
+      "journal": "The FEBS Journal",
+      "year": 2016,
+      "relevant_quote": "Recruitment of the Cdc48 complex to the ribosome requires both Rqc1 and nascent-chain ubiquitination. These observations, together with nascent-chain interaction analysis, have suggested a model wherein Ltn1 and Rqc2 facilitate nascent-chain ubiquitination. Subsequently, the Cdc48 complex, recruited in part via Rqc1, mediates extraction of ubiquitinated nascent chains from the ribosome for degradation."
+    },
+    {
+      "paper_title": "Structural basis for translational surveillance by the large ribosomal subunit-associated protein quality control complex",
+      "journal": "Proceedings of the National Academy of Sciences",
+      "year": 2014,
+      "relevant_quote": "Ltn1-mediated ubiquitylation of the stalled polypeptide then results in the recruitment of the AAA ATPase Cdc48/p97/VCP. This recruitment also requires Rqc1 and Tae2, and is followed by Cdc48-mediated nascent chain extraction and delivery to the proteasome for degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ribosome-Associated Quality Control",
+      "canonical_name": "Ribosome-Associated Quality Control",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> LTN1:",
+  "protein_a": "LTN1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.458492Z",
+  "last_updated": "2025-12-06T04:46:06.458492Z"
+}

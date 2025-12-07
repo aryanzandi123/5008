@@ -1,0 +1,189 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Ataxin-3 is a deubiquitinase implicated in neurodegenerative disease that physically interacts with VCP, linking VCP to the regulation of protein ubiquitination.",
+  "functions": [
+    {
+      "function": "Ataxin-3 Deubiquitinase (DUB) Activity",
+      "arrow": "activates",
+      "cellular_process": "VCP directly binds to and activates the deubiquitinase (DUB) activity of wild-type Ataxin-3. This modulation of ATXN3's DUB activity is crucial for its role in processing ubiquitinated proteins.",
+      "effect_description": "VCP acts as a positive regulator of ATXN3's enzymatic function, enhancing its ability to cleave ubiquitin chains.",
+      "biological_consequence": [
+        "VCP binds to wild-type ATXN3 → ATXN3 DUB activity is stimulated → Processing of ubiquitinated substrates → Regulation of protein stability"
+      ],
+      "specific_effects": [
+        "VCP specifically activates wild-type ATXN3 but not the polyQ-expanded, disease-causing mutant form.",
+        "This interaction links VCP to the broader ubiquitin-proteasome system through the regulation of a key DUB."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Valosin-containing protein (VCP/p97) is an activator of wild-type ataxin-3",
+          "year": 2012,
+          "pmid": "22970133"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "22970133"
+      ],
+      "function_effect": "activation"
+    },
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "inhibits",
+      "cellular_process": "Ataxin-3 competes with the essential VCP cofactor UFD1 for binding to VCP. When ATXN3 binds to VCP, it displaces the VCP-UFD1 interaction, which reduces the recruitment of ubiquitinated ERAD substrates to the VCP complex and impairs their retrotranslocation from the ER.",
+      "effect_description": "By interfering with the formation of the canonical VCP-UFD1-NPL4 ERAD complex, Ataxin-3 acts as a negative regulator of ERAD.",
+      "biological_consequence": [
+        "ATXN3 binds to VCP → UFD1 is displaced from the VCP complex → VCP interaction with ubiquitinated ERAD substrates is reduced → Retrotranslocation is impaired → Accumulation of misfolded proteins in the ER"
+      ],
+      "specific_effects": [
+        "Pathological polyglutamine (polyQ) expansion in Ataxin-3 enhances its binding to VCP, leading to a greater impairment of ERAD.",
+        "This inhibitory function is independent of ATXN3's DUB activity."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+          "year": 2009,
+          "pmid": "16822850"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "inhibits",
+      "direction": "main_to_primary",
+      "interaction_direction": "primary_to_main",
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "16822850"
+      ],
+      "function_effect": "inhibition"
+    },
+    {
+      "function": "RNF8 Homeostasis",
+      "arrow": "regulates",
+      "cellular_process": "The VCP-ATXN3 complex regulates the proteasome-dependent homeostasis of the E3 ubiquitin ligase RNF8. Under normal conditions, this prevents the hyper-accumulation of RNF8. Following DNA damage, the VCP-ATXN3 complex actively extracts RNF8 from chromatin, a step required to balance DNA repair pathway choice.",
+      "effect_description": "VCP and ATXN3 work together to control the levels and localization of RNF8, ensuring a properly terminated DNA damage response.",
+      "biological_consequence": [
+        "VCP-ATXN3 complex binds RNF8 → ATXN3 deubiquitinates RNF8 → RNF8 is extracted from chromatin or targeted for degradation → Proper balance of DNA repair pathways (NHEJ vs. HR)"
+      ],
+      "specific_effects": [
+        "This regulatory activity promotes cell survival after ionizing radiation.",
+        "This function links VCP and ATXN3 directly to the regulation of a key E3 ligase in the DNA damage response."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "year": 2019,
+          "pmid": "31613024"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31613024"
+      ],
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates",
+      "inhibits"
+    ]
+  },
+  "mechanism": "VCP directly binds to and activates the deubiquitinase (DUB) activity of wild-type Ataxin-3; Ataxin-3 competes with the essential VCP cofactor UFD1 for binding to VCP; The VCP-ATXN3 complex regulates the proteasome-dependent homeostasis of the E3 ubiquitin ligase RNF8",
+  "effect": "VCP acts as a positive regulator of ATXN3's enzymatic function, enhancing its ability to cleave ubiquitin chains.; By interfering with the formation of the canonical VCP-UFD1-NPL4 ERAD complex, Ataxin-3 acts as a negative regulator of ERAD.; ...",
+  "summary": "VCP regulates ATXN3 to control multiple cellular processes including ataxin-3 deubiquitinase (dub) activity, er-associated degradation (erad), and rnf8 homeostasis, ultimately affecting regulation of protein stability.",
+  "evidence": [
+    {
+      "paper_title": "Valosin-containing protein (VCP/p97) is an activator of wild-type ataxin-3",
+      "year": 2012
+    },
+    {
+      "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+      "year": 2009
+    },
+    {
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "year": 2019
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates--> ATXN3:",
+  "protein_a": "VCP",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.397740Z",
+  "last_updated": "2025-12-06T04:46:06.397740Z"
+}

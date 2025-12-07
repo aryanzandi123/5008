@@ -1,0 +1,102 @@
+{
+  "primary": "NPLOC4",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "NPLOC4 (Nuclear protein localization protein 4 homolog) is a core cofactor of VCP, forming a stable complex with VCP and UFD1L that is crucial for recognizing and processing ubiquitinated substrates.",
+  "functions": [
+    {
+      "function": "Ubiquitinated Substrate Processing in ERAD",
+      "arrow": "activates",
+      "cellular_process": "NPLOC4 is an indispensable core component of the VCP-UFD1L-NPLOC4 complex. It functions synergistically with UFD1L to recognize and bind polyubiquitinated substrates destined for ER-associated degradation. NPLOC4 contributes to the high-affinity interaction with these substrates, ensuring their efficient delivery to the VCP ATPase for processing.",
+      "effect_description": "NPLOC4 acts as a substrate receptor for the VCP unfoldase, enabling the complex to process a diverse array of ubiquitinated proteins. Its collaboration with UFD1L is critical for the recruitment and subsequent unfolding of substrates by VCP.",
+      "biological_consequence": [
+        "Assembly of the VCP-UFD1L-NPLOC4 complex → NPLOC4 and UFD1L cooperatively bind to polyubiquitin chains on ERAD substrates → The substrate is positioned at the central pore of the VCP hexamer → VCP's ATP-driven mechanical force unfolds and extracts the substrate from the ER membrane → The unfolded substrate is released into the cytosol for proteasomal degradation."
+      ],
+      "specific_effects": [
+        "NPLOC4 and UFD1L cooperatively bind polyubiquitin chains, which is a prerequisite for substrate processing by VCP.",
+        "Mutations in VCP that cause multisystem proteinopathy can lead to tighter binding of the NPLOC4-UFD1L heterodimer and consequently, faster substrate processing."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ubiquitin- and ATP-dependent unfoldase activity of P97/VCP•NPLOC4•UFD1L is enhanced by a mutation that causes multisystem proteinopathy",
+          "journal": "Proceedings of the National Academy of Sciences",
+          "year": 2017,
+          "relevant_quote": "The best-characterized p97 adaptor is the heterodimer of NPLOC4/Npl4 and UFD1L/Ufd1 (UN), which recruits substrates in ERAD and other proteasome-dependent degradative processes.",
+          "pmid": "28512218"
+        },
+        {
+          "paper_title": "Multisystem Proteinopathy Mutations in VCP/p97 Increase NPLOC4·UFD1L Binding and Substrate Processing",
+          "journal": "Structure",
+          "year": 2019,
+          "relevant_quote": "Here, we use biochemistry and cryoelectron microscopy to explore the effects of MSP mutations on the unfoldase activity of p97 in complex with its substrate adaptor NPLOC4⋅UFD1L (UN). We show that all seven analyzed MSP mutants unfold substrates faster. Mutant homo- and heterohexamers exhibit tighter UN binding and faster substrate processing.",
+          "pmid": "31623962"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "28512218",
+        "31623962"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "NPLOC4 is an indispensable core component of the VCP-UFD1L-NPLOC4 complex. It functions synergistically with UFD1L to recognize and bind polyubiquitinated substrates destined for ER-associated degradation. NPLOC4 contributes to the high-affinity interaction with these substrates, ensuring their efficient delivery to the VCP ATPase for processing.",
+  "effect": "NPLOC4 acts as a substrate receptor for the VCP unfoldase, enabling the complex to process a diverse array of ubiquitinated proteins. Its collaboration with UFD1L is critical for the recruitment and subsequent unfolding of substrates by VCP.",
+  "summary": "VCP activates NPLOC4 to modulate ubiquitinated substrate processing in erad, ultimately affecting the unfolded substrate is released into the cytosol for proteasomal degradation.",
+  "evidence": [
+    {
+      "paper_title": "Ubiquitin- and ATP-dependent unfoldase activity of P97/VCP•NPLOC4•UFD1L is enhanced by a mutation that causes multisystem proteinopathy",
+      "journal": "Proceedings of the National Academy of Sciences",
+      "year": 2017,
+      "relevant_quote": "The best-characterized p97 adaptor is the heterodimer of NPLOC4/Npl4 and UFD1L/Ufd1 (UN), which recruits substrates in ERAD and other proteasome-dependent degradative processes."
+    },
+    {
+      "paper_title": "Multisystem Proteinopathy Mutations in VCP/p97 Increase NPLOC4·UFD1L Binding and Substrate Processing",
+      "journal": "Structure",
+      "year": 2019,
+      "relevant_quote": "Here, we use biochemistry and cryoelectron microscopy to explore the effects of MSP mutations on the unfoldase activity of p97 in complex with its substrate adaptor NPLOC4⋅UFD1L (UN). We show that all seven analyzed MSP mutants unfold substrates faster. Mutant homo- and heterohexamers exhibit tighter UN binding and faster substrate processing."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex-- NPLOC4:",
+  "protein_a": "VCP",
+  "protein_b": "NPLOC4",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.373831Z",
+  "last_updated": "2025-12-06T04:46:06.373831Z"
+}

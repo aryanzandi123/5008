@@ -1,0 +1,159 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "VCPIP1 is a deubiquitinase (DUB) that directly binds to VCP. The VCP-VCPIP1 complex is required for post-mitotic Golgi reassembly and also plays a role in DNA damage repair.",
+  "functions": [
+    {
+      "function": "Post-Mitotic Golgi Reassembly",
+      "arrow": "activates",
+      "cellular_process": "VCPIP1 (also known as VCIP135) is a deubiquitinase (DUB) essential for the reassembly of the Golgi apparatus after mitosis. It forms a ternary complex with VCP and its adaptor p47 on Golgi membranes. VCP's activity enhances the DUB function of VCPIP1, which then removes a ubiquitin mark from the t-SNARE protein syntaxin-5. The deubiquitination of syntaxin-5 is a prerequisite for SNARE complex formation and subsequent homotypic fusion of mitotic Golgi fragments into new cisternae.",
+      "effect_description": "VCPIP1 acts as a key regulator in Golgi biogenesis by deubiquitinating a core fusion component, thereby licensing Golgi membranes to fuse. VCP provides the ATPase activity that facilitates this process within the VCP-p47-VCPIP1 complex.",
+      "biological_consequence": [
+        "VCP, p47, and VCPIP1 form a complex on mitotic Golgi fragments → VCP stimulates VCPIP1's deubiquitinase activity → VCPIP1 deubiquitinates syntaxin-5 → Deubiquitinated syntaxin-5 is primed for SNARE complex assembly → Homotypic fusion of Golgi membranes occurs → The Golgi apparatus is reassembled."
+      ],
+      "specific_effects": [
+        "VCPIP1 binds to VCP via a C-terminal UBX domain and a second VCP-interacting domain (VCPID).",
+        "VCP binding positions VCPIP1's catalytic OTU domain at the exit of VCP's central pore.",
+        "VCP binding directly stimulates the DUB activity of VCPIP1.",
+        "The VCP-VCPIP1 complex dissociates the inhibitory p97/p47/syntaxin5 complex via ATP hydrolysis, freeing syntaxin-5 for fusion."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+          "journal": "The Journal of Cell Biology",
+          "year": 2002,
+          "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis.",
+          "pmid": "12473691"
+        }
+      ],
+      "pathway": {
+        "name": "Cell Cycle Regulation",
+        "canonical_name": "Cell Cycle Regulation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "12473691"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    },
+    {
+      "function": "DNA Damage Response",
+      "arrow": "activates",
+      "cellular_process": "VCPIP1 is recruited to sites of DNA damage and participates in the DNA damage response (DDR). Following phosphorylation by the master kinases ATM or ATR, VCPIP1 is activated. In complex with VCP, it is thought to deubiquitinate specific substrates at the damage site, such as SPRTN, a DNA-protein crosslink repair protease. The deubiquitination of SPRTN by VCPIP1 promotes its recruitment to chromatin, facilitating the removal of toxic DNA-protein crosslinks and maintaining genome stability.",
+      "effect_description": "The VCP-VCPIP1 complex functions as a regulatory module in the DDR, where VCPIP1's DUB activity remodels the ubiquitin landscape on chromatin to facilitate the recruitment and function of DNA repair factors.",
+      "biological_consequence": [
+        "DNA damage (e.g., DNA-protein crosslink) occurs → ATM/ATR kinases are activated → VCPIP1 is recruited to the damage site → VCP-VCPIP1 complex deubiquitinates substrates like SPRTN → Repair factors (SPRTN) are recruited to chromatin → DNA lesions are repaired → Genome integrity is preserved."
+      ],
+      "specific_effects": [
+        "VCPIP1 is required for the repair of DNA-protein crosslinks (DPCs).",
+        "VCPIP1 deubiquitinates the DPC protease SPRTN, promoting its recruitment to chromatin.",
+        "The catalytic domain of VCPIP1 is positioned at the exit of the VCP central pore, suggesting it acts on substrates processed by VCP."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Distinct modes of coupling between VCP, an essential unfoldase, and deubiquitinases",
+          "journal": "bioRxiv",
+          "year": 2024,
+          "relevant_quote": "From this set of DUBs, we focus on VCPIP1, required for organelle assembly and DNA repair (11–13), that our chemical proteomics workflow indicates binds the central pore's entry and exit sites.",
+          "pmid": "39314330"
+        },
+        {
+          "paper_title": "Deubiquitinating protein VCPIP1 (Q96JH7)",
+          "journal": "UniProt",
+          "year": 2024,
+          "relevant_quote": "Also involved in DNA repair following phosphorylation by ATM or ATR: acts by catalyzing deubiquitination of SPRTN, thereby promoting SPRTN recruitment to chromatin and subsequent proteolytic cleavage of covalent DNA-protein cross-links (DPCs).",
+          "pmid": "35695579"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39314330",
+        "35695579"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCPIP1 (also known as VCIP135) is a deubiquitinase (DUB) essential for the reassembly of the Golgi a; VCPIP1 is recruited to sites of DNA damage and participates in the DNA damage response (DDR)",
+  "effect": "VCPIP1 acts as a key regulator in Golgi biogenesis by deubiquitinating a core fusion component, thereby licensing Golgi membranes to fuse. VCP provides the ATPase activity that facilitates this process within the VCP-p47-VCPIP1 complex.; The VCP-VCPIP1 complex functions as a regulatory module in the DDR, where VCPIP1's DUB activity remodels the ubiquitin landscape on chromatin to facilitate the recruitment and function of DNA repair factors.",
+  "summary": "VCP activates VCPIP1 to regulate post-mitotic golgi reassembly and dna damage response, ultimately affecting the golgi apparatus is reassembled.",
+  "evidence": [
+    {
+      "paper_title": "Ternary complex formation of VCP, VCPIP1 and p47 facilitates Golgi reassembly",
+      "journal": "bioRxiv",
+      "year": 2024,
+      "relevant_quote": "We show that VCPID is critical for VCP-mediated enhancement of DUB activity and Golgi reassembly."
+    },
+    {
+      "paper_title": "VCIP135, a novel essential factor for p97/p47-mediated membrane fusion, is required for Golgi and ER assembly in vivo",
+      "journal": "The Journal of Cell Biology",
+      "year": 2002,
+      "relevant_quote": "Now we have identified a novel essential factor for p97/p47-mediated membrane fusion, named VCIP135 (valosin-containing protein [VCP][p97]/p47 complex-interacting protein, p135), and show that it binds to the p97/p47/syntaxin5 complex and dissociates it via p97 catalyzed ATP hydrolysis."
+    },
+    {
+      "paper_title": "Distinct modes of coupling between VCP, an essential unfoldase, and deubiquitinases",
+      "journal": "bioRxiv",
+      "year": 2024,
+      "relevant_quote": "From this set of DUBs, we focus on VCPIP1, required for organelle assembly and DNA repair (11–13), that our chemical proteomics workflow indicates binds the central pore's entry and exit sites."
+    },
+    {
+      "paper_title": "Deubiquitinating protein VCPIP1 (Q96JH7)",
+      "journal": "UniProt",
+      "year": 2024,
+      "relevant_quote": "Also involved in DNA repair following phosphorylation by ATM or ATR: acts by catalyzing deubiquitination of SPRTN, thereby promoting SPRTN recruitment to chromatin and subsequent proteolytic cleavage of covalent DNA-protein cross-links (DPCs)."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Cell Cycle Regulation",
+      "canonical_name": "Cell Cycle Regulation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --activates--> VCPIP1:",
+  "protein_a": "VCPIP1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.419242Z",
+  "last_updated": "2025-12-06T04:46:06.419242Z"
+}

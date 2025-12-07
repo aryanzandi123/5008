@@ -1,0 +1,102 @@
+{
+  "primary": "YOD1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "YOD1 is a deubiquitinase (DUB) that directly interacts with VCP to regulate the processing of ubiquitinated substrates during protein degradation.",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "activates",
+      "cellular_process": "YOD1 is a deubiquitinase (DUB) of the otubain family that directly associates with the VCP/p97 complex. It facilitates the degradation of ERAD substrates by processing their ubiquitin chains, which is a prerequisite for their extraction (retrotranslocation) from the ER and subsequent degradation by the proteasome.",
+      "effect_description": "YOD1's deubiquitinase activity is critical for the VCP-mediated ERAD pathway. By trimming ubiquitin chains, it prevents steric hindrance and allows substrates to be threaded through the central pore of the VCP hexamer, thereby activating their disposal.",
+      "biological_consequence": [
+        "VCP complex engages a ubiquitinated ERAD substrate → YOD1 is recruited and deubiquitinates the substrate → The processed substrate is threaded through the VCP pore for extraction from the ER → Substrate is delivered to the proteasome for degradation."
+      ],
+      "specific_effects": [
+        "Expression of a catalytically inactive YOD1 mutant halts the dislocation of ERAD substrates, leading to their accumulation.",
+        "The requirement for YOD1 and VCP can occur at different stages depending on the substrate; for some (e.g., CD4, MHC-Iα), they are required to initiate retro-translocation, while for others (e.g., NHK-α1AT), they are needed for downstream events like deglycosylation and degradation."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The otubain YOD1 is a deubiquitinating enzyme that associates with p97 to facilitate protein dislocation from the ER",
+          "journal": "Molecular Cell",
+          "year": 2009,
+          "relevant_quote": "YOD1 is a constituent of a multiprotein complex with p97 as its nucleus, suggesting a functional link to a pathway responsible for the dislocation of misfolded proteins from the endoplasmic reticulum. Expression of a YOD1 variant deprived of its deubiquitinating activity imposes a halt on the dislocation reaction, as judged by the stabilization of various dislocation substrates.",
+          "pmid": "19818707"
+        },
+        {
+          "paper_title": "The VCP/p97 and YOD1 Proteins Have Different Substrate-dependent Activities in Endoplasmic Reticulum-associated Degradation (ERAD)",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2015,
+          "relevant_quote": "Using different ERAD substrates, we found that both proteins participate in two distinct retro-translocation steps. For CD4 and MHC-Iα... p97 and YOD1 have a retro-translocation-triggering role. In contrast, for three other spontaneous ERAD model substrates... p97 and YOD1 are required in the downstream events of substrate deglycosylation and proteasomal degradation.",
+          "pmid": "26463207"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19818707",
+        "26463207"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "YOD1 is a deubiquitinase (DUB) of the otubain family that directly associates with the VCP/p97 complex. It facilitates the degradation of ERAD substrates by processing their ubiquitin chains, which is a prerequisite for their extraction (retrotranslocation) from the ER and subsequent degradation by the proteasome.",
+  "effect": "YOD1's deubiquitinase activity is critical for the VCP-mediated ERAD pathway. By trimming ubiquitin chains, it prevents steric hindrance and allows substrates to be threaded through the central pore of the VCP hexamer, thereby activating their disposal.",
+  "summary": "VCP activates YOD1 to modulate er-associated degradation (erad), ultimately affecting substrate is delivered to the proteasome for degradation.",
+  "evidence": [
+    {
+      "paper_title": "The otubain YOD1 is a deubiquitinating enzyme that associates with p97 to facilitate protein dislocation from the ER",
+      "journal": "Molecular Cell",
+      "year": 2009,
+      "relevant_quote": "YOD1 is a constituent of a multiprotein complex with p97 as its nucleus, suggesting a functional link to a pathway responsible for the dislocation of misfolded proteins from the endoplasmic reticulum. Expression of a YOD1 variant deprived of its deubiquitinating activity imposes a halt on the dislocation reaction, as judged by the stabilization of various dislocation substrates."
+    },
+    {
+      "paper_title": "The VCP/p97 and YOD1 Proteins Have Different Substrate-dependent Activities in Endoplasmic Reticulum-associated Degradation (ERAD)",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2015,
+      "relevant_quote": "Using different ERAD substrates, we found that both proteins participate in two distinct retro-translocation steps. For CD4 and MHC-Iα... p97 and YOD1 have a retro-translocation-triggering role. In contrast, for three other spontaneous ERAD model substrates... p97 and YOD1 are required in the downstream events of substrate deglycosylation and proteasomal degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--complex--> YOD1:",
+  "protein_a": "VCP",
+  "protein_b": "YOD1",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.393816Z",
+  "last_updated": "2025-12-06T04:46:06.393816Z"
+}

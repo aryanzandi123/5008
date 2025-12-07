@@ -1,0 +1,117 @@
+{
+  "primary": "TBK1",
+  "interaction_type": "indirect",
+  "upstream_interactor": "OPTN",
+  "mediator_chain": [
+    "OPTN"
+  ],
+  "depth": 2,
+  "support_summary": "VCP regulates the activation of TBK1 (TANK-binding kinase 1) indirectly; VCP interacts with the autophagy receptor OPTN, which in turn recruits and activates TBK1 during processes like mitophagy.",
+  "functions": [
+    {
+      "function": "Mitophagy",
+      "arrow": "activates",
+      "cellular_process": "During mitophagy, the autophagy receptor OPTN is recruited to ubiquitinated mitochondria. OPTN then acts as a scaffold to recruit and activate the kinase TBK1. VCP interacts with OPTN, facilitating this process. Activated TBK1 phosphorylates OPTN, enhancing its ubiquitin-binding affinity and creating a positive feedback loop that promotes efficient clearance of damaged mitochondria.",
+      "effect_description": "VCP indirectly promotes TBK1 activation at the mitochondrial surface by interacting with the OPTN scaffold, which is essential for amplifying the mitophagy signal.",
+      "biological_consequence": [
+        "VCP interacts with OPTN on damaged mitochondria",
+        "OPTN recruits TBK1",
+        "TBK1 autophosphorylates and becomes active",
+        "TBK1 phosphorylates OPTN, enhancing ubiquitin binding",
+        "Amplified mitophagy signaling and efficient mitochondrial clearance"
+      ],
+      "specific_effects": [
+        "OPTN is the primary recruiter of TBK1 during the initiation of mitophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Optineurin provides a mitophagy contact site for TBK1 activation",
+          "year": 2020,
+          "pmid": "38287189"
+        },
+        {
+          "paper_title": "Control of mitophagy initiation and progression by the TBK1 adaptors NAP1 and SINTBAD",
+          "year": 2021,
+          "pmid": "38918639"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Mitophagy",
+        "canonical_name": "Mitophagy",
+        "ontology_id": "GO:0000423",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38287189",
+        "38918639"
+      ],
+      "direct_arrow": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "OPTN",
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "OPTN"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "During mitophagy, the autophagy receptor OPTN is recruited to ubiquitinated mitochondria. OPTN then acts as a scaffold to recruit and activate the kinase TBK1. VCP interacts with OPTN, facilitating this process. Activated TBK1 phosphorylates OPTN, enhancing its ubiquitin-binding affinity and creating a positive feedback loop that promotes efficient clearance of damaged mitochondria.",
+  "effect": "VCP indirectly promotes TBK1 activation at the mitochondrial surface by interacting with the OPTN scaffold, which is essential for amplifying the mitophagy signal.",
+  "summary": "VCP activates TBK1 to modulate mitophagy.",
+  "evidence": [
+    {
+      "paper_title": "Optineurin provides a mitophagy contact site for TBK1 activation",
+      "year": 2020
+    },
+    {
+      "paper_title": "Control of mitophagy initiation and progression by the TBK1 adaptors NAP1 and SINTBAD",
+      "year": 2021
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitophagy",
+      "canonical_name": "Mitophagy",
+      "ontology_id": "GO:0000423",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "OPTN --activates--> TBK1:",
+  "protein_a": "VCP",
+  "protein_b": "TBK1",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.399919Z",
+  "last_updated": "2025-12-06T04:46:06.399919Z"
+}

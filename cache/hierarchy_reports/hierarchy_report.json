@@ -1,0 +1,108 @@
+{
+  "summary": {
+    "total_pathways": 30,
+    "root_categories": 16,
+    "leaf_pathways": 24,
+    "total_edges": 15,
+    "max_depth": 3
+  },
+  "by_level": {
+    "0": 16,
+    "1": 3,
+    "2": 5,
+    "3": 6
+  },
+  "top_pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "usage": 12,
+      "proteins": 13
+    },
+    {
+      "name": "Mitophagy",
+      "usage": 9,
+      "proteins": 8
+    },
+    {
+      "name": "Cell Cycle Regulation",
+      "usage": 6,
+      "proteins": 6
+    },
+    {
+      "name": "Autophagy",
+      "usage": 5,
+      "proteins": 5
+    },
+    {
+      "name": "DNA Damage Response",
+      "usage": 5,
+      "proteins": 5
+    },
+    {
+      "name": "Aggrephagy",
+      "usage": 4,
+      "proteins": 5
+    },
+    {
+      "name": "Lipid Metabolism",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Homologous Recombination",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Er Network Dynamics",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Protein Synthesis And Trafficking",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Proteasomal Degradation",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Protein Folding",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Nuclear Import/Export",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Lysosome Biogenesis And Maintenance",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "mTOR Signaling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Ribosome-Associated Quality Control",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Lysosomal Stress Response",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Synaptic Plasticity And Development",
+      "usage": 1,
+      "proteins": 2
+    }
+  ],
+  "orphan_interactions": 0
+}

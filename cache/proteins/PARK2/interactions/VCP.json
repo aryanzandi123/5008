@@ -1,0 +1,116 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "Parkin (PARK2) acts upstream of VCP in the mitophagy pathway. Parkin ubiquitinates proteins on the outer mitochondrial membrane, which creates a signal for the recruitment of VCP to clear damaged mitochondria.",
+  "functions": [
+    {
+      "function": "VCP Mitochondrial Recruitment via Ubiquitination",
+      "arrow": "activates",
+      "cellular_process": "In response to mitochondrial depolarization, the kinase PINK1 accumulates on the outer mitochondrial membrane and recruits the E3 ubiquitin ligase Parkin (PARK2). Parkin then ubiquitinates various outer mitochondrial membrane proteins. These ubiquitin chains serve as a signal for the recruitment of VCP, which then extracts ubiquitinated proteins (like Mitofusins) to facilitate mitochondrial clearance via mitophagy.",
+      "effect_description": "Parkin acts upstream of VCP in the mitophagy pathway by creating the ubiquitin signal on damaged mitochondria that is necessary to recruit the VCP segregase complex. Parkin's E3 ligase activity is a prerequisite for VCP's function in this context.",
+      "biological_consequence": [
+        "Mitochondrial depolarization → PINK1 stabilization on outer mitochondrial membrane → PARK2 (Parkin) recruitment and activation → Parkin-mediated ubiquitination of mitochondrial outer membrane proteins → VCP is recruited to the ubiquitin chains → VCP extracts mitochondrial proteins (e.g., Mitofusins) for proteasomal degradation → Mitophagy is initiated"
+      ],
+      "specific_effects": [
+        "VCP recruitment to damaged mitochondria is dependent on Parkin-mediated ubiquitination of mitochondrial targets.",
+        "VCP is required for the proteasome-dependent degradation of Mitofusins following their ubiquitination by Parkin.",
+        "The VCP-Npl4-Ufd1 complex is required for the clearance of damaged mitochondria via the PINK1/Parkin pathway."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP is essential for mitochondrial quality control by PINK1/Parkin and this function is impaired by VCP mutations",
+          "journal": "Neuron",
+          "year": 2013,
+          "relevant_quote": "The basis of this paradox is resolved by mechanistic studies in vitro showing that VCP recruitment to damaged mitochondria requires Parkin-mediated ubiquitination of mitochondrial targets. VCP recruitment coincides temporally with mitochondrial fission, and VCP is required for proteasome-dependent degradation of Mitofusins in vitro and in vivo.",
+          "pmid": "23498974"
+        },
+        {
+          "paper_title": "Drosophila clueless is involved in Parkin-dependent mitophagy by promoting VCP-mediated Marf degradation",
+          "journal": "Human Molecular Genetics",
+          "year": 2016,
+          "relevant_quote": "PINK1/Parkin-mediated mitochondrial quality control (MQC) requires valosin-containing protein (VCP)-dependent Mitofusin/Marf degradation to prevent damaged organelles from fusing with the healthy mitochondrial pool, facilitating mitochondrial clearance by autophagy.",
+          "pmid": "26931463"
+        }
+      ],
+      "pathway": {
+        "name": "Mitophagy",
+        "canonical_name": "Mitophagy",
+        "ontology_id": "GO:0000423",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "23498974",
+        "26931463"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "In response to mitochondrial depolarization, the kinase PINK1 accumulates on the outer mitochondrial membrane and recruits the E3 ubiquitin ligase Parkin (PARK2). Parkin then ubiquitinates various outer mitochondrial membrane proteins. These ubiquitin chains serve as a signal for the recruitment of VCP, which then extracts ubiquitinated proteins (like Mitofusins) to facilitate mitochondrial clearance via mitophagy.",
+  "effect": "Parkin acts upstream of VCP in the mitophagy pathway by creating the ubiquitin signal on damaged mitochondria that is necessary to recruit the VCP segregase complex. Parkin's E3 ligase activity is a prerequisite for VCP's function in this context.",
+  "summary": "VCP activates PARK2 to modulate vcp mitochondrial recruitment via ubiquitination, ultimately affecting mitophagy is initiated.",
+  "evidence": [
+    {
+      "paper_title": "VCP is essential for mitochondrial quality control by PINK1/Parkin and this function is impaired by VCP mutations",
+      "journal": "Neuron",
+      "year": 2013,
+      "relevant_quote": "The basis of this paradox is resolved by mechanistic studies in vitro showing that VCP recruitment to damaged mitochondria requires Parkin-mediated ubiquitination of mitochondrial targets. VCP recruitment coincides temporally with mitochondrial fission, and VCP is required for proteasome-dependent degradation of Mitofusins in vitro and in vivo."
+    },
+    {
+      "paper_title": "Drosophila clueless is involved in Parkin-dependent mitophagy by promoting VCP-mediated Marf degradation",
+      "journal": "Human Molecular Genetics",
+      "year": 2016,
+      "relevant_quote": "PINK1/Parkin-mediated mitochondrial quality control (MQC) requires valosin-containing protein (VCP)-dependent Mitofusin/Marf degradation to prevent damaged organelles from fusing with the healthy mitochondrial pool, facilitating mitochondrial clearance by autophagy."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Mitophagy",
+      "canonical_name": "Mitophagy",
+      "ontology_id": "GO:0000423",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates-- PARK2:",
+  "protein_a": "PARK2",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.408559Z",
+  "last_updated": "2025-12-06T04:46:06.408559Z"
+}

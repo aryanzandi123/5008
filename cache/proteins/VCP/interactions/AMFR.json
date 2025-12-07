@@ -1,0 +1,89 @@
+{
+  "primary": "AMFR",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "AMFR (Autocrine motility factor receptor), also known as gp78, is an E3 ubiquitin ligase that directly recruits VCP to the endoplasmic reticulum to mediate ERAD.",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "activates",
+      "cellular_process": "AMFR (gp78) is an ER membrane-resident E3 ubiquitin ligase that ubiquitinates misfolded proteins. It contains a VCP-interacting motif (VIM) that allows it to directly recruit the VCP ATPase complex from the cytosol to the ER membrane, thereby coupling the ubiquitination of ERAD substrates to their VCP-mediated extraction and delivery to the proteasome.",
+      "effect_description": "AMFR functions as a crucial molecular link in ERAD, acting as both the enzyme that marks substrates for degradation (E3 ligase) and the receptor that brings the VCP extraction machinery to the site of action, thereby activating the degradation process.",
+      "biological_consequence": [
+        "Misfolded protein is recognized in the ER → AMFR/gp78 ubiquitinates the substrate → The VIM domain of AMFR recruits the VCP complex to the ER membrane → VCP extracts the ubiquitinated substrate from the ER → Substrate is degraded by the cytosolic proteasome."
+      ],
+      "specific_effects": [
+        "The physical interaction between gp78 and VCP enhances the binding affinity of the VCP complex for polyubiquitin chains.",
+        "Inhibition of endogenous gp78 expression abrogates the interaction between VCP and the ERAD substrate CD3δ, leading to the accumulation of polyubiquitinated proteins.",
+        "A gp78 mutant lacking the VCP-interacting domain fails to facilitate the degradation of the ERAD substrate CD3δ."
+      ],
+      "evidence": [
+        {
+          "paper_title": "AAA ATPase p97/valosin-containing protein interacts with gp78, a ubiquitin ligase for endoplasmic reticulum-associated degradation",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2004,
+          "relevant_quote": "We now report that gp78 physically interacts with p97/VCP and enhances p97/VCP-polyubiquitin association... These data suggest that gp78-p97/VCP interaction may represent one way of coupling ubiquitination with retrotranslocation and degradation of ERAD substrates.",
+          "pmid": "15331598"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "15331598"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "AMFR (gp78) is an ER membrane-resident E3 ubiquitin ligase that ubiquitinates misfolded proteins. It contains a VCP-interacting motif (VIM) that allows it to directly recruit the VCP ATPase complex from the cytosol to the ER membrane, thereby coupling the ubiquitination of ERAD substrates to their VCP-mediated extraction and delivery to the proteasome.",
+  "effect": "AMFR functions as a crucial molecular link in ERAD, acting as both the enzyme that marks substrates for degradation (E3 ligase) and the receptor that brings the VCP extraction machinery to the site of action, thereby activating the degradation process.",
+  "summary": "VCP activates AMFR to modulate er-associated degradation (erad), ultimately affecting substrate is degraded by the cytosolic proteasome.",
+  "evidence": [
+    {
+      "paper_title": "AAA ATPase p97/valosin-containing protein interacts with gp78, a ubiquitin ligase for endoplasmic reticulum-associated degradation",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2004,
+      "relevant_quote": "We now report that gp78 physically interacts with p97/VCP and enhances p97/VCP-polyubiquitin association... These data suggest that gp78-p97/VCP interaction may represent one way of coupling ubiquitination with retrotranslocation and degradation of ERAD substrates."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--binds-- AMFR:",
+  "protein_a": "VCP",
+  "protein_b": "AMFR",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.395812Z",
+  "last_updated": "2025-12-06T04:46:06.395812Z"
+}

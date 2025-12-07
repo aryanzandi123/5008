@@ -1,0 +1,199 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "ER Tubule Network Formation and Maintenance",
+      "arrow": "activates",
+      "cellular_process": "VCP and the dynamin-like GTPase ATL1 functionally cooperate to regulate the morphology of the endoplasmic reticulum. ATL1 mediates the homotypic fusion of ER tubules, a GTP-dependent process that creates the interconnected network. VCP, along with its cofactor p47, is also involved in membrane fusion events and works in concert with ATL1 to ensure the proper formation and maintenance of this tubular ER structure.",
+      "effect_description": "The VCP-ATL1 interaction is essential for building and maintaining the complex, polygonal network of the ER. Deficiencies in either protein lead to a fragmented ER, impairing its crucial cellular functions.",
+      "biological_consequence": [
+        "ATL1 dimers on opposing ER tubules engage → GTP hydrolysis by ATL1 triggers a conformational change, pulling membranes together → VCP and its cofactor p47 participate in the membrane fusion process → A three-way junction is formed, extending the tubular ER network → The continuous ER network is maintained."
+      ],
+      "specific_effects": [
+        "Deficiency in either VCP or ATL1 impairs the formation of the tubular ER network in neurons.",
+        "VCP and ATL1 physically interact.",
+        "Overexpression of wild-type ATL1 can rescue the ER morphology defects seen in VCP-knockdown neurons."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The involvement of endoplasmic reticulum formation and protein synthesis efficiency in VCP- and ATL1-related neurological disorders",
+          "journal": "Journal of Biomedical Science",
+          "year": 2018,
+          "relevant_quote": "A recent study showed that VCP and ATL1 work together to regulate dendritic spine formation by controlling ER formation and consequent protein synthesis efficiency.",
+          "pmid": "29310658"
+        },
+        {
+          "paper_title": "VCP and ATL1 regulate endoplasmic reticulum and protein synthesis for dendritic spine formation",
+          "journal": "Nature Communications",
+          "year": 2016,
+          "relevant_quote": "...we show that VCP (valosin-containing protein), together with its cofactor P47 and the endoplasmic reticulum (ER) morphology regulator ATL1 (Atlastin-1), regulates tubular ER formation and influences the efficiency of protein synthesis to control dendritic spine formation in neurons.",
+          "pmid": "26984393"
+        }
+      ],
+      "pathway": {
+        "name": "ER Network Dynamics",
+        "canonical_name": "Er Network Dynamics",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "29310658",
+        "26984393"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    },
+    {
+      "function": "Protein Synthesis Efficiency",
+      "arrow": "activates",
+      "cellular_process": "The structural integrity of the tubular ER network, maintained by the VCP-ATL1 interaction, is a prerequisite for efficient protein synthesis. A well-formed ER provides the necessary surface area and environment for ribosomes and protein translocation machinery. Disruption of the ER network due to VCP or ATL1 deficiency leads to a measurable decrease in the rate of protein synthesis.",
+      "effect_description": "By ensuring ER integrity, the VCP-ATL1 functional unit supports the cell's capacity for protein production. Impairment of this axis leads to reduced protein synthesis, which is particularly detrimental to highly active cells like neurons.",
+      "biological_consequence": [
+        "VCP-ATL1 functional cooperation → Maintenance of a continuous tubular ER network → Efficient protein synthesis and translocation into the ER → Normal cellular protein homeostasis is maintained."
+      ],
+      "specific_effects": [
+        "Knockdown of either VCP or ATL1 reduces the efficiency of protein synthesis in neurons.",
+        "Supplementation with leucine, which can boost protein synthesis, ameliorates defects caused by VCP or ATL1 deficiencies."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP and ATL1 regulate endoplasmic reticulum and protein synthesis for dendritic spine formation",
+          "journal": "Nature Communications",
+          "year": 2016,
+          "relevant_quote": "Here, using expression of mutant proteins, a knockdown approach and disease mutation knockin mice, we show that VCP (valosin-containing protein), together with its cofactor P47 and the endoplasmic reticulum (ER) morphology regulator ATL1 (Atlastin-1), regulates tubular ER formation and influences the efficiency of protein synthesis to control dendritic spine formation in neurons.",
+          "pmid": "26984393"
+        }
+      ],
+      "pathway": {
+        "name": "Protein Synthesis and Trafficking",
+        "canonical_name": "Protein Synthesis And Trafficking",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "26984393"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    },
+    {
+      "function": "Dendritic Spine Formation",
+      "arrow": "activates",
+      "cellular_process": "The formation and maintenance of dendritic spines, the postsynaptic sites of most excitatory synapses, are highly dependent on local protein synthesis supported by the ER. By controlling ER morphology and protein synthesis efficiency, the VCP-ATL1 interaction is fundamentally required for proper dendritic spinogenesis and, consequently, synaptic function.",
+      "effect_description": "VCP and ATL1 are critical upstream regulators of the neuronal architecture required for synaptic plasticity and communication. Disruption of this pathway leads to a reduction in dendritic spine density, a common feature in several neurological disorders.",
+      "biological_consequence": [
+        "VCP-ATL1 control of ER morphology → Efficient local protein synthesis in dendrites → Proper formation and maintenance of dendritic spines → Normal synaptic function and plasticity."
+      ],
+      "specific_effects": [
+        "Deficiencies in VCP or ATL1 lead to a significant reduction in dendritic spine density in cultured neurons.",
+        "Ameliorating the protein synthesis defect with leucine supplementation can rescue the dendritic spine deficits caused by VCP or ATL1 deficiency."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The involvement of endoplasmic reticulum formation and protein synthesis efficiency in VCP- and ATL1-related neurological disorders",
+          "journal": "Journal of Biomedical Science",
+          "year": 2018,
+          "relevant_quote": "Increased protein synthesis by adding extra leucine to cultured neurons ameliorated dendritic spine deficits caused by VCP and ATL1 deficiencies, strengthening the significance of protein synthesis in VCP- and ATL1-regulated dendritic spine formation.",
+          "pmid": "29310658"
+        }
+      ],
+      "pathway": {
+        "name": "Synaptic Plasticity and Development",
+        "canonical_name": "Synaptic Plasticity And Development",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "29310658"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "bidirectional",
+      "function_effect": "activation"
+    }
+  ],
+  "support_summary": "Atlastin-1 (ATL1) is a GTPase that mediates the fusion of endoplasmic reticulum (ER) tubules. VCP and ATL1 work together to regulate ER formation, which in turn affects protein synthesis and dendritic spine formation.",
+  "arrow": "regulates",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "VCP and the dynamin-like GTPase ATL1 functionally cooperate to regulate the morphology of the endopl; The structural integrity of the tubular ER network, maintained by the VCP-ATL1 interaction, is a pre; The formation and maintenance of dendritic spines, the postsynaptic sites of most excitatory synapse",
+  "effect": "The VCP-ATL1 interaction is essential for building and maintaining the complex, polygonal network of the ER. Deficiencies in either protein lead to a fragmented ER, impairing its crucial cellular functions.; By ensuring ER integrity, the VCP-ATL1 functional unit supports the cell's capacity for protein production. Impairment of this axis leads to reduced protein synthesis, which is particularly detrimental to highly active cells like neurons.; ...",
+  "summary": "VCP activates ATL1 to control multiple cellular processes including er tubule network formation and maintenance, protein synthesis efficiency, and dendritic spine formation, ultimately affecting the continuous er network is maintained.",
+  "evidence": [
+    {
+      "paper_title": "The involvement of endoplasmic reticulum formation and protein synthesis efficiency in VCP- and ATL1-related neurological disorders",
+      "journal": "Journal of Biomedical Science",
+      "year": 2018,
+      "relevant_quote": "A recent study showed that VCP and ATL1 work together to regulate dendritic spine formation by controlling ER formation and consequent protein synthesis efficiency."
+    },
+    {
+      "paper_title": "VCP and ATL1 regulate endoplasmic reticulum and protein synthesis for dendritic spine formation",
+      "journal": "Nature Communications",
+      "year": 2016,
+      "relevant_quote": "...we show that VCP (valosin-containing protein), together with its cofactor P47 and the endoplasmic reticulum (ER) morphology regulator ATL1 (Atlastin-1), regulates tubular ER formation and influences the efficiency of protein synthesis to control dendritic spine formation in neurons."
+    },
+    {
+      "paper_title": "VCP and ATL1 regulate endoplasmic reticulum and protein synthesis for dendritic spine formation",
+      "journal": "Nature Communications",
+      "year": 2016,
+      "relevant_quote": "Here, using expression of mutant proteins, a knockdown approach and disease mutation knockin mice, we show that VCP (valosin-containing protein), together with its cofactor P47 and the endoplasmic reticulum (ER) morphology regulator ATL1 (Atlastin-1), regulates tubular ER formation and influences the efficiency of protein synthesis to control dendritic spine formation in neurons."
+    },
+    {
+      "paper_title": "The involvement of endoplasmic reticulum formation and protein synthesis efficiency in VCP- and ATL1-related neurological disorders",
+      "journal": "Journal of Biomedical Science",
+      "year": 2018,
+      "relevant_quote": "Increased protein synthesis by adding extra leucine to cultured neurons ameliorated dendritic spine deficits caused by VCP and ATL1 deficiencies, strengthening the significance of protein synthesis in VCP- and ATL1-regulated dendritic spine formation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Synaptic Plasticity and Development",
+      "canonical_name": "Synaptic Plasticity And Development",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    },
+    {
+      "name": "Protein Synthesis and Trafficking",
+      "canonical_name": "Protein Synthesis And Trafficking",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    },
+    {
+      "name": "ER Network Dynamics",
+      "canonical_name": "Er Network Dynamics",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 5
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates--> ATL1:",
+  "protein_a": "ATL1",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.439309Z",
+  "last_updated": "2025-12-06T04:46:06.439309Z"
+}

@@ -1,0 +1,202 @@
+{
+  "primary": "SVIP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "SVIP (Small VCP/p97-interacting protein) is an adaptor protein that directly interacts with VCP, recruiting it to lysosomes and modulating its role in ER-associated degradation (ERAD) and autophagy.",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "inhibits",
+      "cellular_process": "SVIP (Small VCP/p97-interacting protein) functions as an endogenous inhibitor of the ERAD pathway. By binding to VCP/p97 through its VCP-interacting motif (VIM), SVIP competitively interferes with the assembly of the productive ERAD complex. It uncouples VCP and the rhomboid protein Derlin1 from the E3 ubiquitin ligase gp78, thereby preventing the recruitment of VCP to ubiquitinated ERAD substrates and halting their retrotranslocation and subsequent degradation by the proteasome.",
+      "effect_description": "SVIP acts as a negative regulator of ERAD, potentially protecting cells from excessive or unregulated protein degradation originating from the ER.",
+      "biological_consequence": [
+        "SVIP binds to VCP via its VIM domain → SVIP competitively displaces the E3 ligase gp78 from the VCP complex → The gp78-VCP-Derlin1 ERAD machinery fails to assemble → VCP is not recruited to misfolded ER proteins → Retrotranslocation and degradation of ERAD substrates is inhibited."
+      ],
+      "specific_effects": [
+        "Contains a VCP-interacting motif (VIM) that is essential for its binding to VCP and its inhibitory function.",
+        "Overexpression of SVIP leads to the dissociation of VCP and Derlin1 from gp78.",
+        "Silencing SVIP expression enhances the formation of the gp78-VCP-Derlin1 complex and accelerates the degradation of ERAD substrates."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Regulation of ER-associated degradation via p97/VCP-interacting motif",
+          "journal": "Biochemical Society Transactions",
+          "year": 2008,
+          "relevant_quote": "Additionally, SVIP (small p97/VCP-interacting protein), which contains a VIM in its N-terminal region, negatively regulates ERAD by uncoupling p97/VCP and Derlin1 from gp78. Thus SVIP may protect cells from damage by extravagant ERAD.",
+          "pmid": "18793143"
+        },
+        {
+          "paper_title": "Identification of SVIP as an endogenous inhibitor of endoplasmic reticulum-associated degradation",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2007,
+          "relevant_quote": "Overexpression of SVIP blocks unassembled CD3delta from association with gp78 and p97/VCP, which is accompanied by decreases in CD3delta ubiquitination and degradation. Silencing SVIP expression markedly enhances the formation of gp78-p97/VCP-Derlin1 complex, which correlates with increased degradation of CD3delta and misfolded Z variant of alpha-1-antitrypsin, established substrates of gp78.",
+          "pmid": "17872946"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "18793143",
+        "17872946"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "inhibition"
+    },
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "SVIP acts as a positive regulator of autophagy by recruiting VCP to lysosomal and autophagosomal membranes. Overexpression of SVIP enhances the lipidation of LC3 (a key step in autophagosome formation), increases the levels of the autophagy receptor p62, and promotes the sequestration of polyubiquitinated proteins into autophagosomes for degradation.",
+      "effect_description": "SVIP links VCP function to the autophagic pathway, promoting the clearance of protein aggregates and other cellular cargo.",
+      "biological_consequence": [
+        "SVIP expression increases → VCP is relocalized from the cytosol to lysosomal and autophagosomal membranes → LC3 is lipidated to form LC3-II → Autophagosome formation is promoted → p62 and polyubiquitinated proteins are sequestered → Autophagic flux and degradation of cargo are increased."
+      ],
+      "specific_effects": [
+        "SVIP knockdown diminishes LC3 lipidation and reduces p62 protein levels.",
+        "SVIP overexpression enhances starvation-activated autophagy, measured by increased degradation of LC3-II and p62.",
+        "The recruitment of VCP by SVIP is dependent on SVIP's myristoylation and its VIM domain."
+      ],
+      "evidence": [
+        {
+          "paper_title": "SVIP induces localization of p97/VCP to the plasma and lysosomal membranes and regulates autophagy",
+          "journal": "PLoS One",
+          "year": 2011,
+          "relevant_quote": "Overexpression of SVIP, on the other hand, increased the levels of p62 protein and enhanced starvation-activated autophagy as well as promoted sequestration of polyubiquitinated proteins and p62 in autophagosomes. These results suggest that SVIP plays a regulatory role in p97 subcellular localization and is a novel regulator of autophagy.",
+          "pmid": "21909394"
+        }
+      ],
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "21909394"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    },
+    {
+      "function": "Lysosomal Stability",
+      "arrow": "activates",
+      "cellular_process": "SVIP is a critical cofactor that specifically recruits VCP to the lysosomal membrane. This interaction is essential for maintaining the structural and functional integrity of lysosomes. The SVIP-VCP complex is required for processes such as autophagosome-lysosome fusion and the dynamic stability of the lysosomal network.",
+      "effect_description": "By tethering VCP to lysosomes, SVIP ensures VCP's role in lysosomal homeostasis, which is critical for cellular clearance pathways and overall cell health.",
+      "biological_consequence": [
+        "SVIP localizes to the lysosomal membrane → SVIP recruits VCP to the lysosome surface → VCP activity facilitates autophagosome-lysosome fusion and maintains lysosomal tubule networks → Lysosomal integrity and catabolic function are maintained."
+      ],
+      "specific_effects": [
+        "SVIP is essential for autophagosomal-lysosomal fusion.",
+        "Loss of SVIP leads to defects in lysosomal dynamic stability and causes neuromuscular degeneration in model organisms.",
+        "A disease-causing VCP mutation (P134L) was identified that prevents its binding to SVIP, linking defective VCP-lysosome targeting to pathology."
+      ],
+      "evidence": [
+        {
+          "paper_title": "SVIP is a molecular determinant of lysosomal dynamic stability, neurodegeneration and lifespan",
+          "journal": "Nature Communications",
+          "year": 2021,
+          "relevant_quote": "Here, we characterize a VCP-binding co-factor (SVIP) that specifically recruits VCP to lysosomes. SVIP is essential for lysosomal dynamic stability and autophagosomal–lysosomal fusion.",
+          "pmid": "33479240"
+        }
+      ],
+      "pathway": {
+        "name": "Lysosome Biogenesis and Maintenance",
+        "canonical_name": "Lysosome Biogenesis And Maintenance",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33479240"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates",
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "SVIP (Small VCP/p97-interacting protein) functions as an endogenous inhibitor of the ERAD pathway; SVIP acts as a positive regulator of autophagy by recruiting VCP to lysosomal and autophagosomal mem; SVIP is a critical cofactor that specifically recruits VCP to the lysosomal membrane",
+  "effect": "SVIP acts as a negative regulator of ERAD, potentially protecting cells from excessive or unregulated protein degradation originating from the ER.; SVIP links VCP function to the autophagic pathway, promoting the clearance of protein aggregates and other cellular cargo.; ...",
+  "summary": "VCP regulates SVIP to control multiple cellular processes including er-associated degradation (erad), autophagy, and lysosomal stability, ultimately affecting retrotranslocation and degradation of erad substrates is inhibited.",
+  "evidence": [
+    {
+      "paper_title": "Regulation of ER-associated degradation via p97/VCP-interacting motif",
+      "journal": "Biochemical Society Transactions",
+      "year": 2008,
+      "relevant_quote": "Additionally, SVIP (small p97/VCP-interacting protein), which contains a VIM in its N-terminal region, negatively regulates ERAD by uncoupling p97/VCP and Derlin1 from gp78. Thus SVIP may protect cells from damage by extravagant ERAD."
+    },
+    {
+      "paper_title": "Identification of SVIP as an endogenous inhibitor of endoplasmic reticulum-associated degradation",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2007,
+      "relevant_quote": "Overexpression of SVIP blocks unassembled CD3delta from association with gp78 and p97/VCP, which is accompanied by decreases in CD3delta ubiquitination and degradation. Silencing SVIP expression markedly enhances the formation of gp78-p97/VCP-Derlin1 complex, which correlates with increased degradation of CD3delta and misfolded Z variant of alpha-1-antitrypsin, established substrates of gp78."
+    },
+    {
+      "paper_title": "SVIP induces localization of p97/VCP to the plasma and lysosomal membranes and regulates autophagy",
+      "journal": "PLoS One",
+      "year": 2011,
+      "relevant_quote": "Overexpression of SVIP, on the other hand, increased the levels of p62 protein and enhanced starvation-activated autophagy as well as promoted sequestration of polyubiquitinated proteins and p62 in autophagosomes. These results suggest that SVIP plays a regulatory role in p97 subcellular localization and is a novel regulator of autophagy."
+    },
+    {
+      "paper_title": "SVIP is a molecular determinant of lysosomal dynamic stability, neurodegeneration and lifespan",
+      "journal": "Nature Communications",
+      "year": 2021,
+      "relevant_quote": "Here, we characterize a VCP-binding co-factor (SVIP) that specifically recruits VCP to lysosomes. SVIP is essential for lysosomal dynamic stability and autophagosomal–lysosomal fusion."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    },
+    {
+      "name": "Lysosome Biogenesis and Maintenance",
+      "canonical_name": "Lysosome Biogenesis And Maintenance",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--regulates-- SVIP:",
+  "protein_a": "VCP",
+  "protein_b": "SVIP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.414745Z",
+  "last_updated": "2025-12-06T04:46:06.414745Z"
+}

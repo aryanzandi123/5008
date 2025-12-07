@@ -1,0 +1,115 @@
+{
+  "primary": "VCP",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "VCP functionally regulates the activity of TFEB (Transcription factor EB), a master regulator of lysosomal biogenesis and autophagy. This is an indirect, regulatory relationship, as VCP controls TFEB's nuclear translocation in response to lysosomal damage.",
+  "functions": [
+    {
+      "function": "Termination of TFEB-Mediated Lysosomal Stress Response",
+      "arrow": "activates",
+      "cellular_process": "Under conditions of lysosomal stress, such as lysosomal membrane permeabilization (LMP), the transcription factor TFEB is activated via dephosphorylation and translocates to the nucleus. In the nucleus, it drives the expression of genes in the CLEAR (Coordinated Lysosomal Expression and Regulation) network to promote lysosomal biogenesis and autophagy. Wild-type VCP is essential for the recovery phase from this stress, where it facilitates the clearance of damaged lysosomes (lysophagy). By resolving the upstream damage signal, VCP allows for the termination of TFEB activation, leading to TFEB's export from the nucleus and the cessation of its transcriptional program. When VCP function is impaired by mutation or inhibition, damaged lysosomes are not cleared efficiently, leading to a persistent stress signal that causes TFEB to remain active and localized in the nucleus.",
+      "effect_description": "VCP indirectly inhibits the TFEB-driven transcriptional response by being essential for the lysosomal repair and clearance processes that terminate TFEB activation. Loss of VCP function leads to sustained, pathological TFEB activity following lysosomal damage.",
+      "biological_consequence": [
+        "Lysosomal membrane permeabilization (LMP) occurs due to cellular stress → TFEB is dephosphorylated and translocates to the nucleus → TFEB activates transcription of CLEAR network genes, promoting lysophagy and lysosomal biogenesis → Wild-type VCP is recruited to damaged lysosomes and facilitates their clearance → Lysosomal homeostasis is restored → The activating signal for TFEB ceases, allowing it to be exported from the nucleus → The TFEB-driven gene expression program is terminated."
+      ],
+      "specific_effects": [
+        "Inactivation of VCP or expression of disease-mutant VCP leads to the persistent nuclear localization and activation of TFEB following chemically induced lysosomal membrane permeabilization.",
+        "VCP is required for the recovery from lysosomal stress; its inhibition prevents the removal of TFEB from the nucleus after the stress has been initiated."
+      ],
+      "evidence": [
+        {
+          "paper_title": "VCP maintains lysosomal homeostasis and TFEB activity in differentiated skeletal muscle",
+          "journal": "Autophagy",
+          "year": 2019,
+          "relevant_quote": "Moreover, TFEB was activated after LMP in cells, but activation and nuclear localization of TFEB persisted upon VCP inactivation or disease mutant expression. Our data identifies VCP as central mediator of both lysosomal clearance and biogenesis in skeletal muscle.",
+          "pmid": "30654731"
+        },
+        {
+          "paper_title": "Pathogenic variants of Valosin-containing protein induce lysosomal damage and transcriptional activation of autophagy regulators in neuronal cells",
+          "journal": "Cellular and Molecular Life Sciences",
+          "year": 2022,
+          "relevant_quote": "After a recovery phase, LLOMe-activated TFEB remains localised in the nucleus when VCP is inactivated or VCP mutants are expressed. This suggests that WT and mutant VCP modulate TFEB activity.",
+          "pmid": "35501124"
+        }
+      ],
+      "pathway": {
+        "name": "Lysosomal Stress Response",
+        "canonical_name": "Lysosomal Stress Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "30654731",
+        "35501124"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "VCP",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Under conditions of lysosomal stress, such as lysosomal membrane permeabilization (LMP), the transcription factor TFEB is activated via dephosphorylation and translocates to the nucleus. In the nucleus, it drives the expression of genes in the CLEAR (Coordinated Lysosomal Expression and Regulation) network to promote lysosomal biogenesis and autophagy. Wild-type VCP is essential for the recovery phase from this stress, where it facilitates the clearance of damaged lysosomes (lysophagy). By resolving the upstream damage signal, VCP allows for the termination of TFEB activation, leading to TFEB's export from the nucleus and the cessation of its transcriptional program. When VCP function is impaired by mutation or inhibition, damaged lysosomes are not cleared efficiently, leading to a persistent stress signal that causes TFEB to remain active and localized in the nucleus.",
+  "effect": "VCP indirectly inhibits the TFEB-driven transcriptional response by being essential for the lysosomal repair and clearance processes that terminate TFEB activation. Loss of VCP function leads to sustained, pathological TFEB activity following lysosomal damage.",
+  "summary": "VCP inhibits TFEB to modulate termination of tfeb-mediated lysosomal stress response, ultimately affecting the tfeb-driven gene expression program is terminated.",
+  "evidence": [
+    {
+      "paper_title": "VCP maintains lysosomal homeostasis and TFEB activity in differentiated skeletal muscle",
+      "journal": "Autophagy",
+      "year": 2019,
+      "relevant_quote": "Moreover, TFEB was activated after LMP in cells, but activation and nuclear localization of TFEB persisted upon VCP inactivation or disease mutant expression. Our data identifies VCP as central mediator of both lysosomal clearance and biogenesis in skeletal muscle."
+    },
+    {
+      "paper_title": "Pathogenic variants of Valosin-containing protein induce lysosomal damage and transcriptional activation of autophagy regulators in neuronal cells",
+      "journal": "Cellular and Molecular Life Sciences",
+      "year": 2022,
+      "relevant_quote": "After a recovery phase, LLOMe-activated TFEB remains localised in the nucleus when VCP is inactivated or VCP mutants are expressed. This suggests that WT and mutant VCP modulate TFEB activity."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Lysosomal Stress Response",
+      "canonical_name": "Lysosomal Stress Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --inhibits--> TFEB:",
+  "protein_a": "TFEB",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.403882Z",
+  "last_updated": "2025-12-06T04:46:06.403882Z"
+}

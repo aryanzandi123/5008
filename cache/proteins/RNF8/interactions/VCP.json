@@ -1,0 +1,106 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "RNF8 is an E3 ubiquitin ligase that recruits VCP to sites of DNA double-strand breaks, mediating the ubiquitination events necessary for the recruitment of downstream DNA damage response factors like 53BP1 and BRCA1.",
+  "functions": [
+    {
+      "function": "DNA Damage Response and RNF8 Homeostasis",
+      "arrow": "regulates",
+      "cellular_process": "RNF8 is a master E3 ubiquitin ligase in the DNA double-strand break (DSB) response. Upon DSBs, RNF8 is recruited to sites of damage and generates K63-linked ubiquitin chains on histones, which act as a scaffold to recruit downstream repair factors. This RNF8-mediated ubiquitination also recruits the VCP/p97 ATPase complex. VCP then acts as a segregase to remodel the ubiquitinated chromatin, for example, by removing factors like L3MBTL1 that mask histone marks, thereby promoting the recruitment of 53BP1 to activate the repair cascade. Concurrently, the VCP-ATXN3 deubiquitinase complex dynamically regulates RNF8 itself. Under normal conditions, VCP-ATXN3 deubiquitinates and stabilizes RNF8 to maintain a functional protein pool. Following DNA damage, the same VCP-ATXN3 complex extracts RNF8 from chromatin to terminate the signaling response.",
+      "effect_description": "VCP's interaction with the RNF8-mediated ubiquitination cascade is bifunctional: it both promotes the downstream signaling by remodeling chromatin and terminates the signal by extracting RNF8 from the site of damage. This dual regulation ensures a timely and controlled DNA damage response.",
+      "biological_consequence": [
+        "DNA double-strand break (DSB) → ATM phosphorylates MDC1 → RNF8 binds phospho-MDC1 and ubiquitinates histones (H1, H2A) → RNF8-generated ubiquitin chains recruit VCP/p97 → VCP extracts chromatin-bound inhibitors (e.g., L3MBTL1) → 53BP1 and BRCA1 are recruited to DSBs → DNA Repair Activation.",
+        "Post-repair signaling termination: VCP in complex with its cofactor ATXN3 binds to chromatin-associated RNF8 → VCP ATPase activity extracts RNF8 from chromatin → DNA damage signaling is terminated.",
+        "Physiological homeostasis: VCP-ATXN3 complex binds soluble RNF8 → ATXN3 deubiquitinates K48-linked ubiquitin chains on RNF8 → RNF8 is stabilized and protected from proteasomal degradation."
+      ],
+      "specific_effects": [
+        "RNF8-mediated ubiquitination is required for the recruitment of VCP/p97 to DSB sites.",
+        "VCP extracts ubiquitinated substrates like L3MBTL1 from chromatin, unmasking H4K20me2 sites for 53BP1 binding.",
+        "The VCP-ATXN3 complex is essential for extracting RNF8 from chromatin under genotoxic stress to balance DNA repair pathway choice.",
+        "The VCP-ATXN3 complex regulates RNF8 stability under physiological conditions by removing K48-polyubiquitin chains."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "journal": "The EMBO Journal",
+          "year": 2019,
+          "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR).",
+          "pmid": "31613024"
+        },
+        {
+          "paper_title": "The role of ubiquitin-dependent segregase p97 (VCP or Cdc48) in chromatin dynamics after DNA double strand breaks",
+          "journal": "Philosophical Transactions of the Royal Society B: Biological Sciences",
+          "year": 2017,
+          "relevant_quote": "Recruitment of p97 to DSB sites strongly depends on RNF8/K48-ubiquitin chain formation... These data clearly demonstrate that p97 is recruited to DSB sites via Lys48-ubiquitin chains formed by RNF8 and extracts them from chromatin. p97 processing of Lys48-ubiquitinated substrates soon after DSBs is important for recruiting signaling and repair molecules, such as 53BP1, BRCA1, and Rad51.",
+          "pmid": "28847819"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": "GO:0006974",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "31613024",
+        "28847819"
+      ],
+      "interaction_effect": "regulation",
+      "interaction_direction": "bidirectional",
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "bidirectional",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "RNF8 is a master E3 ubiquitin ligase in the DNA double-strand break (DSB) response. Upon DSBs, RNF8 is recruited to sites of damage and generates K63-linked ubiquitin chains on histones, which act as a scaffold to recruit downstream repair factors. This RNF8-mediated ubiquitination also recruits the VCP/p97 ATPase complex. VCP then acts as a segregase to remodel the ubiquitinated chromatin, for example, by removing factors like L3MBTL1 that mask histone marks, thereby promoting the recruitment of 53BP1 to activate the repair cascade. Concurrently, the VCP-ATXN3 deubiquitinase complex dynamically regulates RNF8 itself. Under normal conditions, VCP-ATXN3 deubiquitinates and stabilizes RNF8 to maintain a functional protein pool. Following DNA damage, the same VCP-ATXN3 complex extracts RNF8 from chromatin to terminate the signaling response.",
+  "effect": "VCP's interaction with the RNF8-mediated ubiquitination cascade is bifunctional: it both promotes the downstream signaling by remodeling chromatin and terminates the signal by extracting RNF8 from the site of damage. This dual regulation ensures a timely and controlled DNA damage response.",
+  "summary": "VCP interacts with RNF8 to modulate regulation of dna damage response and rnf8 homeostasis, ultimately affecting dna repair activation.",
+  "evidence": [
+    {
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "journal": "The EMBO Journal",
+      "year": 2019,
+      "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR)."
+    },
+    {
+      "paper_title": "The role of ubiquitin-dependent segregase p97 (VCP or Cdc48) in chromatin dynamics after DNA double strand breaks",
+      "journal": "Philosophical Transactions of the Royal Society B: Biological Sciences",
+      "year": 2017,
+      "relevant_quote": "Recruitment of p97 to DSB sites strongly depends on RNF8/K48-ubiquitin chain formation... These data clearly demonstrate that p97 is recruited to DSB sites via Lys48-ubiquitin chains formed by RNF8 and extracts them from chromatin. p97 processing of Lys48-ubiquitinated substrates soon after DSBs is important for recruiting signaling and repair molecules, such as 53BP1, BRCA1, and Rad51."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": "GO:0006974",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP <--binds--> RNF8:",
+  "protein_a": "RNF8",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.421602Z",
+  "last_updated": "2025-12-06T04:46:06.421602Z"
+}

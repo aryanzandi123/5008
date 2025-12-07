@@ -1,0 +1,89 @@
+{
+  "primary": "VCP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD) of Mutant BSCL2",
+      "arrow": "activates",
+      "cellular_process": "BSCL2 (seipin) is an ER-resident protein. Pathogenic mutations (e.g., N88S, S90L) cause it to misfold and aggregate in the ER, leading to ER stress. These misfolded mutant proteins are recognized by the ER quality control machinery, polyubiquitinated, and targeted for degradation via the ERAD pathway.",
+      "effect_description": "VCP, as a central AAA-ATPase of the ERAD pathway, recognizes polyubiquitinated mutant BSCL2. It utilizes ATP hydrolysis to extract the misfolded protein from the ER membrane into the cytosol, thereby facilitating its subsequent degradation by the 26S proteasome. This process alleviates the ER stress caused by the toxic accumulation of mutant BSCL2.",
+      "biological_consequence": [
+        "Mutant BSCL2 misfolds and is retained in the ER → Misfolded BSCL2 is polyubiquitinated by an ER-resident E3 ligase → The VCP/p97 complex is recruited to the ER membrane → VCP extracts the ubiquitinated BSCL2 from the membrane → Extracted BSCL2 is delivered to the 26S proteasome for degradation → ER stress and apoptosis are reduced."
+      ],
+      "specific_effects": [
+        "Mutant forms of seipin are polyubiquitinated.",
+        "Inhibition of the proteasome leads to the accumulation of mutant seipin, confirming its degradation via this pathway.",
+        "Expression of mutant seipin induces ER stress and apoptosis."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Molecular pathogenesis of seipin/BSCL2-related motor neuron diseases",
+          "journal": "Annals of Neurology",
+          "year": 2007,
+          "relevant_quote": "Coexpression of human seipin and ubiquitin showed that seipin is polyubiquitinated and its ubiquitination is enhanced by mutation. Treatment of cells with a proteasome inhibitor increased the amounts of mutant seipin in the cells, suggesting that they are degraded through the ER-associated degradation pathway.",
+          "pmid": "17387721"
+        }
+      ],
+      "pathway": {
+        "name": "ER-Associated Degradation",
+        "canonical_name": "ER-Associated Degradation",
+        "ontology_id": "GO:0036503",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "17387721"
+      ],
+      "interaction_effect": "positive",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "support_summary": "BSCL2 (Seipin) is an ER-resident protein essential for lipid droplet biogenesis and ER morphology. Its function is linked to VCP through the regulation of ER structure and protein quality control.",
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Contextual Error and Mechanistic Opposite Detected. The input claims VCP activates Lipid Droplet Biogenesis via BSCL2. The literature indicates a different role: VCP is a core component of the Endoplasmic Reticulum-Associated Degradation (ERAD) pathway. Its function regarding BSCL2 (seipin) is not to activate its normal function, but to mediate the degradation of misfolded or mutant forms of BSCL2 that cause certain motor neuron diseases. This is a quality control mechanism, not a direct activation of lipid droplet formation.",
+  "mechanism": "BSCL2 (seipin) is an ER-resident protein. Pathogenic mutations (e.g., N88S, S90L) cause it to misfold and aggregate in the ER, leading to ER stress. These misfolded mutant proteins are recognized by the ER quality control machinery, polyubiquitinated, and targeted for degradation via the ERAD pathway.",
+  "effect": "VCP, as a central AAA-ATPase of the ERAD pathway, recognizes polyubiquitinated mutant BSCL2. It utilizes ATP hydrolysis to extract the misfolded protein from the ER membrane into the cytosol, thereby facilitating its subsequent degradation by the 26S proteasome. This process alleviates the ER stress caused by the toxic accumulation of mutant BSCL2.",
+  "summary": "VCP interacts with BSCL2 to modulate er-associated degradation (erad) of mutant bscl2, ultimately affecting er stress and apoptosis are reduced.",
+  "evidence": [
+    {
+      "paper_title": "Molecular pathogenesis of seipin/BSCL2-related motor neuron diseases",
+      "journal": "Annals of Neurology",
+      "year": 2007,
+      "relevant_quote": "Coexpression of human seipin and ubiquitin showed that seipin is polyubiquitinated and its ubiquitination is enhanced by mutation. Treatment of cells with a proteasome inhibitor increased the amounts of mutant seipin in the cells, suggesting that they are degraded through the ER-associated degradation pathway."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "ER-Associated Degradation",
+      "canonical_name": "ER-Associated Degradation",
+      "ontology_id": "GO:0036503",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --binds--> BSCL2:",
+  "protein_a": "BSCL2",
+  "protein_b": "VCP",
+  "discovered_in_query": "VCP",
+  "first_discovered": "2025-12-06T04:46:06.437355Z",
+  "last_updated": "2025-12-06T04:46:06.437355Z"
+}
