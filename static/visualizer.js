@@ -3332,12 +3332,14 @@ function renderGraph() {
     .attr('fill', 'none')
     .on('mouseover', function() { d3.select(this).style('stroke-width', '3.5'); svg.style('cursor', 'pointer'); })
     .on('mouseout', function() { d3.select(this).style('stroke-width', null); svg.style('cursor', null); })
-    .on('click', handleLinkClick);
+    .on('click', handleLinkClick)
+    .attr('d', calculateLinkPath);  // Initial path (shell mode needs this since tick may not fire)
 
   // Re-create nodes
   const node = g.append('g').selectAll('g')
     .data(nodes).enter().append('g')
     .attr('class', 'node-group')
+    .attr('transform', d => `translate(${d.x || width/2},${d.y || height/2})`)  // Initial position (shell mode needs this)
     .call(d3.drag()
       .on('start', dragstarted)
       .on('drag', dragged)
