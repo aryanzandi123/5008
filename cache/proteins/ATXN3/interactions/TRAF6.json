@@ -1,0 +1,102 @@
+{
+  "primary": "TRAF6",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with and deubiquitinates TRAF6 (TNF receptor-associated factor 6), an E3 ubiquitin ligase that is a key mediator of inflammatory signaling pathways, such as NF-κB activation.",
+  "functions": [
+    {
+      "function": "NF-κB Signaling",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 functions as a deubiquitinating enzyme (DUB) that specifically targets and cleaves K63-linked polyubiquitin chains. TRAF6, an E3 ubiquitin ligase, requires K63-linked auto-ubiquitination to serve as a scaffold for downstream signaling complexes, including the TAK1 and IKK complexes, which are essential for activating the canonical NF-κB pathway.",
+      "effect_description": "By removing the activating K63-linked ubiquitin chains from TRAF6, ATXN3 effectively dismantles the signaling platform necessary for the recruitment and activation of downstream kinases. This action prevents the phosphorylation and subsequent degradation of IκBα, thereby keeping the NF-κB transcription factor (p65/RelA) sequestered in the cytoplasm and inhibiting its nuclear translocation and transcriptional activity.",
+      "biological_consequence": [
+        "TRAF6 undergoes K63-linked auto-ubiquitination → Ubiquitinated TRAF6 recruits TAK1 and IKK complexes → ATXN3's Josephin domain binds and cleaves K63-linked ubiquitin chains from TRAF6 → The TRAF6 signaling scaffold is disassembled → IKK complex activation is prevented → IκBα remains unphosphorylated and bound to NF-κB → NF-κB is retained in the cytoplasm → Attenuation of inflammatory gene expression."
+      ],
+      "specific_effects": [
+        "Preferentially cleaves K63-linked ubiquitin chains, which are the specific type required for TRAF6 signaling function.",
+        "Acts as a negative regulator of inflammatory signaling pathways that are dependent on TRAF6 activity."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Deubiquitinating Enzyme Ataxin-3, a Polyglutamine Disease Protein, Edits Lys63 Linkages in Mixed Linkage Ubiquitin Chains",
+          "journal": "Journal of Biological Chemistry",
+          "year": 2008,
+          "relevant_quote": "Ataxin-3 binds both Lys48- or Lys63-linked chains yet preferentially cleaves Lys63 linkages. Ataxin-3 shows even greater activity toward mixed linkage polyubiquitin, cleaving Lys63 linkages in chains that contain both Lys48 and Lys63 linkages.",
+          "pmid": "18599482"
+        },
+        {
+          "paper_title": "TNF receptor-associated factor 6 (TRAF6) plays crucial roles in multiple biological systems through polyubiquitination-mediated NF-κB activation",
+          "journal": "Journal of Biochemistry",
+          "year": 2021,
+          "relevant_quote": "This discovery led to the proposal of an entirely new signaling mechanism concept, wherein K63-ubiquitin chains act as a scaffold for the signaling complex to activate downstream kinases. This concept has revolutionized ubiquitin studies by revealing the importance of the nonproteolytic functions of ubiquitin not only in NF-κB signaling but also in a variety of other biological systems.",
+          "pmid": "33840674"
+        }
+      ],
+      "pathway": {
+        "name": "NF-κB Signaling Pathway",
+        "canonical_name": "NF-kB Signaling",
+        "ontology_id": "hsa04064",
+        "ontology_source": "KEGG",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "18599482",
+        "33840674"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 functions as a deubiquitinating enzyme (DUB) that specifically targets and cleaves K63-linked polyubiquitin chains. TRAF6, an E3 ubiquitin ligase, requires K63-linked auto-ubiquitination to serve as a scaffold for downstream signaling complexes, including the TAK1 and IKK complexes, which are essential for activating the canonical NF-κB pathway.",
+  "effect": "By removing the activating K63-linked ubiquitin chains from TRAF6, ATXN3 effectively dismantles the signaling platform necessary for the recruitment and activation of downstream kinases. This action prevents the phosphorylation and subsequent degradation of IκBα, thereby keeping the NF-κB transcription factor (p65/RelA) sequestered in the cytoplasm and inhibiting its nuclear translocation and transcriptional activity.",
+  "summary": "ATXN3 inhibits TRAF6 to modulate nf-κb signaling inhibition, ultimately affecting attenuation of inflammatory gene expression.",
+  "evidence": [
+    {
+      "paper_title": "The Deubiquitinating Enzyme Ataxin-3, a Polyglutamine Disease Protein, Edits Lys63 Linkages in Mixed Linkage Ubiquitin Chains",
+      "journal": "Journal of Biological Chemistry",
+      "year": 2008,
+      "relevant_quote": "Ataxin-3 binds both Lys48- or Lys63-linked chains yet preferentially cleaves Lys63 linkages. Ataxin-3 shows even greater activity toward mixed linkage polyubiquitin, cleaving Lys63 linkages in chains that contain both Lys48 and Lys63 linkages."
+    },
+    {
+      "paper_title": "TNF receptor-associated factor 6 (TRAF6) plays crucial roles in multiple biological systems through polyubiquitination-mediated NF-κB activation",
+      "journal": "Journal of Biochemistry",
+      "year": 2021,
+      "relevant_quote": "This discovery led to the proposal of an entirely new signaling mechanism concept, wherein K63-ubiquitin chains act as a scaffold for the signaling complex to activate downstream kinases. This concept has revolutionized ubiquitin studies by revealing the importance of the nonproteolytic functions of ubiquitin not only in NF-κB signaling but also in a variety of other biological systems."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "NF-κB Signaling Pathway",
+      "canonical_name": "NF-kB Signaling",
+      "ontology_id": "hsa04064",
+      "ontology_source": "KEGG",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> TRAF6:",
+  "protein_a": "ATXN3",
+  "protein_b": "TRAF6",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.396929Z",
+  "last_updated": "2025-12-08T02:27:47.396929Z"
+}

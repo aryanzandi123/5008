@@ -1,0 +1,72 @@
+{
+  "primary": "AIP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with and deubiquitinates the Aryl hydrocarbon receptor-interacting protein (AIP), a cochaperone that regulates the stability of various client proteins.",
+  "functions": [
+    {
+      "function": "Protein Stability",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3, as a deubiquitinase, is proposed to interact with the Aryl hydrocarbon receptor-interacting protein (AIP), a cochaperone involved in the stability and function of various client proteins.",
+      "effect_description": "By deubiquitinating AIP or its client proteins, ATXN3 could regulate their stability and protect them from proteasomal degradation, thereby influencing signaling pathways controlled by AIP-associated complexes.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates AIP or its clients → Target protein is stabilized → Downstream signaling pathways are modulated"
+      ],
+      "specific_effects": [],
+      "evidence": [],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "deubiquitination",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3, as a deubiquitinase, is proposed to interact with the Aryl hydrocarbon receptor-interacting protein (AIP), a cochaperone involved in the stability and function of various client proteins.",
+  "effect": "By deubiquitinating AIP or its client proteins, ATXN3 could regulate their stability and protect them from proteasomal degradation, thereby influencing signaling pathways controlled by AIP-associated complexes.",
+  "summary": "ATXN3 activates AIP to modulate protein stability, ultimately affecting downstream signaling pathways are modulated.",
+  "evidence": [],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> AIP:",
+  "protein_a": "ATXN3",
+  "protein_b": "AIP",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.388203Z",
+  "last_updated": "2025-12-08T02:27:47.388203Z"
+}

@@ -1,0 +1,111 @@
+{
+  "primary": "TDP-43",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "ATXN3 functionally interacts with TDP-43, a protein central to ALS and FTD pathology, by modulating its aggregation and cellular toxicity, though a direct binding interaction is not firmly established.",
+  "functions": [
+    {
+      "function": "TDP-43 Aggregation",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 functionally interacts with TDP-43, a protein prone to aggregation in neurodegenerative diseases like ALS and FTLD. This interaction modulates the aggregation process of TDP-43.",
+      "effect_description": "ATXN3 is thought to influence the ubiquitination status and clearance of TDP-43, thereby reducing its propensity to form toxic aggregates. Dysfunction of ATXN3, particularly the polyQ-expanded form, may lead to an accumulation of pathological TDP-43 species.",
+      "biological_consequence": [
+        "ATXN3 modulates TDP-43 homeostasis → TDP-43 aggregation is reduced → Cellular toxicity is decreased"
+      ],
+      "specific_effects": [
+        "TDP-43 is intrinsically aggregation-prone, and ALS-linked mutations can accelerate this process and increase toxicity.",
+        "Pathological TDP-43 inclusions are hallmarks of ALS and FTLD."
+      ],
+      "evidence": [
+        {
+          "paper_title": "TDP-43 is intrinsically aggregation-prone, and amyotrophic lateral sclerosis-linked mutations accelerate aggregation and increase toxicity",
+          "year": 2009,
+          "pmid": "19465477"
+        },
+        {
+          "paper_title": "Which TDP-43 aggregates are toxic in ALS?",
+          "year": 2015,
+          "pmid": "27876701"
+        }
+      ],
+      "_context": {
+        "type": "indirect",
+        "query_protein": null,
+        "chain": []
+      },
+      "interaction_effect": "regulates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Protein Folding and Aggregation",
+        "canonical_name": "Protein Folding And Aggregation",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "19465477",
+        "27876701"
+      ],
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "_chain_inferred": true,
+  "mechanism": "ATXN3 functionally interacts with TDP-43, a protein prone to aggregation in neurodegenerative diseases like ALS and FTLD. This interaction modulates the aggregation process of TDP-43.",
+  "effect": "ATXN3 is thought to influence the ubiquitination status and clearance of TDP-43, thereby reducing its propensity to form toxic aggregates. Dysfunction of ATXN3, particularly the polyQ-expanded form, may lead to an accumulation of pathological TDP-43 species.",
+  "summary": "ATXN3 inhibits TDP-43 to modulate tdp-43 aggregation, ultimately affecting cellular toxicity is decreased.",
+  "evidence": [
+    {
+      "paper_title": "TDP-43 is intrinsically aggregation-prone, and amyotrophic lateral sclerosis-linked mutations accelerate aggregation and increase toxicity",
+      "year": 2009
+    },
+    {
+      "paper_title": "Which TDP-43 aggregates are toxic in ALS?",
+      "year": 2015
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Protein Folding and Aggregation",
+      "canonical_name": "Protein Folding And Aggregation",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> TDP-43:",
+  "protein_a": "ATXN3",
+  "protein_b": "TDP-43",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.357942Z",
+  "last_updated": "2025-12-08T02:27:47.357942Z"
+}

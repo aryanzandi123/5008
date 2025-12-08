@@ -6,30 +6,40 @@
     "VCP"
   ],
   "depth": 2,
-  "support_summary": "The ATXN3-VCP complex promotes the extraction of the E3 ubiquitin ligase RNF8 from DNA damage sites to prevent its overaccumulation and ensure proper DNA double-strand break repair.",
+  "support_summary": "The VCP-ATXN3 complex promotes the extraction of RNF8 from DNA damage sites to prevent its overaccumulation and ensure proper repair.",
   "functions": [
     {
-      "function": "RNF8 Chromatin Extraction & DNA Damage Response Homeostasis",
+      "function": "RNF8 Chromatin Extraction",
       "arrow": "activates",
-      "cellular_process": "The ATXN3-VCP/p97 complex functions as a segregase that recognizes and extracts the E3 ubiquitin ligase RNF8 from chromatin at sites of DNA damage. This process is crucial for terminating the RNF8-dependent signaling cascade, preventing its hyper-activation, and ensuring a balanced DNA repair response.",
-      "effect_description": "The ATXN3-VCP-mediated removal of RNF8 from DNA lesions serves as a regulatory switch, ensuring a transient and balanced DNA damage response that is critical for proper repair pathway choice and cell survival.",
+      "cellular_process": "The p97/VCP-ATXN3 complex regulates the homeostasis of the E3 ubiquitin ligase RNF8. Under genotoxic stress, this complex stimulates the extraction of RNF8 from chromatin at DNA damage sites.",
+      "effect_description": "This extraction prevents the hyper-accumulation of RNF8 at DNA lesions, which would otherwise inhibit DNA repair pathways like non-homologous end joining (NHEJ). This process helps to balance DNA repair pathway choice and promotes cell survival following DNA damage.",
       "biological_consequence": [
-        "ATXN3 activates VCP segregase activity → VCP complex extracts RNF8 from chromatin → RNF8-dependent ubiquitination is terminated → Downstream signaling is modulated → Balanced DNA repair and genome stability"
+        "VCP-ATXN3 extracts RNF8 from chromatin → RNF8 overaccumulation is prevented → DNA repair pathway choice is balanced → Genome stability and cell survival after DNA damage are promoted"
       ],
       "specific_effects": [
-        "The ATXN3-VCP complex removes RNF8 from sites of DNA double-strand breaks under genotoxic stress.",
-        "This regulation prevents the overaccumulation of RNF8 at damage sites, which is linked to genome instability and cancer progression.",
-        "Proper RNF8 homeostasis is required for the timely execution of Non-Homologous End Joining (NHEJ) repair."
+        "The p97–ATXN3 complex safeguards the soluble pool of RNF8.",
+        "Inactivation of the p97-ATXN3 complex hypersensitizes cancer cells to ionizing radiation.",
+        "ATXN3 deubiquitinates RNF8 to protect it from premature degradation."
       ],
       "evidence": [
         {
-          "paper_title": "The p97-Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+          "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
           "year": 2019,
           "pmid": "31613024"
+        },
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2021,
+          "pmid": "39320846"
+        },
+        {
+          "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+          "year": 2006,
+          "pmid": "16822850"
         }
       ],
       "_context": {
-        "type": "chain",
+        "type": "indirect",
         "query_protein": null,
         "chain": [
           "VCP"
@@ -46,7 +56,9 @@
         "confidence": 0.8
       },
       "pmids": [
-        "31613024"
+        "31613024",
+        "39320846",
+        "16822850"
       ],
       "direct_arrow": "activates",
       "function_effect": "activation",
@@ -73,13 +85,21 @@
       "activates"
     ]
   },
-  "mechanism": "The ATXN3-VCP/p97 complex functions as a segregase that recognizes and extracts the E3 ubiquitin ligase RNF8 from chromatin at sites of DNA damage. This process is crucial for terminating the RNF8-dependent signaling cascade, preventing its hyper-activation, and ensuring a balanced DNA repair response.",
-  "effect": "The ATXN3-VCP-mediated removal of RNF8 from DNA lesions serves as a regulatory switch, ensuring a transient and balanced DNA damage response that is critical for proper repair pathway choice and cell survival.",
-  "summary": "ATXN3 activates RNF8 to modulate rnf8 chromatin extraction & dna damage response homeostasis, ultimately affecting balanced dna repair and genome stability.",
+  "mechanism": "The p97/VCP-ATXN3 complex regulates the homeostasis of the E3 ubiquitin ligase RNF8. Under genotoxic stress, this complex stimulates the extraction of RNF8 from chromatin at DNA damage sites.",
+  "effect": "This extraction prevents the hyper-accumulation of RNF8 at DNA lesions, which would otherwise inhibit DNA repair pathways like non-homologous end joining (NHEJ). This process helps to balance DNA repair pathway choice and promotes cell survival following DNA damage.",
+  "summary": "ATXN3 activates RNF8 to modulate rnf8 chromatin extraction, ultimately affecting genome stability and cell survival after dna damage are promoted.",
   "evidence": [
     {
-      "paper_title": "The p97-Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
+      "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
       "year": 2019
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2021
+    },
+    {
+      "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+      "year": 2006
     }
   ],
   "pathways": [
@@ -102,6 +122,6 @@
   "protein_a": "ATXN3",
   "protein_b": "RNF8",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-07T22:39:21.560428Z",
-  "last_updated": "2025-12-07T22:39:21.560428Z"
+  "first_discovered": "2025-12-08T02:27:47.340062Z",
+  "last_updated": "2025-12-08T02:27:47.340062Z"
 }

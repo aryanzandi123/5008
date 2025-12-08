@@ -1,0 +1,104 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": "Mdm2",
+  "mediator_chain": [
+    "Mdm2"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 is involved in the regulation of p53, whose ubiquitination is primarily governed by the E3 ligase Mdm2, leading to its proteasomal degradation.",
+  "functions": [
+    {
+      "function": "p53 Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the tumor suppressor p53, counteracting its Mdm2-mediated ubiquitination and subsequent degradation by the proteasome.",
+      "effect_description": "By removing ubiquitin chains from p53, ATXN3 prevents its degradation, leading to increased p53 protein levels. This enhances p53's functions in transcriptional activation, cell cycle arrest, and apoptosis.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates p53 → p53 is stabilized against proteasomal degradation → p53-dependent transcription and apoptosis are promoted"
+      ],
+      "specific_effects": [
+        "ATXN3 binds to both native and polyubiquitinated p53. [1, 7]",
+        "Deletion of ATXN3 results in reduced p53 protein levels and destabilizes p53. [1, 6]",
+        "PolyQ-expanded ATXN3 shows enhanced binding and deubiquitinating activity towards p53, leading to increased p53-dependent apoptosis and neurodegeneration. [1, 6, 7, 22]"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado–Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "year": 2016,
+          "pmid": "27851749"
+        },
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2021,
+          "pmid": "39320846"
+        }
+      ],
+      "_context": {
+        "type": "indirect",
+        "query_protein": null,
+        "chain": [
+          "Mdm2"
+        ]
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "p53 Signaling Pathway",
+        "canonical_name": "P53 Signaling Pathway",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "27851749",
+        "39320846"
+      ],
+      "consequences": "ATXN3 directly binds to and deubiquitinates p53, preventing its proteasomal degradation and thereby increasing its stability.",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the tumor suppressor p53, counteracting its Mdm2-mediated ubiquitination and subsequent degradation by the proteasome.",
+  "effect": "By removing ubiquitin chains from p53, ATXN3 prevents its degradation, leading to increased p53 protein levels. This enhances p53's functions in transcriptional activation, cell cycle arrest, and apoptosis.",
+  "summary": "ATXN3 activates p53 to modulate p53 stability, ultimately affecting p53-dependent transcription and apoptosis are promoted.",
+  "evidence": [
+    {
+      "paper_title": "The Machado–Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "year": 2016
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2021
+    }
+  ],
+  "pathways": [
+    {
+      "name": "p53 Signaling Pathway",
+      "canonical_name": "P53 Signaling Pathway",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> p53:",
+  "protein_a": "p53",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.341773Z",
+  "last_updated": "2025-12-08T02:27:47.341773Z"
+}

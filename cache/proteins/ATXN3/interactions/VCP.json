@@ -4,20 +4,21 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 contains a VCP binding motif and their interaction is confirmed by pulldown assays, playing a role in ER-associated degradation (ERAD).",
+  "support_summary": "ATXN3 contains a VCP binding motif (VBM) and directly interacts with VCP/p97, an AAA+ ATPase involved in protein homeostasis. This interaction is crucial for ATXN3's role in ER-associated degradation (ERAD).",
   "functions": [
     {
       "function": "ER-Associated Degradation (ERAD)",
       "arrow": "inhibits",
-      "cellular_process": "ATXN3 directly binds to the N-terminal domain of VCP/p97, an AAA+ ATPase essential for extracting misfolded proteins from the endoplasmic reticulum. This interaction is competitive with the VCP cofactor Ufd1. By binding to VCP, ATXN3 displaces Ufd1, which in turn reduces VCP's association with ubiquitinated ERAD substrates and impairs their retrotranslocation from the ER to the cytosol for subsequent degradation by the proteasome.",
-      "effect_description": "ATXN3 acts as a negative regulator of the ERAD pathway. By modulating VCP's substrate processing capacity, it controls the flow of misfolded proteins targeted for degradation, and its over-activity or enhanced binding due to polyQ expansion can lead to the accumulation of these substrates, inducing ER stress.",
+      "cellular_process": "ATXN3 directly interacts with VCP/p97, a critical AAA+ ATPase that extracts misfolded proteins from the endoplasmic reticulum (ER) membrane for subsequent proteasomal degradation. ATXN3 modulates this process by influencing the composition and activity of the VCP/p97 complex.",
+      "effect_description": "ATXN3 and the VCP cofactor Ufd1 bind to VCP/p97 in a mutually exclusive manner. By binding to VCP, ATXN3 competitively displaces Ufd1, thereby reducing the association of VCP with its essential cofactors and ubiquitinated ERAD substrates. This interference inhibits the retrotranslocation of misfolded proteins from the ER to the cytosol, decreasing their degradation rate.",
       "biological_consequence": [
-        "ATXN3 binds to VCP/p97 → ATXN3 competitively displaces the cofactor Ufd1 from VCP → VCP's interaction with ubiquitinated ERAD substrates is decreased → Retrotranslocation of misfolded proteins from the ER to the cytosol is inhibited → Accumulation of ERAD substrates in the ER → Induction of ER stress"
+        "ATXN3 binds to the N-domain of VCP/p97 → Ufd1/Npl4 cofactor complex is displaced from VCP/p97 → VCP/p97 complex has reduced affinity for ubiquitinated ERAD substrates → VCP-dependent retrotranslocation of substrates from the ER is inhibited → Misfolded proteins accumulate in the ER → ER stress is induced."
       ],
       "specific_effects": [
-        "ATXN3 and the VCP cofactor Ufd1 bind to VCP in a mutually exclusive manner.",
-        "ATXN3 binding to VCP reduces VCP's interaction with ubiquitylated proteins.",
-        "Pathological polyglutamine (polyQ) expansion in ATXN3 enhances its binding affinity for VCP, leading to a more pronounced impairment of ERAD."
+        "Normal ATXN3 fine-tunes the rate of substrate flow through the ERAD pathway.",
+        "Pathogenic polyQ-expanded ATXN3 exhibits stronger binding to VCP, causing excessive inhibition of ERAD and a more pronounced accumulation of ERAD substrates.",
+        "While ATXN3 binding inhibits VCP's retrotranslocation function, VCP binding has been shown to activate the deubiquitinase (DUB) activity of wild-type ATXN3 in vitro.",
+        "The interaction between ATXN3 and Ufd1 for VCP binding is competitive and mutually exclusive."
       ],
       "evidence": [
         {
@@ -26,6 +27,20 @@
           "year": 2006,
           "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER.",
           "pmid": "16822850"
+        },
+        {
+          "paper_title": "Valosin-Containing Protein (VCP/p97) Is an Activator of Wild-Type Ataxin-3",
+          "journal": "PLoS ONE",
+          "year": 2012,
+          "relevant_quote": "VCP/p97 was shown to be an activator specifically of wild-type ataxin-3, exhibiting no effect on expanded ataxin-3, In contrast, we observed no significant alterations in ataxin-3 enzyme kinetics or substrate preference in the presence of hHR23A alone or in combination with VCP.",
+          "pmid": "22970133"
+        },
+        {
+          "paper_title": "Roles of p97-associated deubiquitinases in protein quality control at the endoplasmic reticulum",
+          "journal": "Current Protein & Peptide Science",
+          "year": 2012,
+          "relevant_quote": "Intriguingly, many ERAD specific DUBs are physically associated with the retrotranslocation- driving ATPase p97. Here we discuss the potential functions of p97-associated DUBs including ataxin-3 and YOD1.",
+          "pmid": "22812527"
         }
       ],
       "pathway": {
@@ -36,63 +51,28 @@
         "confidence": 0.8
       },
       "pmids": [
-        "16822850"
+        "16822850",
+        "22970133",
+        "22812527"
       ],
-      "interaction_effect": "inhibition",
+      "interaction_effect": "inhibits",
       "interaction_direction": "main_to_primary",
       "function_effect": "inhibition"
-    },
-    {
-      "function": "RNF8 Homeostasis & DNA Damage Response",
-      "arrow": "activates",
-      "cellular_process": "Under physiological conditions, the ATXN3-VCP complex constitutively interacts with the E3 ubiquitin ligase RNF8 to regulate its proteasome-dependent homeostasis. Following genotoxic stress (e.g., ionizing radiation), RNF8 is rapidly recruited to DNA double-strand breaks. The ATXN3-VCP machinery then stimulates the extraction of RNF8 from chromatin, preventing its hyper-accumulation at damage sites.",
-      "effect_description": "This regulatory extraction of RNF8 is a crucial step that ensures a balanced DNA damage response. By controlling RNF8 levels on chromatin, the ATXN3-VCP complex facilitates the timely recruitment of downstream repair factors and promotes the appropriate choice of DNA repair pathway, specifically favoring non-homologous end joining (NHEJ) and enhancing overall cell survival.",
-      "biological_consequence": [
-        "ATXN3 and VCP form a complex with RNF8 → Upon DNA damage, the ATXN3-VCP complex extracts RNF8 from chromatin → Prevents RNF8 hyper-accumulation at DNA lesions → Allows balanced recruitment of downstream factors like RNF168 and 53BP1 → Promotes timely utilization of Non-Homologous End Joining (NHEJ) repair → Enhances cell survival post-irradiation"
-      ],
-      "specific_effects": [
-        "The p97-ATX3 machinery regulates proteasome-dependent homeostasis of RNF8 under both physiological and genotoxic conditions.",
-        "Inactivation of the p97-ATX3 complex leads to RNF8 hyper-accumulation on chromatin and hypersensitizes cells to ionizing radiation.",
-        "The complex's activity promotes the timely choice of the Non-Homologous End Joining (NHEJ) DNA repair pathway over Homologous Recombination (HR)."
-      ],
-      "evidence": [
-        {
-          "paper_title": "The p97-Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
-          "journal": "The EMBO Journal",
-          "year": 2019,
-          "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR).",
-          "pmid": "31613024"
-        }
-      ],
-      "pathway": {
-        "name": "DNA Damage Response",
-        "canonical_name": "DNA Damage Response",
-        "ontology_id": null,
-        "ontology_source": null,
-        "confidence": 0.8
-      },
-      "pmids": [
-        "31613024"
-      ],
-      "interaction_effect": "activation",
-      "interaction_direction": "main_to_primary",
-      "function_effect": "activation"
     }
   ],
   "arrow": "regulates",
-  "direction": "main_to_primary",
+  "direction": "bidirectional",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates",
       "inhibits"
     ]
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "ATXN3 directly binds to the N-terminal domain of VCP/p97, an AAA+ ATPase essential for extracting mi; Under physiological conditions, the ATXN3-VCP complex constitutively interacts with the E3 ubiquitin",
-  "effect": "ATXN3 acts as a negative regulator of the ERAD pathway. By modulating VCP's substrate processing capacity, it controls the flow of misfolded proteins targeted for degradation, and its over-activity or enhanced binding due to polyQ expansion can lead to the accumulation of these substrates, inducing ER stress.; This regulatory extraction of RNF8 is a crucial step that ensures a balanced DNA damage response. By controlling RNF8 levels on chromatin, the ATXN3-VCP complex facilitates the timely recruitment of downstream repair factors and promotes the appropriate choice of DNA repair pathway, specifically favoring non-homologous end joining (NHEJ) and enhancing overall cell survival.",
-  "summary": "ATXN3 regulates VCP to regulate er-associated degradation (erad) and rnf8 homeostasis & dna damage response, ultimately affecting induction of er stress.",
+  "mechanism": "ATXN3 directly interacts with VCP/p97, a critical AAA+ ATPase that extracts misfolded proteins from the endoplasmic reticulum (ER) membrane for subsequent proteasomal degradation. ATXN3 modulates this process by influencing the composition and activity of the VCP/p97 complex.",
+  "effect": "ATXN3 and the VCP cofactor Ufd1 bind to VCP/p97 in a mutually exclusive manner. By binding to VCP, ATXN3 competitively displaces Ufd1, thereby reducing the association of VCP with its essential cofactors and ubiquitinated ERAD substrates. This interference inhibits the retrotranslocation of misfolded proteins from the ER to the cytosol, decreasing their degradation rate.",
+  "summary": "ATXN3 inhibits VCP to modulate er-associated degradation (erad), ultimately affecting er stress is induced.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
@@ -101,10 +81,16 @@
       "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER."
     },
     {
-      "paper_title": "The p97-Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
-      "journal": "The EMBO Journal",
-      "year": 2019,
-      "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR)."
+      "paper_title": "Valosin-Containing Protein (VCP/p97) Is an Activator of Wild-Type Ataxin-3",
+      "journal": "PLoS ONE",
+      "year": 2012,
+      "relevant_quote": "VCP/p97 was shown to be an activator specifically of wild-type ataxin-3, exhibiting no effect on expanded ataxin-3, In contrast, we observed no significant alterations in ataxin-3 enzyme kinetics or substrate preference in the presence of hHR23A alone or in combination with VCP."
+    },
+    {
+      "paper_title": "Roles of p97-associated deubiquitinases in protein quality control at the endoplasmic reticulum",
+      "journal": "Current Protein & Peptide Science",
+      "year": 2012,
+      "relevant_quote": "Intriguingly, many ERAD specific DUBs are physically associated with the retrotranslocation- driving ATPase p97. Here we discuss the potential functions of p97-associated DUBs including ataxin-3 and YOD1."
     }
   ],
   "pathways": [
@@ -114,26 +100,19 @@
       "ontology_id": "GO:0036503",
       "ontology_source": "GO",
       "confidence": 0.8
-    },
-    {
-      "name": "DNA Damage Response",
-      "canonical_name": "DNA Damage Response",
-      "ontology_id": null,
-      "ontology_source": null,
-      "confidence": 0.8
     }
   ],
   "interaction_effect": "regulation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 2
+    "corrections_applied": 3
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --regulates--> VCP:",
+  "arrow_notation": "ATXN3 <--regulates--> VCP:",
   "protein_a": "ATXN3",
   "protein_b": "VCP",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-07T22:39:21.476183Z",
-  "last_updated": "2025-12-07T22:39:21.476183Z"
+  "first_discovered": "2025-12-08T02:27:47.311966Z",
+  "last_updated": "2025-12-08T02:27:47.311966Z"
 }

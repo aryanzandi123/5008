@@ -1,0 +1,64 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 deubiquitinates and stabilizes the transcriptional co-repressor TRIM28 (tripartite motif-containing protein 28), also known as KAP1, influencing gene expression and chromatin regulation.",
+  "functions": [
+    {
+      "function": "TRIM28 Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 deubiquitinates the transcriptional co-repressor TRIM28, also known as KAP1.",
+      "effect_description": "By removing ubiquitin chains from TRIM28, ATXN3 stabilizes the protein, thereby enhancing its functions in gene silencing, chromatin regulation, and the DNA damage response.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates TRIM28 → TRIM28 is stabilized → TRIM28-mediated transcriptional repression and DNA repair are enhanced"
+      ],
+      "specific_effects": [],
+      "evidence": [],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      }
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_validation_status": "rejected",
+  "mechanism": "ATXN3 deubiquitinates the transcriptional co-repressor TRIM28, also known as KAP1.",
+  "effect": "By removing ubiquitin chains from TRIM28, ATXN3 stabilizes the protein, thereby enhancing its functions in gene silencing, chromatin regulation, and the DNA damage response.",
+  "summary": "ATXN3 activates TRIM28 to modulate trim28 stability, ultimately affecting trim28-mediated transcriptional repression and dna repair are enhanced.",
+  "evidence": [],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "arrow_notation": "ATXN3 --activates--> TRIM28:",
+  "protein_a": "TRIM28",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.386433Z",
+  "last_updated": "2025-12-08T02:27:47.386433Z"
+}

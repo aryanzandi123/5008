@@ -4,35 +4,35 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "A direct interaction between ATXN3 and Promyelocytic leukemia protein (PML) was shown via co-immunoprecipitation (Co-IP).",
+  "support_summary": "ATXN3 has been shown to interact with the Promyelocytic leukemia protein (PML), a component of nuclear bodies, suggesting a role in transcriptional regulation or protein degradation within these subnuclear structures.",
   "functions": [
     {
-      "function": "Inhibition of Deubiquitinase Activity",
+      "function": "Inhibition of Deubiquitinating (DUB) Activity",
       "arrow": "activates",
-      "cellular_process": "The Promyelocytic leukemia protein isoform II (PML-II) specifically interacts with ATXN3 via its unique C-terminal region. This interaction recruits ATXN3 into PML nuclear bodies (NBs), subnuclear structures involved in various cellular processes. The sequestration and localization of ATXN3 within these bodies leads to the inhibition of its deubiquitinase (DUB) activity.",
-      "effect_description": "The recruitment of ATXN3 to PML-NBs by PML-II serves as a negative regulatory mechanism, suppressing the enzymatic function of ATXN3. This suggests that PML-NBs act as hubs for controlling the activity of nuclear ATXN3, thereby influencing the stability of its protein substrates.",
+      "cellular_process": "The Promyelocytic leukemia protein (PML) isoform II specifically recruits ATXN3 to subnuclear structures known as PML nuclear bodies (PML-NBs), where it modulates ATXN3's enzymatic function.",
+      "effect_description": "Upon recruitment to PML-NBs through a direct interaction with the unique C-terminal region of the PML-II isoform, the deubiquitinase (DUB) activity of ATXN3 is inhibited. This sequestration and inactivation mechanism suggests that PML-NBs function as regulatory hubs to control the local activity of ATXN3 within the nucleus.",
       "biological_consequence": [
-        "The C-terminal domain of PML-II binds directly to ATXN3 → ATXN3 is recruited from the nucleoplasm into PML nuclear bodies → The deubiquitinase activity of ATXN3 is inhibited → The removal of ubiquitin chains from ATXN3 substrates is reduced → The stability and turnover of ATXN3 target proteins are altered."
+        "PML-II isoform binds to ATXN3 via its unique C-terminal domain → ATXN3 is recruited and sequestered into PML Nuclear Bodies → The deubiquitinase activity of ATXN3 is inhibited → Ubiquitination levels of local ATXN3 substrates are altered."
       ],
       "specific_effects": [
-        "The interaction is specific to the PML-II isoform and does not occur with the C-terminal regions of other PML isoforms.",
-        "PML-II binds to both wild-type ATXN3 (13Q) and the pathological, polyQ-expanded form (79Q).",
-        "Co-immunoprecipitation assays and immunofluorescent microscopy confirmed a direct interaction and co-localization of PML-II and ATXN3 within PML-NBs."
+        "The interaction is specific to the PML-II isoform and is not observed with other PML isoforms.",
+        "PML-II binds to both the normal (13Q) and the pathological, polyQ-expanded (79Q) forms of ataxin-3.",
+        "The binding of ATXN3 occurs specifically at the C-terminal region of PML-II."
       ],
       "evidence": [
         {
           "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
           "journal": "Biochemical and Biophysical Research Communications",
           "year": 2021,
-          "relevant_quote": "Here, we report the characterization of the deubiquitinase ataxin-3 as a specific binding partner of PML isoform II (PML-II). Ataxin-3 only binds to the C-terminal region of PML-II and not that of other PML isoforms... Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II. Our results suggest that PML-II may be a negative regulator of ataxin-3.",
+          "relevant_quote": "Here, we report the characterization of the deubiquitinase ataxin-3 as a specific binding partner of PML isoform II (PML-II)... Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II. Our results suggest that PML-II may be a negative regulator of ataxin-3.",
           "pmid": "33798946"
         }
       ],
       "pathway": {
-        "name": "Ubiquitin-Proteasome System",
-        "canonical_name": "Proteasomal Degradation",
-        "ontology_id": "GO:0010498",
-        "ontology_source": "GO",
+        "name": "Post-Translational Modification",
+        "canonical_name": "Post-Translational Modification",
+        "ontology_id": null,
+        "ontology_source": null,
         "confidence": 0.8
       },
       "pmids": [
@@ -52,24 +52,24 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "The Promyelocytic leukemia protein isoform II (PML-II) specifically interacts with ATXN3 via its unique C-terminal region. This interaction recruits ATXN3 into PML nuclear bodies (NBs), subnuclear structures involved in various cellular processes. The sequestration and localization of ATXN3 within these bodies leads to the inhibition of its deubiquitinase (DUB) activity.",
-  "effect": "The recruitment of ATXN3 to PML-NBs by PML-II serves as a negative regulatory mechanism, suppressing the enzymatic function of ATXN3. This suggests that PML-NBs act as hubs for controlling the activity of nuclear ATXN3, thereby influencing the stability of its protein substrates.",
-  "summary": "ATXN3 inhibits PML to modulate inhibition of deubiquitinase activity, ultimately affecting the stability and turnover of atxn3 target proteins are altered.",
+  "mechanism_correction": "The input claim is accurate but lacks specificity regarding the direction of inhibition. The PML-II isoform recruits and inhibits the deubiquitinating activity of ATXN3. The arrow of interaction should therefore be directed from PML to ATXN3.",
+  "mechanism": "The Promyelocytic leukemia protein (PML) isoform II specifically recruits ATXN3 to subnuclear structures known as PML nuclear bodies (PML-NBs), where it modulates ATXN3's enzymatic function.",
+  "effect": "Upon recruitment to PML-NBs through a direct interaction with the unique C-terminal region of the PML-II isoform, the deubiquitinase (DUB) activity of ATXN3 is inhibited. This sequestration and inactivation mechanism suggests that PML-NBs function as regulatory hubs to control the local activity of ATXN3 within the nucleus.",
+  "summary": "ATXN3 inhibits PML to modulate inhibition of deubiquitinating (dub) activity, ultimately affecting ubiquitination levels of local atxn3 substrates are altered.",
   "evidence": [
     {
       "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
       "journal": "Biochemical and Biophysical Research Communications",
       "year": 2021,
-      "relevant_quote": "Here, we report the characterization of the deubiquitinase ataxin-3 as a specific binding partner of PML isoform II (PML-II). Ataxin-3 only binds to the C-terminal region of PML-II and not that of other PML isoforms... Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II. Our results suggest that PML-II may be a negative regulator of ataxin-3."
+      "relevant_quote": "Here, we report the characterization of the deubiquitinase ataxin-3 as a specific binding partner of PML isoform II (PML-II)... Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II. Our results suggest that PML-II may be a negative regulator of ataxin-3."
     }
   ],
   "pathways": [
     {
-      "name": "Ubiquitin-Proteasome System",
-      "canonical_name": "Proteasomal Degradation",
-      "ontology_id": "GO:0010498",
-      "ontology_source": "GO",
+      "name": "Post-Translational Modification",
+      "canonical_name": "Post-Translational Modification",
+      "ontology_id": null,
+      "ontology_source": null,
       "confidence": 0.8
     }
   ],
@@ -84,6 +84,6 @@
   "protein_a": "PML",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-07T22:39:21.499215Z",
-  "last_updated": "2025-12-07T22:39:21.499215Z"
+  "first_discovered": "2025-12-08T02:27:47.347113Z",
+  "last_updated": "2025-12-08T02:27:47.347113Z"
 }

@@ -1,0 +1,122 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "TRAF6",
+  "mediator_chain": [
+    "TRAF6"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 influences the NF-κB pathway, which is also regulated by Annexin A3, suggesting a functional connection in inflammatory and cell proliferation processes.",
+  "functions": [
+    {
+      "function": "NF-κB-Mediated Inflammatory Response",
+      "arrow": "inhibits",
+      "cellular_process": "The activation of the NF-κB pathway is critically dependent on the E3 ligase activity of TRAF6. Annexin A3 is a positive modulator of this pathway, directly binding to both RANK (the receptor) and TRAF6. This interaction promotes TRAF6 stability and enhances the downstream signal transduction to NF-κB, thereby amplifying pro-inflammatory and osteoclastogenic signals.",
+      "effect_description": "ATXN3 indirectly counteracts the pro-inflammatory and pro-proliferative functions of Annexin A3. By deubiquitinating and inhibiting the upstream activator TRAF6, ATXN3 dampens the overall flux through the NF-κB signaling cascade. This reduces the signal amplification that would otherwise be promoted by Annexin A3, leading to a reduction in the expression of NF-κB target genes involved in inflammation and cell proliferation.",
+      "biological_consequence": [
+        "ATXN3 deubiquitinates and inhibits TRAF6 → Overall NF-κB pathway activation is suppressed → The pro-inflammatory signaling enhancement mediated by the Annexin A3-TRAF6 interaction is attenuated → Expression of NF-κB target genes (e.g., inflammatory cytokines) is reduced → Attenuation of inflammatory responses."
+      ],
+      "specific_effects": [
+        "Indirectly reduces the pro-inflammatory activity of Annexin A3 by targeting its upstream activator, TRAF6.",
+        "Knockdown of Annexin A3 itself has been shown to alleviate inflammation by inhibiting the NF-κB pathway in models of psoriasis and ischemic injury."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Annexin A3 accelerates osteoclast differentiation by promoting the level of RANK and TRAF6",
+          "journal": "Biochemical and Biophysical Research Communications",
+          "year": 2022,
+          "relevant_quote": "Mechanistically, we found that ANXA3 directly bound to RANK and TRAF6 to accelerate osteoclast differentiation by promoting their transcription and limiting degradation. In conclusion, we propose a fundamentally novel RANK-ANXA3-TRAF6 complex to effectively modulate the formation and differentiation of osteoclast to manipulate bone metabolism.",
+          "pmid": "37030499"
+        },
+        {
+          "paper_title": "Microglial Annexin A3 Downregulation Alleviates Ischemic Injury by Inhibiting NF-κB/NLRP3-mediated Inflammation",
+          "journal": "Neuroscience",
+          "year": 2023,
+          "relevant_quote": "Our results revealed a positive correlation between ANXA3 expression and activation of the NF-κB/NLRP3 signaling pathway, which was demonstrated by lower levels of ANXA3 along with decreases in p-NF-κB, NLRP3, cleaved caspase-1, N-GSDMD p31 and IL-1β p17 levels.",
+          "pmid": "40087252"
+        }
+      ],
+      "pathway": {
+        "name": "Inflammatory Response",
+        "canonical_name": "Inflammatory Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37030499",
+        "40087252"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "inhibition",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "TRAF6",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "TRAF6"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "_chain_inferred": true,
+  "_inferred_mediators": [
+    "TRAF6"
+  ],
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The activation of the NF-κB pathway is critically dependent on the E3 ligase activity of TRAF6. Annexin A3 is a positive modulator of this pathway, directly binding to both RANK (the receptor) and TRAF6. This interaction promotes TRAF6 stability and enhances the downstream signal transduction to NF-κB, thereby amplifying pro-inflammatory and osteoclastogenic signals.",
+  "effect": "ATXN3 indirectly counteracts the pro-inflammatory and pro-proliferative functions of Annexin A3. By deubiquitinating and inhibiting the upstream activator TRAF6, ATXN3 dampens the overall flux through the NF-κB signaling cascade. This reduces the signal amplification that would otherwise be promoted by Annexin A3, leading to a reduction in the expression of NF-κB target genes involved in inflammation and cell proliferation.",
+  "summary": "ATXN3 inhibits Annexin A3 to modulate nf-κb-mediated inflammatory response, ultimately affecting attenuation of inflammatory responses.",
+  "evidence": [
+    {
+      "paper_title": "Annexin A3 accelerates osteoclast differentiation by promoting the level of RANK and TRAF6",
+      "journal": "Biochemical and Biophysical Research Communications",
+      "year": 2022,
+      "relevant_quote": "Mechanistically, we found that ANXA3 directly bound to RANK and TRAF6 to accelerate osteoclast differentiation by promoting their transcription and limiting degradation. In conclusion, we propose a fundamentally novel RANK-ANXA3-TRAF6 complex to effectively modulate the formation and differentiation of osteoclast to manipulate bone metabolism."
+    },
+    {
+      "paper_title": "Microglial Annexin A3 Downregulation Alleviates Ischemic Injury by Inhibiting NF-κB/NLRP3-mediated Inflammation",
+      "journal": "Neuroscience",
+      "year": 2023,
+      "relevant_quote": "Our results revealed a positive correlation between ANXA3 expression and activation of the NF-κB/NLRP3 signaling pathway, which was demonstrated by lower levels of ANXA3 along with decreases in p-NF-κB, NLRP3, cleaved caspase-1, N-GSDMD p31 and IL-1β p17 levels."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Inflammatory Response",
+      "canonical_name": "Inflammatory Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "TRAF6 --inhibits--> Annexin A3:",
+  "protein_a": "Annexin A3",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.400487Z",
+  "last_updated": "2025-12-08T02:27:47.400487Z"
+}

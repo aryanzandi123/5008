@@ -1,0 +1,105 @@
+{
+  "primary": "Parkin",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 can deubiquitinate the E3 ligase Parkin, indicating a direct interaction. The expanded form of ATXN3 increases Parkin turnover.",
+  "functions": [
+    {
+      "function": "Parkin Stability",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3, a deubiquitinating enzyme (DUB), directly interacts with the E3 ubiquitin ligase Parkin. While wild-type ATXN3 can deubiquitinate Parkin, the polyQ-expanded mutant form associated with Machado-Joseph Disease (MJD) is significantly more active. Mutant ATXN3 preferentially removes K27- and K29-linked ubiquitin chains from Parkin, which are thought to be protective. This editing of ubiquitin chains does not stabilize Parkin but instead targets it for degradation through the autophagy pathway.",
+      "effect_description": "The enhanced deubiquitination of Parkin by mutant ATXN3 promotes its clearance, leading to a reduction in total Parkin protein levels. This loss of Parkin function can impair critical cellular processes, particularly mitophagy (the removal of damaged mitochondria), which may contribute to the Parkinsonian features sometimes observed in MJD patients.",
+      "biological_consequence": [
+        "PolyQ-expanded ATXN3 directly binds to ubiquitinated Parkin → Mutant ATXN3 preferentially cleaves K27- and K29-linked ubiquitin chains from Parkin → Deubiquitinated Parkin is targeted for degradation via the autophagy pathway → Cellular Parkin levels decrease → Mitophagy is impaired, leading to mitochondrial dysfunction and contributing to neurodegeneration."
+      ],
+      "specific_effects": [
+        "The interaction between ATXN3 and Parkin is direct and involves multiple domains.",
+        "PolyQ-expanded ATXN3 is more efficient at deubiquitinating Parkin compared to the wild-type enzyme.",
+        "Mutant, but not wild-type, ATXN3 promotes the clearance of Parkin via autophagy.",
+        "Reduced Parkin levels are observed in the brains of MJD transgenic mice expressing polyQ-expanded ATXN3.",
+        "The increased turnover of Parkin may contribute to the pathogenesis of MJD."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+          "journal": "Human Molecular Genetics",
+          "year": 2011,
+          "relevant_quote": "Compared with wild-type ataxin-3, MJD-linked polyQ-expanded mutant ataxin-3 is more active, possibly owing to its greater efficiency at DUB K27- and K29-linked Ub conjugates on parkin. Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway.",
+          "pmid": "20940148"
+        },
+        {
+          "paper_title": "Mutant ataxin-3 promotes the autophagic degradation of parkin",
+          "journal": "Autophagy",
+          "year": 2011,
+          "relevant_quote": "We reported that the mutant form of ataxin-3, the protein responsible for MJD, promotes the autophagic degradation of parkin. Given that the loss of parkin function leads to PD, we propose that the increased turnover of parkin triggered by mutant ataxin-3 may explain some of the parkinsonian features observed in MJD.",
+          "pmid": "21116127"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20940148",
+        "21116127"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, a deubiquitinating enzyme (DUB), directly interacts with the E3 ubiquitin ligase Parkin. While wild-type ATXN3 can deubiquitinate Parkin, the polyQ-expanded mutant form associated with Machado-Joseph Disease (MJD) is significantly more active. Mutant ATXN3 preferentially removes K27- and K29-linked ubiquitin chains from Parkin, which are thought to be protective. This editing of ubiquitin chains does not stabilize Parkin but instead targets it for degradation through the autophagy pathway.",
+  "effect": "The enhanced deubiquitination of Parkin by mutant ATXN3 promotes its clearance, leading to a reduction in total Parkin protein levels. This loss of Parkin function can impair critical cellular processes, particularly mitophagy (the removal of damaged mitochondria), which may contribute to the Parkinsonian features sometimes observed in MJD patients.",
+  "summary": "ATXN3 inhibits Parkin to modulate regulation of parkin stability, ultimately affecting mitophagy is impaired, leading to mitochondrial dysfunction and contributing to neurodegeneration.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+      "journal": "Human Molecular Genetics",
+      "year": 2011,
+      "relevant_quote": "Compared with wild-type ataxin-3, MJD-linked polyQ-expanded mutant ataxin-3 is more active, possibly owing to its greater efficiency at DUB K27- and K29-linked Ub conjugates on parkin. Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway."
+    },
+    {
+      "paper_title": "Mutant ataxin-3 promotes the autophagic degradation of parkin",
+      "journal": "Autophagy",
+      "year": 2011,
+      "relevant_quote": "We reported that the mutant form of ataxin-3, the protein responsible for MJD, promotes the autophagic degradation of parkin. Given that the loss of parkin function leads to PD, we propose that the increased turnover of parkin triggered by mutant ataxin-3 may explain some of the parkinsonian features observed in MJD."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> Parkin:",
+  "protein_a": "ATXN3",
+  "protein_b": "Parkin",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.322098Z",
+  "last_updated": "2025-12-08T02:27:47.322098Z"
+}

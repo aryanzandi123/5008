@@ -4,28 +4,35 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "Direct binding to tubulin has been demonstrated by Surface Plasmon Resonance (SPR), linking ATXN3 to microtubule-dependent processes.",
+  "support_summary": "Surface plasmon resonance (SPR) analysis showed that ATXN3 binds directly to tubulin dimers. This interaction is involved in the machinery that sorts aggregated proteins to aggresomes via microtubules.",
   "functions": [
     {
-      "function": "Microtubule-Dependent Protein Transport",
+      "function": "Aggregate Transport via Microtubules",
       "arrow": "activates",
-      "cellular_process": "ATXN3 directly binds with high affinity to both alpha- and beta-tubulin dimers, the fundamental components of microtubules. This interaction facilitates the co-localization of ATXN3 with the microtubule network, which serves as a cellular railway for transporting cargo, including misfolded protein aggregates, to the aggresome located near the microtubule-organizing center (MTOC).",
-      "effect_description": "Through its interaction with tubulin, ATXN3 is implicated as a key component in the cellular machinery responsible for recognizing, collecting, and transporting misfolded proteins along microtubules for their eventual sequestration into aggresomes.",
+      "cellular_process": "ATXN3 is a key component of the cellular machinery that transports misfolded protein aggregates along microtubules to the aggresome. It achieves this by directly binding to tubulin, the fundamental component of microtubules.",
+      "effect_description": "ATXN3 acts as an adaptor protein that physically links protein aggregates to the microtubule network. Surface plasmon resonance (SPR) analysis confirms a direct, high-affinity interaction between ATXN3 and tubulin dimers. This binding does not inhibit microtubule stability; rather, it facilitates the movement of cargo (protein aggregates, complexed with HDAC6) along the microtubule tracks via the dynein motor.",
       "biological_consequence": [
-        "ATXN3 directly binds to tubulin dimers → ATXN3 co-localizes with the microtubule network → ATXN3 facilitates the transport of misfolded protein cargo along microtubules → Misfolded proteins are collected at the microtubule-organizing center → Formation of aggresomes is promoted"
+        "Misfolded protein aggregates are recognized by the ATXN3/HDAC6 complex → ATXN3 directly binds to tubulin dimers within the microtubule polymer → This interaction anchors the aggregate-chaperone complex to the microtubule track → Dynein motors engage the complex and mediate retrograde transport toward the MTOC → Aggresome formation is successfully completed."
       ],
       "specific_effects": [
-        "Surface plasmon resonance experiments determined a strong dissociation constant (Kd) of 50-70 nM for the interaction between ataxin-3 and tubulin dimers.",
-        "In cultured cells, normal ATXN3 shows partial co-localization with microtubules.",
-        "PolyQ-expanded ATXN3, associated with spinocerebellar ataxia type 3, exhibits reduced co-localization with microtubules, potentially due to its propensity to aggregate."
+        "ATXN3 binds directly to tubulin dimers with a dissociation constant (Kd) of approximately 50 nM, indicating a high-affinity interaction.",
+        "The interaction involves three distinct tubulin-binding regions on ATXN3, one in the N-terminal Josephin domain and two in the C-terminal disordered region.",
+        "This interaction is a necessary step for the efficient transport of protein aggregates, which is a prerequisite for aggresome formation."
       ],
       "evidence": [
         {
-          "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+          "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
           "journal": "The International Journal of Biochemistry & Cell Biology",
-          "year": 2009,
-          "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin from soluble rat brain extracts. Coimmunoprecipitation experiments confirmed this interaction. Also, normal ataxin-3 overexpressed in COS7 cultured cells partially colocalized with microtubules... Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo.",
-          "pmid": "19666135"
+          "year": 2014,
+          "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface. Nevertheless, the interaction surface consists of three distinct, discontinuous tubulin-binding regions (TBR), one located in the JD, and the two others in the disordered domain, upstream and downstream of the polyQ stretch.",
+          "pmid": "24685680"
+        },
+        {
+          "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": 2005,
+          "relevant_quote": "In situations where proteasomes are compromised or overwhelmed, misfolded protein is transported to a perinuclear location near the microtubule-organizing center (MTOC) to form aggresomes. ... Other than microtubules, the only proteins known to be involved in this critical regulatory process are the microtubule motor, dynein/dynactin, and the microtubule-associated deacetylase histone deacetylase 6 (HDAC6).",
+          "pmid": "15767577"
         }
       ],
       "pathway": {
@@ -36,7 +43,8 @@
         "confidence": 0.8
       },
       "pmids": [
-        "19666135"
+        "24685680",
+        "15767577"
       ],
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
@@ -48,20 +56,26 @@
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "binds"
+      "inhibits"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "ATXN3 directly binds with high affinity to both alpha- and beta-tubulin dimers, the fundamental components of microtubules. This interaction facilitates the co-localization of ATXN3 with the microtubule network, which serves as a cellular railway for transporting cargo, including misfolded protein aggregates, to the aggresome located near the microtubule-organizing center (MTOC).",
-  "effect": "Through its interaction with tubulin, ATXN3 is implicated as a key component in the cellular machinery responsible for recognizing, collecting, and transporting misfolded proteins along microtubules for their eventual sequestration into aggresomes.",
-  "summary": "ATXN3 interacts with TUBULIN to modulate microtubule-dependent protein transport, ultimately affecting formation of aggresomes is promoted.",
+  "mechanism_correction": "The input claim that ATXN3 inhibits microtubule stability, leading to defective aggresome formation, is a 'Mechanistic Opposite' error. The literature shows ATXN3 promotes aggresome formation, a process that requires intact microtubule transport. The direct interaction with tubulin serves to link protein aggregates to the microtubule network for transport, rather than to destabilize the network.",
+  "mechanism": "ATXN3 is a key component of the cellular machinery that transports misfolded protein aggregates along microtubules to the aggresome. It achieves this by directly binding to tubulin, the fundamental component of microtubules.",
+  "effect": "ATXN3 acts as an adaptor protein that physically links protein aggregates to the microtubule network. Surface plasmon resonance (SPR) analysis confirms a direct, high-affinity interaction between ATXN3 and tubulin dimers. This binding does not inhibit microtubule stability; rather, it facilitates the movement of cargo (protein aggregates, complexed with HDAC6) along the microtubule tracks via the dynein motor.",
+  "summary": "ATXN3 interacts with Tubulin to modulate aggregate transport via microtubules, ultimately affecting aggresome formation is successfully completed.",
   "evidence": [
     {
-      "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+      "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
       "journal": "The International Journal of Biochemistry & Cell Biology",
-      "year": 2009,
-      "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin from soluble rat brain extracts. Coimmunoprecipitation experiments confirmed this interaction. Also, normal ataxin-3 overexpressed in COS7 cultured cells partially colocalized with microtubules... Furthermore, by surface plasmon resonance we determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction of this protein with microtubules in vivo."
+      "year": 2014,
+      "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface. Nevertheless, the interaction surface consists of three distinct, discontinuous tubulin-binding regions (TBR), one located in the JD, and the two others in the disordered domain, upstream and downstream of the polyQ stretch."
+    },
+    {
+      "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "year": 2005,
+      "relevant_quote": "In situations where proteasomes are compromised or overwhelmed, misfolded protein is transported to a perinuclear location near the microtubule-organizing center (MTOC) to form aggresomes. ... Other than microtubules, the only proteins known to be involved in this critical regulatory process are the microtubule motor, dynein/dynactin, and the microtubule-associated deacetylase histone deacetylase 6 (HDAC6)."
     }
   ],
   "pathways": [
@@ -80,10 +94,10 @@
     "corrections_applied": 1
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --binds--> TUBULIN:",
-  "protein_a": "TUBULIN",
+  "arrow_notation": "ATXN3 --binds--> Tubulin:",
+  "protein_a": "Tubulin",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-07T22:39:21.508453Z",
-  "last_updated": "2025-12-07T22:39:21.508453Z"
+  "first_discovered": "2025-12-08T02:27:47.315652Z",
+  "last_updated": "2025-12-08T02:27:47.315652Z"
 }

@@ -1,0 +1,114 @@
+{
+  "primary": "CREB",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the transcription factor CREB (cAMP-responsive element-binding protein) and functions as a co-activator for CREB-dependent transcription.",
+  "functions": [
+    {
+      "function": "CREB-dependent Transcription",
+      "arrow": "inhibits",
+      "cellular_process": "CREB-mediated transcription requires the recruitment of the histone acetyltransferases (HATs) p300 and CBP to chromatin. These co-activators acetylate histones, leading to a more open chromatin structure that facilitates gene transcription. ATXN3 directly interacts with p300/CBP.",
+      "effect_description": "Instead of acting as a co-activator, ATXN3 functions as a transcriptional repressor. By binding to p300/CBP, ATXN3 inhibits their intrinsic HAT activity. Furthermore, ATXN3 can recruit histone deacetylase 3 (HDAC3) to target gene promoters, leading to the removal of acetyl groups from histones, chromatin condensation, and subsequent repression of transcription.",
+      "biological_consequence": [
+        "Signal-induced phosphorylation of CREB (at Ser133) → Phospho-CREB recruits p300/CBP co-activators to gene promoters → ATXN3 binds to the recruited p300/CBP → ATXN3 represses the acetyltransferase activity of p300/CBP AND recruits HDAC3 → Histones at the target promoter are deacetylated → Chromatin becomes condensed → Transcription of CREB target genes is repressed."
+      ],
+      "specific_effects": [
+        "Directly binds the co-activators p300 and CBP and inhibits their transcriptional activity.",
+        "Forms a repressor complex with Histone Deacetylase 3 (HDAC3) to deacetylate histones at target promoters."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "journal": "The FEBS Journal",
+          "year": 2021,
+          "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity.",
+          "pmid": "39320846"
+        },
+        {
+          "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+          "journal": "The Journal of Cell Biology",
+          "year": 2006,
+          "relevant_quote": "These findings demonstrate that normal AT3 binds target promoter regions and represses transcription of a GATA-2-dependent target gene via formation of histone-deacetylating repressor complexes requiring its UIM-associated function.",
+          "pmid": "17079677"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846",
+        "17079677"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Incorrect Mechanism and Effect. The input claims ATXN3 is a co-activator for CREB. Primary literature indicates the opposite. ATXN3 binds to the co-activators p300/CBP and REPRESSES their transcriptional activity. It also cooperates with histone deacetylase 3 (HDAC3) to repress transcription.",
+  "mechanism": "CREB-mediated transcription requires the recruitment of the histone acetyltransferases (HATs) p300 and CBP to chromatin. These co-activators acetylate histones, leading to a more open chromatin structure that facilitates gene transcription. ATXN3 directly interacts with p300/CBP.",
+  "effect": "Instead of acting as a co-activator, ATXN3 functions as a transcriptional repressor. By binding to p300/CBP, ATXN3 inhibits their intrinsic HAT activity. Furthermore, ATXN3 can recruit histone deacetylase 3 (HDAC3) to target gene promoters, leading to the removal of acetyl groups from histones, chromatin condensation, and subsequent repression of transcription.",
+  "summary": "ATXN3 inhibits CREB to modulate creb-dependent transcription, ultimately affecting transcription of creb target genes is repressed.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "journal": "The FEBS Journal",
+      "year": 2021,
+      "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity."
+    },
+    {
+      "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+      "journal": "The Journal of Cell Biology",
+      "year": 2006,
+      "relevant_quote": "These findings demonstrate that normal AT3 binds target promoter regions and represses transcription of a GATA-2-dependent target gene via formation of histone-deacetylating repressor complexes requiring its UIM-associated function."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> CREB:",
+  "protein_a": "ATXN3",
+  "protein_b": "CREB",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-08T02:27:47.398658Z",
+  "last_updated": "2025-12-08T02:27:47.398658Z"
+}

@@ -4,27 +4,27 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 functions as a deubiquitinating enzyme for the transcription factor KLF4, stabilizing it and promoting breast cancer metastasis.",
+  "support_summary": "ATXN3 is the deubiquitinating enzyme for KLF4 in breast cancer, promoting metastasis by stabilizing KLF4.",
   "functions": [
     {
       "function": "KLF4 Protein Stability",
       "arrow": "activates",
-      "cellular_process": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the transcription factor Krüppel-like factor 4 (KLF4). ATXN3 directly binds to KLF4, removes polyubiquitin chains, and consequently prevents its proteasomal degradation.",
-      "effect_description": "By stabilizing KLF4, ATXN3 elevates its protein levels. This enhancement of KLF4 protein availability boosts its transcriptional activity, which in turn promotes downstream cellular processes such as cell migration and metastasis in the context of breast cancer.",
+      "cellular_process": "ATXN3 directly binds to the transcription factor Krüppel-like factor 4 (KLF4) and removes polyubiquitin chains from it.",
+      "effect_description": "By acting as a deubiquitinating enzyme for KLF4, ATXN3 prevents its degradation by the proteasome. This leads to the stabilization and accumulation of KLF4 protein, which in turn promotes the expression of genes associated with metastasis in breast cancer cells.",
       "biological_consequence": [
-        "ATXN3 binds to KLF4 → ATXN3 removes polyubiquitin chains from KLF4 → Proteasomal degradation of KLF4 is inhibited → KLF4 protein levels are stabilized and increased → Enhanced transcriptional activity of KLF4 target genes → Promotion of breast cancer cell metastasis"
+        "ATXN3 physically interacts with KLF4 → ATXN3 deubiquitinates KLF4 → KLF4 is rescued from proteasomal degradation → KLF4 protein levels increase → Metastatic potential of breast cancer cells is enhanced"
       ],
       "specific_effects": [
-        "ATXN3 was identified as a KLF4 deubiquitinating enzyme from a screen of 65 DUBs.",
-        "In human breast cancer specimens, there is a significant positive correlation between the protein expression of ATXN3 and KLF4.",
-        "High co-expression of ATXN3 and KLF4 is correlated with a poor prognosis for breast cancer patients."
+        "ATXN3 was identified as a novel deubiquitinating enzyme for KLF4 through a screen of 65 deubiquitinases.",
+        "In human breast cancer specimens, high expression levels of both ATXN3 and KLF4 are significantly correlated and associated with a poor prognosis.",
+        "This interaction represents a potential therapeutic target for mitigating breast cancer metastasis."
       ],
       "evidence": [
         {
           "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
           "journal": "Cancer Letters",
           "year": 2019,
-          "relevant_quote": "We screened a library of 65 deubiquitinating enzymes and identified ATXN3 as a deubiquitinating enzyme of KLF4. Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo.",
+          "relevant_quote": "Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo.",
           "pmid": "31563563"
         }
       ],
@@ -38,7 +38,7 @@
       "pmids": [
         "31563563"
       ],
-      "interaction_effect": "activation",
+      "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
       "function_effect": "activation"
     }
@@ -53,15 +53,15 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "ATXN3 acts as a deubiquitinating enzyme (DUB) for the transcription factor Krüppel-like factor 4 (KLF4). ATXN3 directly binds to KLF4, removes polyubiquitin chains, and consequently prevents its proteasomal degradation.",
-  "effect": "By stabilizing KLF4, ATXN3 elevates its protein levels. This enhancement of KLF4 protein availability boosts its transcriptional activity, which in turn promotes downstream cellular processes such as cell migration and metastasis in the context of breast cancer.",
-  "summary": "ATXN3 activates KLF4 to modulate klf4 protein stability, ultimately affecting promotion of breast cancer cell metastasis.",
+  "mechanism": "ATXN3 directly binds to the transcription factor Krüppel-like factor 4 (KLF4) and removes polyubiquitin chains from it.",
+  "effect": "By acting as a deubiquitinating enzyme for KLF4, ATXN3 prevents its degradation by the proteasome. This leads to the stabilization and accumulation of KLF4 protein, which in turn promotes the expression of genes associated with metastasis in breast cancer cells.",
+  "summary": "ATXN3 activates KLF4 to modulate klf4 protein stability, ultimately affecting metastatic potential of breast cancer cells is enhanced.",
   "evidence": [
     {
       "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
       "journal": "Cancer Letters",
       "year": 2019,
-      "relevant_quote": "We screened a library of 65 deubiquitinating enzymes and identified ATXN3 as a deubiquitinating enzyme of KLF4. Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo."
+      "relevant_quote": "Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo."
     }
   ],
   "pathways": [
@@ -84,6 +84,6 @@
   "protein_a": "KLF4",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-07T22:39:21.503831Z",
-  "last_updated": "2025-12-07T22:39:21.503831Z"
+  "first_discovered": "2025-12-08T02:27:47.334772Z",
+  "last_updated": "2025-12-08T02:27:47.334772Z"
 }
