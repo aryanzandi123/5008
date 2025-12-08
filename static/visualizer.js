@@ -25,7 +25,7 @@ let nodeMap = new Map(); // Map<nodeId, node>
 
 // Pathway visualization state
 let pathwayNodeRadius = 45;          // Size for pathway nodes (used for collision detection)
-let pathwayRingRadius = 550;         // Distance from center for pathway nodes (increased from 350)
+let pathwayRingRadius = 300;         // Distance from center for pathway nodes (reduced for compact layout)
 let expandedPathways = new Set();    // Set of expanded pathway IDs (showing interactors)
 let pathwayToInteractors = new Map(); // Map<pathwayId, Set<interactorId>>
 let pathwayToInteractions = new Map(); // Map<pathwayId, Array<interaction>> - full interaction objects for leaf pathways
@@ -52,10 +52,10 @@ const PATHWAY_COLORS = {
     3: '#c4b5fd'   // Pale violet
 };
 
-// Shell radii for concentric layout (non-pathway mode)
-const SHELL_RADIUS_BASE = 400;        // Unexpanded interactors
-const SHELL_RADIUS_EXPANDED = 550;    // Expanded parents (+150px)
-const SHELL_RADIUS_CHILDREN = 700;    // Children of expanded nodes (+150px more)
+// Shell radii for concentric layout (non-pathway mode) - REDUCED for compact layout
+const SHELL_RADIUS_BASE = 250;        // Unexpanded interactors (was 400)
+const SHELL_RADIUS_EXPANDED = 350;    // Expanded parents (was 550)
+const SHELL_RADIUS_CHILDREN = 450;    // Children of expanded nodes (was 700)
 
 /**
  * Calculate optimal expansion radius based on node count to prevent overlap
@@ -348,9 +348,9 @@ function initNetwork(){
 
   // DEPTH INDICATOR BANDS: Subtle concentric rings showing hierarchy levels
   const depthBands = [
-    { radius: SHELL_RADIUS_BASE, label: 'Direct', opacity: 0.025 },      // 400px
-    { radius: SHELL_RADIUS_EXPANDED, label: 'Expanded', opacity: 0.018 }, // 550px
-    { radius: SHELL_RADIUS_CHILDREN, label: 'Secondary', opacity: 0.012 } // 700px
+    { radius: SHELL_RADIUS_BASE, label: 'Direct', opacity: 0.025 },      // 250px
+    { radius: SHELL_RADIUS_EXPANDED, label: 'Expanded', opacity: 0.018 }, // 350px
+    { radius: SHELL_RADIUS_CHILDREN, label: 'Secondary', opacity: 0.012 } // 450px
   ];
 
   const bandGroup = g.append('g').attr('class', 'depth-bands');
@@ -1089,7 +1089,7 @@ function createSimulation(){
     .force('radialPathways', d3.forceRadial(
       d => {
         if (d.type === 'pathway') {
-          return expandedPathways.has(d.id) ? pathwayRingRadius + 200 : pathwayRingRadius;
+          return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
         }
         return 0; // No radial constraint for other nodes
       },
@@ -2198,7 +2198,7 @@ function updateSimulation() {
   simulation.force('radialPathways', d3.forceRadial(
     d => {
       if (d.type === 'pathway') {
-        return expandedPathways.has(d.id) ? pathwayRingRadius + 200 : pathwayRingRadius;
+        return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
       }
       return 0;
     },
