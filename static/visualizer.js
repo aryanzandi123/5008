@@ -303,7 +303,8 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
 
     // Pathway nodes: shell based on hierarchy level
     if (node.type === 'pathway') {
-      const hier = pwHierarchy?.get(node.id);
+      // Use originalId for hierarchy lookup (context-qualified IDs won't match)
+      const hier = pwHierarchy?.get(node.originalId || node.id);
       const level = hier?.level ?? node.hierarchyLevel ?? 0;
       shell = level + 1; // Level 0 pathways go to shell 1, level 1 to shell 2, etc.
       role = 'pathway';
@@ -3233,8 +3234,8 @@ function updateSimulation() {
       simulation.force('link').links(links);
     }
 
-    // Quick tick to resolve links, then stop
-    simulation.alpha(0.1).alphaDecay(0.5).restart();
+    // STOP simulation - don't let forces modify calculated positions
+    simulation.stop();
   } else {
     // FORCE MODE: Standard physics update
     simulation.nodes(nodes);
