@@ -847,3 +847,34 @@ body.dark-mode .pathway-filter-indicator {
   background: rgba(99, 102, 241, 0.15);
   color: #a5b4fc;
 }
+
+/* =========================================================================
+   QUERY PROTEIN STYLING - Special highlight for query protein in pathway expansion
+   ========================================================================= */
+
+/* Query protein node in pathway expansion - gold ring to distinguish from interactors */
+.interactor-node.is-query-protein {
+  stroke: #f59e0b !important;
+  stroke-width: 3px !important;
+}
+
+body.dark-mode .interactor-node.is-query-protein {
+  stroke: #fbbf24 !important;
+}
+
+/* Query protein label - slightly bolder */
+.interactor-label.is-query-protein {
+  font-weight: 700 !important;
+}
+
+/* Pathway anchor links - subtle connectors from pathway to proteins */
+.link.pathway-anchor-link {
+  stroke: #9ca3af;
+  stroke-width: 1.5px;
+  stroke-dasharray: 4, 3;
+  opacity: 0.3;
+}
+
+body.dark-mode .link.pathway-anchor-link {
+  stroke: #6b7280;
+}

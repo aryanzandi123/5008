@@ -80,6 +80,134 @@ function calculateExpandRadius(nodeCount, nodeRadius) {
 }
 
 /**
+ * Classify proteins by their directional relationship to the query protein
+ * @param {Array} interactions - Array of interaction objects with source, target, direction
+ * @param {string} queryProtein - The main/query protein (SNAP.main)
+ * @returns {Object} - { upstream: Set, downstream: Set, bidirectional: Set }
+ */
+function getProteinsByRole(interactions, queryProtein) {
+  const upstream = new Set();      // direction = 'primary_to_main' (interactor acts ON query)
+  const downstream = new Set();    // direction = 'main_to_primary' (query acts ON interactor)
+  const bidirectional = new Set(); // direction = 'bidirectional' or undefined
+
+  interactions.forEach(inter => {
+    const src = inter.source;
+    const tgt = inter.target;
+
+    // Determine which protein is the "other" (not query)
+    let other = null;
+    if (src === queryProtein) {
+      other = tgt;
+    } else if (tgt === queryProtein) {
+      other = src;
+    } else {
+      // Neither is query - this is an interactor-interactor link, skip for classification
+      return;
+    }
+
+    if (!other || other === queryProtein) return;
+
+    const dir = inter.direction || 'bidirectional';
+    if (dir === 'primary_to_main') {
+      upstream.add(other);  // This protein acts on query (upstream)
+    } else if (dir === 'main_to_primary') {
+      downstream.add(other);  // Query acts on this protein (downstream)
+    } else {
+      bidirectional.add(other);
+    }
+  });
+
+  return { upstream, downstream, bidirectional };
+}
+
+/**
+ * Calculate arc positions for distributing nodes along an arc
+ * @param {number} count - Number of nodes to position
+ * @param {number} cx - Center X coordinate
+ * @param {number} cy - Center Y coordinate
+ * @param {number} radius - Distance from center
+ * @param {number} startAngle - Arc start angle in radians
+ * @param {number} endAngle - Arc end angle in radians
+ * @returns {Array} - Array of {x, y, angle} positions
+ */
+function calculateArcPositions(count, cx, cy, radius, startAngle, endAngle) {
+  if (count === 0) return [];
+
+  // Single node goes to middle of arc
+  if (count === 1) {
+    const angle = (startAngle + endAngle) / 2;
+    return [{
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle),
+      angle: angle
+    }];
+  }
+
+  // Multiple nodes spread evenly along arc
+  const positions = [];
+  const step = (endAngle - startAngle) / (count - 1);
+
+  for (let i = 0; i < count; i++) {
+    const angle = startAngle + i * step;
+    positions.push({
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle),
+      angle: angle
+    });
+  }
+
+  return positions;
+}
+
+/**
+ * Custom D3 force: keep pathway-expanded interactors orbiting their parent pathway
+ * This prevents expanded nodes from drifting to center and overlapping
+ */
+function forcePathwayOrbit() {
+  let nodes = [];
+  let strength = 0.4;
+
+  function force(alpha) {
+    nodes.forEach(node => {
+      // Only apply to interactors within expanded pathways
+      if (!node._pathwayContext) return;
+      if (node.type !== 'interactor') return;
+      if (!pathwayMode) return;
+
+      const parent = nodeMap.get(node._pathwayContext);
+      if (!parent) return;
+
+      // Calculate current distance from parent pathway
+      const dx = node.x - parent.x;
+      const dy = node.y - parent.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      // Target distance: query protein closer, others at full radius
+      const targetDist = node.isQueryProtein
+        ? (node.expandRadius || 120) * 0.6
+        : (node.expandRadius || 120);
+
+      if (dist === 0) return;
+
+      // Apply radial force toward target orbital distance
+      const factor = (dist - targetDist) / dist * alpha * strength;
+      node.vx -= dx * factor;
+      node.vy -= dy * factor;
+    });
+  }
+
+  force.initialize = function(_) {
+    nodes = _;
+  };
+
+  force.strength = function(_) {
+    return arguments.length ? (strength = _, force) : strength;
+  };
+
+  return force;
+}
+
+/**
  * Rebuilds the node lookup map for O(1) access
  * Call this after any operation that modifies the nodes array
  */
@@ -834,7 +962,9 @@ function createSimulation(){
       if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
       if (pathwayMode) return 0;
       return 0.6; // Moderate pull to assigned shell (reduced for stability)
-    }));
+    }))
+    // Custom force: keep pathway-expanded interactors orbiting their parent pathway
+    .force('pathwayOrbit', forcePathwayOrbit().strength(0.4));
 
   simulation.alpha(1).restart();
 
@@ -1296,36 +1426,74 @@ function expandPathway(pathwayNode) {
  * This renders actual interactions (protein ↔ protein) instead of just pathway → protein links
  */
 function expandPathwayWithInteractions(pathwayNode, interactions) {
-  // Step 1: Extract unique proteins from all interactions
-  const uniqueProteins = new Set();
+  const queryProtein = SNAP.main;
+
+  // Step 1: Classify proteins by direction relative to query
+  const { upstream, downstream, bidirectional } = getProteinsByRole(interactions, queryProtein);
+
+  // Also collect any proteins not directly connected to query (interactor-interactor links)
+  const allProteins = new Set();
   interactions.forEach(inter => {
-    if (inter.source) uniqueProteins.add(inter.source);
-    if (inter.target) uniqueProteins.add(inter.target);
+    if (inter.source) allProteins.add(inter.source);
+    if (inter.target) allProteins.add(inter.target);
   });
 
-  // Calculate dynamic radius based on protein count
-  const expandRadius = calculateExpandRadius(uniqueProteins.size, interactorNodeRadius);
+  // Calculate total node count for radius (upstream + downstream + bidirectional + query)
+  const totalInteractors = upstream.size + downstream.size + bidirectional.size;
+  const expandRadius = calculateExpandRadius(totalInteractors + 1, interactorNodeRadius);
+  const queryRadius = expandRadius * 0.5;  // Query protein closer to pathway
 
-  // Step 2: Create protein nodes positioned around the pathway
-  const proteinArray = Array.from(uniqueProteins);
-  const angleStep = (2 * Math.PI) / Math.max(proteinArray.length, 1);
+  // Map protein symbol → node id
+  const proteinNodeMap = new Map();
 
-  const proteinNodeMap = new Map(); // Map protein symbol → node id
+  // Step 2: Create query protein node (positioned between pathway and interactors)
+  const queryNodeId = `${queryProtein}@${pathwayNode.id}`;
+  if (!nodeMap.has(queryNodeId)) {
+    // Position query to the RIGHT of pathway (downstream direction)
+    const queryX = pathwayNode.x + queryRadius;
+    const queryY = pathwayNode.y;
 
-  proteinArray.forEach((proteinId, idx) => {
+    const queryNode = {
+      id: queryNodeId,
+      label: queryProtein,
+      type: 'interactor',
+      isQueryProtein: true,  // Mark for special styling
+      originalId: queryProtein,
+      pathwayId: pathwayNode.id,
+      _pathwayContext: pathwayNode.id,
+      _pathwayName: pathwayNode.label,
+      _directionRole: 'query',
+      radius: interactorNodeRadius * 1.2,  // Slightly larger
+      x: queryX,
+      y: queryY,
+      expandRadius: expandRadius,
+      isNewlyExpanded: true
+    };
+
+    nodes.push(queryNode);
+    nodeMap.set(queryNodeId, queryNode);
+    newlyAddedNodes.add(queryNodeId);
+  }
+  proteinNodeMap.set(queryProtein, queryNodeId);
+
+  // Step 3: Position UPSTREAM proteins on LEFT arc (they point TOWARD query)
+  // Arc from ~135deg to ~225deg (left side)
+  const upstreamArray = Array.from(upstream);
+  const upstreamPositions = calculateArcPositions(
+    upstreamArray.length,
+    pathwayNode.x, pathwayNode.y,
+    expandRadius,
+    Math.PI * 0.6,   // ~108deg (upper-left)
+    Math.PI * 1.4    // ~252deg (lower-left)
+  );
+
+  upstreamArray.forEach((proteinId, idx) => {
     const nodeId = `${proteinId}@${pathwayNode.id}`;
-
     if (!nodeMap.has(nodeId)) {
-      const angle = idx * angleStep - Math.PI / 2;
-      const x = pathwayNode.x + expandRadius * Math.cos(angle);
-      const y = pathwayNode.y + expandRadius * Math.sin(angle);
-
-      // Find interaction data for this protein (for node styling)
-      const proteinInteraction = interactions.find(
-        i => i.source === proteinId || i.target === proteinId
-      );
-      const actualArrow = proteinInteraction
-        ? arrowKind(proteinInteraction.arrow, proteinInteraction.intent, proteinInteraction.direction)
+      const pos = upstreamPositions[idx] || { x: pathwayNode.x - expandRadius, y: pathwayNode.y };
+      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+      const actualArrow = interactionData
+        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
         : 'binds';
 
       const newNode = {
@@ -1336,11 +1504,12 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
         pathwayId: pathwayNode.id,
         _pathwayContext: pathwayNode.id,
         _pathwayName: pathwayNode.label,
+        _directionRole: 'upstream',
         radius: interactorNodeRadius,
         arrow: actualArrow,
-        interactionData: proteinInteraction,
-        x: x,
-        y: y,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
         expandRadius: expandRadius,
         isNewlyExpanded: true
       };
@@ -1349,56 +1518,175 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
       nodeMap.set(nodeId, newNode);
       newlyAddedNodes.add(nodeId);
     }
-
     proteinNodeMap.set(proteinId, nodeId);
   });
 
-  // Step 3: Create a single link from pathway to one protein (visual anchor)
-  // This keeps the pathway visually connected to its contents
-  if (proteinArray.length > 0) {
-    const firstProteinNodeId = proteinNodeMap.get(proteinArray[0]);
-    const anchorLinkId = `${pathwayNode.id}-anchor-${firstProteinNodeId}`;
+  // Step 4: Position DOWNSTREAM proteins on RIGHT arc (query points TOWARD them)
+  // Arc from ~-45deg to ~45deg (right side)
+  const downstreamArray = Array.from(downstream);
+  const downstreamPositions = calculateArcPositions(
+    downstreamArray.length,
+    pathwayNode.x, pathwayNode.y,
+    expandRadius * 1.3,  // Further out (past query)
+    -Math.PI * 0.4,  // ~-72deg (upper-right)
+    Math.PI * 0.4    // ~72deg (lower-right)
+  );
+
+  downstreamArray.forEach((proteinId, idx) => {
+    const nodeId = `${proteinId}@${pathwayNode.id}`;
+    if (!nodeMap.has(nodeId)) {
+      const pos = downstreamPositions[idx] || { x: pathwayNode.x + expandRadius * 1.3, y: pathwayNode.y };
+      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+      const actualArrow = interactionData
+        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+        : 'binds';
+
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        _directionRole: 'downstream',
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
+        expandRadius: expandRadius * 1.3,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
+    }
+    proteinNodeMap.set(proteinId, nodeId);
+  });
+
+  // Step 5: Position BIDIRECTIONAL proteins on TOP/BOTTOM arcs
+  const bidirectionalArray = Array.from(bidirectional);
+  const biPositions = calculateArcPositions(
+    bidirectionalArray.length,
+    pathwayNode.x, pathwayNode.y,
+    expandRadius,
+    -Math.PI * 0.5,  // -90deg (top)
+    Math.PI * 0.5    // 90deg (bottom, going through right)
+  );
+
+  bidirectionalArray.forEach((proteinId, idx) => {
+    const nodeId = `${proteinId}@${pathwayNode.id}`;
+    if (!nodeMap.has(nodeId)) {
+      const pos = biPositions[idx] || { x: pathwayNode.x, y: pathwayNode.y - expandRadius };
+      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+      const actualArrow = interactionData
+        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+        : 'binds';
+
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        _directionRole: 'bidirectional',
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
+    }
+    proteinNodeMap.set(proteinId, nodeId);
+  });
+
+  // Step 6: Create anchor links from pathway to upstream proteins (they flow into query)
+  upstreamArray.forEach(proteinId => {
+    const nodeId = proteinNodeMap.get(proteinId);
+    const anchorLinkId = `${pathwayNode.id}-anchor-${nodeId}`;
     if (!links.find(l => l.id === anchorLinkId)) {
       links.push({
         id: anchorLinkId,
         source: pathwayNode.id,
-        target: firstProteinNodeId,
+        target: nodeId,
         type: 'pathway-anchor-link',
         arrow: 'none',
-        opacity: 0.2  // Subtle anchor line
+        opacity: 0.25
+      });
+    }
+  });
+
+  // If no upstream proteins, anchor to query directly
+  if (upstreamArray.length === 0) {
+    const anchorLinkId = `${pathwayNode.id}-anchor-${queryNodeId}`;
+    if (!links.find(l => l.id === anchorLinkId)) {
+      links.push({
+        id: anchorLinkId,
+        source: pathwayNode.id,
+        target: queryNodeId,
+        type: 'pathway-anchor-link',
+        arrow: 'none',
+        opacity: 0.25
       });
     }
   }
 
-  // Step 4: Create interaction edges between proteins
-  // These are the actual biological interactions - clicking opens modal
+  // Step 7: Create interaction edges with proper direction
+  // upstream → query, query → downstream, bidirectional ↔ query
   interactions.forEach(inter => {
-    const sourceNodeId = proteinNodeMap.get(inter.source);
-    const targetNodeId = proteinNodeMap.get(inter.target);
+    const src = inter.source;
+    const tgt = inter.target;
+    const dir = inter.direction || 'bidirectional';
 
-    if (sourceNodeId && targetNodeId && sourceNodeId !== targetNodeId) {
-      const linkId = `${sourceNodeId}-${targetNodeId}@${pathwayNode.id}`;
+    // Determine link endpoints
+    let linkSource, linkTarget;
 
-      // Avoid duplicate links
-      if (!links.find(l => l.id === linkId)) {
-        const actualArrow = arrowKind(inter.arrow, inter.intent, inter.direction);
-
-        links.push({
-          id: linkId,
-          source: sourceNodeId,
-          target: targetNodeId,
-          type: 'interaction-edge',  // Different type for styling
-          arrow: actualArrow,
-          direction: inter.direction || 'bidirectional',
-          confidence: inter.confidence || 0.5,
-          data: inter,  // Full interaction data for modal
-          _pathwayContext: pathwayNode.id
-        });
-      }
+    if (src === queryProtein) {
+      // Query is source: query → other
+      linkSource = queryNodeId;
+      linkTarget = proteinNodeMap.get(tgt);
+    } else if (tgt === queryProtein) {
+      // Query is target: other → query
+      linkSource = proteinNodeMap.get(src);
+      linkTarget = queryNodeId;
+    } else {
+      // Neither is query: interactor → interactor link
+      linkSource = proteinNodeMap.get(src);
+      linkTarget = proteinNodeMap.get(tgt);
     }
+
+    if (!linkSource || !linkTarget || linkSource === linkTarget) return;
+
+    const linkId = `${linkSource}-${linkTarget}@${pathwayNode.id}`;
+    if (links.find(l => l.id === linkId)) return;
+
+    const actualArrow = arrowKind(inter.arrow, inter.intent, inter.direction);
+
+    links.push({
+      id: linkId,
+      source: linkSource,
+      target: linkTarget,
+      type: 'interaction-edge',
+      arrow: actualArrow,
+      direction: dir,
+      confidence: inter.confidence || 0.5,
+      data: inter,
+      _pathwayContext: pathwayNode.id,
+      _directionType: dir
+    });
   });
 
-  console.log(`🛤️ Expanded pathway (interactions): ${pathwayNode.label} with ${uniqueProteins.size} proteins, ${interactions.length} interactions`);
+  console.log(`🛤️ Expanded pathway: ${pathwayNode.label} - ${upstream.size} upstream, ${downstream.size} downstream, ${bidirectional.size} bidirectional`);
 }
 
 /**
@@ -1750,6 +2038,11 @@ function updateSimulation() {
     height / 2
   ).strength(d => d.type === 'pathway' ? 1.0 : 0));
 
+  // Update pathway orbit force strength (active in pathway mode only)
+  if (simulation.force('pathwayOrbit')) {
+    simulation.force('pathwayOrbit').strength(pathwayMode ? 0.4 : 0);
+  }
+
   // Rebuild node map
   rebuildNodeMap();
 
@@ -2006,8 +2299,11 @@ function renderGraph() {
       // Add entry animation class for newly expanded nodes
       const animationClass = isNewNode ? 'node-entering' : '';
 
+      // Add query protein class for special styling
+      const queryClass = d.isQueryProtein ? 'is-query-protein' : '';
+
       const circle = group.append('circle')
-        .attr('class', `node interactor-node ${arrowClass} ${animationClass}`)
+        .attr('class', `node interactor-node ${arrowClass} ${animationClass} ${queryClass}`.trim())
         .attr('r', isNewNode ? 0 : (d.radius || interactorNodeRadius))  // Start small for animation
         .style('fill', getNodeGradient(d))
         .style('cursor', 'pointer')
@@ -2015,7 +2311,7 @@ function renderGraph() {
         .on('click', (ev) => { ev.stopPropagation(); handleNodeClick(d); });
 
       const label = group.append('text')
-        .attr('class', `node-label interactor-label ${arrowClass}`)
+        .attr('class', `node-label interactor-label ${arrowClass} ${queryClass}`.trim())
         .attr('dy', 5)
         .style('font-size', '13px')
         .style('font-weight', '600')
