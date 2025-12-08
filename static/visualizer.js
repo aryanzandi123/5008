@@ -210,6 +210,48 @@ function forcePathwayOrbit() {
 }
 
 /**
+ * Custom D3 force: constrain pathway interactors to their assigned sector around parent pathway
+ * Unlike forceAngularPosition (which pulls toward canvas center), this pulls toward parent pathway
+ * This keeps pathway clusters organized as cohesive groups that orbit their parent
+ */
+function forceSectorConstraint() {
+  let nodes = [];
+  let strength = 0.3;
+
+  function force(alpha) {
+    nodes.forEach(node => {
+      // Only apply to pathway interactors with assigned angle
+      if (!node._pathwayContext) return;
+      if (node._targetAngle === undefined) return;
+      if (!pathwayMode) return;
+
+      // Find parent pathway node
+      const parent = nodeMap.get(node._pathwayContext);
+      if (!parent) return;
+
+      // Calculate target position relative to PARENT (not canvas center)
+      const targetRadius = node.expandRadius || 120;
+      const targetX = parent.x + targetRadius * Math.cos(node._targetAngle);
+      const targetY = parent.y + targetRadius * Math.sin(node._targetAngle);
+
+      // Apply force toward sector position
+      node.vx += (targetX - node.x) * alpha * strength;
+      node.vy += (targetY - node.y) * alpha * strength;
+    });
+  }
+
+  force.initialize = function(_) {
+    nodes = _;
+  };
+
+  force.strength = function(_) {
+    return arguments.length ? (strength = _, force) : strength;
+  };
+
+  return force;
+}
+
+/**
  * Custom D3 force: pull nodes toward their assigned angular position
  * This creates sector-based layout where nodes are organized by direction
  * Sectors: RIGHT=downstream, BOTTOM=bidirectional, LEFT=upstream, TOP=pathways
@@ -261,6 +303,58 @@ function forceAngularPosition() {
   };
 
   return force;
+}
+
+/**
+ * Highlight all nodes in a pathway cluster (for hover effect)
+ * @param {string} pathwayId - The pathway ID whose cluster should be highlighted
+ */
+function highlightCluster(pathwayId) {
+  // Highlight all nodes in cluster (same _pathwayContext or is the pathway itself)
+  d3.selectAll('.node-group').each(function() {
+    const nd = d3.select(this).datum();
+    if (nd._pathwayContext === pathwayId || nd.id === pathwayId) {
+      // Highlight cluster members
+      d3.select(this).select('circle, rect')
+        .style('filter', 'url(#nodeGlow)')
+        .style('stroke', '#fbbf24')
+        .style('stroke-width', '3px');
+    } else if (nd._pathwayContext || nd.type === 'pathway') {
+      // Dim other pathway-related nodes
+      d3.select(this).style('opacity', 0.3);
+    }
+  });
+
+  // Highlight links in cluster
+  d3.selectAll('.link').each(function() {
+    const ld = d3.select(this).datum();
+    const srcCtx = ld.source?._pathwayContext || (typeof ld.source === 'object' ? ld.source._pathwayContext : null);
+    const tgtCtx = ld.target?._pathwayContext || (typeof ld.target === 'object' ? ld.target._pathwayContext : null);
+    const srcId = typeof ld.source === 'object' ? ld.source.id : ld.source;
+    const tgtId = typeof ld.target === 'object' ? ld.target.id : ld.target;
+
+    if (srcCtx === pathwayId || tgtCtx === pathwayId || srcId === pathwayId || tgtId === pathwayId) {
+      d3.select(this).style('opacity', 1).style('stroke-width', '3px');
+    }
+  });
+}
+
+/**
+ * Clear cluster highlighting (reset to normal state)
+ */
+function clearClusterHighlight() {
+  // Reset all nodes
+  d3.selectAll('.node-group')
+    .style('opacity', null)
+    .select('circle, rect')
+    .style('filter', null)
+    .style('stroke', null)
+    .style('stroke-width', null);
+
+  // Reset all links
+  d3.selectAll('.link')
+    .style('opacity', null)
+    .style('stroke-width', null);
 }
 
 /**
@@ -1134,6 +1228,8 @@ function createSimulation(){
     // Custom force: keep pathway-expanded interactors orbiting their parent pathway
     // INCREASED strength for tighter clusters
     .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))  // Was 0.4
+    // Custom force: constrain pathway interactors to their sector around parent pathway
+    .force('sectorConstraint', forceSectorConstraint().strength(0.35))
     // Custom force: pull nodes toward their assigned angular sector
     // This creates stable, organized layout with upstream/downstream separation
     .force('angularPosition', forceAngularPosition()
@@ -1828,6 +1924,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius,
           isNewlyExpanded: true
         };
@@ -1853,6 +1950,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius,
           isNewlyExpanded: true
         };
@@ -1907,6 +2005,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius * 1.3,
           isNewlyExpanded: true
         };
@@ -1932,6 +2031,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius * 1.3,
           isNewlyExpanded: true
         };
@@ -1985,6 +2085,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius,
           isNewlyExpanded: true
         };
@@ -2010,6 +2111,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           interactionData: interactionData,
           x: pos.x,
           y: pos.y,
+          _targetAngle: pos.angle,
           expandRadius: expandRadius,
           isNewlyExpanded: true
         };
@@ -2540,7 +2642,9 @@ function renderGraph() {
         else if (arrow === 'regulates') arrowClass = 'link-regulate';
         // Add indirect-chain class for mediator → indirect interactor links (dashed style)
         const chainClass = d.linkType === 'indirect-chain' ? ' link-indirect-chain' : '';
-        return `link pathway-interactor-link ${arrowClass}${chainClass}`;
+        // Add reference class for links to reference nodes (dashed, lower opacity)
+        const refClass = d.isReferenceLink ? ' link-reference' : '';
+        return `link pathway-interactor-link ${arrowClass}${chainClass}${refClass}`;
       }
       // Interaction edges (protein ↔ protein within a pathway)
       if (d.type === 'interaction-edge') {
@@ -2666,12 +2770,17 @@ function renderGraph() {
             .style('opacity', 0.7);
       }
 
-      // Add hover events for ancestry tooltip
+      // Add hover events for ancestry tooltip + cluster highlighting
       rect.on('mouseenter', (ev) => {
           const ancestry = d.ancestry || hier?.ancestry || [d.label];
           showAncestryTooltip(ev, ancestry);
+          // Highlight cluster when hovering pathway
+          highlightCluster(d.id);
         })
-        .on('mouseleave', hideAncestryTooltip)
+        .on('mouseleave', () => {
+          hideAncestryTooltip();
+          clearClusterHighlight();
+        })
         .on('click', (ev) => { ev.stopPropagation(); handlePathwayClick(d); });
 
       // Full pathway label (no truncation)
@@ -2771,7 +2880,13 @@ function renderGraph() {
         .style('opacity', isNewNode ? 0 : (d.isReferenceNode ? 0.7 : 1))  // Dimmed reference nodes
         .style('stroke-dasharray', d.isReferenceNode ? '4 2' : null)  // Dashed border
         .style('stroke-width', d.isReferenceNode ? 2 : null)
-        .on('click', (ev) => { ev.stopPropagation(); handleNodeClick(d); });
+        .on('click', (ev) => { ev.stopPropagation(); handleNodeClick(d); })
+        .on('mouseenter', function(ev) {
+          if (d._pathwayContext) highlightCluster(d._pathwayContext);
+        })
+        .on('mouseleave', function(ev) {
+          clearClusterHighlight();
+        });
 
       // Add navigation icon for reference nodes
       if (d.isReferenceNode) {

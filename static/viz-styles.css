@@ -1565,6 +1565,17 @@
     .link-indirect-chain.link-binding { stroke: var(--color-binding); }
     .link-indirect-chain.link-regulate { stroke: var(--color-regulation); }
 
+    /* Reference Node Links (dashed, lower opacity) */
+    /* Links connecting to reference nodes (duplicates pointing to primary node) */
+    .link-reference {
+      stroke-dasharray: 4, 2;
+      opacity: 0.55;
+    }
+    .link-reference:hover {
+      opacity: 0.75;
+      stroke-width: 2.5px;
+    }
+
     /* Interaction Edge Links (protein ↔ protein within pathway) */
     /* These are actual biological interactions shown inside expanded leaf pathways */
     .interaction-edge {
