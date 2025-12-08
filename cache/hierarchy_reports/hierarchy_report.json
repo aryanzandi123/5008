@@ -1,109 +1,17 @@
 {
   "summary": {
-    "total_pathways": 105,
-    "root_categories": 20,
-    "leaf_pathways": 62,
-    "total_edges": 88,
-    "max_depth": 4
+    "total_pathways": 93,
+    "root_categories": 10,
+    "leaf_pathways": 51,
+    "total_edges": 86,
+    "max_depth": 3
   },
   "by_level": {
-    "0": 20,
-    "1": 33,
-    "2": 47,
-    "3": 4,
-    "4": 1
+    "0": 10,
+    "1": 32,
+    "2": 45,
+    "3": 6
   },
-  "top_pathways": [
-    {
-      "name": "DNA Damage Response",
-      "usage": 10,
-      "proteins": 9
-    },
-    {
-      "name": "Proteasomal Degradation",
-      "usage": 8,
-      "proteins": 9
-    },
-    {
-      "name": "Transcription",
-      "usage": 5,
-      "proteins": 6
-    },
-    {
-      "name": "Autophagy",
-      "usage": 5,
-      "proteins": 6
-    },
-    {
-      "name": "Oxidative Stress Response",
-      "usage": 4,
-      "proteins": 4
-    },
-    {
-      "name": "Protein Folding",
-      "usage": 3,
-      "proteins": 4
-    },
-    {
-      "name": "Aggrephagy",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Cytoskeletal Transport",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Chromatin Remodeling",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "Apoptosis",
-      "usage": 2,
-      "proteins": 3
-    },
-    {
-      "name": "mTOR Signaling",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "ER-Associated Degradation",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Mrna Translation",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Mitochondrial Transport",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Protein Sumoylation",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Vesicle Transport",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Cell Cycle Regulation",
-      "usage": 1,
-      "proteins": 2
-    },
-    {
-      "name": "Hippo Signaling",
-      "usage": 1,
-      "proteins": 2
-    }
-  ],
-  "orphan_interactions": 0
+  "top_pathways": [],
+  "orphan_interactions": 49
 }

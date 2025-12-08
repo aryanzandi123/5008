@@ -1,56 +1,49 @@
 # Pathway Hierarchy Tree
-# Generated: 2025-12-07T14:59:30.413952
-# Total pathways: 105
+# Generated: 2025-12-07T17:45:36.926970
+# Total pathways: 93
 
 - Cell Cycle
-  - Cell Cycle Checkpoint
   - Cell Cycle Phase
     - Mitosis
-  - Cell Cycle Phase Transition
+  - Regulation of Cell Cycle
+    - Cell Cycle Checkpoint
     - G1/S Transition
     - G2/M Transition
   - S Phase
     - DNA Replication
 
-- Cell Cycle Regulation (1 interactions)
-
 - Cell Death
-  - Programmed Cell Death
-    - Apoptosis (2 interactions)
-    - Necroptosis
-    - Pyroptosis
   - Regulated Cell Death
+    - Apoptosis
     - Autophagy-Dependent Cell Death
     - Ferroptosis
+    - Necroptosis
+    - Pyroptosis
 
 - Cellular Signaling
+  - Cytokine Signaling
+    - JAK-STAT Signaling
+    - TGF-beta Signaling
   - Developmental Signaling Pathways
     - Notch Signaling
     - Wnt Signaling
-  - Growth and Nutrient Sensing Pathways
-    - mTOR Signaling (1 interactions)
-  - Immune and Inflammatory Signaling Pathways
-    - NF-kB Signaling
-  - Receptor Signaling Pathway
-    - JAK-STAT Signaling
-    - TGF-beta Signaling
-  - Regulation of Actin Cytoskeleton
-    - Cell Migration
-  - Regulation of Cellular Process
+  - Growth Factor Signaling
     - Cell Growth Regulation
+  - Immune and Inflammatory Signaling
+    - NF-kB Signaling
+  - Intracellular Signal Transduction
+    - MAPK Signaling
+  - PI3K-Akt Signaling Pathway
+    - mTOR Signaling
+  - Regulation of Cytoskeleton Organization
+    - Cell Migration
   - Second Messenger Signaling
     - Calcium Signaling
     - cAMP Signaling
-  - Stress and Mitogen Response Pathways
-    - MAPK Signaling
-
-- Chromatin Remodeling (2 interactions)
-
-- Cytoskeletal Transport (2 interactions)
 
 - Cytoskeleton Organization
 
-- DNA Damage Response (10 interactions)
+- DNA Damage Response
   - DNA Damage Signaling
     - DNA Damage Checkpoint
   - DNA Repair
@@ -61,29 +54,26 @@
     - Mismatch Repair
     - Nucleotide Excision Repair
 
-- Hippo Signaling (1 interactions)
-
 - Immune Response
   - Adaptive Immunity
   - Innate Immunity
     - Antiviral Response
     - Inflammatory Response
-  - Regulation of Immune Response
+  - Regulation of Immune System Process
     - Cytokine Signaling
+      - JAK-STAT Signaling
+      - TGF-beta Signaling
 
 - Metabolism
   - Carbohydrate Metabolism
     - Glycolysis
-  - Energy Metabolism
+  - Cellular Respiration
     - Mitochondrial Function
+  - Energy Metabolism
     - Oxidative Phosphorylation
   - Lipid Metabolism
-  - Small Molecule Metabolism
+  - Macromolecule Metabolic Process
     - Amino Acid Metabolism
-
-- Mitochondrial Transport (1 interactions)
-
-- Mrna Translation (1 interactions)
 
 - Neuronal Function
   - Neuronal Development
@@ -94,43 +84,31 @@
   - Synaptic Transmission
     - Neurotransmitter Release
 
-- Oxidative Stress Response (4 interactions)
-
-- Proteasomal Degradation (8 interactions)
-
 - Protein Quality Control
-  - Autophagy (5 interactions)
+  - Autophagy
     - ER-phagy
     - Lipophagy
     - Macroautophagy
-      - Selective Autophagy
-        - Aggrephagy (2 interactions)
     - Mitophagy
     - Pexophagy
     - Selective Autophagy
-      - Aggrephagy (2 interactions)
-  - ER Stress Response
+      - Aggrephagy
+  - ER Protein Homeostasis
     - Unfolded Protein Response
-  - Endoplasmic Reticulum Protein Quality Control
-    - ER-Associated Degradation (1 interactions)
-  - Macroautophagy
+  - ER Proteostasis
+    - ER-Associated Degradation
+  - Protein Catabolism
     - Selective Autophagy
-      - Aggrephagy (2 interactions)
-  - Protein Folding (3 interactions)
-    - Chaperone-Mediated Protein Folding
-  - Protein Ubiquitination
+      - Aggrephagy
+  - Protein Degradation
     - Ubiquitin-Proteasome System
+  - Protein Folding
+    - Chaperone-Mediated Protein Folding
 
-- Protein Sumoylation (1 interactions)
-
-- Transcription (5 interactions)
-
-- Vesicle Transport (1 interactions)
-  - Endocytic Pathway
+- Vesicle Transport
+  - Endocytosis
     - Lysosomal Transport
+  - Exocytosis
   - Secretory Pathway
     - ER-Golgi Transport
-  - Trafficking to/from the Plasma Membrane
-    - Endocytosis
-    - Exocytosis
 
