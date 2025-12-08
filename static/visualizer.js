@@ -407,8 +407,23 @@ function recalculateShellPositions() {
 
   // Position each node
   nodesByShell.forEach((shellNodes, shellNum) => {
-    // Sort nodes for consistent ordering (pathways first, then by ID)
+    // Sort nodes by parent angle (clusters children near their parent) then by type and ID
     shellNodes.sort((a, b) => {
+      // 1. Group by parent first - get parent's angle for cluster positioning
+      const parentA = a._pathwayContext || a._isChildOf || a.parentPathwayId || '';
+      const parentB = b._pathwayContext || b._isChildOf || b.parentPathwayId || '';
+
+      const parentNodeA = nodeMap.get(parentA);
+      const parentNodeB = nodeMap.get(parentB);
+      const angleA = parentNodeA?._shellData?.angle ?? parentNodeA?._targetAngle ?? 0;
+      const angleB = parentNodeB?._shellData?.angle ?? parentNodeB?._targetAngle ?? 0;
+
+      // Sort by parent angle first (clusters nodes near their parent in the ring)
+      if (Math.abs(angleA - angleB) > 0.01) {
+        return angleA - angleB;
+      }
+
+      // 2. Within same parent: pathways first, then by ID
       if (a.type === 'pathway' && b.type !== 'pathway') return -1;
       if (b.type === 'pathway' && a.type !== 'pathway') return 1;
       return (a.id || '').localeCompare(b.id || '');
@@ -2959,6 +2974,7 @@ function createInteractorPlaceholder(pathwayNode, angle, radius) {
     parentPathwayId: pathwayNode.id,
     hierarchyLevel: (pathwayNode.hierarchyLevel || 0) + 1,
     _pathwayContext: pathwayNode.id,
+    _directionRole: 'placeholder',  // Prevent shell assignment warnings
     radius: 35,
     x: x,
     y: y,
