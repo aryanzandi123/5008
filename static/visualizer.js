@@ -161,6 +161,352 @@ function calculateArcPositions(count, cx, cy, radius, startAngle, endAngle) {
   return positions;
 }
 
+// ============================================================================
+// SHELL-BASED LAYOUT SYSTEM - Deterministic radial positioning
+// ============================================================================
+
+/** @type {'shell'|'force'} Layout mode: 'shell' for deterministic, 'force' for physics */
+let layoutMode = 'shell';
+
+/** @type {Map<number, Set<string>>} Registry of nodes per shell */
+let shellRegistry = new Map();
+
+/** @type {number[]} Cached shell radii (recalculated when nodes change) */
+let shellRadii = [];
+
+/**
+ * Calculate shell position for a node - PURE FUNCTION
+ * @param {Object} config - {centerX, centerY, shell, totalInShell, indexInShell, nodeRadius}
+ * @returns {Object} - {x, y, angle, shell, slot, totalSlots, radius}
+ */
+function calculateShellPosition(config) {
+  const { centerX, centerY, shell, totalInShell, indexInShell, nodeRadius } = config;
+
+  // Dynamic radius: scale with node count to prevent overlap
+  const minSpacing = nodeRadius * 2.5;
+  const requiredCircumference = Math.max(totalInShell, 1) * minSpacing;
+  const minRadiusForCount = requiredCircumference / (2 * Math.PI);
+
+  // Base radii with dynamic scaling - each shell accumulates
+  const BASE_SHELL_GAP = 150; // Minimum gap between shells
+  const SHELL_0_RADIUS = 0;   // Center (main node)
+
+  let radius;
+  if (shell === 0) {
+    radius = SHELL_0_RADIUS;
+  } else {
+    // Accumulate radius: each shell is at least BASE_SHELL_GAP from previous
+    // But also expand if needed to fit all nodes
+    const baseRadius = shell * BASE_SHELL_GAP + 100; // 100px offset from center
+    radius = Math.max(baseRadius, minRadiusForCount + 50);
+
+    // Use cached radii if available (ensures all shells consistent)
+    if (shellRadii[shell]) {
+      radius = shellRadii[shell];
+    }
+  }
+
+  // Calculate angle: evenly distribute nodes around the shell
+  const effectiveTotal = Math.max(totalInShell, 1);
+  const angleStep = (2 * Math.PI) / effectiveTotal;
+  const angle = indexInShell * angleStep - Math.PI / 2; // Start from top
+
+  return {
+    x: centerX + radius * Math.cos(angle),
+    y: centerY + radius * Math.sin(angle),
+    angle: angle,
+    shell: shell,
+    slot: indexInShell,
+    totalSlots: effectiveTotal,
+    radius: radius
+  };
+}
+
+/**
+ * Calculate collision-free radii for all shells - ensures no overlap
+ * @param {Map<number, Array>} nodesByShell - Map of shell number to nodes array
+ * @param {number} defaultNodeRadius - Default radius for nodes
+ * @returns {number[]} - Array of radii indexed by shell number
+ */
+function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
+  const radii = [0]; // Shell 0 is center
+  const BASE_SHELL_GAP = 150;
+  const MIN_NODE_SPACING = 80; // Minimum space between nodes
+
+  let prevRadius = 0;
+
+  // Get max shell number
+  const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
+
+  for (let shell = 1; shell <= maxShell + 1; shell++) {
+    const nodesInShell = nodesByShell.get(shell) || [];
+    const count = nodesInShell.length;
+
+    if (count === 0) {
+      // Empty shell: just add base gap
+      radii[shell] = prevRadius + BASE_SHELL_GAP;
+    } else {
+      // Calculate minimum radius needed to fit all nodes
+      const avgNodeRadius = nodesInShell.reduce((sum, n) =>
+        sum + (n.radius || defaultNodeRadius), 0) / count;
+      const minSpacing = avgNodeRadius * 2 + MIN_NODE_SPACING;
+      const circumference = count * minSpacing;
+      const minRadiusForCount = circumference / (2 * Math.PI);
+
+      // Ensure this shell doesn't collide with previous
+      const minSeparation = avgNodeRadius * 2 + 50;
+      radii[shell] = Math.max(
+        prevRadius + BASE_SHELL_GAP,
+        minRadiusForCount,
+        prevRadius + minSeparation
+      );
+    }
+
+    prevRadius = radii[shell];
+  }
+
+  return radii;
+}
+
+/**
+ * Assign nodes to shells based on their type and expansion state
+ * @param {Array} allNodes - All nodes in the graph
+ * @param {string} mainNodeId - ID of the main/root protein
+ * @param {Set} expandedSet - Set of expanded node IDs
+ * @param {Object} context - Additional context {pathwayMode, expandedPathways, pathwayHierarchy}
+ * @returns {Map<string, Object>} - Map of nodeId -> {shell, role, parentId, parentShell}
+ */
+function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
+  const assignments = new Map();
+  const {
+    expandedPathways: expPathways,
+    pathwayHierarchy: pwHierarchy,
+    pathwayMode: pMode = pathwayMode  // Extract from context with fallback to global
+  } = context;
+
+  // First pass: assign based on node type and depth
+  allNodes.forEach(node => {
+    if (node.id === mainNodeId || node.type === 'main') {
+      assignments.set(node.id, { shell: 0, role: 'main', parentId: null, parentShell: null });
+      return;
+    }
+
+    // Skip function nodes (they follow their parent)
+    if (node.type === 'function' || node.isFunction) {
+      return;
+    }
+
+    let shell = 1; // Default shell
+    let role = node.type || 'interactor';
+    let parentId = node._pathwayContext || node._isChildOf || null;
+    let parentShell = null;
+
+    // Pathway nodes: shell based on hierarchy level
+    if (node.type === 'pathway') {
+      const hier = pwHierarchy?.get(node.id);
+      const level = hier?.level ?? node.hierarchyLevel ?? 0;
+      shell = level + 1; // Level 0 pathways go to shell 1, level 1 to shell 2, etc.
+      role = 'pathway';
+    }
+    // Interactors expanded from pathways: go to shell after parent pathway
+    else if (node._pathwayContext && pMode) {
+      const parentNode = allNodes.find(n => n.id === node._pathwayContext);
+      if (parentNode) {
+        const parentAssignment = assignments.get(parentNode.id);
+        parentShell = parentAssignment?.shell ?? 1;
+
+        // Direction-based shell assignment for interactors
+        if (node._directionRole === 'upstream') {
+          shell = parentShell + 1;
+        } else if (node.isQueryProtein || node._directionRole === 'query') {
+          shell = parentShell + 2;
+        } else if (node._directionRole === 'downstream') {
+          shell = parentShell + 3;
+        } else if (node._directionRole === 'indirect') {
+          // Indirect interactors go further out based on hop count
+          const hopCount = node._indirectHopCount || 1;
+          shell = parentShell + 3 + hopCount;
+        } else {
+          // Default: bidirectional or unknown direction - conservative placement
+          if (!node._directionRole) {
+            console.warn(`⚠️ Node ${node.id} missing _directionRole, defaulting to shell ${parentShell + 1}`);
+          }
+          shell = parentShell + 1;
+        }
+      }
+      role = 'interactor';
+    }
+    // Non-pathway mode: shell based on expansion state
+    else if (!pMode) {
+      if (node._isChildOf) {
+        // Children of expanded nodes go to outer shell
+        const parentNode = allNodes.find(n => n.id === node._isChildOf);
+        parentShell = parentNode ? (assignments.get(parentNode.id)?.shell ?? 1) : 1;
+        shell = parentShell + 1;
+      } else if (expandedSet && expandedSet.has(node.id)) {
+        shell = 2; // Expanded nodes
+      } else {
+        shell = 1; // Base interactors
+      }
+      role = 'interactor';
+    }
+
+    // Placeholder nodes stay in same shell as parent's children
+    if (node.isPlaceholder) {
+      role = 'placeholder';
+    }
+
+    assignments.set(node.id, { shell, role, parentId, parentShell });
+  });
+
+  return assignments;
+}
+
+/**
+ * Rebuild shell registry and recalculate all positions
+ * Call this after any node addition/removal
+ */
+function recalculateShellPositions() {
+  if (layoutMode !== 'shell') return;
+
+  const centerX = width / 2;
+  const centerY = height / 2;
+
+  // Get shell assignments for all nodes
+  const assignments = assignNodesToShells(nodes, SNAP.main, expanded, {
+    pathwayMode,
+    expandedPathways,
+    pathwayHierarchy
+  });
+
+  // Group nodes by shell
+  shellRegistry.clear();
+  const nodesByShell = new Map();
+
+  nodes.forEach(node => {
+    const assignment = assignments.get(node.id);
+    if (!assignment || node.type === 'function' || node.isFunction) return;
+
+    const shell = assignment.shell;
+    node._shellData = assignment; // Store assignment on node
+
+    if (!nodesByShell.has(shell)) {
+      nodesByShell.set(shell, []);
+    }
+    nodesByShell.get(shell).push(node);
+
+    if (!shellRegistry.has(shell)) {
+      shellRegistry.set(shell, new Set());
+    }
+    shellRegistry.get(shell).add(node.id);
+  });
+
+  // Calculate collision-free radii
+  shellRadii = calculateCollisionFreeRadii(nodesByShell, interactorNodeRadius);
+
+  // Position each node
+  nodesByShell.forEach((shellNodes, shellNum) => {
+    // Sort nodes for consistent ordering (pathways first, then by ID)
+    shellNodes.sort((a, b) => {
+      if (a.type === 'pathway' && b.type !== 'pathway') return -1;
+      if (b.type === 'pathway' && a.type !== 'pathway') return 1;
+      return (a.id || '').localeCompare(b.id || '');
+    });
+
+    shellNodes.forEach((node, idx) => {
+      const pos = calculateShellPosition({
+        centerX,
+        centerY,
+        shell: shellNum,
+        totalInShell: shellNodes.length,
+        indexInShell: idx,
+        nodeRadius: node.radius || interactorNodeRadius
+      });
+
+      // Update node position
+      node.x = pos.x;
+      node.y = pos.y;
+      node._shellData = {
+        ...node._shellData,
+        ...pos
+      };
+
+      // In shell mode, don't use fixed positions (fx/fy) except for main node
+      if (node.type !== 'main') {
+        node.fx = null;
+        node.fy = null;
+      }
+    });
+  });
+
+  // Position function nodes near their parent proteins
+  nodes.forEach(node => {
+    if (node.type === 'function' || node.isFunction) {
+      const parentId = node.parentProtein || node.id.split('_func_')[0];
+      const parent = nodeMap.get(parentId);
+      if (parent) {
+        // Position function nodes in a small arc around parent
+        const funcNodes = nodes.filter(n =>
+          (n.type === 'function' || n.isFunction) &&
+          (n.parentProtein === parentId || n.id.startsWith(parentId + '_func_'))
+        );
+        const funcIdx = funcNodes.indexOf(node);
+        const funcTotal = funcNodes.length;
+        const funcRadius = 60;
+        const funcAngle = (parent._shellData?.angle || 0) + (funcIdx - funcTotal / 2) * 0.3;
+
+        node.x = parent.x + funcRadius * Math.cos(funcAngle);
+        node.y = parent.y + funcRadius * Math.sin(funcAngle);
+      }
+    }
+  });
+}
+
+/**
+ * Get all nodes currently in a specific shell
+ * @param {number} shellNum - Shell number
+ * @returns {Array} - Array of nodes in that shell
+ */
+function getNodesInShell(shellNum) {
+  const nodeIds = shellRegistry.get(shellNum);
+  if (!nodeIds) return [];
+  return Array.from(nodeIds).map(id => nodeMap.get(id)).filter(Boolean);
+}
+
+/**
+ * Reflow a shell after node addition/removal - redistributes nodes evenly
+ * @param {number} shellNum - Shell number to reflow
+ */
+function reflowShell(shellNum) {
+  const shellNodes = getNodesInShell(shellNum);
+  if (shellNodes.length === 0) return;
+
+  const centerX = width / 2;
+  const centerY = height / 2;
+
+  // Sort for consistent ordering
+  shellNodes.sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+
+  shellNodes.forEach((node, idx) => {
+    const pos = calculateShellPosition({
+      centerX,
+      centerY,
+      shell: shellNum,
+      totalInShell: shellNodes.length,
+      indexInShell: idx,
+      nodeRadius: node.radius || interactorNodeRadius
+    });
+
+    node.x = pos.x;
+    node.y = pos.y;
+    node._shellData = { ...node._shellData, ...pos };
+  });
+}
+
+// ============================================================================
+// END SHELL-BASED LAYOUT SYSTEM
+// ============================================================================
+
 /**
  * Custom D3 force: keep pathway-expanded interactors orbiting their parent pathway
  * This prevents expanded nodes from drifting to center and overlapping
@@ -1123,120 +1469,127 @@ function buildInitialGraph(){
 }
 
 /**
- * Creates standard D3 force simulation
+ * Creates D3 force simulation
+ * In 'shell' mode: minimal forces, deterministic positions
+ * In 'force' mode: full physics simulation (legacy)
  */
 function createSimulation(){
-  // Tighter force layout with moderate clustering for organized visualization
-  simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links)
-      .id(d => d.id)
-      .distance(d => {
-        // Get source and target nodes for shell-aware distance
-        const src = typeof d.source === 'object' ? d.source : nodeMap.get(d.source);
-        const tgt = typeof d.target === 'object' ? d.target : nodeMap.get(d.target);
+  // SHELL MODE: Calculate deterministic positions first
+  if (layoutMode === 'shell') {
+    recalculateShellPositions();
+  }
 
-        // Pathway-specific distances - TIGHTER for better cluster cohesion
-        if (d.linkType === 'indirect-chain') return 60;      // Tight for indirect chains
-        if (d.type === 'pathway-interactor-link') {
-          // REDUCED: Tighter clusters around pathways
-          const srcId = typeof d.source === 'object' ? d.source.id : d.source;
-          const tgtId = typeof d.target === 'object' ? d.target.id : d.target;
-          const isExpanded = expandedPathways.has(srcId) || expandedPathways.has(tgtId);
-          // Reference links can be slightly shorter
-          if (d.isReferenceLink) return isExpanded ? 90 : 70;
-          return isExpanded ? 120 : 80;  // Was 180/120
-        }
-        if (d.type === 'pathway-link') return pathwayRingRadius; // Match ring radius
+  // Create simulation - needed for rendering even in shell mode
+  simulation = d3.forceSimulation(nodes);
 
-        // Function node links (keep functions close to their protein)
-        if (d.type === 'function' || (tgt && (tgt.type === 'function' || tgt.isFunction))) return 80;
+  if (layoutMode === 'shell') {
+    // SHELL MODE: Minimal forces - just enough to render links properly
+    simulation
+      .force('link', d3.forceLink(links)
+        .id(d => d.id)
+        .distance(100)
+        .strength(0) // No pull - positions are fixed by shell calculations
+      )
+      .force('collide', d3.forceCollide()
+        .radius(d => {
+          if (d.type === 'main') return mainNodeRadius + 5;
+          if (d.type === 'pathway') return 45;
+          if (d.type === 'function' || d.isFunction) return 30;
+          return (d.radius || interactorNodeRadius) + 5;
+        })
+        .iterations(1)
+        .strength(0.3) // Light collision only
+      );
 
-        // Shell-aware distances (non-pathway mode)
-        if (!pathwayMode && src && tgt) {
-          // Link from main to interactor (spans base shell distance)
-          if (src.type === 'main' || tgt.type === 'main') return SHELL_RADIUS_BASE;
-          // Link from expanded parent to child (spans shell gap)
-          if (tgt._isChildOf || src._isChildOf) return 150;
-        }
+    // In shell mode, stop simulation quickly (just need one tick for link resolution)
+    simulation.alpha(0.1).alphaDecay(0.5);
+  } else {
+    // FORCE MODE: Full physics simulation (legacy behavior)
+    simulation
+      .force('link', d3.forceLink(links)
+        .id(d => d.id)
+        .distance(d => {
+          const src = typeof d.source === 'object' ? d.source : nodeMap.get(d.source);
+          const tgt = typeof d.target === 'object' ? d.target : nodeMap.get(d.target);
 
-        return 250;  // Default
-      })
-      .strength(0.4)  // INCREASED: Stronger link pull for tighter clusters (was 0.3)
-    )
-    .force('charge', d3.forceManyBody()
-      .strength(d => {
-        // REDUCED: Less repulsion for tighter clusters
-        if (d.type === 'pathway') return -350;  // Was -600
-        if (d.isReferenceNode) return -100;     // Reference nodes: very weak repulsion
-        return -200;  // Was -400: Less repulsion within clusters
-      })
-      .distanceMax(500)    // REDUCED: Shorter range (was 800)
-    )
-    .force('center', d3.forceCenter(width / 2, height / 2).strength(0.03))  // Weaker center
-    .force('collide', d3.forceCollide()
-      .radius(d => {
-        if (d.type === 'main') return mainNodeRadius + 15;
-        // REDUCED: Tighter collision for pathways (was 100)
-        if (d.type === 'pathway') return 55;
-        if (d.type === 'function' || d.isFunction) return 35;
-        // Reference nodes: tighter collision
-        if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
-        return (d.radius || interactorNodeRadius) + 6;  // REDUCED (was +15)
-      })
-      .iterations(2)  // Reduced iterations for performance
-      .strength(0.85)
-    )
-    // Radial force: keep pathways organized around center
-    .force('radialPathways', d3.forceRadial(
-      d => {
-        if (d.type === 'pathway') {
-          // Expanded pathways move outward to make room for interactors
-          return expandedPathways.has(d.id) ? pathwayRingRadius + 80 : pathwayRingRadius;
-        }
-        return 0; // No radial constraint for other nodes
-      },
-      width / 2,
-      height / 2
-    ).strength(d => d.type === 'pathway' ? 0.9 : 0))  // Slightly reduced
-    // Radial force for shell-based layout (non-pathway mode)
-    .force('radialShell', d3.forceRadial(
-      d => {
-        // Skip main node and function nodes
-        if (d.type === 'main') return 0;
-        if (d.isFunction || d.type === 'function') return null;
-        // Skip pathway nodes (handled by radialPathways)
-        if (d.type === 'pathway') return null;
-        // In pathway mode, let radialPathways handle everything
-        if (pathwayMode) return null;
+          if (d.linkType === 'indirect-chain') return 60;
+          if (d.type === 'pathway-interactor-link') {
+            const srcId = typeof d.source === 'object' ? d.source.id : d.source;
+            const tgtId = typeof d.target === 'object' ? d.target.id : d.target;
+            const isExpanded = expandedPathways.has(srcId) || expandedPathways.has(tgtId);
+            if (d.isReferenceLink) return isExpanded ? 90 : 70;
+            return isExpanded ? 120 : 80;
+          }
+          if (d.type === 'pathway-link') return pathwayRingRadius;
+          if (d.type === 'function' || (tgt && (tgt.type === 'function' || tgt.isFunction))) return 80;
 
-        // Shell assignment based on node state:
-        // 1. Children of expanded nodes go to outer shell
-        if (d._isChildOf) return SHELL_RADIUS_CHILDREN;
-        // 2. Expanded nodes move to middle shell
-        if (expanded.has(d.id)) return SHELL_RADIUS_EXPANDED;
-        // 3. Regular interactors stay at base shell
-        return SHELL_RADIUS_BASE;
-      },
-      width / 2,
-      height / 2
-    ).strength(d => {
-      // Only apply to non-main, non-function, non-pathway nodes in non-pathway mode
-      if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
-      if (pathwayMode) return 0;
-      return 0.6; // Moderate pull to assigned shell
-    }))
-    // Custom force: keep pathway-expanded interactors orbiting their parent pathway
-    // INCREASED strength for tighter clusters
-    .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))  // Was 0.4
-    // Custom force: constrain pathway interactors to their sector around parent pathway
-    .force('sectorConstraint', forceSectorConstraint().strength(0.35))
-    // Custom force: pull nodes toward their assigned angular sector
-    // This creates stable, organized layout with upstream/downstream separation
-    .force('angularPosition', forceAngularPosition()
-      .center(width / 2, height / 2)
-      .strength(0.12));  // Slightly reduced for less jitter
+          if (!pathwayMode && src && tgt) {
+            if (src.type === 'main' || tgt.type === 'main') return SHELL_RADIUS_BASE;
+            if (tgt._isChildOf || src._isChildOf) return 150;
+          }
 
-  simulation.alpha(1).restart();
+          return 250;
+        })
+        .strength(0.4)
+      )
+      .force('charge', d3.forceManyBody()
+        .strength(d => {
+          if (d.type === 'pathway') return -350;
+          if (d.isReferenceNode) return -100;
+          return -200;
+        })
+        .distanceMax(500)
+      )
+      .force('center', d3.forceCenter(width / 2, height / 2).strength(0.03))
+      .force('collide', d3.forceCollide()
+        .radius(d => {
+          if (d.type === 'main') return mainNodeRadius + 15;
+          if (d.type === 'pathway') return 55;
+          if (d.type === 'function' || d.isFunction) return 35;
+          if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
+          return (d.radius || interactorNodeRadius) + 6;
+        })
+        .iterations(2)
+        .strength(0.85)
+      )
+      .force('radialPathways', d3.forceRadial(
+        d => {
+          if (d.type === 'pathway') {
+            return expandedPathways.has(d.id) ? pathwayRingRadius + 80 : pathwayRingRadius;
+          }
+          return 0;
+        },
+        width / 2,
+        height / 2
+      ).strength(d => d.type === 'pathway' ? 0.9 : 0))
+      .force('radialShell', d3.forceRadial(
+        d => {
+          if (d.type === 'main') return 0;
+          if (d.isFunction || d.type === 'function') return null;
+          if (d.type === 'pathway') return null;
+          if (pathwayMode) return null;
+
+          if (d._isChildOf) return SHELL_RADIUS_CHILDREN;
+          if (expanded.has(d.id)) return SHELL_RADIUS_EXPANDED;
+          return SHELL_RADIUS_BASE;
+        },
+        width / 2,
+        height / 2
+      ).strength(d => {
+        if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
+        if (pathwayMode) return 0;
+        return 0.6;
+      }))
+      .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))
+      .force('sectorConstraint', forceSectorConstraint().strength(0.35))
+      .force('angularPosition', forceAngularPosition()
+        .center(width / 2, height / 2)
+        .strength(0.12));
+
+    simulation.alpha(1);
+  }
+
+  simulation.restart();
 
   // LINKS
   const link = g.append('g').selectAll('path')
@@ -1386,7 +1739,12 @@ function createSimulation(){
 }
 
 function dragstarted(ev, d){
-  if (!ev.active) simulation.alphaTarget(0.3).restart();
+  if (layoutMode === 'shell') {
+    // In shell mode, just track that we're dragging
+    d._isDragging = true;
+  } else {
+    if (!ev.active) simulation.alphaTarget(0.3).restart();
+  }
   d.fx = d.x;
   d.fy = d.y;
 }
@@ -1394,13 +1752,116 @@ function dragstarted(ev, d){
 function dragged(ev, d){
   d.fx = ev.x;
   d.fy = ev.y;
+  // Update position immediately for visual feedback
+  d.x = ev.x;
+  d.y = ev.y;
 }
 
 function dragended(ev, d){
-  if (!ev.active) simulation.alphaTarget(0);
-  if (d.type !== 'main') { // Keep main fixed if desired, or release
-     d.fx = null;
-     d.fy = null;
+  d._isDragging = false;
+
+  if (layoutMode === 'shell') {
+    // SHELL MODE: Snap to nearest slot in node's shell
+    if (d.type === 'main') {
+      // Main node stays at center
+      d.fx = width / 2;
+      d.fy = height / 2;
+      d.x = width / 2;
+      d.y = height / 2;
+      return;
+    }
+
+    const shellData = d._shellData;
+    if (!shellData || shellData.shell === undefined) {
+      d.fx = null;
+      d.fy = null;
+      return;
+    }
+
+    const shell = shellData.shell;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Calculate dragged angle from center
+    const dx = ev.x - centerX;
+    const dy = ev.y - centerY;
+    const draggedAngle = Math.atan2(dy, dx);
+
+    // Get nodes in this shell
+    const shellNodes = getNodesInShell(shell);
+    const totalSlots = shellNodes.length;
+
+    if (totalSlots <= 1) {
+      // Single node - snap back to calculated position
+      recalculateShellPositions();
+      d.fx = null;
+      d.fy = null;
+      renderGraph();
+      return;
+    }
+
+    // Find nearest slot based on angle
+    const angleStep = (2 * Math.PI) / totalSlots;
+    // Normalize dragged angle to [0, 2*PI)
+    let normalizedAngle = draggedAngle + Math.PI / 2; // Offset to match our start-from-top
+    if (normalizedAngle < 0) normalizedAngle += 2 * Math.PI;
+
+    const nearestSlotIndex = Math.round(normalizedAngle / angleStep) % totalSlots;
+
+    // Get the radius for this shell
+    const shellRadius = shellRadii[shell] || (shell * 150 + 100);
+
+    // Calculate snapped position
+    const snappedAngle = nearestSlotIndex * angleStep - Math.PI / 2;
+    const snappedX = centerX + shellRadius * Math.cos(snappedAngle);
+    const snappedY = centerY + shellRadius * Math.sin(snappedAngle);
+
+    // Check if we're swapping with another node
+    const currentSlot = shellData.slot;
+    if (nearestSlotIndex !== currentSlot) {
+      // Find node currently at target slot and swap
+      const nodeAtTargetSlot = shellNodes.find(n =>
+        n._shellData && n._shellData.slot === nearestSlotIndex && n.id !== d.id
+      );
+
+      if (nodeAtTargetSlot) {
+        // Swap positions
+        const myOldAngle = currentSlot * angleStep - Math.PI / 2;
+        const swapX = centerX + shellRadius * Math.cos(myOldAngle);
+        const swapY = centerY + shellRadius * Math.sin(myOldAngle);
+
+        nodeAtTargetSlot.x = swapX;
+        nodeAtTargetSlot.y = swapY;
+        nodeAtTargetSlot._shellData = {
+          ...nodeAtTargetSlot._shellData,
+          slot: currentSlot,
+          angle: myOldAngle
+        };
+        nodeAtTargetSlot.fx = null;
+        nodeAtTargetSlot.fy = null;
+      }
+    }
+
+    // Update dragged node's position
+    d.x = snappedX;
+    d.y = snappedY;
+    d._shellData = {
+      ...d._shellData,
+      slot: nearestSlotIndex,
+      angle: snappedAngle
+    };
+    d.fx = null;
+    d.fy = null;
+
+    // Re-render to show snapped positions
+    renderGraph();
+  } else {
+    // FORCE MODE: Standard behavior
+    if (!ev.active) simulation.alphaTarget(0);
+    if (d.type !== 'main') {
+       d.fx = null;
+       d.fy = null;
+    }
   }
 }
 
@@ -1543,6 +2004,12 @@ function expandPathway(pathwayNode) {
       const interactionData = interactorDataMap.get(interactorId);
       const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
 
+      // Determine direction role from interaction data
+      const direction = interactionData?.direction || 'bidirectional';
+      let directionRole = 'bidirectional';
+      if (direction === 'primary_to_main') directionRole = 'upstream';
+      else if (direction === 'main_to_primary') directionRole = 'downstream';
+
       // CHECK: Does this protein already exist as a node from another pathway?
       const existingNode = findExistingInteractorNode(interactorId);
 
@@ -1561,6 +2028,7 @@ function expandPathway(pathwayNode) {
           pathwayId: pathwayNode.id,
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
+          _directionRole: directionRole,
           radius: interactorNodeRadius * 0.85,  // Slightly smaller
           arrow: actualArrow,
           interactionData: interactionData,
@@ -1597,6 +2065,7 @@ function expandPathway(pathwayNode) {
           pathwayId: pathwayNode.id,
           _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
           _pathwayName: pathwayNode.label,    // Pathway name for badge display
+          _directionRole: directionRole,
           radius: interactorNodeRadius,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -1643,6 +2112,12 @@ function expandPathway(pathwayNode) {
       const mediatorInteractionData = getInteractionForInteractor(mediatorId);
       const mediatorArrow = mediatorInteractionData ? arrowKind(mediatorInteractionData.arrow, mediatorInteractionData.intent, mediatorInteractionData.direction) : 'binds';
 
+      // Determine direction role for mediator (typically downstream of query, upstream of indirect)
+      const mediatorDirection = mediatorInteractionData?.direction || 'bidirectional';
+      let mediatorDirectionRole = 'downstream';  // Default: mediators are downstream of query
+      if (mediatorDirection === 'primary_to_main') mediatorDirectionRole = 'upstream';
+      else if (mediatorDirection === 'main_to_primary') mediatorDirectionRole = 'downstream';
+
       mediatorNode = {
         id: mediatorNodeId,
         label: mediatorId,
@@ -1651,6 +2126,7 @@ function expandPathway(pathwayNode) {
         pathwayId: pathwayNode.id,
         _pathwayContext: pathwayNode.id,
         _pathwayName: pathwayNode.label,
+        _directionRole: mediatorDirectionRole,
         radius: interactorNodeRadius,
         arrow: mediatorArrow,
         interactionData: mediatorInteractionData,
@@ -1716,6 +2192,8 @@ function expandPathway(pathwayNode) {
             pathwayId: pathwayNode.id,
             _pathwayContext: pathwayNode.id,
             _pathwayName: pathwayNode.label,
+            _directionRole: 'indirect',
+            _indirectHopCount: 1,
             radius: interactorNodeRadius * 0.85,
             arrow: actualArrow,
             interactionData: interactionData,
@@ -1753,6 +2231,8 @@ function expandPathway(pathwayNode) {
             pathwayId: pathwayNode.id,
             _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
             _pathwayName: pathwayNode.label,    // Pathway name for badge display
+            _directionRole: 'indirect',
+            _indirectHopCount: 1,
             radius: interactorNodeRadius,
             arrow: actualArrow,
             interactionData: interactionData,
@@ -2245,8 +2725,11 @@ function expandPathwayHierarchy(pathwayNode) {
   const hier = pathwayHierarchy.get(pathwayNode.originalId || pathwayNode.id);
   const childIds = pathwayNode.childPathwayIds || hier?.child_ids || [];
 
-  if (childIds.length === 0) {
-    console.warn(`⚠️ No children for pathway: ${pathwayNode.label}`);
+  // Check for interactors (for mixed content handling)
+  const hasInteractors = checkPathwayHasInteractors(pathwayNode);
+
+  if (childIds.length === 0 && !hasInteractors) {
+    console.warn(`⚠️ No children or interactors for pathway: ${pathwayNode.label}`);
     return;
   }
 
@@ -2256,13 +2739,35 @@ function expandPathwayHierarchy(pathwayNode) {
     return childIds.includes(pwId);
   });
 
+  // Calculate total items to position (children + placeholder if mixed content)
+  const hasMixedContent = childPathways.length > 0 && hasInteractors;
+  const totalItems = hasMixedContent ? childPathways.length + 1 : childPathways.length;
+
   // Calculate positions around parent
-  const expandRadius = calculateExpandRadius(childPathways.length, 60);
-  const angleStep = (2 * Math.PI) / Math.max(childPathways.length, 1);
+  const expandRadius = calculateExpandRadius(totalItems, 60);
+  const angleStep = (2 * Math.PI) / Math.max(totalItems, 1);
+
+  // For mixed content: children on left arc, placeholder on right
+  // For children only: distribute evenly around
+  let childStartAngle = -Math.PI / 2; // Start from top
+  if (hasMixedContent) {
+    // Children occupy left side (π/2 to 3π/2), placeholder on right
+    childStartAngle = Math.PI * 0.6; // Start from left side
+  }
+
+  // Calculate child angle step (only for children, not placeholder)
+  const childAngleStep = hasMixedContent
+    ? (Math.PI * 1.2) / Math.max(childPathways.length, 1)  // Left arc only
+    : angleStep;
 
   childPathways.forEach((child, idx) => {
     const childId = child.id || `pathway_${child.name.replace(/\s+/g, '_')}`;
     const nodeId = `${childId}@${pathwayNode.id}`;  // Context-qualified ID
+
+    // Calculate angle based on whether we have mixed content
+    const angle = hasMixedContent
+      ? childStartAngle + idx * childAngleStep
+      : idx * angleStep - Math.PI / 2;
 
     // Check if this pathway already exists under another parent (DAG handling)
     const existingNode = findExistingPathwayNode(childId);
@@ -2271,7 +2776,6 @@ function expandPathwayHierarchy(pathwayNode) {
       // Create reference node instead of duplicate
       const refNodeId = `ref_${childId}@${pathwayNode.id}`;
       if (!nodeMap.has(refNodeId)) {
-        const angle = idx * angleStep - Math.PI / 2;
         const x = pathwayNode.x + expandRadius * Math.cos(angle);
         const y = pathwayNode.y + expandRadius * Math.sin(angle);
 
@@ -2303,7 +2807,6 @@ function expandPathwayHierarchy(pathwayNode) {
       }
     } else if (!nodeMap.has(nodeId)) {
       // Normal child node creation
-      const angle = idx * angleStep - Math.PI / 2;
       const x = pathwayNode.x + expandRadius * Math.cos(angle);
       const y = pathwayNode.y + expandRadius * Math.sin(angle);
 
@@ -2349,7 +2852,47 @@ function expandPathwayHierarchy(pathwayNode) {
     }
   });
 
-  console.log(`🌳 Expanded hierarchy: ${pathwayNode.label} → ${childPathways.length} sub-pathways`);
+  // MIXED CONTENT: Add "Interactors" placeholder on the opposite side
+  if (hasMixedContent) {
+    const placeholderAngle = -Math.PI * 0.2; // Right side (opposite of children)
+    const placeholder = createInteractorPlaceholder(pathwayNode, placeholderAngle, expandRadius);
+
+    if (placeholder && !nodeMap.has(placeholder.id)) {
+      nodes.push(placeholder);
+      nodeMap.set(placeholder.id, placeholder);
+      newlyAddedNodes.add(placeholder.id);
+
+      // Link from pathway to placeholder
+      links.push({
+        id: `${pathwayNode.id}-${placeholder.id}`,
+        source: pathwayNode.id,
+        target: placeholder.id,
+        type: 'pathway-placeholder-link'
+      });
+
+      console.log(`📦 Added interactors placeholder for: ${pathwayNode.label} (${placeholder.interactorCount} interactors)`);
+    }
+  }
+
+  console.log(`🌳 Expanded hierarchy: ${pathwayNode.label} → ${childPathways.length} sub-pathways${hasMixedContent ? ' + interactors placeholder' : ''}`);
+}
+
+/**
+ * Check if a pathway has interactors (either directly or via interactions)
+ */
+function checkPathwayHasInteractors(pathwayNode) {
+  const pathwayId = pathwayNode.id;
+  const originalId = pathwayNode.originalId || pathwayId;
+
+  // Check pathwayToInteractors map
+  const interactorIds = pathwayToInteractors.get(pathwayId) || pathwayToInteractors.get(originalId);
+  if (interactorIds && interactorIds.size > 0) return true;
+
+  // Check pathwayToInteractions map (new format)
+  const interactions = pathwayToInteractions.get(pathwayId) || pathwayToInteractions.get(originalId);
+  if (interactions && interactions.length > 0) return true;
+
+  return false;
 }
 
 /**
@@ -2380,6 +2923,101 @@ function findExistingInteractorNode(symbol) {
     }
   }
   return null;
+}
+
+/**
+ * Create an "Interactors" placeholder node for pathways with mixed content
+ * When a pathway has both sub-pathways and interactors, this placeholder
+ * allows users to expand interactors separately
+ * @param {Object} pathwayNode - The parent pathway node
+ * @param {number} angle - Angular position for the placeholder
+ * @param {number} radius - Distance from parent
+ * @returns {Object} - The placeholder node
+ */
+function createInteractorPlaceholder(pathwayNode, angle, radius) {
+  const placeholderId = `${pathwayNode.id}_interactors_placeholder`;
+
+  // Count interactors for this pathway
+  const interactorIds = pathwayToInteractors.get(pathwayNode.id) || pathwayToInteractors.get(pathwayNode.originalId);
+  const interactionData = pathwayToInteractions.get(pathwayNode.id) || pathwayToInteractions.get(pathwayNode.originalId);
+  const interactorCount = interactorIds?.size || interactionData?.length || 0;
+
+  if (interactorCount === 0) return null;
+
+  const x = pathwayNode.x + radius * Math.cos(angle);
+  const y = pathwayNode.y + radius * Math.sin(angle);
+
+  const placeholder = {
+    id: placeholderId,
+    label: `${interactorCount} Interactors`,
+    type: 'placeholder',
+    isPlaceholder: true,
+    pathwayId: pathwayNode.id,
+    pathwayOriginalId: pathwayNode.originalId || pathwayNode.id,
+    interactorCount: interactorCount,
+    parentPathwayId: pathwayNode.id,
+    hierarchyLevel: (pathwayNode.hierarchyLevel || 0) + 1,
+    _pathwayContext: pathwayNode.id,
+    radius: 35,
+    x: x,
+    y: y,
+    _targetAngle: angle,
+    isNewlyExpanded: true
+  };
+
+  return placeholder;
+}
+
+/**
+ * Handle click on an "Interactors" placeholder node
+ * Removes the placeholder and expands actual interactors in its place
+ * @param {Object} placeholderNode - The placeholder node that was clicked
+ */
+function handlePlaceholderClick(placeholderNode) {
+  if (!placeholderNode || !placeholderNode.isPlaceholder) return;
+
+  const pathwayId = placeholderNode.pathwayId;
+  const pathwayOriginalId = placeholderNode.pathwayOriginalId || pathwayId;
+  const pathwayNode = nodeMap.get(pathwayId);
+
+  if (!pathwayNode) {
+    console.warn(`⚠️ Parent pathway not found: ${pathwayId}`);
+    return;
+  }
+
+  console.log(`📦 Expanding placeholder for: ${pathwayNode.label}`);
+
+  // Remove the placeholder node
+  const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
+  if (placeholderIdx !== -1) {
+    nodes.splice(placeholderIdx, 1);
+  }
+  nodeMap.delete(placeholderNode.id);
+
+  // Remove link to placeholder
+  const linkIdx = links.findIndex(l =>
+    (l.source === placeholderNode.id || l.source?.id === placeholderNode.id) ||
+    (l.target === placeholderNode.id || l.target?.id === placeholderNode.id)
+  );
+  if (linkIdx !== -1) {
+    links.splice(linkIdx, 1);
+  }
+
+  // Now expand the actual interactors
+  // Check for interaction data first (new format)
+  const pathwayInteractions = pathwayToInteractions.get(pathwayId) ||
+                               pathwayToInteractions.get(pathwayOriginalId);
+
+  if (pathwayInteractions && pathwayInteractions.length > 0) {
+    expandedPathways.add(pathwayId);
+    pathwayNode.expanded = true;
+    expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
+  } else {
+    // Fallback to legacy expansion
+    expandPathway(pathwayNode);
+  }
+
+  updateSimulation();
 }
 
 /**
@@ -2582,32 +3220,46 @@ let newlyAddedNodes = new Set();
 function updateSimulation() {
   if (!simulation) return;
 
-  // Update force simulation with new nodes/links
-  simulation.nodes(nodes);
-  simulation.force('link').links(links);
-
-  // Update radial force for pathways (recalculates expanded state)
-  simulation.force('radialPathways', d3.forceRadial(
-    d => {
-      if (d.type === 'pathway') {
-        return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
-      }
-      return 0;
-    },
-    width / 2,
-    height / 2
-  ).strength(d => d.type === 'pathway' ? 1.0 : 0));
-
-  // Update pathway orbit force strength (active in pathway mode only)
-  if (simulation.force('pathwayOrbit')) {
-    simulation.force('pathwayOrbit').strength(pathwayMode ? 0.4 : 0);
-  }
-
-  // Rebuild node map
+  // Rebuild node map first
   rebuildNodeMap();
 
-  // Restart simulation with higher alpha for responsive layout
-  simulation.alpha(0.7).restart();
+  if (layoutMode === 'shell') {
+    // SHELL MODE: Recalculate deterministic positions
+    recalculateShellPositions();
+
+    // Update simulation nodes/links (needed for link resolution)
+    simulation.nodes(nodes);
+    if (simulation.force('link')) {
+      simulation.force('link').links(links);
+    }
+
+    // Quick tick to resolve links, then stop
+    simulation.alpha(0.1).alphaDecay(0.5).restart();
+  } else {
+    // FORCE MODE: Standard physics update
+    simulation.nodes(nodes);
+    simulation.force('link').links(links);
+
+    // Update radial force for pathways (recalculates expanded state)
+    simulation.force('radialPathways', d3.forceRadial(
+      d => {
+        if (d.type === 'pathway') {
+          return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
+        }
+        return 0;
+      },
+      width / 2,
+      height / 2
+    ).strength(d => d.type === 'pathway' ? 1.0 : 0));
+
+    // Update pathway orbit force strength (active in pathway mode only)
+    if (simulation.force('pathwayOrbit')) {
+      simulation.force('pathwayOrbit').strength(pathwayMode ? 0.4 : 0);
+    }
+
+    // Restart simulation with higher alpha for responsive layout
+    simulation.alpha(0.7).restart();
+  }
 
   // Re-render nodes and links with animations
   renderGraph();
@@ -2857,6 +3509,74 @@ function renderGraph() {
           .style('fill', levelColor)
           .style('font-size', '10px')
           .text('Loading...');
+      }
+    } else if (d.type === 'placeholder' || d.isPlaceholder) {
+      // PLACEHOLDER NODE - "N Interactors" clickable node
+      const isDark = document.body.classList.contains('dark-mode');
+      const isNew = newlyAddedNodes.has(d.id);
+
+      // Rounded rectangle for placeholder
+      const rectWidth = Math.max(100, d.label.length * 8 + 24);
+      const rectHeight = 36;
+
+      const rect = group.append('rect')
+        .attr('class', 'node placeholder-node')
+        .attr('width', rectWidth)
+        .attr('height', rectHeight)
+        .attr('x', -rectWidth / 2)
+        .attr('y', -rectHeight / 2)
+        .attr('rx', 18)
+        .attr('ry', 18)
+        .style('fill', isDark ? '#374151' : '#6b7280')
+        .style('stroke', isDark ? '#9ca3af' : '#4b5563')
+        .style('stroke-width', '2px')
+        .style('stroke-dasharray', '6 3')
+        .style('cursor', 'pointer')
+        .style('opacity', isNew ? 0 : 1)
+        .on('click', (ev) => { ev.stopPropagation(); handlePlaceholderClick(d); })
+        .on('mouseenter', function() {
+          d3.select(this).style('fill', isDark ? '#4b5563' : '#4b5563');
+        })
+        .on('mouseleave', function() {
+          d3.select(this).style('fill', isDark ? '#374151' : '#6b7280');
+        });
+
+      // Label
+      const label = group.append('text')
+        .attr('class', 'node-label placeholder-label')
+        .attr('dy', 5)
+        .attr('text-anchor', 'middle')
+        .style('fill', 'white')
+        .style('font-size', '12px')
+        .style('font-weight', '600')
+        .style('pointer-events', 'none')
+        .style('opacity', isNew ? 0 : 1)
+        .text(d.label);
+
+      // Expand icon
+      group.append('text')
+        .attr('class', 'placeholder-icon')
+        .attr('x', rectWidth / 2 - 16)
+        .attr('y', 5)
+        .attr('text-anchor', 'middle')
+        .style('fill', 'white')
+        .style('font-size', '14px')
+        .style('font-weight', 'bold')
+        .style('pointer-events', 'none')
+        .text('+');
+
+      // Entry animation
+      if (isNew) {
+        rect.transition()
+          .duration(400)
+          .ease(d3.easeCubicOut)
+          .style('opacity', 1);
+
+        label.transition()
+          .duration(400)
+          .delay(100)
+          .ease(d3.easeCubicOut)
+          .style('opacity', 1);
       }
     } else {
       // Interactor node - use semantic coloring based on interaction type

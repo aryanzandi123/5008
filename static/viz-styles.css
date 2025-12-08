@@ -1684,6 +1684,53 @@
       opacity: 0.8;
     }
 
+    /* ===============================================================
+       PLACEHOLDER NODE STYLES ("N Interactors" expandable node)
+       =============================================================== */
+    .placeholder-node {
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .placeholder-node:hover {
+      filter: brightness(1.15);
+    }
+
+    .placeholder-label {
+      pointer-events: none;
+    }
+
+    .placeholder-icon {
+      pointer-events: none;
+    }
+
+    /* Placeholder link (pathway → placeholder) */
+    .pathway-placeholder-link {
+      stroke: #9ca3af;
+      stroke-width: 2px;
+      stroke-dasharray: 8, 4;
+      opacity: 0.6;
+    }
+
+    .pathway-placeholder-link:hover {
+      opacity: 0.9;
+      stroke-width: 2.5px;
+    }
+
+    /* Dark mode placeholder styles */
+    body.dark-mode .placeholder-node {
+      fill: #374151;
+      stroke: #6b7280;
+    }
+
+    body.dark-mode .placeholder-node:hover {
+      fill: #4b5563;
+    }
+
+    body.dark-mode .pathway-placeholder-link {
+      stroke: #6b7280;
+    }
+
     /* Expand indicator icon */
     .pathway-expand-icon {
       pointer-events: none;
