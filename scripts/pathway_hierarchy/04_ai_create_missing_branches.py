@@ -42,8 +42,8 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
 from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORY_NAMES
 
 
-BATCH_SIZE = 5  # Gaps per AI call (complex reasoning needed)
-MIN_PROTEIN_COUNT = 5  # Minimum proteins for intermediate pathways
+BATCH_SIZE = 15  # Gaps per AI call (complex reasoning needed)
+MIN_PROTEIN_COUNT = 1  # Minimum proteins for intermediate pathways
 
 
 def find_hierarchy_gaps(session) -> List[Dict]:

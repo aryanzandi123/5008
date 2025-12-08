@@ -39,7 +39,7 @@ from scripts.pathway_hierarchy.hierarchy_utils import (
 from scripts.pathway_hierarchy.pathway_config import ROOT_CATEGORY_NAMES
 
 
-BATCH_SIZE = 5  # Interactions per AI call
+BATCH_SIZE = 15  # Interactions per AI call
 
 # ROOT categories imported from central config
 ROOT_CATEGORIES = ROOT_CATEGORY_NAMES

@@ -208,6 +208,107 @@ function forcePathwayOrbit() {
 }
 
 /**
+ * Custom D3 force: pull nodes toward their assigned angular position
+ * This creates sector-based layout where nodes are organized by direction
+ * Sectors: RIGHT=downstream, BOTTOM=bidirectional, LEFT=upstream, TOP=pathways
+ */
+function forceAngularPosition() {
+  let nodes = [];
+  let strength = 0.15;
+  let centerX = 0;
+  let centerY = 0;
+
+  function force(alpha) {
+    nodes.forEach(node => {
+      // Skip nodes without target angle
+      if (node._targetAngle === undefined || node._targetAngle === null) return;
+      // Skip main node (fixed at center)
+      if (node.type === 'main') return;
+      // Skip function nodes
+      if (node.type === 'function' || node.isFunction) return;
+
+      const dx = node.x - centerX;
+      const dy = node.y - centerY;
+      const currentRadius = Math.sqrt(dx * dx + dy * dy);
+
+      // Don't apply to nodes too close to center
+      if (currentRadius < 50) return;
+
+      // Calculate target position at same radius but target angle
+      const targetX = centerX + currentRadius * Math.cos(node._targetAngle);
+      const targetY = centerY + currentRadius * Math.sin(node._targetAngle);
+
+      // Apply force toward target angle
+      node.vx += (targetX - node.x) * alpha * strength;
+      node.vy += (targetY - node.y) * alpha * strength;
+    });
+  }
+
+  force.initialize = function(_) {
+    nodes = _;
+  };
+
+  force.strength = function(_) {
+    return arguments.length ? (strength = _, force) : strength;
+  };
+
+  force.center = function(x, y) {
+    centerX = x;
+    centerY = y;
+    return force;
+  };
+
+  return force;
+}
+
+/**
+ * Assign sector and target angle to a node based on its direction relative to main
+ * @param {string} direction - 'main_to_primary' (downstream), 'primary_to_main' (upstream), 'bidirectional'
+ * @param {number} indexInSector - Position within sector (for spreading nodes)
+ * @param {number} totalInSector - Total nodes in this sector
+ * @returns {Object} - { sector, targetAngle }
+ */
+function assignSectorAndAngle(direction, indexInSector, totalInSector) {
+  // Sector definitions (angles in radians)
+  // RIGHT (315° to 45°): downstream - main acts ON these proteins
+  // BOTTOM (45° to 135°): bidirectional
+  // LEFT (135° to 225°): upstream - these proteins act ON main
+  // TOP (225° to 315°): reserved for pathway connections
+
+  const sectors = {
+    downstream: { start: -Math.PI / 4, end: Math.PI / 4, sector: 0 },      // RIGHT
+    bidirectional: { start: Math.PI / 4, end: 3 * Math.PI / 4, sector: 1 }, // BOTTOM
+    upstream: { start: 3 * Math.PI / 4, end: 5 * Math.PI / 4, sector: 2 },  // LEFT (wraps to -3π/4)
+    pathway: { start: -3 * Math.PI / 4, end: -Math.PI / 4, sector: 3 }      // TOP
+  };
+
+  let sectorInfo;
+  if (direction === 'main_to_primary') {
+    sectorInfo = sectors.downstream;
+  } else if (direction === 'primary_to_main') {
+    sectorInfo = sectors.upstream;
+  } else {
+    sectorInfo = sectors.bidirectional;
+  }
+
+  // Calculate angle within sector
+  let targetAngle;
+  if (totalInSector <= 1) {
+    // Single node: center of sector
+    targetAngle = (sectorInfo.start + sectorInfo.end) / 2;
+  } else {
+    // Multiple nodes: spread evenly within sector
+    const sectorSpan = sectorInfo.end - sectorInfo.start;
+    const padding = sectorSpan * 0.1; // 10% padding on each edge
+    const usableSpan = sectorSpan - 2 * padding;
+    const step = usableSpan / (totalInSector - 1);
+    targetAngle = sectorInfo.start + padding + indexInSector * step;
+  }
+
+  return { sector: sectorInfo.sector, targetAngle };
+}
+
+/**
  * Rebuilds the node lookup map for O(1) access
  * Call this after any operation that modifies the nodes array
  */
@@ -244,6 +345,27 @@ function initNetwork(){
 
   svg.call(zoomBehavior);
   g = svg.append('g');
+
+  // DEPTH INDICATOR BANDS: Subtle concentric rings showing hierarchy levels
+  const depthBands = [
+    { radius: SHELL_RADIUS_BASE, label: 'Direct', opacity: 0.025 },      // 400px
+    { radius: SHELL_RADIUS_EXPANDED, label: 'Expanded', opacity: 0.018 }, // 550px
+    { radius: SHELL_RADIUS_CHILDREN, label: 'Secondary', opacity: 0.012 } // 700px
+  ];
+
+  const bandGroup = g.append('g').attr('class', 'depth-bands');
+  bandGroup.selectAll('circle')
+    .data(depthBands)
+    .enter()
+    .append('circle')
+    .attr('cx', width / 2)
+    .attr('cy', height / 2)
+    .attr('r', d => d.radius)
+    .attr('fill', 'none')
+    .attr('stroke', d => `rgba(140, 120, 200, ${d.opacity})`)
+    .attr('stroke-width', 35)
+    .attr('stroke-dasharray', '6,12')
+    .style('pointer-events', 'none');
 
   // Arrowheads
   const defs = svg.append('defs');
@@ -810,12 +932,42 @@ function buildInitialGraph(){
       if (tgt === SNAP.main) proteinArrowMap.set(src, { arrow, data: interaction });
     });
 
-    // Position interactors evenly around the base shell radius
+    // SECTOR-BASED POSITIONING: Organize nodes by direction relative to main protein
+    // Upstream (LEFT), Downstream (RIGHT), Bidirectional (BOTTOM)
     const nonMainProteins = proteins.filter(p => p !== SNAP.main);
-    nonMainProteins.forEach((p, idx) => {
+
+    // Classify proteins by direction using existing helper
+    const { upstream, downstream, bidirectional } = getProteinsByRole(interactions, SNAP.main);
+
+    // Convert to arrays with indices for angle calculation
+    const upstreamArr = Array.from(upstream);
+    const downstreamArr = Array.from(downstream);
+    const bidirectionalArr = Array.from(bidirectional);
+
+    // Track sector assignments for each protein
+    const proteinSectorMap = new Map();
+    upstreamArr.forEach((p, idx) => proteinSectorMap.set(p, { direction: 'primary_to_main', idx, total: upstreamArr.length }));
+    downstreamArr.forEach((p, idx) => proteinSectorMap.set(p, { direction: 'main_to_primary', idx, total: downstreamArr.length }));
+    bidirectionalArr.forEach((p, idx) => proteinSectorMap.set(p, { direction: 'bidirectional', idx, total: bidirectionalArr.length }));
+
+    nonMainProteins.forEach((p) => {
         const interactionInfo = proteinArrowMap.get(p);
-        // Distribute evenly around the shell
-        const angle = (2 * Math.PI * idx) / nonMainProteins.length - Math.PI / 2;
+        const sectorInfo = proteinSectorMap.get(p);
+
+        // Calculate sector and angle
+        let angle, sector;
+        if (sectorInfo) {
+            const assignment = assignSectorAndAngle(sectorInfo.direction, sectorInfo.idx, sectorInfo.total);
+            angle = assignment.targetAngle;
+            sector = assignment.sector;
+        } else {
+            // Fallback: unclassified proteins go to bidirectional sector
+            const fallbackIdx = bidirectionalArr.length;
+            const assignment = assignSectorAndAngle('bidirectional', fallbackIdx, fallbackIdx + 1);
+            angle = assignment.targetAngle;
+            sector = assignment.sector;
+        }
+
         const x = width / 2 + SHELL_RADIUS_BASE * Math.cos(angle);
         const y = height / 2 + SHELL_RADIUS_BASE * Math.sin(angle);
 
@@ -826,6 +978,9 @@ function buildInitialGraph(){
             radius: interactorNodeRadius,
             arrow: interactionInfo?.arrow || 'binds',  // Semantic coloring
             interactionData: interactionInfo?.data,
+            direction: sectorInfo?.direction || 'bidirectional',  // Store direction for reference
+            _sector: sector,           // Sector index (0-3)
+            _targetAngle: angle,       // Target angle for angular force
             x: x,
             y: y
         });
@@ -911,14 +1066,19 @@ function createSimulation(){
       .strength(0.3)  // Softer to let radial force dominate positioning
     )
     .force('charge', d3.forceManyBody()
-      .strength(-400)      // Reduced repulsion (was -800)
-      .distanceMax(700)    // Extended range for larger pathway shell
+      .strength(d => {
+        // Stronger repulsion for pathway nodes to keep clusters separated
+        if (d.type === 'pathway') return -600;
+        return -400;  // Standard repulsion for interactors
+      })
+      .distanceMax(800)    // Extended range for pathway separation
     )
     .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
     .force('collide', d3.forceCollide()
       .radius(d => {
         if (d.type === 'main') return mainNodeRadius + 20;
-        if (d.type === 'pathway') return 80; // Larger collision buffer for pathway nodes
+        // Increased collision buffer for pathways to prevent cluster overlap
+        if (d.type === 'pathway') return 100;
         if (d.type === 'function' || d.isFunction) return 40;  // Function nodes
         return interactorNodeRadius + 15;    // Tighter collision (was +30)
       })
@@ -964,7 +1124,12 @@ function createSimulation(){
       return 0.6; // Moderate pull to assigned shell (reduced for stability)
     }))
     // Custom force: keep pathway-expanded interactors orbiting their parent pathway
-    .force('pathwayOrbit', forcePathwayOrbit().strength(0.4));
+    .force('pathwayOrbit', forcePathwayOrbit().strength(0.4))
+    // Custom force: pull nodes toward their assigned angular sector
+    // This creates stable, organized layout with upstream/downstream separation
+    .force('angularPosition', forceAngularPosition()
+      .center(width / 2, height / 2)
+      .strength(0.15));
 
   simulation.alpha(1).restart();
 
@@ -1167,14 +1332,17 @@ function handlePathwayClick(pathwayNode) {
       collapsePathwayHierarchy(pathwayNode);
     }
   } else {
-    // Not expanded - HYBRID EXPANSION: show BOTH sub-pathways AND direct interactors
+    // Not expanded - HIERARCHICAL EXPANSION
     if (hasChildren && !isLeaf) {
-      // Has sub-pathways - expand hierarchy
+      // Has sub-pathways - expand hierarchy only (don't show interactors yet)
+      // User must drill down to leaf pathways to see actual interactors
       expandPathwayHierarchy(pathwayNode);
+    } else {
+      // LEAF PATHWAY: Show interactors with proper tree structure
+      // Only leaf pathways show their interactors - this prevents
+      // messy direct protein attachments on non-leaf pathways
+      expandPathwayWithLazyLoad(pathwayNode);
     }
-    // ALWAYS try to show interactors (even for non-leaf pathways)
-    // This allows seeing interactors assigned directly to this level
-    expandPathwayWithLazyLoad(pathwayNode);
   }
 
   updateSimulation();
@@ -2365,7 +2533,38 @@ function calculateLinkPath(d) {
   const x2 = targetNode.x;
   const y2 = targetNode.y;
 
-  return `M ${x1} ${y1} L ${x2} ${y2}`;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  // Straight line for very short links or zero distance
+  if (dist < 80 || dist === 0) {
+    return `M ${x1} ${y1} L ${x2} ${y2}`;
+  }
+
+  // CURVED LINKS: Quadratic bezier that curves away from center
+  // This reduces visual crossing when links traverse the center area
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
+  const cx = width / 2;
+  const cy = height / 2;
+
+  // Perpendicular vector to the link direction
+  const perpX = -dy / dist;
+  const perpY = dx / dist;
+
+  // Determine curve direction: curve AWAY from center
+  const midToCenterX = cx - midX;
+  const midToCenterY = cy - midY;
+  const dot = perpX * midToCenterX + perpY * midToCenterY;
+  const sign = dot > 0 ? -1 : 1;
+
+  // Curve strength: stronger for longer links, capped at 50px
+  const curveStrength = Math.min(dist * 0.12, 50);
+  const ctrlX = midX + perpX * curveStrength * sign;
+  const ctrlY = midY + perpY * curveStrength * sign;
+
+  return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
 }
 
 function forceClusterBounds() { return () => {}; } // No-op
@@ -7942,9 +8141,28 @@ function addRootPathwayToGraph(pw) {
   // Check if already exists
   if (nodeMap.has(pathwayId)) return;
 
-  // Calculate position - spread around center
+  // Calculate position - spread evenly around TOP sector (reserved for pathways)
+  // Pathways go in the TOP sector (225° to 315°, or -135° to -45°)
   const existingRoots = nodes.filter(n => n.type === 'pathway' && n.hierarchyLevel === 0);
-  const angle = (existingRoots.length / Math.max(selectedRootPathways.size, 1)) * 2 * Math.PI - Math.PI / 2;
+  const totalSelected = Math.max(selectedRootPathways.size, existingRoots.length + 1, 1);
+  const pathwayIndex = existingRoots.length;
+
+  // Spread pathways across the TOP arc (-135° to -45° = 90° span)
+  const arcStart = -3 * Math.PI / 4;  // -135°
+  const arcEnd = -Math.PI / 4;         // -45°
+  const arcSpan = arcEnd - arcStart;   // 90° = π/2
+
+  let angle;
+  if (totalSelected <= 1) {
+    angle = (arcStart + arcEnd) / 2;  // Center of arc
+  } else {
+    // Spread evenly with padding
+    const padding = arcSpan * 0.1;
+    const usableSpan = arcSpan - 2 * padding;
+    const step = usableSpan / (totalSelected - 1);
+    angle = arcStart + padding + pathwayIndex * step;
+  }
+
   const x = width / 2 + pathwayRingRadius * Math.cos(angle);
   const y = height / 2 + pathwayRingRadius * Math.sin(angle);
 
@@ -7966,6 +8184,8 @@ function addRootPathwayToGraph(pw) {
     interactionCount: pw.interaction_count || 0,
     expanded: false,
     hierarchyExpanded: false,
+    _targetAngle: angle,  // For angular stability force
+    _sector: 3,           // Sector 3 = TOP (pathways)
     x: x,
     y: y,
     isNewlyExpanded: true

@@ -4869,3 +4869,23 @@ body.dark-mode .pathway-sidebar-tab:hover {
 body.dark-mode .pathway-tab-label {
   color: #94a3b8;
 }
+
+/* ===============================================================
+   DEPTH INDICATOR BANDS
+   Subtle concentric rings showing hierarchy levels
+   =============================================================== */
+
+.depth-bands circle {
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Light mode - subtle purple tint */
+.depth-bands circle {
+  stroke: rgba(140, 120, 200, 0.025);
+}
+
+/* Dark mode - slightly brighter for visibility */
+body.dark-mode .depth-bands circle {
+  stroke: rgba(180, 160, 230, 0.035);
+}
