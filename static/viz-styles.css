@@ -1352,6 +1352,41 @@
       filter: drop-shadow(0 4px 16px rgba(0,0,0,0.35));
     }
 
+    /* ========== REFERENCE NODE STYLING ========== */
+    /* Reference nodes point to existing proteins (DAG handling) */
+    .interactor-node.reference-node {
+      opacity: 0.7;
+      stroke-dasharray: 4 2;
+      stroke-width: 2px;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+    }
+    .interactor-node.reference-node:hover {
+      opacity: 1;
+      filter: drop-shadow(0 3px 10px rgba(167, 139, 250, 0.4));
+      cursor: alias;
+    }
+    .node-label.reference-node {
+      opacity: 0.75;
+      font-style: italic;
+    }
+    .reference-icon {
+      font-size: 10px;
+      fill: #a78bfa;
+      pointer-events: none;
+    }
+    /* Dark mode reference nodes */
+    body.dark-mode .interactor-node.reference-node {
+      opacity: 0.65;
+      stroke: #7c3aed;
+    }
+    body.dark-mode .interactor-node.reference-node:hover {
+      opacity: 0.95;
+      filter: drop-shadow(0 3px 12px rgba(124, 58, 237, 0.5));
+    }
+    body.dark-mode .reference-icon {
+      fill: #c4b5fd;
+    }
+
     /* Entry animation for newly expanded nodes */
     .node-entering {
       animation: nodeExpandPulse 0.5s ease-out;

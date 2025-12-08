@@ -60,12 +60,14 @@ const SHELL_RADIUS_CHILDREN = 450;    // Children of expanded nodes (was 700)
 /**
  * Calculate optimal expansion radius based on node count to prevent overlap
  * Uses circumference formula: radius = (nodeCount * spacing) / (2 * PI)
+ * TIGHTENED: Reduced spacing and bounds for compact clusters
  */
 function calculateExpandRadius(nodeCount, nodeRadius) {
-  if (nodeCount <= 1) return 80; // Single node, use minimum
+  if (nodeCount <= 1) return 65; // Single node - REDUCED (was 80)
 
   // Minimum spacing between node centers (node diameter + gap)
-  const minSpacing = nodeRadius * 2 + 24; // 24px gap between nodes
+  // REDUCED: tighter spacing for more compact clusters
+  const minSpacing = nodeRadius * 2 + 16; // 16px gap (was 24px)
 
   // Calculate circumference needed: nodeCount * minSpacing
   const circumference = nodeCount * minSpacing;
@@ -73,9 +75,9 @@ function calculateExpandRadius(nodeCount, nodeRadius) {
   // Radius = circumference / (2 * PI)
   const calculatedRadius = circumference / (2 * Math.PI);
 
-  // Clamp between reasonable bounds (150px minimum for clear separation)
-  const minRadius = 150;
-  const maxRadius = 250;
+  // REDUCED bounds for tighter clusters
+  const minRadius = 90;   // Was 150
+  const maxRadius = 180;  // Was 250
   return Math.max(minRadius, Math.min(maxRadius, calculatedRadius));
 }
 
@@ -1039,14 +1041,16 @@ function createSimulation(){
         const src = typeof d.source === 'object' ? d.source : nodeMap.get(d.source);
         const tgt = typeof d.target === 'object' ? d.target : nodeMap.get(d.target);
 
-        // Pathway-specific distances
-        if (d.linkType === 'indirect-chain') return 70;      // Tight for indirect chains
+        // Pathway-specific distances - TIGHTER for better cluster cohesion
+        if (d.linkType === 'indirect-chain') return 60;      // Tight for indirect chains
         if (d.type === 'pathway-interactor-link') {
-          // Longer distance when pathway is expanded to spread child nodes
+          // REDUCED: Tighter clusters around pathways
           const srcId = typeof d.source === 'object' ? d.source.id : d.source;
           const tgtId = typeof d.target === 'object' ? d.target.id : d.target;
           const isExpanded = expandedPathways.has(srcId) || expandedPathways.has(tgtId);
-          return isExpanded ? 180 : 120;
+          // Reference links can be slightly shorter
+          if (d.isReferenceLink) return isExpanded ? 90 : 70;
+          return isExpanded ? 120 : 80;  // Was 180/120
         }
         if (d.type === 'pathway-link') return pathwayRingRadius; // Match ring radius
 
@@ -1063,39 +1067,43 @@ function createSimulation(){
 
         return 250;  // Default
       })
-      .strength(0.3)  // Softer to let radial force dominate positioning
+      .strength(0.4)  // INCREASED: Stronger link pull for tighter clusters (was 0.3)
     )
     .force('charge', d3.forceManyBody()
       .strength(d => {
-        // Stronger repulsion for pathway nodes to keep clusters separated
-        if (d.type === 'pathway') return -600;
-        return -400;  // Standard repulsion for interactors
+        // REDUCED: Less repulsion for tighter clusters
+        if (d.type === 'pathway') return -350;  // Was -600
+        if (d.isReferenceNode) return -100;     // Reference nodes: very weak repulsion
+        return -200;  // Was -400: Less repulsion within clusters
       })
-      .distanceMax(800)    // Extended range for pathway separation
+      .distanceMax(500)    // REDUCED: Shorter range (was 800)
     )
-    .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
+    .force('center', d3.forceCenter(width / 2, height / 2).strength(0.03))  // Weaker center
     .force('collide', d3.forceCollide()
       .radius(d => {
-        if (d.type === 'main') return mainNodeRadius + 20;
-        // Increased collision buffer for pathways to prevent cluster overlap
-        if (d.type === 'pathway') return 100;
-        if (d.type === 'function' || d.isFunction) return 40;  // Function nodes
-        return interactorNodeRadius + 15;    // Tighter collision (was +30)
+        if (d.type === 'main') return mainNodeRadius + 15;
+        // REDUCED: Tighter collision for pathways (was 100)
+        if (d.type === 'pathway') return 55;
+        if (d.type === 'function' || d.isFunction) return 35;
+        // Reference nodes: tighter collision
+        if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
+        return (d.radius || interactorNodeRadius) + 6;  // REDUCED (was +15)
       })
-      .iterations(3)
-      .strength(0.9)
+      .iterations(2)  // Reduced iterations for performance
+      .strength(0.85)
     )
-    // Radial force: keep pathways at 550px (or 750px if expanded) from center
+    // Radial force: keep pathways organized around center
     .force('radialPathways', d3.forceRadial(
       d => {
         if (d.type === 'pathway') {
-          return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
+          // Expanded pathways move outward to make room for interactors
+          return expandedPathways.has(d.id) ? pathwayRingRadius + 80 : pathwayRingRadius;
         }
         return 0; // No radial constraint for other nodes
       },
       width / 2,
       height / 2
-    ).strength(d => d.type === 'pathway' ? 1.0 : 0))
+    ).strength(d => d.type === 'pathway' ? 0.9 : 0))  // Slightly reduced
     // Radial force for shell-based layout (non-pathway mode)
     .force('radialShell', d3.forceRadial(
       d => {
@@ -1121,15 +1129,16 @@ function createSimulation(){
       // Only apply to non-main, non-function, non-pathway nodes in non-pathway mode
       if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
       if (pathwayMode) return 0;
-      return 0.6; // Moderate pull to assigned shell (reduced for stability)
+      return 0.6; // Moderate pull to assigned shell
     }))
     // Custom force: keep pathway-expanded interactors orbiting their parent pathway
-    .force('pathwayOrbit', forcePathwayOrbit().strength(0.4))
+    // INCREASED strength for tighter clusters
+    .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))  // Was 0.4
     // Custom force: pull nodes toward their assigned angular sector
     // This creates stable, organized layout with upstream/downstream separation
     .force('angularPosition', forceAngularPosition()
       .center(width / 2, height / 2)
-      .strength(0.15));
+      .strength(0.12));  // Slightly reduced for less jitter
 
   simulation.alpha(1).restart();
 
@@ -1438,36 +1447,83 @@ function expandPathway(pathwayNode) {
       const interactionData = interactorDataMap.get(interactorId);
       const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
 
-      const newNode = {
-        id: nodeId,
-        label: interactorId,
-        type: 'interactor',
-        originalId: interactorId,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
-        _pathwayName: pathwayNode.label,    // Pathway name for badge display
-        radius: interactorNodeRadius,
-        arrow: actualArrow,
-        interactionData: interactionData,
-        x: x,
-        y: y,
-        expandRadius: expandRadius,
-        isNewlyExpanded: true
-      };
+      // CHECK: Does this protein already exist as a node from another pathway?
+      const existingNode = findExistingInteractorNode(interactorId);
 
-      nodes.push(newNode);
-      nodeMap.set(nodeId, newNode);
-      newlyAddedNodes.add(nodeId);
+      if (existingNode) {
+        // CREATE REFERENCE NODE - points to the existing primary node
+        const refNodeId = `ref_${interactorId}@${pathwayNode.id}`;
 
-      // Link: pathway → direct interactor
-      links.push({
-        id: `${pathwayNode.id}-${nodeId}`,
-        source: pathwayNode.id,
-        target: nodeId,
-        type: 'pathway-interactor-link',
-        arrow: actualArrow,
-        data: interactionData
-      });
+        const refNode = {
+          id: refNodeId,
+          label: interactorId,
+          symbol: interactorId,
+          type: 'interactor',
+          isReferenceNode: true,
+          primaryNodeId: existingNode.id,
+          originalId: interactorId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          radius: interactorNodeRadius * 0.85,  // Slightly smaller
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: x,
+          y: y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+
+        nodes.push(refNode);
+        nodeMap.set(refNodeId, refNode);
+        newlyAddedNodes.add(refNodeId);
+
+        // Link: pathway → reference node (dashed style applied in rendering)
+        links.push({
+          id: `${pathwayNode.id}-${refNodeId}`,
+          source: pathwayNode.id,
+          target: refNodeId,
+          type: 'pathway-interactor-link',
+          isReferenceLink: true,
+          arrow: actualArrow,
+          data: interactionData
+        });
+
+        console.log(`📍 Created reference node for ${interactorId} → primary at ${existingNode.id}`);
+      } else {
+        // CREATE PRIMARY NODE - first occurrence of this protein
+        const newNode = {
+          id: nodeId,
+          label: interactorId,
+          symbol: interactorId,
+          type: 'interactor',
+          originalId: interactorId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
+          _pathwayName: pathwayNode.label,    // Pathway name for badge display
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: x,
+          y: y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+
+        // Link: pathway → direct interactor
+        links.push({
+          id: `${pathwayNode.id}-${nodeId}`,
+          source: pathwayNode.id,
+          target: nodeId,
+          type: 'pathway-interactor-link',
+          arrow: actualArrow,
+          data: interactionData
+        });
+      }
     }
     directIdx++;
   });
@@ -1546,39 +1602,87 @@ function expandPathway(pathwayNode) {
         const interactionData = interactorDataMap.get(indirectId);
         const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
 
-        const newNode = {
-          id: nodeId,
-          label: indirectId,
-          type: 'interactor',
-          originalId: indirectId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
-          _pathwayName: pathwayNode.label,    // Pathway name for badge display
-          radius: interactorNodeRadius,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          upstream_interactor: mediatorId,  // Track mediator for this indirect node
-          interaction_type: 'indirect',
-          x: x,
-          y: y,
-          expandRadius: indirectRadius,
-          isNewlyExpanded: true
-        };
+        // CHECK: Does this protein already exist as a node from another pathway?
+        const existingNode = findExistingInteractorNode(indirectId);
 
-        nodes.push(newNode);
-        nodeMap.set(nodeId, newNode);
-        newlyAddedNodes.add(nodeId);
+        if (existingNode) {
+          // CREATE REFERENCE NODE for indirect interactor
+          const refNodeId = `ref_${indirectId}@${pathwayNode.id}`;
 
-        // Link: mediator → indirect interactor (NOT pathway → indirect)
-        links.push({
-          id: `${mediatorNodeId}-${nodeId}`,
-          source: mediatorNodeId,
-          target: nodeId,
-          type: 'pathway-interactor-link',
-          linkType: 'indirect-chain',  // Mark as indirect chain link
-          arrow: actualArrow,
-          data: interactionData
-        });
+          const refNode = {
+            id: refNodeId,
+            label: indirectId,
+            symbol: indirectId,
+            type: 'interactor',
+            isReferenceNode: true,
+            primaryNodeId: existingNode.id,
+            originalId: indirectId,
+            pathwayId: pathwayNode.id,
+            _pathwayContext: pathwayNode.id,
+            _pathwayName: pathwayNode.label,
+            radius: interactorNodeRadius * 0.85,
+            arrow: actualArrow,
+            interactionData: interactionData,
+            upstream_interactor: mediatorId,
+            interaction_type: 'indirect',
+            x: x,
+            y: y,
+            expandRadius: indirectRadius,
+            isNewlyExpanded: true
+          };
+
+          nodes.push(refNode);
+          nodeMap.set(refNodeId, refNode);
+          newlyAddedNodes.add(refNodeId);
+
+          // Link: mediator → reference node
+          links.push({
+            id: `${mediatorNodeId}-${refNodeId}`,
+            source: mediatorNodeId,
+            target: refNodeId,
+            type: 'pathway-interactor-link',
+            linkType: 'indirect-chain',
+            isReferenceLink: true,
+            arrow: actualArrow,
+            data: interactionData
+          });
+        } else {
+          // CREATE PRIMARY NODE
+          const newNode = {
+            id: nodeId,
+            label: indirectId,
+            symbol: indirectId,
+            type: 'interactor',
+            originalId: indirectId,
+            pathwayId: pathwayNode.id,
+            _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
+            _pathwayName: pathwayNode.label,    // Pathway name for badge display
+            radius: interactorNodeRadius,
+            arrow: actualArrow,
+            interactionData: interactionData,
+            upstream_interactor: mediatorId,  // Track mediator for this indirect node
+            interaction_type: 'indirect',
+            x: x,
+            y: y,
+            expandRadius: indirectRadius,
+            isNewlyExpanded: true
+          };
+
+          nodes.push(newNode);
+          nodeMap.set(nodeId, newNode);
+          newlyAddedNodes.add(nodeId);
+
+          // Link: mediator → indirect interactor (NOT pathway → indirect)
+          links.push({
+            id: `${mediatorNodeId}-${nodeId}`,
+            source: mediatorNodeId,
+            target: nodeId,
+            type: 'pathway-interactor-link',
+            linkType: 'indirect-chain',  // Mark as indirect chain link
+            arrow: actualArrow,
+            data: interactionData
+          });
+        }
       }
       indirectIdx++;
     });
@@ -1615,32 +1719,69 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
   const proteinNodeMap = new Map();
 
   // Step 2: Create query protein node (positioned between pathway and interactors)
-  const queryNodeId = `${queryProtein}@${pathwayNode.id}`;
-  if (!nodeMap.has(queryNodeId)) {
-    // Position query to the RIGHT of pathway (downstream direction)
-    const queryX = pathwayNode.x + queryRadius;
-    const queryY = pathwayNode.y;
+  // Query protein always gets a reference node since it's the main protein
+  const existingQueryNode = findExistingInteractorNode(queryProtein);
+  let queryNodeId;
 
-    const queryNode = {
-      id: queryNodeId,
-      label: queryProtein,
-      type: 'interactor',
-      isQueryProtein: true,  // Mark for special styling
-      originalId: queryProtein,
-      pathwayId: pathwayNode.id,
-      _pathwayContext: pathwayNode.id,
-      _pathwayName: pathwayNode.label,
-      _directionRole: 'query',
-      radius: interactorNodeRadius * 1.2,  // Slightly larger
-      x: queryX,
-      y: queryY,
-      expandRadius: expandRadius,
-      isNewlyExpanded: true
-    };
+  if (existingQueryNode) {
+    // Create reference node for query protein
+    queryNodeId = `ref_${queryProtein}@${pathwayNode.id}`;
+    if (!nodeMap.has(queryNodeId)) {
+      const queryX = pathwayNode.x + queryRadius;
+      const queryY = pathwayNode.y;
 
-    nodes.push(queryNode);
-    nodeMap.set(queryNodeId, queryNode);
-    newlyAddedNodes.add(queryNodeId);
+      const refNode = {
+        id: queryNodeId,
+        label: queryProtein,
+        symbol: queryProtein,
+        type: 'interactor',
+        isReferenceNode: true,
+        primaryNodeId: existingQueryNode.id,
+        isQueryProtein: true,
+        originalId: queryProtein,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        _directionRole: 'query',
+        radius: interactorNodeRadius * 1.0,  // Reference is smaller
+        x: queryX,
+        y: queryY,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(refNode);
+      nodeMap.set(queryNodeId, refNode);
+      newlyAddedNodes.add(queryNodeId);
+    }
+  } else {
+    queryNodeId = `${queryProtein}@${pathwayNode.id}`;
+    if (!nodeMap.has(queryNodeId)) {
+      const queryX = pathwayNode.x + queryRadius;
+      const queryY = pathwayNode.y;
+
+      const queryNode = {
+        id: queryNodeId,
+        label: queryProtein,
+        symbol: queryProtein,
+        type: 'interactor',
+        isQueryProtein: true,  // Mark for special styling
+        originalId: queryProtein,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        _directionRole: 'query',
+        radius: interactorNodeRadius * 1.2,  // Slightly larger
+        x: queryX,
+        y: queryY,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(queryNode);
+      nodeMap.set(queryNodeId, queryNode);
+      newlyAddedNodes.add(queryNodeId);
+    }
   }
   proteinNodeMap.set(queryProtein, queryNodeId);
 
@@ -1656,35 +1797,69 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
   );
 
   upstreamArray.forEach((proteinId, idx) => {
-    const nodeId = `${proteinId}@${pathwayNode.id}`;
-    if (!nodeMap.has(nodeId)) {
-      const pos = upstreamPositions[idx] || { x: pathwayNode.x - expandRadius, y: pathwayNode.y };
-      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
-      const actualArrow = interactionData
-        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
-        : 'binds';
+    const pos = upstreamPositions[idx] || { x: pathwayNode.x - expandRadius, y: pathwayNode.y };
+    const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+    const actualArrow = interactionData
+      ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+      : 'binds';
 
-      const newNode = {
-        id: nodeId,
-        label: proteinId,
-        type: 'interactor',
-        originalId: proteinId,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,
-        _pathwayName: pathwayNode.label,
-        _directionRole: 'upstream',
-        radius: interactorNodeRadius,
-        arrow: actualArrow,
-        interactionData: interactionData,
-        x: pos.x,
-        y: pos.y,
-        expandRadius: expandRadius,
-        isNewlyExpanded: true
-      };
+    // Check for existing node
+    const existingNode = findExistingInteractorNode(proteinId);
+    let nodeId;
 
-      nodes.push(newNode);
-      nodeMap.set(nodeId, newNode);
-      newlyAddedNodes.add(nodeId);
+    if (existingNode) {
+      // Create reference node
+      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const refNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          isReferenceNode: true,
+          primaryNodeId: existingNode.id,
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'upstream',
+          radius: interactorNodeRadius * 0.85,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(refNode);
+        nodeMap.set(nodeId, refNode);
+        newlyAddedNodes.add(nodeId);
+      }
+    } else {
+      nodeId = `${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const newNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'upstream',
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+      }
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -1701,35 +1876,69 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
   );
 
   downstreamArray.forEach((proteinId, idx) => {
-    const nodeId = `${proteinId}@${pathwayNode.id}`;
-    if (!nodeMap.has(nodeId)) {
-      const pos = downstreamPositions[idx] || { x: pathwayNode.x + expandRadius * 1.3, y: pathwayNode.y };
-      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
-      const actualArrow = interactionData
-        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
-        : 'binds';
+    const pos = downstreamPositions[idx] || { x: pathwayNode.x + expandRadius * 1.3, y: pathwayNode.y };
+    const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+    const actualArrow = interactionData
+      ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+      : 'binds';
 
-      const newNode = {
-        id: nodeId,
-        label: proteinId,
-        type: 'interactor',
-        originalId: proteinId,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,
-        _pathwayName: pathwayNode.label,
-        _directionRole: 'downstream',
-        radius: interactorNodeRadius,
-        arrow: actualArrow,
-        interactionData: interactionData,
-        x: pos.x,
-        y: pos.y,
-        expandRadius: expandRadius * 1.3,
-        isNewlyExpanded: true
-      };
+    // Check for existing node
+    const existingNode = findExistingInteractorNode(proteinId);
+    let nodeId;
 
-      nodes.push(newNode);
-      nodeMap.set(nodeId, newNode);
-      newlyAddedNodes.add(nodeId);
+    if (existingNode) {
+      // Create reference node
+      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const refNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          isReferenceNode: true,
+          primaryNodeId: existingNode.id,
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'downstream',
+          radius: interactorNodeRadius * 0.85,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius * 1.3,
+          isNewlyExpanded: true
+        };
+        nodes.push(refNode);
+        nodeMap.set(nodeId, refNode);
+        newlyAddedNodes.add(nodeId);
+      }
+    } else {
+      nodeId = `${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const newNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'downstream',
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius * 1.3,
+          isNewlyExpanded: true
+        };
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+      }
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -1745,35 +1954,69 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
   );
 
   bidirectionalArray.forEach((proteinId, idx) => {
-    const nodeId = `${proteinId}@${pathwayNode.id}`;
-    if (!nodeMap.has(nodeId)) {
-      const pos = biPositions[idx] || { x: pathwayNode.x, y: pathwayNode.y - expandRadius };
-      const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
-      const actualArrow = interactionData
-        ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
-        : 'binds';
+    const pos = biPositions[idx] || { x: pathwayNode.x, y: pathwayNode.y - expandRadius };
+    const interactionData = interactions.find(i => i.source === proteinId || i.target === proteinId);
+    const actualArrow = interactionData
+      ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+      : 'binds';
 
-      const newNode = {
-        id: nodeId,
-        label: proteinId,
-        type: 'interactor',
-        originalId: proteinId,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,
-        _pathwayName: pathwayNode.label,
-        _directionRole: 'bidirectional',
-        radius: interactorNodeRadius,
-        arrow: actualArrow,
-        interactionData: interactionData,
-        x: pos.x,
-        y: pos.y,
-        expandRadius: expandRadius,
-        isNewlyExpanded: true
-      };
+    // Check for existing node
+    const existingNode = findExistingInteractorNode(proteinId);
+    let nodeId;
 
-      nodes.push(newNode);
-      nodeMap.set(nodeId, newNode);
-      newlyAddedNodes.add(nodeId);
+    if (existingNode) {
+      // Create reference node
+      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const refNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          isReferenceNode: true,
+          primaryNodeId: existingNode.id,
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'bidirectional',
+          radius: interactorNodeRadius * 0.85,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(refNode);
+        nodeMap.set(nodeId, refNode);
+        newlyAddedNodes.add(nodeId);
+      }
+    } else {
+      nodeId = `${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const newNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'bidirectional',
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: pos.x,
+          y: pos.y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+      }
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -1865,26 +2108,12 @@ function collapsePathway(pathwayNode) {
   pathwayNode.expanded = false;
   // Note: Radial force will automatically return pathway to base radius (350px)
 
-  // Remove nodes that belong ONLY to this pathway
+  // ALWAYS remove ALL nodes belonging to this pathway (including reference nodes)
+  // User preference: collapse removes nodes regardless of visibility elsewhere
   const nodesToRemove = new Set();
   nodes.forEach(n => {
     if (n.pathwayId === pathwayNode.id) {
-      // Check if this interactor is visible under another expanded pathway
-      const originalId = n.originalId;
-      let visibleElsewhere = false;
-
-      expandedPathways.forEach(pwId => {
-        if (pwId !== pathwayNode.id) {
-          const pwInteractors = pathwayToInteractors.get(pwId) || new Set();
-          if (pwInteractors.has(originalId)) {
-            visibleElsewhere = true;
-          }
-        }
-      });
-
-      if (!visibleElsewhere) {
-        nodesToRemove.add(n.id);
-      }
+      nodesToRemove.add(n.id);
     }
   });
 
@@ -1901,7 +2130,7 @@ function collapsePathway(pathwayNode) {
   // Rebuild node map
   rebuildNodeMap();
 
-  console.log(`🛤️ Collapsed pathway: ${pathwayNode.label}`);
+  console.log(`🛤️ Collapsed pathway: ${pathwayNode.label} (removed ${nodesToRemove.size} nodes)`);
 }
 
 /**
@@ -2033,6 +2262,67 @@ function findExistingPathwayNode(pathwayId) {
     }
   }
   return null;
+}
+
+/**
+ * Find an existing interactor node by protein symbol (for DAG handling)
+ * Returns the PRIMARY node (not reference nodes) if the protein is already visible
+ */
+function findExistingInteractorNode(symbol) {
+  for (const node of nodes) {
+    if (node.type === 'interactor' && !node.isReferenceNode) {
+      // Match by symbol/label or originalId
+      if (node.symbol === symbol || node.label === symbol || node.originalId === symbol) {
+        return node;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Navigate to primary node when clicking a reference node
+ * Pans the view and pulses the primary node
+ */
+function navigateToPrimaryNode(refNode) {
+  if (!refNode.primaryNodeId) return;
+
+  const primaryNode = nodeMap.get(refNode.primaryNodeId);
+  if (!primaryNode) return;
+
+  // Pan to center the primary node
+  const scale = currentZoom;
+  const x = width / 2 - primaryNode.x * scale;
+  const y = height / 2 - primaryNode.y * scale;
+
+  svg.transition()
+    .duration(500)
+    .call(zoomBehavior.transform, d3.zoomIdentity.translate(x, y).scale(scale));
+
+  // Pulse the primary node
+  pulseNode(primaryNode.id);
+}
+
+/**
+ * Pulse animation for a node (highlight effect)
+ */
+function pulseNode(nodeId) {
+  const nodeEl = d3.select(`[data-node-id="${nodeId}"]`);
+  if (nodeEl.empty()) return;
+
+  nodeEl.select('circle')
+    .transition().duration(200)
+    .attr('stroke-width', 6)
+    .attr('stroke', '#fbbf24')
+    .transition().duration(200)
+    .attr('stroke-width', 4)
+    .attr('stroke', '#fbbf24')
+    .transition().duration(200)
+    .attr('stroke-width', 6)
+    .attr('stroke', '#fbbf24')
+    .transition().duration(300)
+    .attr('stroke-width', 2)
+    .attr('stroke', null);  // Reset to CSS
 }
 
 /**
@@ -2470,20 +2760,37 @@ function renderGraph() {
       // Add query protein class for special styling
       const queryClass = d.isQueryProtein ? 'is-query-protein' : '';
 
+      // REFERENCE NODE: dashed border, dimmed, navigation cursor
+      const refClass = d.isReferenceNode ? 'reference-node' : '';
+
       const circle = group.append('circle')
-        .attr('class', `node interactor-node ${arrowClass} ${animationClass} ${queryClass}`.trim())
+        .attr('class', `node interactor-node ${arrowClass} ${animationClass} ${queryClass} ${refClass}`.trim())
         .attr('r', isNewNode ? 0 : (d.radius || interactorNodeRadius))  // Start small for animation
         .style('fill', getNodeGradient(d))
-        .style('cursor', 'pointer')
-        .style('opacity', isNewNode ? 0 : 1)
+        .style('cursor', d.isReferenceNode ? 'alias' : 'pointer')  // Alias cursor for reference
+        .style('opacity', isNewNode ? 0 : (d.isReferenceNode ? 0.7 : 1))  // Dimmed reference nodes
+        .style('stroke-dasharray', d.isReferenceNode ? '4 2' : null)  // Dashed border
+        .style('stroke-width', d.isReferenceNode ? 2 : null)
         .on('click', (ev) => { ev.stopPropagation(); handleNodeClick(d); });
 
+      // Add navigation icon for reference nodes
+      if (d.isReferenceNode) {
+        group.append('text')
+          .attr('class', 'reference-icon')
+          .attr('x', (d.radius || interactorNodeRadius) * 0.5)
+          .attr('y', -(d.radius || interactorNodeRadius) * 0.5)
+          .style('font-size', '10px')
+          .style('fill', '#a78bfa')
+          .style('pointer-events', 'none')
+          .text('↗');
+      }
+
       const label = group.append('text')
-        .attr('class', `node-label interactor-label ${arrowClass} ${queryClass}`.trim())
+        .attr('class', `node-label interactor-label ${arrowClass} ${queryClass} ${refClass}`.trim())
         .attr('dy', 5)
         .style('font-size', '13px')
         .style('font-weight', '600')
-        .style('opacity', isNewNode ? 0 : 1)
+        .style('opacity', isNewNode ? 0 : (d.isReferenceNode ? 0.7 : 1))  // Dimmed for reference
         .text(d.label);
 
       // Animate entry for new nodes
@@ -3257,6 +3564,12 @@ function showInteractionModal(link, clickedNode = null){
 
 /* Handle node click - show interaction modal with expand/collapse controls */
 function handleNodeClick(node){
+  // REFERENCE NODE: Navigate to primary node instead of showing modal
+  if (node.isReferenceNode && node.primaryNodeId) {
+    navigateToPrimaryNode(node);
+    return;
+  }
+
   // For pathway-expanded nodes, use originalId to find actual interaction data
   const lookupId = node.originalId || node.id;
 
