@@ -1,17 +1,118 @@
 {
   "summary": {
-    "total_pathways": 93,
-    "root_categories": 10,
-    "leaf_pathways": 51,
-    "total_edges": 86,
+    "total_pathways": 104,
+    "root_categories": 20,
+    "leaf_pathways": 62,
+    "total_edges": 85,
     "max_depth": 3
   },
   "by_level": {
-    "0": 10,
-    "1": 32,
-    "2": 45,
-    "3": 6
+    "0": 20,
+    "1": 30,
+    "2": 41,
+    "3": 13
   },
-  "top_pathways": [],
-  "orphan_interactions": 49
+  "top_pathways": [
+    {
+      "name": "Proteasomal Degradation",
+      "usage": 10,
+      "proteins": 11
+    },
+    {
+      "name": "DNA Damage Response",
+      "usage": 7,
+      "proteins": 7
+    },
+    {
+      "name": "Transcription",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Protein Folding And Aggregation",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Autophagy",
+      "usage": 3,
+      "proteins": 4
+    },
+    {
+      "name": "Cell Cycle Regulation",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Cytoskeletal Transport",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Post-Translational Modification",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Aggresome Formation",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Oxidative Stress Response",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Inflammatory Response",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "P53 Signaling Pathway",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Base Excision Repair",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "ER-Associated Degradation",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Wnt Signaling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Chromatin Remodeling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "mTOR Signaling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Tgf-\u0392 Signaling Pathway",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Vesicle Transport",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Rna Splicing",
+      "usage": 1,
+      "proteins": 2
+    }
+  ],
+  "orphan_interactions": 0
 }

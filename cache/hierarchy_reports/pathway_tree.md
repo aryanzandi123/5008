@@ -1,53 +1,60 @@
 # Pathway Hierarchy Tree
-# Generated: 2025-12-07T17:45:36.926970
-# Total pathways: 93
+# Generated: 2025-12-07T18:47:56.799970
+# Total pathways: 104
+
+- Aggresome Formation (2 interactions)
 
 - Cell Cycle
   - Cell Cycle Phase
     - Mitosis
-  - Regulation of Cell Cycle
+  - Cell Cycle Regulation (2 interactions)
     - Cell Cycle Checkpoint
-    - G1/S Transition
-    - G2/M Transition
-  - S Phase
+    - Cell Cycle Checkpoints
+      - G1/S Transition
+      - G2/M Transition
+  - Cell Cycle S Phase
     - DNA Replication
 
 - Cell Death
-  - Regulated Cell Death
+  - Programmed Cell Death
     - Apoptosis
-    - Autophagy-Dependent Cell Death
-    - Ferroptosis
     - Necroptosis
     - Pyroptosis
+  - Regulated Cell Death
+    - Autophagy-Dependent Cell Death
+  - Regulated Necrotic Cell Death
+    - Ferroptosis
 
 - Cellular Signaling
-  - Cytokine Signaling
-    - JAK-STAT Signaling
-    - TGF-beta Signaling
-  - Developmental Signaling Pathways
-    - Notch Signaling
-    - Wnt Signaling
-  - Growth Factor Signaling
-    - Cell Growth Regulation
-  - Immune and Inflammatory Signaling
-    - NF-kB Signaling
-  - Intracellular Signal Transduction
-    - MAPK Signaling
-  - PI3K-Akt Signaling Pathway
-    - mTOR Signaling
-  - Regulation of Cytoskeleton Organization
+  - Cytoskeleton Organization
     - Cell Migration
-  - Second Messenger Signaling
-    - Calcium Signaling
-    - cAMP Signaling
+  - Regulation of Cellular Processes
+    - Cell Growth Regulation
+  - Signal Transduction
+    - Cell Surface Receptor Signaling
+      - TGF-beta Signaling
+    - Cytokine Signaling
+      - JAK-STAT Signaling
+    - Developmental Signaling Pathways
+      - Notch Signaling
+      - Wnt Signaling (1 interactions)
+    - NF-kB Signaling (1 interactions)
+    - Protein Kinase Signaling Cascade
+      - MAPK Signaling
+    - Second Messenger Signaling
+      - Calcium Signaling
+      - cAMP Signaling
+    - mTOR Signaling (1 interactions)
 
-- Cytoskeleton Organization
+- Chromatin Remodeling (1 interactions)
 
-- DNA Damage Response
+- Cytoskeletal Transport (2 interactions)
+
+- DNA Damage Response (7 interactions)
   - DNA Damage Signaling
     - DNA Damage Checkpoint
   - DNA Repair
-    - Base Excision Repair
+    - Base Excision Repair (1 interactions)
     - Double-Strand Break Repair
       - Homologous Recombination
       - Non-Homologous End Joining
@@ -56,36 +63,42 @@
 
 - Immune Response
   - Adaptive Immunity
-  - Innate Immunity
+  - Innate Immune Response
     - Antiviral Response
-    - Inflammatory Response
-  - Regulation of Immune System Process
+    - Inflammatory Response (2 interactions)
+  - Innate Immunity
+  - Regulation of Immune Response
     - Cytokine Signaling
       - JAK-STAT Signaling
-      - TGF-beta Signaling
 
 - Metabolism
+  - Amino Acid Metabolism
   - Carbohydrate Metabolism
     - Glycolysis
   - Cellular Respiration
-    - Mitochondrial Function
-  - Energy Metabolism
     - Oxidative Phosphorylation
+  - Energy Metabolism
+    - Mitochondrial Function
   - Lipid Metabolism
-  - Macromolecule Metabolic Process
-    - Amino Acid Metabolism
 
 - Neuronal Function
   - Neuronal Development
     - Axon Guidance
-  - Neuronal Signaling
-    - Synaptic Transmission
-      - Neurotransmitter Release
   - Synaptic Transmission
     - Neurotransmitter Release
 
+- Oxidative Stress Response (2 interactions)
+
+- P53 Signaling Pathway (1 interactions)
+
+- Post-Translational Modification (2 interactions)
+
+- Proteasomal Degradation (10 interactions)
+
+- Protein Folding And Aggregation (3 interactions)
+
 - Protein Quality Control
-  - Autophagy
+  - Autophagy (3 interactions)
     - ER-phagy
     - Lipophagy
     - Macroautophagy
@@ -93,20 +106,23 @@
     - Pexophagy
     - Selective Autophagy
       - Aggrephagy
-  - ER Protein Homeostasis
+  - ER Protein Quality Control
     - Unfolded Protein Response
-  - ER Proteostasis
-    - ER-Associated Degradation
-  - Protein Catabolism
-    - Selective Autophagy
-      - Aggrephagy
+      - ER-Associated Degradation (1 interactions)
   - Protein Degradation
     - Ubiquitin-Proteasome System
   - Protein Folding
     - Chaperone-Mediated Protein Folding
 
-- Vesicle Transport
+- Rna Splicing (1 interactions)
+
+- Tgf-Β Signaling Pathway (1 interactions)
+
+- Transcription (5 interactions)
+
+- Vesicle Transport (1 interactions)
   - Endocytosis
+  - Endosomal Transport
     - Lysosomal Transport
   - Exocytosis
   - Secretory Pathway
