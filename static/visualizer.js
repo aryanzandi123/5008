@@ -245,7 +245,14 @@ function calculateArcSectorPosition(config) {
   } else {
     // Multiple children: spread within arc centered on parent
     const arcStart = parentAngle - arcSpan / 2;
-    const step = arcSpan / (totalInParentGroup - 1);
+
+    // For full circles (arcSpan ≈ 2π), use n divisions to avoid first/last overlap
+    // For partial arcs, use (n-1) divisions so first and last are at arc boundaries
+    const isFullCircle = arcSpan > 1.9 * Math.PI;  // ~342° threshold
+    const step = isFullCircle
+      ? arcSpan / totalInParentGroup           // Full circle: evenly spaced with gap
+      : arcSpan / (totalInParentGroup - 1);    // Partial arc: endpoints at boundaries
+
     angle = arcStart + indexInParentGroup * step;
   }
 
@@ -379,6 +386,34 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
 }
 
 /**
+ * Find a parent node with fallback for context-qualified IDs
+ * Handles cases where IDs like "pathway_B@pathway_A" need to find "pathway_A"
+ * @param {string} parentId - The parent ID to look up
+ * @returns {Object|null} - The parent node or null if not found
+ */
+function findParentNode(parentId) {
+  if (!parentId) return null;
+
+  // Direct lookup first
+  let parent = nodeMap.get(parentId);
+  if (parent) return parent;
+
+  // Try original ID without context suffix (e.g., "pathway_A@main" → "pathway_A")
+  const baseId = parentId.split('@')[0];
+  parent = nodeMap.get(baseId);
+  if (parent) return parent;
+
+  // Search for any node with originalId matching
+  for (const [, node] of nodeMap) {
+    if (node.originalId === parentId || node.originalId === baseId) {
+      return node;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Rebuild shell registry and recalculate all positions
  * Call this after any node addition/removal
  */
@@ -434,8 +469,16 @@ function recalculateShellPositions() {
     // Group nodes by parent for arc-sector positioning
     const byParent = new Map();
     shellNodes.forEach(node => {
-      // Determine parent: pathway context, expansion parent, or main protein
-      const parentId = node._pathwayContext || node._isChildOf || node.parentPathwayId || SNAP.main;
+      // Determine parent based on node type
+      // For pathways: prefer explicit parentPathwayId (set during hierarchy expansion)
+      // For interactors: prefer pathway context (set when expanding pathway interactors)
+      let parentId;
+      if (node.type === 'pathway') {
+        parentId = node.parentPathwayId || node._isChildOf || SNAP.main;
+      } else {
+        parentId = node._pathwayContext || node._isChildOf || SNAP.main;
+      }
+
       if (!byParent.has(parentId)) {
         byParent.set(parentId, []);
       }
@@ -461,7 +504,8 @@ function recalculateShellPositions() {
     // Position children within each parent's arc
     for (const [parentId, children] of byParent) {
       // Get parent's angle for centering children's arc
-      const parent = nodeMap.get(parentId);
+      // Use findParentNode() for robust lookup with context-qualified ID fallback
+      const parent = findParentNode(parentId);
       const parentAngle = parent?._shellData?.angle
         ?? parent?._targetAngle
         ?? Math.atan2((parent?.y || centerY) - centerY, (parent?.x || centerX) - centerX);
@@ -506,26 +550,41 @@ function recalculateShellPositions() {
     }
   }
 
-  // Position function nodes near their parent proteins
+  // Position function nodes within parent's allocated arc
+  // Uses arc-sector logic with scaled radius based on parent's shell depth
   nodes.forEach(node => {
-    if (node.type === 'function' || node.isFunction) {
-      const parentId = node.parentProtein || node.id.split('_func_')[0];
-      const parent = nodeMap.get(parentId);
-      if (parent) {
-        // Position function nodes in a small arc around parent
-        const funcNodes = nodes.filter(n =>
-          (n.type === 'function' || n.isFunction) &&
-          (n.parentProtein === parentId || n.id.startsWith(parentId + '_func_'))
-        );
-        const funcIdx = funcNodes.indexOf(node);
-        const funcTotal = funcNodes.length;
-        const funcRadius = 60;
-        const funcAngle = (parent._shellData?.angle || 0) + (funcIdx - funcTotal / 2) * 0.3;
+    if (node.type !== 'function' && !node.isFunction) return;
 
-        node.x = parent.x + funcRadius * Math.cos(funcAngle);
-        node.y = parent.y + funcRadius * Math.sin(funcAngle);
-      }
-    }
+    const parentId = node.parentProtein || node.id.split('_func_')[0];
+    const parent = findParentNode(parentId);
+    if (!parent) return;
+
+    // Get all sibling functions for this parent
+    const funcNodes = nodes.filter(n =>
+      (n.type === 'function' || n.isFunction) &&
+      (n.parentProtein === parentId || n.id.startsWith(parentId + '_func_'))
+    );
+    const funcIdx = funcNodes.indexOf(node);
+    const funcTotal = funcNodes.length;
+
+    // Calculate radius based on parent's shell depth
+    const parentShell = parent._shellData?.shell || 1;
+    const funcRadius = 50 + parentShell * 10;  // Scale with depth
+
+    // Calculate arc span based on function count (max 90°, ~15° per function)
+    const baseArcSpan = Math.min(Math.PI / 2, funcTotal * 0.25);
+    const parentAngle = parent._shellData?.angle || 0;
+    const arcStart = parentAngle - baseArcSpan / 2;
+    const arcStep = funcTotal > 1 ? baseArcSpan / (funcTotal - 1) : 0;
+    const funcAngle = arcStart + funcIdx * arcStep;
+
+    node.x = parent.x + funcRadius * Math.cos(funcAngle);
+    node.y = parent.y + funcRadius * Math.sin(funcAngle);
+    node._shellData = {
+      shell: parentShell,
+      angle: funcAngle,
+      parentId: parentId
+    };
   });
 }
 
