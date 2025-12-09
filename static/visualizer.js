@@ -422,8 +422,12 @@ function recalculateShellPositions() {
 
   // Position each shell's nodes using arc-sector clustering
   // Children cluster within their parent's angular sector, not spread across full 360°
-  nodesByShell.forEach((shellNodes, shellNum) => {
-    if (shellNum === 0) return; // Main node at center, handled separately
+  // CRITICAL: Process shells in numeric order (0, 1, 2, ...) so parents are positioned before children
+  // This ensures child nodes can read their parent's _shellData.angle correctly
+  const sortedShells = Array.from(nodesByShell.keys()).sort((a, b) => a - b);
+  for (const shellNum of sortedShells) {
+    const shellNodes = nodesByShell.get(shellNum);
+    if (shellNum === 0) continue; // Main node at center, handled separately
 
     const shellRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
 
@@ -500,7 +504,7 @@ function recalculateShellPositions() {
         }
       });
     }
-  });
+  }
 
   // Position function nodes near their parent proteins
   nodes.forEach(node => {

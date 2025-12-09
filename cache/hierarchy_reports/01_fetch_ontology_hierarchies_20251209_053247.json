@@ -1,0 +1,11 @@
+{
+  "script_name": "01_fetch_ontology_hierarchies",
+  "start_time": "2025-12-09T05:32:47.346697",
+  "end_time": "2025-12-09T05:32:47.348606",
+  "duration_seconds": 0.001909,
+  "items_processed": 369,
+  "items_created": 369,
+  "items_updated": 0,
+  "errors": 0,
+  "warnings": 0
+}

@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "total_pathways": 99,
+    "root_categories": 17,
+    "leaf_pathways": 61,
+    "total_edges": 83,
+    "max_depth": 3
+  },
+  "by_level": {
+    "0": 17,
+    "1": 31,
+    "2": 45,
+    "3": 6
+  },
+  "top_pathways": [
+    {
+      "name": "Proteasomal Degradation",
+      "usage": 7,
+      "proteins": 8
+    },
+    {
+      "name": "DNA Damage Response",
+      "usage": 7,
+      "proteins": 7
+    },
+    {
+      "name": "Transcription",
+      "usage": 7,
+      "proteins": 8
+    },
+    {
+      "name": "Aggrephagy",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Autophagy",
+      "usage": 5,
+      "proteins": 6
+    },
+    {
+      "name": "Protein Folding",
+      "usage": 4,
+      "proteins": 5
+    },
+    {
+      "name": "ER-Associated Degradation",
+      "usage": 3,
+      "proteins": 3
+    },
+    {
+      "name": "Calcium Signaling",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Mitochondrial Dynamics",
+      "usage": 2,
+      "proteins": 3
+    },
+    {
+      "name": "Focal Adhesion",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Oxidative Stress Response",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "mTOR Signaling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Hippo Signaling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Chromatin Remodeling",
+      "usage": 1,
+      "proteins": 2
+    },
+    {
+      "name": "Apoptosis",
+      "usage": 1,
+      "proteins": 2
+    }
+  ],
+  "orphan_interactions": 0
+}
