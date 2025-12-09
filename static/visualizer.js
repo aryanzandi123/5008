@@ -223,46 +223,61 @@ function calculateShellPosition(config) {
 }
 
 /**
- * Calculate collision-free radii for all shells - ensures no overlap
+ * Position a node within its parent's angular sector (arc-sector clustering)
+ * Children are distributed within their parent's arc, not the entire ring
+ */
+function calculateArcSectorPosition(config) {
+  const {
+    centerX, centerY,
+    shell,
+    shellRadius,
+    parentAngle,           // Parent's angular position (radians)
+    arcSpan,               // Angular width for this parent's children
+    indexInParentGroup,    // Index among siblings with same parent
+    totalInParentGroup     // Total siblings with same parent
+  } = config;
+
+  // Distribute children evenly within parent's arc
+  let angle;
+  if (totalInParentGroup === 1) {
+    // Single child: position directly at parent's angle
+    angle = parentAngle;
+  } else {
+    // Multiple children: spread within arc centered on parent
+    const arcStart = parentAngle - arcSpan / 2;
+    const step = arcSpan / (totalInParentGroup - 1);
+    angle = arcStart + indexInParentGroup * step;
+  }
+
+  return {
+    x: centerX + shellRadius * Math.cos(angle),
+    y: centerY + shellRadius * Math.sin(angle),
+    angle,
+    shell,
+    radius: shellRadius
+  };
+}
+
+/**
+ * Calculate fixed radii for all shells - consistent spacing like shell 1
+ * Uses fixed gaps instead of dynamic circumference-based expansion
  * @param {Map<number, Array>} nodesByShell - Map of shell number to nodes array
- * @param {number} defaultNodeRadius - Default radius for nodes
+ * @param {number} defaultNodeRadius - Default radius for nodes (unused, kept for API compatibility)
  * @returns {number[]} - Array of radii indexed by shell number
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_SHELL_GAP = 150;
-  const MIN_NODE_SPACING = 80; // Minimum space between nodes
-
-  let prevRadius = 0;
+  const BASE_RADIUS = 250;     // Shell 1 radius
+  const SHELL_GAP = 150;       // Fixed gap between shells
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
 
   for (let shell = 1; shell <= maxShell + 1; shell++) {
-    const nodesInShell = nodesByShell.get(shell) || [];
-    const count = nodesInShell.length;
-
-    if (count === 0) {
-      // Empty shell: just add base gap
-      radii[shell] = prevRadius + BASE_SHELL_GAP;
-    } else {
-      // Calculate minimum radius needed to fit all nodes
-      const avgNodeRadius = nodesInShell.reduce((sum, n) =>
-        sum + (n.radius || defaultNodeRadius), 0) / count;
-      const minSpacing = avgNodeRadius * 2 + MIN_NODE_SPACING;
-      const circumference = count * minSpacing;
-      const minRadiusForCount = circumference / (2 * Math.PI);
-
-      // Ensure this shell doesn't collide with previous
-      const minSeparation = avgNodeRadius * 2 + 50;
-      radii[shell] = Math.max(
-        prevRadius + BASE_SHELL_GAP,
-        minRadiusForCount,
-        prevRadius + minSeparation
-      );
-    }
-
-    prevRadius = radii[shell];
+    // Fixed radius per shell - no dynamic expansion based on node count
+    // This keeps shells consistent like shell 1, with arc-sector clustering
+    // handling the distribution of nodes within each parent's angular sector
+    radii[shell] = BASE_RADIUS + (shell - 1) * SHELL_GAP;
   }
 
   return radii;
@@ -405,54 +420,86 @@ function recalculateShellPositions() {
   // Calculate collision-free radii
   shellRadii = calculateCollisionFreeRadii(nodesByShell, interactorNodeRadius);
 
-  // Position each node
+  // Position each shell's nodes using arc-sector clustering
+  // Children cluster within their parent's angular sector, not spread across full 360°
   nodesByShell.forEach((shellNodes, shellNum) => {
-    // Sort nodes by parent angle (clusters children near their parent) then by type and ID
-    shellNodes.sort((a, b) => {
-      // 1. Group by parent first - get parent's angle for cluster positioning
-      const parentA = a._pathwayContext || a._isChildOf || a.parentPathwayId || '';
-      const parentB = b._pathwayContext || b._isChildOf || b.parentPathwayId || '';
+    if (shellNum === 0) return; // Main node at center, handled separately
 
-      const parentNodeA = nodeMap.get(parentA);
-      const parentNodeB = nodeMap.get(parentB);
-      const angleA = parentNodeA?._shellData?.angle ?? parentNodeA?._targetAngle ?? 0;
-      const angleB = parentNodeB?._shellData?.angle ?? parentNodeB?._targetAngle ?? 0;
+    const shellRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
 
-      // Sort by parent angle first (clusters nodes near their parent in the ring)
-      if (Math.abs(angleA - angleB) > 0.01) {
-        return angleA - angleB;
+    // Group nodes by parent for arc-sector positioning
+    const byParent = new Map();
+    shellNodes.forEach(node => {
+      // Determine parent: pathway context, expansion parent, or main protein
+      const parentId = node._pathwayContext || node._isChildOf || node.parentPathwayId || SNAP.main;
+      if (!byParent.has(parentId)) {
+        byParent.set(parentId, []);
       }
-
-      // 2. Within same parent: pathways first, then by ID
-      if (a.type === 'pathway' && b.type !== 'pathway') return -1;
-      if (b.type === 'pathway' && a.type !== 'pathway') return 1;
-      return (a.id || '').localeCompare(b.id || '');
+      byParent.get(parentId).push(node);
     });
 
-    shellNodes.forEach((node, idx) => {
-      const pos = calculateShellPosition({
-        centerX,
-        centerY,
-        shell: shellNum,
-        totalInShell: shellNodes.length,
-        indexInShell: idx,
-        nodeRadius: node.radius || interactorNodeRadius
+    // Calculate arc allocation per parent
+    const parentCount = byParent.size;
+
+    // Special case: if all nodes share one parent (e.g., shell 1 with main as parent),
+    // give them the full 360° to maintain the beautiful ring layout
+    let arcPerParent;
+    if (parentCount === 1) {
+      // Single parent gets full circle - nodes distribute evenly like shell 1
+      arcPerParent = 2 * Math.PI;
+    } else {
+      // Multiple parents: divide circle and limit each parent's arc
+      const baseArcPerParent = (2 * Math.PI) / parentCount;
+      const MAX_ARC_SPAN = Math.PI / 2;  // 90 degrees max per parent
+      arcPerParent = Math.min(baseArcPerParent * 0.8, MAX_ARC_SPAN);
+    }
+
+    // Position children within each parent's arc
+    for (const [parentId, children] of byParent) {
+      // Get parent's angle for centering children's arc
+      const parent = nodeMap.get(parentId);
+      const parentAngle = parent?._shellData?.angle
+        ?? parent?._targetAngle
+        ?? Math.atan2((parent?.y || centerY) - centerY, (parent?.x || centerX) - centerX);
+
+      // Sort children for consistent ordering: pathways first, then by ID
+      children.sort((a, b) => {
+        if (a.type === 'pathway' && b.type !== 'pathway') return -1;
+        if (b.type === 'pathway' && a.type !== 'pathway') return 1;
+        return (a.id || '').localeCompare(b.id || '');
       });
 
-      // Update node position
-      node.x = pos.x;
-      node.y = pos.y;
-      node._shellData = {
-        ...node._shellData,
-        ...pos
-      };
+      // Position each child within parent's arc sector
+      children.forEach((node, idx) => {
+        const pos = calculateArcSectorPosition({
+          centerX,
+          centerY,
+          shell: shellNum,
+          shellRadius,
+          parentAngle,
+          arcSpan: arcPerParent,
+          indexInParentGroup: idx,
+          totalInParentGroup: children.length
+        });
 
-      // In shell mode, don't use fixed positions (fx/fy) except for main node
-      if (node.type !== 'main') {
-        node.fx = null;
-        node.fy = null;
-      }
-    });
+        // Update node position
+        node.x = pos.x;
+        node.y = pos.y;
+        node._shellData = {
+          ...node._shellData,
+          ...pos,
+          slot: idx,
+          totalSlots: children.length
+        };
+        node._targetAngle = pos.angle;
+
+        // In shell mode, don't use fixed positions (fx/fy) except for main node
+        if (node.type !== 'main') {
+          node.fx = null;
+          node.fy = null;
+        }
+      });
+    }
   });
 
   // Position function nodes near their parent proteins
@@ -1755,6 +1802,11 @@ function createSimulation(){
 }
 
 function dragstarted(ev, d){
+  // Track start position for click detection
+  d._dragStartX = ev.x;
+  d._dragStartY = ev.y;
+  d._dragMoved = false;
+
   if (layoutMode === 'shell') {
     // In shell mode, just track that we're dragging
     d._isDragging = true;
@@ -1766,6 +1818,13 @@ function dragstarted(ev, d){
 }
 
 function dragged(ev, d){
+  // Check if actually moved beyond threshold (5px)
+  const dx = ev.x - d._dragStartX;
+  const dy = ev.y - d._dragStartY;
+  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+    d._dragMoved = true;
+  }
+
   d.fx = ev.x;
   d.fy = ev.y;
   // Update position immediately for visual feedback
@@ -1775,6 +1834,21 @@ function dragged(ev, d){
 
 function dragended(ev, d){
   d._isDragging = false;
+
+  // If no movement occurred, treat as a click
+  if (!d._dragMoved) {
+    // Reset position since this was just a click, not a drag
+    d.fx = null;
+    d.fy = null;
+
+    // Fire appropriate click handler based on node type
+    if (d.type === 'pathway') {
+      handlePathwayClick(d);
+    } else if (d.type === 'main' || d.type === 'interactor') {
+      handleNodeClick(d);
+    }
+    return;
+  }
 
   if (layoutMode === 'shell') {
     // SHELL MODE: Snap to nearest slot in node's shell
