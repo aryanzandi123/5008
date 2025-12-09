@@ -455,46 +455,6 @@ function recalculateShellPositions() {
   // Calculate collision-free radii
   shellRadii = calculateCollisionFreeRadii(nodesByShell, interactorNodeRadius);
 
-  // PRE-CALCULATE CROSS-SHELL SIBLING SLOTS
-  // When a parent has children spread across multiple shells (due to hierarchy levels or direction roles),
-  // we need to assign them DIFFERENT angular slots to prevent overlap.
-  // Without this, each shell processes independently and siblings end up at the same angle.
-  const allChildrenByParent = new Map();
-  nodes.forEach(node => {
-    if (node.type === 'main' || node.type === 'function' || node.isFunction) return;
-
-    let parentId;
-    if (node.type === 'pathway') {
-      parentId = node.parentPathwayId || SNAP.main;
-    } else {
-      parentId = node._pathwayContext || node._isChildOf || SNAP.main;
-    }
-
-    if (!allChildrenByParent.has(parentId)) {
-      allChildrenByParent.set(parentId, []);
-    }
-    allChildrenByParent.get(parentId).push(node);
-  });
-
-  // Assign cross-shell sibling slots
-  allChildrenByParent.forEach((children) => {
-    // Sort for consistent ordering: by shell first, then pathways before interactors, then by ID
-    children.sort((a, b) => {
-      const shellA = a._shellData?.shell || 999;
-      const shellB = b._shellData?.shell || 999;
-      if (shellA !== shellB) return shellA - shellB;
-      if (a.type === 'pathway' && b.type !== 'pathway') return -1;
-      if (b.type === 'pathway' && a.type !== 'pathway') return 1;
-      return (a.id || '').localeCompare(b.id || '');
-    });
-
-    // Assign slots
-    children.forEach((child, idx) => {
-      child._siblingSlot = idx;
-      child._siblingTotal = children.length;
-    });
-  });
-
   // Position each shell's nodes using arc-sector clustering
   // Children cluster within their parent's angular sector, not spread across full 360°
   // CRITICAL: Process shells in numeric order (0, 1, 2, ...) so parents are positioned before children
@@ -564,13 +524,7 @@ function recalculateShellPositions() {
       });
 
       // Position each child within parent's arc sector
-      // Use pre-calculated sibling slots for cross-shell coordination
       children.forEach((node, idx) => {
-        // Use sibling slots if available (for cross-shell coordination)
-        // Fall back to per-shell index for shell 1 or if slots not calculated
-        const siblingSlot = node._siblingSlot ?? idx;
-        const siblingTotal = node._siblingTotal ?? children.length;
-
         const pos = calculateArcSectorPosition({
           centerX,
           centerY,
@@ -578,8 +532,8 @@ function recalculateShellPositions() {
           shellRadius,
           parentAngle,
           arcSpan: arcPerParent,
-          indexInParentGroup: siblingSlot,
-          totalInParentGroup: siblingTotal
+          indexInParentGroup: idx,
+          totalInParentGroup: children.length
         });
 
         // Update node position
