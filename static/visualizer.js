@@ -468,23 +468,50 @@ function recalculateShellPositions() {
       const startAngle = idx * sectorSize;
       const endAngle = (idx + 1) * sectorSize;
       const centerAngle = startAngle + sectorSize / 2;
-      pathwaySectors.set(pw.id, { startAngle, endAngle, centerAngle });
-      // Also set by originalId for lookup
+      const sectorData = { startAngle, endAngle, centerAngle };
+
+      // Store sector under multiple ID formats for robust lookup
+      pathwaySectors.set(pw.id, sectorData);
+
+      // Also set by originalId
       if (pw.originalId && pw.originalId !== pw.id) {
-        pathwaySectors.set(pw.originalId, { startAngle, endAngle, centerAngle });
+        pathwaySectors.set(pw.originalId, sectorData);
+      }
+
+      // Also set by base ID (stripped of @context suffixes)
+      const baseId = pw.id.split('@')[0];
+      if (baseId !== pw.id) {
+        pathwaySectors.set(baseId, sectorData);
+      }
+
+      // Also try stripped version of originalId
+      if (pw.originalId) {
+        const baseOriginalId = pw.originalId.split('@')[0];
+        if (baseOriginalId !== pw.originalId) {
+          pathwaySectors.set(baseOriginalId, sectorData);
+        }
       }
     });
   }
 
   // Helper: Find root pathway for any node (traces up parent chain)
   function findRootPathway(nodeId) {
-    let current = nodeMap.get(nodeId);
+    function getSectorKey(id) {
+      if (!id) return null;
+      if (pathwaySectors.has(id)) return id;
+      const baseId = id.split('@')[0];
+      if (pathwaySectors.has(baseId)) return baseId;
+      return null;
+    }
+
+    let current = findParentNode(nodeId);
     let visited = new Set();
     while (current && !visited.has(current.id)) {
       visited.add(current.id);
       // If this is a shell-1 pathway, we found the root
-      if (current.type === 'pathway' && pathwaySectors.has(current.id)) {
-        return current.id;
+      if (current.type === 'pathway') {
+        const sectorKey = getSectorKey(current.id) || getSectorKey(current.originalId);
+        if (sectorKey) return sectorKey;
       }
       // Go up to parent
       const parentId = current.parentPathwayId || current._pathwayContext || current._isChildOf;
@@ -555,9 +582,24 @@ function recalculateShellPositions() {
       // This ensures all descendants of a root pathway stay in that pathway's sector
       let parentAngle;
 
+      // Helper to find sector by various ID formats
+      function findSector(id) {
+        if (!id) return null;
+        // Try direct lookup
+        if (pathwaySectors.has(id)) return pathwaySectors.get(id);
+        // Try stripped ID (remove @context suffixes)
+        const baseId = id.split('@')[0];
+        if (pathwaySectors.has(baseId)) return pathwaySectors.get(baseId);
+        // Try with common prefixes
+        const withPrefix = `pathway_${baseId.replace(/^pathway_/, '')}`;
+        if (pathwaySectors.has(withPrefix)) return pathwaySectors.get(withPrefix);
+        return null;
+      }
+
       // Check if parent itself is a root pathway with pre-computed sector
-      if (pathwaySectors.has(parentId)) {
-        parentAngle = pathwaySectors.get(parentId).centerAngle;
+      const parentSector = findSector(parentId) || findSector(parent?.originalId);
+      if (parentSector) {
+        parentAngle = parentSector.centerAngle;
       }
       // Check if parent is a non-root pathway/interactor - trace up to root
       else if (parent) {
@@ -567,13 +609,14 @@ function recalculateShellPositions() {
         // If no stored angle, try to find root pathway sector
         if (parentAngle === undefined) {
           const rootId = findRootPathway(parentId);
-          if (rootId && pathwaySectors.has(rootId)) {
-            parentAngle = pathwaySectors.get(rootId).centerAngle;
+          const rootSector = findSector(rootId);
+          if (rootSector) {
+            parentAngle = rootSector.centerAngle;
           }
         }
       }
 
-      // Fallback: calculate from position or default to 0
+      // Fallback: calculate from position or default to spread evenly
       if (parentAngle === undefined) {
         if (parent && (parent.x !== centerX || parent.y !== centerY)) {
           parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
@@ -581,7 +624,7 @@ function recalculateShellPositions() {
           // Main protein at center - distribute evenly based on parent index
           const parentKeys = Array.from(byParent.keys());
           const parentIdx = parentKeys.indexOf(parentId);
-          parentAngle = (2 * Math.PI * parentIdx) / parentKeys.length;
+          parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
       }
 
