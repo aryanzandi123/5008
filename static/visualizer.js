@@ -662,10 +662,20 @@ function forcePathwayOrbit() {
       const dy = node.y - parent.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Target distance: query protein closer, others at full radius
+      // Calculate target distance based on shell offset from parent
+      // Deep pathway interactors orbit further out than shallow ones
+      const parentShell = parent._shellData?.shell || 1;
+      const nodeShell = node._shellData?.shell || (parentShell + 1);
+      const shellOffset = Math.max(1, nodeShell - parentShell);
+
+      // Each shell offset adds ~120px of distance from parent
+      const SHELL_OFFSET_DISTANCE = 120;
+      const baseTargetDist = shellOffset * SHELL_OFFSET_DISTANCE;
+
+      // Query protein closer to parent, others at full shell-offset distance
       const targetDist = node.isQueryProtein
-        ? (node.expandRadius || 120) * 0.6
-        : (node.expandRadius || 120);
+        ? Math.max(baseTargetDist * 0.6, 60)
+        : Math.max(baseTargetDist, 60);
 
       if (dist === 0) return;
 
@@ -708,7 +718,14 @@ function forceSectorConstraint() {
       if (!parent) return;
 
       // Calculate target position relative to PARENT (not canvas center)
-      const targetRadius = node.expandRadius || 120;
+      // Use shell-relative distance for deep pathway interactors
+      const parentShell = parent._shellData?.shell || 1;
+      const nodeShell = node._shellData?.shell || (parentShell + 1);
+      const shellOffset = Math.max(1, nodeShell - parentShell);
+      const SHELL_OFFSET_DISTANCE = 120;
+      const targetRadius = node.isQueryProtein
+        ? Math.max(shellOffset * SHELL_OFFSET_DISTANCE * 0.6, 60)
+        : Math.max(shellOffset * SHELL_OFFSET_DISTANCE, 60);
       const targetX = parent.x + targetRadius * Math.cos(node._targetAngle);
       const targetY = parent.y + targetRadius * Math.sin(node._targetAngle);
 
@@ -1699,8 +1716,16 @@ function createSimulation(){
           if (d.type === 'main') return 0;
           if (d.isFunction || d.type === 'function') return null;
           if (d.type === 'pathway') return null;
-          if (pathwayMode) return null;
 
+          // In pathway mode, calculate absolute radius from shell number
+          // This ensures deep pathway interactors are pushed to outer rings
+          if (pathwayMode && d._shellData?.shell) {
+            const BASE_RADIUS = 250;
+            const SHELL_GAP = 150;
+            return BASE_RADIUS + (d._shellData.shell - 1) * SHELL_GAP;
+          }
+
+          // Non-pathway mode: original logic
           if (d._isChildOf) return SHELL_RADIUS_CHILDREN;
           if (expanded.has(d.id)) return SHELL_RADIUS_EXPANDED;
           return SHELL_RADIUS_BASE;
@@ -1709,7 +1734,11 @@ function createSimulation(){
         height / 2
       ).strength(d => {
         if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
-        if (pathwayMode) return 0;
+
+        // In pathway mode, moderate strength for interactors with shell data
+        // Lower than orbit force (0.6) to allow parent-relative clustering
+        if (pathwayMode && d._shellData?.shell) return 0.25;
+
         return 0.6;
       }))
       .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))
