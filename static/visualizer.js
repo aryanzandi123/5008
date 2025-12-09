@@ -564,7 +564,13 @@ function recalculateShellPositions() {
       });
 
       // Position each child within parent's arc sector
+      // Use pre-calculated sibling slots for cross-shell coordination
       children.forEach((node, idx) => {
+        // Use sibling slots if available (for cross-shell coordination)
+        // Fall back to per-shell index for shell 1 or if slots not calculated
+        const siblingSlot = node._siblingSlot ?? idx;
+        const siblingTotal = node._siblingTotal ?? children.length;
+
         const pos = calculateArcSectorPosition({
           centerX,
           centerY,
@@ -572,8 +578,8 @@ function recalculateShellPositions() {
           shellRadius,
           parentAngle,
           arcSpan: arcPerParent,
-          indexInParentGroup: idx,
-          totalInParentGroup: children.length
+          indexInParentGroup: siblingSlot,
+          totalInParentGroup: siblingTotal
         });
 
         // Update node position
