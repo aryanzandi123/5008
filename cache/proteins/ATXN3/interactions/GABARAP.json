@@ -1,0 +1,87 @@
+{
+  "primary": "GABARAP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 has a transient regulatory interaction with GABARAP, a member of the LC3/GABARAP protein family, during autophagy.",
+  "functions": [
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 engages in a transient regulatory interaction with GABARAP, an ATG8 family protein crucial for autophagosome maturation.",
+      "effect_description": "This interaction, occurring in the early stages of the autophagic pathway, suggests a role for ATXN3 in modulating autophagosome dynamics.",
+      "biological_consequence": [
+        "ATXN3-GABARAP interaction → Regulation of autophagosome maturation → Cellular quality control"
+      ],
+      "specific_effects": [
+        "The interaction supports the role of ATXN3 as a positive regulator of autophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2024,
+          "pmid": "39320846"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 engages in a transient regulatory interaction with GABARAP, an ATG8 family protein crucial for autophagosome maturation.",
+  "effect": "This interaction, occurring in the early stages of the autophagic pathway, suggests a role for ATXN3 in modulating autophagosome dynamics.",
+  "summary": "ATXN3 activates GABARAP to modulate autophagy, ultimately affecting cellular quality control.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binds",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> GABARAP:",
+  "protein_a": "ATXN3",
+  "protein_b": "GABARAP",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.230945Z",
+  "last_updated": "2025-12-09T13:18:49.230945Z"
+}

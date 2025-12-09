@@ -1,0 +1,90 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the E3 ligase CHIP (STUB1) to regulate the degradation of misfolded chaperone substrates.",
+  "functions": [
+    {
+      "function": "STUB1/CHIP Stability",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 interacts with the E3 ubiquitin ligase CHIP (carboxy-terminus of Hsc70-interacting protein, also known as STUB1) to regulate protein quality control. This interaction is part of a coordinated cycle where CHIP's activity is modulated.",
+      "effect_description": "The interaction between ATXN3 and STUB1/CHIP is stabilized by the monoubiquitination of CHIP. ATXN3 then acts to limit the length of ubiquitin chains attached to CHIP's substrates. In the context of Machado-Joseph disease, the polyglutamine-expanded form of ATXN3 binds to CHIP with a higher affinity. This enhanced binding leads to a decrease in the protein levels of CHIP, which can impair chaperone-mediated degradation pathways.",
+      "biological_consequence": [
+        "Monoubiquitination of STUB1/CHIP by the E2 enzyme Ube2w → Stabilized interaction between STUB1/CHIP and ATXN3 → ATXN3 limits ubiquitin chain extension on STUB1/CHIP substrates → PolyQ-expanded ATXN3 binds STUB1/CHIP with higher affinity → Decreased protein levels of STUB1/CHIP → Impaired degradation of misfolded chaperone-dependent substrates."
+      ],
+      "specific_effects": [
+        "Monoubiquitination of CHIP stabilizes its interaction with ATXN3.",
+        "ATXN3's deubiquitinase activity limits the length of ubiquitin chains on CHIP substrates.",
+        "Polyglutamine-expanded ataxin-3 binds CHIP with higher affinity.",
+        "The enhanced binding of polyQ-expanded ATXN3 to CHIP is associated with decreased levels of CHIP in a mouse model of SCA3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ube2w and ataxin-3 coordinately regulate the ubiquitin ligase CHIP",
+          "journal": "The EMBO Journal",
+          "year": 2011,
+          "relevant_quote": "Our results also provide new insight into SCA3 disease pathogenesis: polyglutamine-expanded ataxin-3 binds CHIP with higher affinity, and this change is associated with decreased levels of this neuroprotective E3 in a mouse model of SCA3.",
+          "pmid": "21855799"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "21855799"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 interacts with the E3 ubiquitin ligase CHIP (carboxy-terminus of Hsc70-interacting protein, also known as STUB1) to regulate protein quality control. This interaction is part of a coordinated cycle where CHIP's activity is modulated.",
+  "effect": "The interaction between ATXN3 and STUB1/CHIP is stabilized by the monoubiquitination of CHIP. ATXN3 then acts to limit the length of ubiquitin chains attached to CHIP's substrates. In the context of Machado-Joseph disease, the polyglutamine-expanded form of ATXN3 binds to CHIP with a higher affinity. This enhanced binding leads to a decrease in the protein levels of CHIP, which can impair chaperone-mediated degradation pathways.",
+  "summary": "ATXN3 inhibits STUB1 to modulate stub1/chip stability, ultimately affecting impaired degradation of misfolded chaperone-dependent substrates.",
+  "evidence": [
+    {
+      "paper_title": "Ube2w and ataxin-3 coordinately regulate the ubiquitin ligase CHIP",
+      "journal": "The EMBO Journal",
+      "year": 2011,
+      "relevant_quote": "Our results also provide new insight into SCA3 disease pathogenesis: polyglutamine-expanded ataxin-3 binds CHIP with higher affinity, and this change is associated with decreased levels of this neuroprotective E3 in a mouse model of SCA3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> STUB1:",
+  "protein_a": "STUB1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.221993Z",
+  "last_updated": "2025-12-09T13:18:49.221993Z"
+}

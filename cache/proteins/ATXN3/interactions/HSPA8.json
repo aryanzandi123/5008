@@ -1,0 +1,91 @@
+{
+  "primary": "HSPA8",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3's ubiquitin-interacting motifs (UIMs) interact with Hsc70 (HSPA8). This interaction unexpectedly enhances the aggregation and toxicity of polyQ-expanded ATXN3.",
+  "functions": [
+    {
+      "function": "Mutant ATXN3 Aggregation and Toxicity",
+      "arrow": "activates",
+      "cellular_process": "The heat shock cognate protein Hsc70-4 (Drosophila ortholog of human HSPA8) directly interacts with the ubiquitin-interacting motifs (UIMs) adjacent to the polyglutamine (polyQ) tract of mutant ATXN3.",
+      "effect_description": "This interaction, contrary to the expected protective role of a chaperone, exacerbates the aggregation of polyQ-expanded ATXN3 and enhances its cellular toxicity. This suggests that HSPA8 is a pathogenic enhancer in the context of Spinocerebellar Ataxia Type 3 (SCA3).",
+      "biological_consequence": [
+        "HSPA8 binds to the UIMs of polyQ-expanded ATXN3 → Facilitates intermolecular interactions between mutant ATXN3 proteins → Enhances the formation of protein aggregates → Increases cellular toxicity and neurodegeneration"
+      ],
+      "specific_effects": [
+        "The interaction is dependent on the UIMs of ATXN3; mutating the UIMs reduces the toxic effects.",
+        "Reduction of Hsc70-4 (HSPA8 ortholog) levels diminishes the toxicity of pathogenic ATXN3 in a UIM-dependent manner.",
+        "Hsc70-4 knockdown leads to reduced formation of SDS-resistant ATXN3 species and fewer aggregates in filter-trap assays.",
+        "This pathogenic enhancement represents a pleiotropic effect of HSP70 chaperones, which are generally thought to suppress polyglutamine degeneration."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
+          "journal": "eLife",
+          "year": 2020,
+          "relevant_quote": "We found that ataxin-3 pathogenicity is saliently controlled by polyglutamine-adjacent ubiquitin-interacting motifs (UIMs) that enhance aggregation and toxicity. UIMs function by interacting with the heat shock protein, Hsc70-4, whose reduction diminishes ataxin-3 toxicity in a UIM-dependent manner.",
+          "pmid": "32955441"
+        }
+      ],
+      "pathway": {
+        "name": "Chaperone-Mediated Protein Folding",
+        "canonical_name": "Protein Folding",
+        "ontology_id": "GO:0006457",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "32955441"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates",
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The provided input correctly identifies a dual, context-dependent role for HSPA8 (Hsc70) in modulating ATXN3 aggregation. However, the mechanism is more nuanced. HSPA8's interaction with the UIMs of polyQ-expanded ATXN3 paradoxically enhances aggregation and toxicity, contrary to its canonical chaperone function of preventing misfolding. This represents a pathogenic gain-of-function interaction rather than a simple activation.",
+  "mechanism": "The heat shock cognate protein Hsc70-4 (Drosophila ortholog of human HSPA8) directly interacts with the ubiquitin-interacting motifs (UIMs) adjacent to the polyglutamine (polyQ) tract of mutant ATXN3.",
+  "effect": "This interaction, contrary to the expected protective role of a chaperone, exacerbates the aggregation of polyQ-expanded ATXN3 and enhances its cellular toxicity. This suggests that HSPA8 is a pathogenic enhancer in the context of Spinocerebellar Ataxia Type 3 (SCA3).",
+  "summary": "ATXN3 activates HSPA8 to modulate mutant atxn3 aggregation and toxicity, ultimately affecting increases cellular toxicity and neurodegeneration.",
+  "evidence": [
+    {
+      "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
+      "journal": "eLife",
+      "year": 2020,
+      "relevant_quote": "We found that ataxin-3 pathogenicity is saliently controlled by polyglutamine-adjacent ubiquitin-interacting motifs (UIMs) that enhance aggregation and toxicity. UIMs function by interacting with the heat shock protein, Hsc70-4, whose reduction diminishes ataxin-3 toxicity in a UIM-dependent manner."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chaperone-Mediated Protein Folding",
+      "canonical_name": "Protein Folding",
+      "ontology_id": "GO:0006457",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--binds-- HSPA8:",
+  "protein_a": "ATXN3",
+  "protein_b": "HSPA8",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.245217Z",
+  "last_updated": "2025-12-09T13:18:49.245217Z"
+}

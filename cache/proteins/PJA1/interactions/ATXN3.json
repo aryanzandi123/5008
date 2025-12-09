@@ -1,0 +1,102 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "The E3 ubiquitin ligase PJA1 interacts with ATXN3 to promote its degradation through both the proteasome and autophagy.",
+  "functions": [
+    {
+      "function": "ATXN3 Protein Stability",
+      "arrow": "inhibits",
+      "cellular_process": "The RING-H2 type E3 ubiquitin ligase PJA1 (Praja1) directly interacts with ATXN3 and catalyzes its polyubiquitination.",
+      "effect_description": "The ubiquitination of ATXN3 by PJA1 serves as a signal for degradation, targeting ATXN3 to two major cellular protein clearance pathways: the ubiquitin-proteasome system (UPS) and the autophagy pathway. This process is crucial for regulating the cellular turnover and steady-state levels of both wild-type and polyglutamine-expanded ATXN3.",
+      "biological_consequence": [
+        "PJA1 binds to ATXN3 → PJA1 mediates the attachment of ubiquitin chains to ATXN3 → Ubiquitinated ATXN3 is recognized by proteasomes and autophagosomes → ATXN3 is degraded → Cellular levels of ATXN3 are reduced."
+      ],
+      "specific_effects": [
+        "PJA1 promotes the degradation of both wild-type and polyglutamine-expanded forms of ATXN3.",
+        "PJA1-mediated degradation of ATXN3 occurs via both the proteasome and autophagy."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Praja1 ubiquitin ligase facilitates degradation of polyglutamine proteins and suppresses polyglutamine-mediated toxicity",
+          "journal": "bioRxiv",
+          "year": 2020,
+          "relevant_quote": "PJA1 facilitates degradation of wild type and polyglutamine expanded ataxin-3 by promoting ubiquitination.",
+          "pmid": "34161122"
+        },
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "journal": "The FEBS Journal",
+          "year": 2024,
+          "relevant_quote": "For example, the E3 ligase PJA1 promotes ATXN3 degradation by the proteasome and also by autophagy (Ref. 31).",
+          "pmid": "39320846"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "34161122",
+        "39320846"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The RING-H2 type E3 ubiquitin ligase PJA1 (Praja1) directly interacts with ATXN3 and catalyzes its polyubiquitination.",
+  "effect": "The ubiquitination of ATXN3 by PJA1 serves as a signal for degradation, targeting ATXN3 to two major cellular protein clearance pathways: the ubiquitin-proteasome system (UPS) and the autophagy pathway. This process is crucial for regulating the cellular turnover and steady-state levels of both wild-type and polyglutamine-expanded ATXN3.",
+  "summary": "ATXN3 inhibits PJA1 to modulate atxn3 protein stability, ultimately affecting cellular levels of atxn3 are reduced.",
+  "evidence": [
+    {
+      "paper_title": "Praja1 ubiquitin ligase facilitates degradation of polyglutamine proteins and suppresses polyglutamine-mediated toxicity",
+      "journal": "bioRxiv",
+      "year": 2020,
+      "relevant_quote": "PJA1 facilitates degradation of wild type and polyglutamine expanded ataxin-3 by promoting ubiquitination."
+    },
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "journal": "The FEBS Journal",
+      "year": 2024,
+      "relevant_quote": "For example, the E3 ligase PJA1 promotes ATXN3 degradation by the proteasome and also by autophagy (Ref. 31)."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--inhibits-- PJA1:",
+  "protein_a": "PJA1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.255836Z",
+  "last_updated": "2025-12-09T13:18:49.255836Z"
+}

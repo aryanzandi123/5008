@@ -1,0 +1,105 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "PNKP",
+  "mediator_chain": [
+    "PNKP"
+  ],
+  "depth": 2,
+  "support_summary": "Mutant ATXN3 inactivates its direct interactor PNKP, leading to the accumulation of DNA damage, which in turn causes chronic activation of the DNA damage-response kinase ATM.",
+  "functions": [
+    {
+      "function": "DNA Damage Response Signaling",
+      "arrow": "activates",
+      "cellular_process": "The activation of ATM by ATXN3 is an indirect effect that occurs in the context of the polyQ-expanded, mutant form of ATXN3. Mutant ATXN3 directly binds to and inhibits the enzymatic activity of the DNA repair enzyme Polynucleotide Kinase 3'-Phosphatase (PNKP).",
+      "effect_description": "The inhibition of PNKP by mutant ATXN3 leads to a failure to repair DNA strand breaks, resulting in the persistent accumulation of genomic damage. This chronic DNA damage serves as a signal to trigger the DNA Damage Response (DDR) pathway, leading to the sustained activation of the central DDR kinase, ATM (Ataxia-Telangiectasia Mutated).",
+      "biological_consequence": [
+        "Mutant ATXN3 binds to and inactivates the 3'-phosphatase activity of PNKP → Accumulation of unrepaired DNA strand breaks → Chronic activation of ATM kinase via autophosphorylation at Ser1981 → ATM phosphorylates downstream targets including p53 (at Ser15) and CHK2 (at Thr68) → Activation of pro-apoptotic signaling pathways → Neuronal dysfunction and cell death."
+      ],
+      "specific_effects": [
+        "The activation of ATM is indirect, mediated by the ATXN3-polyQ inhibition of PNKP.",
+        "Expression of mutant ATXN3 induces phosphorylation of ATM at Ser1981 and its substrates, γH2AX and p53.",
+        "Pharmacological inhibition of ATM with inhibitors like Ku55933 can ameliorate mutant ATXN3-induced caspase-3 activation and cell death."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+          "journal": "PLoS Genetics",
+          "year": 2015,
+          "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3.",
+          "pmid": "25590633"
+        }
+      ],
+      "pathway": {
+        "name": "DNA Damage Response",
+        "canonical_name": "DNA Damage Response",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "25590633"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "PNKP",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "PNKP"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The activation of ATM by ATXN3 is an indirect effect that occurs in the context of the polyQ-expanded, mutant form of ATXN3. Mutant ATXN3 directly binds to and inhibits the enzymatic activity of the DNA repair enzyme Polynucleotide Kinase 3'-Phosphatase (PNKP).",
+  "effect": "The inhibition of PNKP by mutant ATXN3 leads to a failure to repair DNA strand breaks, resulting in the persistent accumulation of genomic damage. This chronic DNA damage serves as a signal to trigger the DNA Damage Response (DDR) pathway, leading to the sustained activation of the central DDR kinase, ATM (Ataxia-Telangiectasia Mutated).",
+  "summary": "ATXN3 activates ATM to modulate dna damage response signaling, ultimately affecting neuronal dysfunction and cell death.",
+  "evidence": [
+    {
+      "paper_title": "Inactivation of PNKP by Mutant ATXN3 Triggers Apoptosis by Activating the DNA Damage-Response Pathway in SCA3",
+      "journal": "PLoS Genetics",
+      "year": 2015,
+      "relevant_quote": "In the present study, we show that the essential DNA strand break repair enzyme PNKP (polynucleotide kinase 3'-phosphatase) interacts with, and is inactivated by, the mutant ATXN3, resulting in inefficient DNA repair, persistent accumulation of DNA damage/strand breaks, and subsequent chronic activation of the DNA damage-response ataxia telangiectasia-mutated (ATM) signaling pathway in SCA3."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "DNA Damage Response",
+      "canonical_name": "DNA Damage Response",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "PNKP --activates--> ATM:",
+  "protein_a": "ATM",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.273260Z",
+  "last_updated": "2025-12-09T13:18:49.273260Z"
+}

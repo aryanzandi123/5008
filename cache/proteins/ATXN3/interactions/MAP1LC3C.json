@@ -1,0 +1,87 @@
+{
+  "primary": "MAP1LC3C",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts specifically with LC3C, a key autophagy protein, during the early stages of the autophagic pathway.",
+  "functions": [
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 directly interacts with MAP1LC3C (LC3C), a member of the ATG8 family, during the early stages of autophagy.",
+      "effect_description": "This transient regulatory interaction supports the progression of the autophagic pathway.",
+      "biological_consequence": [
+        "ATXN3-LC3C interaction → Facilitation of autophagosome formation → Clearance of cellular components"
+      ],
+      "specific_effects": [
+        "The interaction occurs via two regions within the Josephin domain of ATXN3."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "year": 2024,
+          "pmid": "39320846"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pathway": {
+        "name": "Autophagy",
+        "canonical_name": "Autophagy",
+        "ontology_id": "GO:0006914",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 directly interacts with MAP1LC3C (LC3C), a member of the ATG8 family, during the early stages of autophagy.",
+  "effect": "This transient regulatory interaction supports the progression of the autophagic pathway.",
+  "summary": "ATXN3 activates MAP1LC3C to modulate autophagy, ultimately affecting clearance of cellular components.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "year": 2024
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Autophagy",
+      "canonical_name": "Autophagy",
+      "ontology_id": "GO:0006914",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binds",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> MAP1LC3C:",
+  "protein_a": "ATXN3",
+  "protein_b": "MAP1LC3C",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.229321Z",
+  "last_updated": "2025-12-09T13:18:49.229321Z"
+}

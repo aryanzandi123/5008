@@ -1,0 +1,103 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the histone acetyltransferase PCAF (P300/CBP-associated factor) as part of its role in transcriptional regulation.",
+  "functions": [
+    {
+      "function": "Transcriptional Repression",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 is involved in transcriptional regulation through its interaction with histone acetyltransferases (HATs) and histone deacetylases (HDACs). ATXN3 directly interacts with the HAT PCAF (P300/CBP-associated factor), as well as the related coactivators p300 and CBP.",
+      "effect_description": "Through its interaction with PCAF, ATXN3 represses the transcriptional co-activator function of PCAF. This leads to a reduction in histone acetylation at specific gene promoters, contributing to a more condensed chromatin state and transcriptional repression of target genes.",
+      "biological_consequence": [
+        "ATXN3 C-terminal domain binds to PCAF → The transcriptional co-activator and histone acetyltransferase activity of PCAF is repressed → Reduced histone acetylation at target gene promoters → Chromatin becomes less accessible to transcription machinery → Transcriptional repression."
+      ],
+      "specific_effects": [
+        "The C-terminal domain of ATXN3 binds to PCAF, p300, and CBP.",
+        "Represses the transcriptional activity of PCAF.",
+        "Contributes to the regulation of histone acetylation levels."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+          "journal": "Expert Reviews in Molecular Medicine",
+          "year": 2024,
+          "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity (Ref. 106).",
+          "pmid": "39320846"
+        },
+        {
+          "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+          "journal": "Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "Another line of evidence suggests that AT3 acts as a transcriptional repressor via inhibition of histone acetyltransferase (HAT) activity of the major transcriptional coactivators, cAMP response element-binding protein (CREB) binding protein (CBP), p300, and p300/CBP-associated factor (PCAF) (Li et al., 2002).",
+          "pmid": "17079677"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "39320846",
+        "17079677"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 is involved in transcriptional regulation through its interaction with histone acetyltransferases (HATs) and histone deacetylases (HDACs). ATXN3 directly interacts with the HAT PCAF (P300/CBP-associated factor), as well as the related coactivators p300 and CBP.",
+  "effect": "Through its interaction with PCAF, ATXN3 represses the transcriptional co-activator function of PCAF. This leads to a reduction in histone acetylation at specific gene promoters, contributing to a more condensed chromatin state and transcriptional repression of target genes.",
+  "summary": "ATXN3 inhibits PCAF to modulate transcriptional repression, ultimately affecting transcriptional repression.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
+      "journal": "Expert Reviews in Molecular Medicine",
+      "year": 2024,
+      "relevant_quote": "The C-terminal domain of ATXN3 binds CBP, p300 and PCAF coactivators and represses their transcriptional activity (Ref. 106)."
+    },
+    {
+      "paper_title": "Ataxin-3 Represses Transcription via Chromatin Binding, Interaction with Histone Deacetylase 3, and Histone Deacetylation",
+      "journal": "Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "Another line of evidence suggests that AT3 acts as a transcriptional repressor via inhibition of histone acetyltransferase (HAT) activity of the major transcriptional coactivators, cAMP response element-binding protein (CREB) binding protein (CBP), p300, and p300/CBP-associated factor (PCAF) (Li et al., 2002)."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> PCAF:",
+  "protein_a": "PCAF",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.237848Z",
+  "last_updated": "2025-12-09T13:18:49.237848Z"
+}

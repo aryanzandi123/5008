@@ -1,0 +1,89 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 regulates the stability of the α5 integrin subunit (ITGA5) by deubiquitinating it and rescuing it from proteasomal degradation, a function crucial for neuronal differentiation and cytoskeleton organization.",
+  "functions": [
+    {
+      "function": "ITGA5 Protein Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3, in its role as a deubiquitinating enzyme (DUB), directly interacts with the α5 integrin subunit (ITGA5). It removes ubiquitin chains from ITGA5, thereby preventing its recognition and subsequent degradation by the proteasome.",
+      "effect_description": "By deubiquitinating ITGA5, ATXN3 stabilizes the protein, increasing its half-life and promoting its proper expression on the cell surface. This stabilization is essential for maintaining cytoskeletal organization, cell adhesion, and facilitating processes like myogenic and neuronal differentiation.",
+      "biological_consequence": [
+        "ATXN3 binds to ubiquitinated ITGA5 → Catalytically removes ubiquitin chains via its Josephin domain → ITGA5 is shielded from proteasomal degradation → ITGA5 protein half-life is increased → Enhanced cell adhesion and proper cellular differentiation"
+      ],
+      "specific_effects": [
+        "ATXN3 directly interacts with the α5 integrin subunit and stabilizes it by repressing its degradation through the ubiquitin-proteasome system (UPS).",
+        "The regulation occurs at the post-translational level, as depletion of ATXN3 reduces ITGA5 protein levels without altering its transcript levels.",
+        "Loss of ATXN3 function leads to increased ubiquitination and a shorter protein half-life of ITGA5."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 Plays a Role in Mouse Myogenic Differentiation through Regulation of Integrin Subunit Levels",
+          "journal": "PLoS ONE",
+          "year": 2010,
+          "relevant_quote": "Mouse ATX3 was found to interact with α5 integrin subunit and to stabilize this protein by repressing its degradation through the UPS... To confirm that mATX3 was indeed deubiquitinating the α5 integrin subunit, we performed an in vivo deubiquitination assay... These results show that mATX3 is able to deubiquitinate the α5 integrin subunit, rescuing it from degradation.",
+          "pmid": "20668528"
+        }
+      ],
+      "pathway": {
+        "name": "Focal Adhesion",
+        "canonical_name": "Focal Adhesion",
+        "ontology_id": null,
+        "ontology_source": null,
+        "confidence": 0.8
+      },
+      "pmids": [
+        "20668528"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, in its role as a deubiquitinating enzyme (DUB), directly interacts with the α5 integrin subunit (ITGA5). It removes ubiquitin chains from ITGA5, thereby preventing its recognition and subsequent degradation by the proteasome.",
+  "effect": "By deubiquitinating ITGA5, ATXN3 stabilizes the protein, increasing its half-life and promoting its proper expression on the cell surface. This stabilization is essential for maintaining cytoskeletal organization, cell adhesion, and facilitating processes like myogenic and neuronal differentiation.",
+  "summary": "ATXN3 activates ITGA5 to modulate itga5 protein stability, ultimately affecting enhanced cell adhesion and proper cellular differentiation.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 Plays a Role in Mouse Myogenic Differentiation through Regulation of Integrin Subunit Levels",
+      "journal": "PLoS ONE",
+      "year": 2010,
+      "relevant_quote": "Mouse ATX3 was found to interact with α5 integrin subunit and to stabilize this protein by repressing its degradation through the UPS... To confirm that mATX3 was indeed deubiquitinating the α5 integrin subunit, we performed an in vivo deubiquitination assay... These results show that mATX3 is able to deubiquitinate the α5 integrin subunit, rescuing it from degradation."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Focal Adhesion",
+      "canonical_name": "Focal Adhesion",
+      "ontology_id": null,
+      "ontology_source": null,
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> ITGA5:",
+  "protein_a": "ITGA5",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.280607Z",
+  "last_updated": "2025-12-09T13:18:49.280607Z"
+}

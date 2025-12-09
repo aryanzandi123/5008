@@ -3818,42 +3818,7 @@ function openModal(titleHTML, bodyHTML){
   document.getElementById('modalTitle').innerHTML = titleHTML;
   document.getElementById('modalBody').innerHTML = bodyHTML;
   document.getElementById('modal').classList.add('active');
-
-  // Wire up expandable rows after modal opens
-  setTimeout(() => {
-    // Function expandable rows
-    document.querySelectorAll('.function-expandable-row').forEach(row => {
-      const header = row.querySelector('.function-row-header');
-      if (header) {
-        header.addEventListener('click', () => {
-          row.classList.toggle('expanded');
-        });
-      }
-    });
-
-    // Interaction expandable rows
-    document.querySelectorAll('.interaction-expandable-row').forEach(row => {
-      const header = row.querySelector('.interaction-row-header');
-      const content = row.querySelector('.interaction-expanded-content');
-      const icon = row.querySelector('.interaction-expand-icon');
-      if (header && content) {
-        header.addEventListener('click', () => {
-          const isExpanded = row.classList.contains('expanded');
-          if (isExpanded) {
-            row.classList.remove('expanded');
-            content.style.maxHeight = '0';
-            content.style.opacity = '0';
-            if (icon) icon.style.transform = 'rotate(0deg)';
-          } else {
-            row.classList.add('expanded');
-            content.style.maxHeight = '2000px';
-            content.style.opacity = '1';
-            if (icon) icon.style.transform = 'rotate(180deg)';
-          }
-        });
-      }
-    });
-  }, 100);
+  // Event delegation handles expandable rows automatically - no setTimeout needed
 }
 
 function closeModal(){
@@ -3862,6 +3827,41 @@ function closeModal(){
 
 document.getElementById('modal').addEventListener('click', (e)=>{
   if (e.target.id==='modal') closeModal();
+});
+
+// Event delegation for modal expandable rows - handles all clicks via bubbling
+// More robust than setTimeout-based listener attachment
+document.getElementById('modalBody').addEventListener('click', (e) => {
+  // Handle function expandable rows
+  const funcHeader = e.target.closest('.function-row-header');
+  if (funcHeader) {
+    const row = funcHeader.closest('.function-expandable-row');
+    if (row) row.classList.toggle('expanded');
+    return;
+  }
+
+  // Handle interaction expandable rows
+  const interactionHeader = e.target.closest('.interaction-row-header');
+  if (interactionHeader) {
+    const row = interactionHeader.closest('.interaction-expandable-row');
+    const content = row?.querySelector('.interaction-expanded-content');
+    const icon = row?.querySelector('.interaction-expand-icon');
+
+    if (row && content) {
+      const isExpanded = row.classList.contains('expanded');
+      if (isExpanded) {
+        row.classList.remove('expanded');
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      } else {
+        row.classList.add('expanded');
+        content.style.maxHeight = '2000px';
+        content.style.opacity = '1';
+        if (icon) icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  }
 });
 
 /* Helper: Render an expandable function row */

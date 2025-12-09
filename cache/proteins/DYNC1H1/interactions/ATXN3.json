@@ -1,0 +1,101 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with dynein, a motor protein essential for retrograde axonal transport along microtubules, which is relevant to aggresome formation.",
+  "functions": [
+    {
+      "function": "Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a crucial adaptor protein that links polyubiquitinated misfolded proteins to the dynein motor complex. This interaction is essential for the retrograde transport of protein aggregates along microtubules to the microtubule-organizing center (MTOC).",
+      "effect_description": "By facilitating the transport of ubiquitinated cargo, ATXN3 promotes the sequestration of misfolded proteins into a single large inclusion body known as an aggresome. This process is dependent on both the deubiquitinase (DUB) activity and the ubiquitin-interacting motifs (UIMs) of ATXN3, which are required for its association with the dynein complex.",
+      "biological_consequence": [
+        "ATXN3 binds polyubiquitinated cargo via its UIMs → ATXN3 associates with the DYNC1H1 motor complex → The entire complex undergoes retrograde transport along microtubules → Misfolded protein aggregates accumulate at the MTOC → Aggresome formation is completed."
+      ],
+      "specific_effects": [
+        "ATXN3 co-immunoprecipitates with endogenous dynein.",
+        "Small interfering RNA (siRNA) knockdown of ATXN3 significantly reduces the formation of aggresomes.",
+        "Mutations in the catalytic active site or the UIMs of ATXN3 impair its association with dynein and prevent the rescue of aggresome formation in knockdown cells."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": 2005,
+          "relevant_quote": "Cellular studies show that endogenous AT3 colocalizes with aggresomes and preaggresome particles of the misfolded cystic fibrosis transmembrane regulator (CFTR) mutant CFTRΔF508 and associates with histone deacetylase 6 and dynein, proteins required for aggresome formation and transport of misfolded protein. Small interfering RNA knockdown of AT3 greatly reduces aggresomes formed by CFTRΔF508, demonstrating a critical role of AT3 in this process... AT3 with mutations in the active site or ubiquitin interacting motifs cannot restore aggresome formation in AT3 knockdown cells. These same mutations decrease the association of AT3 and dynein.",
+          "pmid": "15767577"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "15767577"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 acts as a crucial adaptor protein that links polyubiquitinated misfolded proteins to the dynein motor complex. This interaction is essential for the retrograde transport of protein aggregates along microtubules to the microtubule-organizing center (MTOC).",
+  "effect": "By facilitating the transport of ubiquitinated cargo, ATXN3 promotes the sequestration of misfolded proteins into a single large inclusion body known as an aggresome. This process is dependent on both the deubiquitinase (DUB) activity and the ubiquitin-interacting motifs (UIMs) of ATXN3, which are required for its association with the dynein complex.",
+  "summary": "ATXN3 activates DYNC1H1 to modulate aggresome formation, ultimately affecting aggresome formation is completed.",
+  "evidence": [
+    {
+      "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "year": 2005,
+      "relevant_quote": "Cellular studies show that endogenous AT3 colocalizes with aggresomes and preaggresome particles of the misfolded cystic fibrosis transmembrane regulator (CFTR) mutant CFTRΔF508 and associates with histone deacetylase 6 and dynein, proteins required for aggresome formation and transport of misfolded protein. Small interfering RNA knockdown of AT3 greatly reduces aggresomes formed by CFTRΔF508, demonstrating a critical role of AT3 in this process... AT3 with mutations in the active site or ubiquitin interacting motifs cannot restore aggresome formation in AT3 knockdown cells. These same mutations decrease the association of AT3 and dynein."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> DYNC1H1:",
+  "protein_a": "DYNC1H1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.250631Z",
+  "last_updated": "2025-12-09T13:18:49.250631Z"
+}

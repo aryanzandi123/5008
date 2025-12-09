@@ -1,0 +1,94 @@
+{
+  "primary": "PML",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Co-immunoprecipitation experiments have demonstrated an interaction between ATXN3 and the promyelocytic leukemia protein (PML).",
+  "functions": [
+    {
+      "function": "ATXN3 Deubiquitinase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "The PML-II isoform of the promyelocytic leukemia protein specifically binds to ATXN3 and recruits it to PML nuclear bodies (NBs). These subnuclear structures are involved in various cellular processes including protein modification and degradation.",
+      "effect_description": "Upon recruitment to the PML-NBs, the deubiquitinase (DUB) activity of ATXN3 is inhibited by the PML-II isoform. This interaction occurs with both wild-type and polyQ-expanded ATXN3. The sequestration and inhibition of ATXN3's enzymatic activity within these nuclear bodies serve as a regulatory mechanism for ATXN3's function.",
+      "biological_consequence": [
+        "PML-II specifically binds to the C-terminal region of ATXN3 → ATXN3 is recruited and co-localized with PML-II in PML nuclear bodies → The deubiquitinase activity of ATXN3 is inhibited → The ubiquitination status of ATXN3 substrates is altered, affecting protein turnover and signaling pathways."
+      ],
+      "specific_effects": [
+        "PML-II recruits both normal (13Q) and pathological (79Q) forms of ATXN3 to nuclear bodies.",
+        "The interaction with PML-II leads to the inhibition of ATXN3's deubiquitinase activity.",
+        "Expression of mutant ATXN3 can alter the normal nuclear distribution of PML."
+      ],
+      "evidence": [
+        {
+          "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
+          "journal": "Biochemical and Biophysical Research Communications",
+          "year": 2021,
+          "relevant_quote": "The interaction between ataxin-3 and PML-II was confirmed by co-immunoprecipition assays, and immunofluorescent microscopy revealed that PML-II and ataxin-3 were co-localized in PML-NBs. In addition, PML-II not only interacts with ataxin-3 with a normal range of poly-Q repeats (13Q), but also with a pathological form of ataxin-3 with extended poly-Q repeats (79Q). Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II.",
+          "pmid": "33798946"
+        }
+      ],
+      "pathway": {
+        "name": "Ubiquitin-Proteasome System",
+        "canonical_name": "Proteasomal Degradation",
+        "ontology_id": "GO:0010498",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "33798946"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "inhibition"
+    }
+  ],
+  "_context": {
+    "type": "direct",
+    "query_protein": null,
+    "chain": null
+  },
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "The PML-II isoform of the promyelocytic leukemia protein specifically binds to ATXN3 and recruits it to PML nuclear bodies (NBs). These subnuclear structures are involved in various cellular processes including protein modification and degradation.",
+  "effect": "Upon recruitment to the PML-NBs, the deubiquitinase (DUB) activity of ATXN3 is inhibited by the PML-II isoform. This interaction occurs with both wild-type and polyQ-expanded ATXN3. The sequestration and inhibition of ATXN3's enzymatic activity within these nuclear bodies serve as a regulatory mechanism for ATXN3's function.",
+  "summary": "ATXN3 inhibits PML to modulate atxn3 deubiquitinase activity, ultimately affecting the ubiquitination status of atxn3 substrates is altered, affecting protein turnover and signaling pathways.",
+  "evidence": [
+    {
+      "paper_title": "PML-II recruits ataxin-3 to PML-NBs and inhibits its deubiquitinating activity",
+      "journal": "Biochemical and Biophysical Research Communications",
+      "year": 2021,
+      "relevant_quote": "The interaction between ataxin-3 and PML-II was confirmed by co-immunoprecipition assays, and immunofluorescent microscopy revealed that PML-II and ataxin-3 were co-localized in PML-NBs. In addition, PML-II not only interacts with ataxin-3 with a normal range of poly-Q repeats (13Q), but also with a pathological form of ataxin-3 with extended poly-Q repeats (79Q). Importantly, the deubiquitinase activity of ataxin-3 was inhibited by PML-II."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Ubiquitin-Proteasome System",
+      "canonical_name": "Proteasomal Degradation",
+      "ontology_id": "GO:0010498",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--inhibits-- PML:",
+  "protein_a": "ATXN3",
+  "protein_b": "PML",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.218302Z",
+  "last_updated": "2025-12-09T13:18:49.218302Z"
+}

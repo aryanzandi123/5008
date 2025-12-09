@@ -1,0 +1,115 @@
+{
+  "primary": "HIST1H1C",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 binds to histone proteins, including linker histone H1, and is involved in regulating chromatin structure.",
+  "functions": [
+    {
+      "function": "Chromatin Organization",
+      "arrow": "activates",
+      "cellular_process": "Wild-type ATXN3 binds to chromatin and functions as a scaffold protein to recruit the histone deacetylase 3 (HDAC3). This role is independent of ATXN3's catalytic deubiquitinase activity.",
+      "effect_description": "By recruiting HDAC3 to chromatin, ATXN3 promotes a more condensed, transcriptionally repressed chromatin state known as heterochromatin. This structural organization is critical for regulating DNA accessibility, thereby controlling processes like DNA replication timing and global gene transcription. The interaction affects the dynamics of linker histones like HIST1H1C.",
+      "biological_consequence": [
+        "ATXN3 binds to chromatin → ATXN3 recruits and ensures the correct nuclear localization of HDAC3 → HDAC3 deacetylates histones on chromatin → Chromatin compaction increases, forming heterochromatin → Global transcription is repressed and DNA replication timing is controlled."
+      ],
+      "specific_effects": [
+        "Loss of ATXN3 or expression of polyQ-expanded ATXN3 impairs the recruitment of HDAC3 to chromatin, causing HDAC3 mislocalization.",
+        "Impaired HDAC3 recruitment leads to a more open chromatin state (euchromatin), characterized by increased mobility of linker histone H1.",
+        "The resulting open chromatin structure leads to altered DNA replication timing and increased global transcription."
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+          "journal": "Nucleic Acids Research",
+          "year": 2023,
+          "relevant_quote": "Wild-type ATXN3 controls chromatin organization by recruiting HDAC3, thereby increasing heterochromatin and controlling DNA replication and transcription, whereas lack of or PolyQ-expanded ATXN3 triggers mislocalization of HDAC3 and euchromatin prevalence.",
+          "pmid": "36971114"
+        },
+        {
+          "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+          "journal": "The Journal of Neuroscience",
+          "year": 2006,
+          "relevant_quote": "These findings demonstrate that normal AT3 binds target promoter regions and represses transcription of a GATA-2-dependent target gene via formation of histone-deacetylating repressor complexes requiring its UIM-associated function.",
+          "pmid": "17079677"
+        }
+      ],
+      "pathway": {
+        "name": "Chromatin Remodeling",
+        "canonical_name": "Chromatin Remodeling",
+        "ontology_id": "GO:0006338",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "36971114",
+        "17079677"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "Wild-type ATXN3 binds to chromatin and functions as a scaffold protein to recruit the histone deacetylase 3 (HDAC3). This role is independent of ATXN3's catalytic deubiquitinase activity.",
+  "effect": "By recruiting HDAC3 to chromatin, ATXN3 promotes a more condensed, transcriptionally repressed chromatin state known as heterochromatin. This structural organization is critical for regulating DNA accessibility, thereby controlling processes like DNA replication timing and global gene transcription. The interaction affects the dynamics of linker histones like HIST1H1C.",
+  "summary": "ATXN3 activates HIST1H1C to modulate chromatin organization, ultimately affecting global transcription is repressed and dna replication timing is controlled.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 controls DNA replication and transcription by regulating chromatin structure",
+      "journal": "Nucleic Acids Research",
+      "year": 2023,
+      "relevant_quote": "Wild-type ATXN3 controls chromatin organization by recruiting HDAC3, thereby increasing heterochromatin and controlling DNA replication and transcription, whereas lack of or PolyQ-expanded ATXN3 triggers mislocalization of HDAC3 and euchromatin prevalence."
+    },
+    {
+      "paper_title": "Ataxin-3 represses transcription via chromatin binding, interaction with histone deacetylase 3, and histone deacetylation",
+      "journal": "The Journal of Neuroscience",
+      "year": 2006,
+      "relevant_quote": "These findings demonstrate that normal AT3 binds target promoter regions and represses transcription of a GATA-2-dependent target gene via formation of histone-deacetylating repressor complexes requiring its UIM-associated function."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chromatin Remodeling",
+      "canonical_name": "Chromatin Remodeling",
+      "ontology_id": "GO:0006338",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> HIST1H1C:",
+  "protein_a": "ATXN3",
+  "protein_b": "HIST1H1C",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.259413Z",
+  "last_updated": "2025-12-09T13:18:49.259413Z"
+}

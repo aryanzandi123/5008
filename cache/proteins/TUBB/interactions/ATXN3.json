@@ -1,0 +1,90 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Proteomic and biochemical analyses have demonstrated a direct and tight interaction between ATXN3 and tubulin, a core component of microtubules.",
+  "functions": [
+    {
+      "function": "Microtubule-Dependent Transport for Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 directly binds to α- and β-tubulin, the primary components of microtubules. This high-affinity interaction physically links ATXN3 and its associated cargo (misfolded proteins) to the cellular transport network.",
+      "effect_description": "By binding to tubulin, ATXN3 facilitates the retrograde transport of ubiquitinated protein aggregates along microtubules towards the microtubule-organizing center (MTOC). This process is essential for the formation of the aggresome, a central quality control compartment.",
+      "biological_consequence": [
+        "ATXN3 binds ubiquitinated protein cargo → ATXN3 binds tubulin dimers within microtubules → The entire complex is transported by dynein motor proteins → Cargo is delivered to the perinuclear region → Aggresome is formed"
+      ],
+      "specific_effects": [
+        "ATXN3 binds to tubulin dimers with a high affinity, showing a dissociation constant (Kd) of approximately 50 nM.",
+        "The interaction involves three distinct, discontinuous tubulin-binding regions (TBRs) on ATXN3: one in the N-terminal Josephin domain and two in the C-terminal disordered region.",
+        "Absence of any of the three TBRs results in a drastic reduction in binding affinity to tubulin.",
+        "This interaction is a key component of the machinery that sorts aggregated proteins to aggresomes."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
+          "journal": "The International Journal of Biochemistry & Cell Biology",
+          "year": 2014,
+          "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface. Nevertheless, the interaction surface consists of three distinct, discontinuous tubulin-binding regions (TBR), one located in the JD, and the two others in the disordered domain, upstream and downstream of the polyQ stretch.",
+          "pmid": "24685680"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "24685680"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The input is validated. The interaction between ATXN3 and tubulin is direct and of high affinity, providing the physical link between protein quality control machinery and the cytoskeletal network required for aggresome formation.",
+  "mechanism": "ATXN3 directly binds to α- and β-tubulin, the primary components of microtubules. This high-affinity interaction physically links ATXN3 and its associated cargo (misfolded proteins) to the cellular transport network.",
+  "effect": "By binding to tubulin, ATXN3 facilitates the retrograde transport of ubiquitinated protein aggregates along microtubules towards the microtubule-organizing center (MTOC). This process is essential for the formation of the aggresome, a central quality control compartment.",
+  "summary": "ATXN3 interacts with TUBB to modulate microtubule-dependent transport for aggresome formation, ultimately affecting aggresome is formed.",
+  "evidence": [
+    {
+      "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
+      "journal": "The International Journal of Biochemistry & Cell Biology",
+      "year": 2014,
+      "relevant_quote": "By SPR analysis we have demonstrated that AT3 binds to tubulin dimer with a 50nM affinity. Binding fits with a Langmuir 1:1 model and involves a single binding interface. Nevertheless, the interaction surface consists of three distinct, discontinuous tubulin-binding regions (TBR), one located in the JD, and the two others in the disordered domain, upstream and downstream of the polyQ stretch."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> TUBB:",
+  "protein_a": "TUBB",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.248907Z",
+  "last_updated": "2025-12-09T13:18:49.248907Z"
+}

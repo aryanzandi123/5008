@@ -1,0 +1,88 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Proteomic studies have shown that mutant ATXN3 abnormally interacts with CCT5, a subunit of the chaperonin containing TCP-1 (CCT/TRiC) complex involved in protein folding.",
+  "functions": [
+    {
+      "function": "Protein Folding",
+      "arrow": "activates",
+      "cellular_process": "The Chaperonin Containing TCP-1 (CCT/TRiC) complex, which includes the CCT5 subunit, is essential for folding key cellular proteins. PolyQ-expanded mutant ATXN3 exhibits a weakened interaction with CCT5 and other components of this complex.",
+      "effect_description": "This loss of normal interaction with the CCT/TRiC chaperonin complex by mutant ATXN3 is believed to impair the complex's integrity and its crucial role in cellular proteostasis. The disruption of CCT's folding machinery can lead to an accumulation of misfolded proteins, contributing to cellular toxicity and the formation of aggregates in Spinocerebellar Ataxia type 3 (SCA3).",
+      "biological_consequence": [
+        "PolyQ expansion in ATXN3 occurs → Mutant ATXN3 loses its normal interaction with the CCT5 subunit of the CCT/TRiC complex → The protein folding capacity of the CCT/TRiC complex is compromised → Cellular proteostasis is disrupted → Misfolded proteins, including ATXN3 itself, accumulate."
+      ],
+      "specific_effects": [
+        "In a SCA3 knock-in mouse model (Ki150), CCT5 was found to be highly depleted in high-molecular-weight fractions containing mutant ataxin-3 compared to controls with wild-type ataxin-3.",
+        "The presence of mutant ataxin-3 protein results in a weakened or complete loss of interaction with CCT chaperone complexes."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2023,
+          "relevant_quote": "We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits... In fractions 282–218 kDa we found that proteins CCT5 and 6, and Tcp1 involved in Chaperon Containing TCP1-complex (CCT complex; T-complex), responsible for the regulation of protein folding, aggregation, and transport along neurites, were highly depleted in Ki150 brain fractions vs. Ki21 fractions.",
+          "pmid": "37033372"
+        }
+      ],
+      "pathway": {
+        "name": "Chaperone-Mediated Protein Folding",
+        "canonical_name": "Protein Folding",
+        "ontology_id": "GO:0006457",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "37033372"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The interaction is specific to mutant, polyQ-expanded ATXN3, which shows a weakened interaction or loss of binding, rather than a direct inhibitory enzymatic action. This impaired association disrupts the function of the CCT/TRiC complex.",
+  "mechanism": "The Chaperonin Containing TCP-1 (CCT/TRiC) complex, which includes the CCT5 subunit, is essential for folding key cellular proteins. PolyQ-expanded mutant ATXN3 exhibits a weakened interaction with CCT5 and other components of this complex.",
+  "effect": "This loss of normal interaction with the CCT/TRiC chaperonin complex by mutant ATXN3 is believed to impair the complex's integrity and its crucial role in cellular proteostasis. The disruption of CCT's folding machinery can lead to an accumulation of misfolded proteins, contributing to cellular toxicity and the formation of aggregates in Spinocerebellar Ataxia type 3 (SCA3).",
+  "summary": "ATXN3 inhibits CCT5 to modulate protein folding regulation, ultimately affecting misfolded proteins, including atxn3 itself, accumulate.",
+  "evidence": [
+    {
+      "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2023,
+      "relevant_quote": "We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits... In fractions 282–218 kDa we found that proteins CCT5 and 6, and Tcp1 involved in Chaperon Containing TCP1-complex (CCT complex; T-complex), responsible for the regulation of protein folding, aggregation, and transport along neurites, were highly depleted in Ki150 brain fractions vs. Ki21 fractions."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Chaperone-Mediated Protein Folding",
+      "canonical_name": "Protein Folding",
+      "ontology_id": "GO:0006457",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "binds",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> CCT5:",
+  "protein_a": "CCT5",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.252334Z",
+  "last_updated": "2025-12-09T13:18:49.252334Z"
+}

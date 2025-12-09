@@ -1,0 +1,90 @@
+{
+  "primary": "CBP",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Co-immunoprecipitation studies show that ATXN3 interacts with the transcriptional co-activator CBP.",
+  "functions": [
+    {
+      "function": "Transcriptional Repression",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a transcriptional corepressor by directly interacting with the histone acetyltransferase (HAT) CBP (also known as CREBBP). The C-terminal, polyglutamine-containing domain of ATXN3 is required for binding to CBP. This interaction inhibits the transcriptional coactivator function of CBP. One proposed mechanism is that the N-terminal Josephin domain of ATXN3 directly inhibits the histone acetyltransferase (HAT) activity of CBP/p300, thereby preventing the acetylation of histones at target gene promoters. This leads to a more condensed chromatin state and repression of gene expression.",
+      "effect_description": "ATXN3 binds to the transcriptional co-activator CBP and inhibits its function, leading to the repression of genes that are normally activated by CBP-mediated histone acetylation.",
+      "biological_consequence": [
+        "The C-terminal domain of ATXN3 binds to the transcriptional co-activator CBP → The N-terminal Josephin domain of ATXN3 inhibits the HAT activity of CBP → Histone acetylation at target gene promoters is reduced → Chromatin becomes more condensed → Transcription of CBP-regulated genes is repressed."
+      ],
+      "specific_effects": [
+        "ATXN3 directly interacts with CBP, an interaction confirmed by co-immunoprecipitation of the endogenous proteins.",
+        "The C-terminal domain of ATXN3 is required for binding to CBP.",
+        "The N-terminal domain of ATXN3 inhibits histone acetylation by p300/CBP in vitro.",
+        "ATXN3 represses the transcriptional activity of CBP in reporter assays."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2002,
+          "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators. Importantly, endogenous ataxin-3 is co-immunoprecipitated with each of these coactivators in non-transfected cells.",
+          "pmid": "12297501"
+        }
+      ],
+      "pathway": {
+        "name": "Transcriptional Regulation",
+        "canonical_name": "Transcription",
+        "ontology_id": "GO:0006351",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "12297501"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 acts as a transcriptional corepressor by directly interacting with the histone acetyltransferase (HAT) CBP (also known as CREBBP). The C-terminal, polyglutamine-containing domain of ATXN3 is required for binding to CBP. This interaction inhibits the transcriptional coactivator function of CBP. One proposed mechanism is that the N-terminal Josephin domain of ATXN3 directly inhibits the histone acetyltransferase (HAT) activity of CBP/p300, thereby preventing the acetylation of histones at target gene promoters. This leads to a more condensed chromatin state and repression of gene expression.",
+  "effect": "ATXN3 binds to the transcriptional co-activator CBP and inhibits its function, leading to the repression of genes that are normally activated by CBP-mediated histone acetylation.",
+  "summary": "ATXN3 inhibits CBP to modulate transcriptional repression, ultimately affecting transcription of cbp-regulated genes is repressed.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2002,
+      "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators. Importantly, endogenous ataxin-3 is co-immunoprecipitated with each of these coactivators in non-transfected cells."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Transcriptional Regulation",
+      "canonical_name": "Transcription",
+      "ontology_id": "GO:0006351",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> CBP:",
+  "protein_a": "ATXN3",
+  "protein_b": "CBP",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.214726Z",
+  "last_updated": "2025-12-09T13:18:49.214726Z"
+}

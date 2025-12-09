@@ -1,0 +1,116 @@
+{
+  "primary": "TDP-43",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "ATXN3 functionally regulates the stability and clearance of TDP-43 C-terminal fragments. Overexpression of ATXN3 reduces the accumulation of phosphorylated TDP-43, a hallmark of ALS pathology, suggesting an indirect regulatory role.",
+  "functions": [
+    {
+      "function": "TDP-43 Clearance and Aggregation",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 indirectly promotes the clearance of pathogenic, phosphorylated, and aggregation-prone C-terminal fragments of TDP-43. Pathological TDP-43 is a hallmark of neurodegenerative diseases like ALS and FTLD, and its clearance is mediated by both the proteasome and autophagy pathways.",
+      "effect_description": "By maintaining the efficiency of cellular protein quality control systems, ATXN3 helps reduce the accumulation of toxic TDP-43 species. Overexpression of functional ATXN3 can mitigate the buildup of these fragments, thereby reducing their cytotoxic effects. This suggests a neuroprotective role for ATXN3 in the context of TDP-43 proteinopathies.",
+      "biological_consequence": [
+        "Pathogenic C-terminal fragments of TDP-43 are generated → These fragments become hyperphosphorylated and form aggregates → ATXN3's function in protein quality control pathways (UPS/autophagy) enhances the degradation of these fragments → Accumulation of toxic TDP-43 aggregates is reduced → Cellular toxicity is decreased."
+      ],
+      "specific_effects": [
+        "ATXN3's deubiquitinase activity is plausibly involved in the clearance of phosphorylated C-terminal fragments of TDP-43.",
+        "Pathological TDP-43 inclusions are observed in MJD patients, and ATXN3 is considered a significant gene for ALS, establishing a pathological link.",
+        "The clearance of TDP-43 aggregates is known to be dependent on both the proteasome and autophagy pathways."
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+          "journal": "Neurobiology of Disease",
+          "year": 2024,
+          "relevant_quote": "TDP-43 C-terminal fragments are observed in the post-mortem tissue of 97% of ALS patients, and pathological TDP-43 inclusions are similarly observed in lower motor neurons in the brainstem and spinal cord of MJD patients. Whilst Cui et al., did not investigate the mechanism underpinning this effect of ATXN3 on phosphorylated C-terminal fragments of TDP-43, it is plausible that the DUB function of ataxin-3 may be involved.",
+          "pmid": "38497605"
+        },
+        {
+          "paper_title": "Regulation of TDP-43 aggregation by phosphorylation and p62/SQSTM1",
+          "journal": "Journal of Neurochemistry",
+          "year": 2011,
+          "relevant_quote": "Inhibition of either proteasome or autophagy dramatically increases TDP-43 aggregation. ... These studies suggest that aggregation of TDP-43 C-terminal fragments is regulated by phosphorylation events and both the autophagy and proteasome-mediated degradation pathways.",
+          "pmid": "21062285"
+        }
+      ],
+      "pathway": {
+        "name": "Aggrephagy",
+        "canonical_name": "Aggrephagy",
+        "ontology_id": "GO:0035973",
+        "ontology_source": "GO",
+        "confidence": 0.8
+      },
+      "pmids": [
+        "38497605",
+        "21062285"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The interaction is indirect. ATXN3 does not directly bind TDP-43 but influences its clearance and aggregation, likely through its broad functions in the ubiquitin-proteasome system and autophagy, which are the primary pathways for degrading pathogenic TDP-43 fragments.",
+  "mechanism": "ATXN3 indirectly promotes the clearance of pathogenic, phosphorylated, and aggregation-prone C-terminal fragments of TDP-43. Pathological TDP-43 is a hallmark of neurodegenerative diseases like ALS and FTLD, and its clearance is mediated by both the proteasome and autophagy pathways.",
+  "effect": "By maintaining the efficiency of cellular protein quality control systems, ATXN3 helps reduce the accumulation of toxic TDP-43 species. Overexpression of functional ATXN3 can mitigate the buildup of these fragments, thereby reducing their cytotoxic effects. This suggests a neuroprotective role for ATXN3 in the context of TDP-43 proteinopathies.",
+  "summary": "ATXN3 activates TDP-43 to modulate tdp-43 clearance and aggregation, ultimately affecting cellular toxicity is decreased.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinase function of ataxin-3 and its role in the pathogenesis of Machado-Joseph disease and other diseases",
+      "journal": "Neurobiology of Disease",
+      "year": 2024,
+      "relevant_quote": "TDP-43 C-terminal fragments are observed in the post-mortem tissue of 97% of ALS patients, and pathological TDP-43 inclusions are similarly observed in lower motor neurons in the brainstem and spinal cord of MJD patients. Whilst Cui et al., did not investigate the mechanism underpinning this effect of ATXN3 on phosphorylated C-terminal fragments of TDP-43, it is plausible that the DUB function of ataxin-3 may be involved."
+    },
+    {
+      "paper_title": "Regulation of TDP-43 aggregation by phosphorylation and p62/SQSTM1",
+      "journal": "Journal of Neurochemistry",
+      "year": 2011,
+      "relevant_quote": "Inhibition of either proteasome or autophagy dramatically increases TDP-43 aggregation. ... These studies suggest that aggregation of TDP-43 C-terminal fragments is regulated by phosphorylation events and both the autophagy and proteasome-mediated degradation pathways."
+    }
+  ],
+  "pathways": [
+    {
+      "name": "Aggrephagy",
+      "canonical_name": "Aggrephagy",
+      "ontology_id": "GO:0035973",
+      "ontology_source": "GO",
+      "confidence": 0.8
+    }
+  ],
+  "interaction_effect": "regulates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> TDP-43:",
+  "protein_a": "ATXN3",
+  "protein_b": "TDP-43",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-09T13:18:49.286222Z",
+  "last_updated": "2025-12-09T13:18:49.286222Z"
+}
