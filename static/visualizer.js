@@ -488,12 +488,18 @@ function recalculateShellPositions() {
     // Calculate arc allocation per parent
     const parentCount = byParent.size;
 
-    // Special case: if all nodes share one parent (e.g., shell 1 with main as parent),
-    // give them the full 360° to maintain the beautiful ring layout
+    // Arc allocation strategy:
+    // - Shell 1 with one parent (main): full 360° for beautiful ring layout
+    // - Shell 2+ with one parent: LIMITED arc (90°) so nodes cluster near parent
+    // - Multiple parents: divide circle and limit each parent's arc
     let arcPerParent;
-    if (parentCount === 1) {
-      // Single parent gets full circle - nodes distribute evenly like shell 1
+    if (parentCount === 1 && shellNum === 1) {
+      // Shell 1 only: full circle for root level nodes around main protein
       arcPerParent = 2 * Math.PI;
+    } else if (parentCount === 1) {
+      // Shell 2+: even with one parent, use limited arc to cluster near parent
+      // This prevents deep interactors from scattering across opposite sides
+      arcPerParent = Math.PI / 2;  // 90° max
     } else {
       // Multiple parents: divide circle and limit each parent's arc
       const baseArcPerParent = (2 * Math.PI) / parentCount;
