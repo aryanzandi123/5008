@@ -455,6 +455,45 @@ function recalculateShellPositions() {
   // Calculate collision-free radii
   shellRadii = calculateCollisionFreeRadii(nodesByShell, interactorNodeRadius);
 
+  // PRE-COMPUTE: Assign angular sectors to root-level pathways (shell 1)
+  // This ensures each pathway "owns" a slice of the circle for all its descendants
+  const pathwaySectors = new Map();  // pathwayId → {startAngle, endAngle, centerAngle}
+  const shell1Nodes = nodesByShell.get(1) || [];
+  const pathwaysInShell1 = shell1Nodes.filter(n => n.type === 'pathway');
+
+  if (pathwaysInShell1.length > 0) {
+    // Divide circle evenly among root pathways
+    const sectorSize = (2 * Math.PI) / pathwaysInShell1.length;
+    pathwaysInShell1.forEach((pw, idx) => {
+      const startAngle = idx * sectorSize;
+      const endAngle = (idx + 1) * sectorSize;
+      const centerAngle = startAngle + sectorSize / 2;
+      pathwaySectors.set(pw.id, { startAngle, endAngle, centerAngle });
+      // Also set by originalId for lookup
+      if (pw.originalId && pw.originalId !== pw.id) {
+        pathwaySectors.set(pw.originalId, { startAngle, endAngle, centerAngle });
+      }
+    });
+  }
+
+  // Helper: Find root pathway for any node (traces up parent chain)
+  function findRootPathway(nodeId) {
+    let current = nodeMap.get(nodeId);
+    let visited = new Set();
+    while (current && !visited.has(current.id)) {
+      visited.add(current.id);
+      // If this is a shell-1 pathway, we found the root
+      if (current.type === 'pathway' && pathwaySectors.has(current.id)) {
+        return current.id;
+      }
+      // Go up to parent
+      const parentId = current.parentPathwayId || current._pathwayContext || current._isChildOf;
+      if (!parentId || parentId === SNAP.main) break;
+      current = findParentNode(parentId);
+    }
+    return null;
+  }
+
   // Position each shell's nodes using arc-sector clustering
   // Children cluster within their parent's angular sector, not spread across full 360°
   // CRITICAL: Process shells in numeric order (0, 1, 2, ...) so parents are positioned before children
@@ -510,11 +549,41 @@ function recalculateShellPositions() {
     // Position children within each parent's arc
     for (const [parentId, children] of byParent) {
       // Get parent's angle for centering children's arc
-      // Use findParentNode() for robust lookup with context-qualified ID fallback
       const parent = findParentNode(parentId);
-      const parentAngle = parent?._shellData?.angle
-        ?? parent?._targetAngle
-        ?? Math.atan2((parent?.y || centerY) - centerY, (parent?.x || centerX) - centerX);
+
+      // IMPROVED: Use pathway sector angles when available
+      // This ensures all descendants of a root pathway stay in that pathway's sector
+      let parentAngle;
+
+      // Check if parent itself is a root pathway with pre-computed sector
+      if (pathwaySectors.has(parentId)) {
+        parentAngle = pathwaySectors.get(parentId).centerAngle;
+      }
+      // Check if parent is a non-root pathway/interactor - trace up to root
+      else if (parent) {
+        // First try the parent's stored angle
+        parentAngle = parent._shellData?.angle ?? parent._targetAngle;
+
+        // If no stored angle, try to find root pathway sector
+        if (parentAngle === undefined) {
+          const rootId = findRootPathway(parentId);
+          if (rootId && pathwaySectors.has(rootId)) {
+            parentAngle = pathwaySectors.get(rootId).centerAngle;
+          }
+        }
+      }
+
+      // Fallback: calculate from position or default to 0
+      if (parentAngle === undefined) {
+        if (parent && (parent.x !== centerX || parent.y !== centerY)) {
+          parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
+        } else {
+          // Main protein at center - distribute evenly based on parent index
+          const parentKeys = Array.from(byParent.keys());
+          const parentIdx = parentKeys.indexOf(parentId);
+          parentAngle = (2 * Math.PI * parentIdx) / parentKeys.length;
+        }
+      }
 
       // Sort children for consistent ordering: pathways first, then by ID
       children.sort((a, b) => {
@@ -525,15 +594,26 @@ function recalculateShellPositions() {
 
       // Position each child within parent's arc sector
       children.forEach((node, idx) => {
+        // SPECIAL CASE: Shell-1 pathways get their own pre-computed sector center
+        let nodeParentAngle = parentAngle;
+        let nodeArcSpan = arcPerParent;
+
+        if (shellNum === 1 && node.type === 'pathway' && pathwaySectors.has(node.id)) {
+          // This is a root pathway - position it at its sector center
+          const sector = pathwaySectors.get(node.id);
+          nodeParentAngle = sector.centerAngle;
+          nodeArcSpan = 0;  // Single point, no arc needed
+        }
+
         const pos = calculateArcSectorPosition({
           centerX,
           centerY,
           shell: shellNum,
           shellRadius,
-          parentAngle,
-          arcSpan: arcPerParent,
-          indexInParentGroup: idx,
-          totalInParentGroup: children.length
+          parentAngle: nodeParentAngle,
+          arcSpan: nodeArcSpan,
+          indexInParentGroup: shellNum === 1 && node.type === 'pathway' ? 0 : idx,
+          totalInParentGroup: shellNum === 1 && node.type === 'pathway' ? 1 : children.length
         });
 
         // Update node position
