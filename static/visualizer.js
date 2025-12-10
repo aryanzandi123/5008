@@ -276,15 +276,24 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
   const BASE_RADIUS = 250;     // Shell 1 radius
   const SHELL_GAP = 150;       // Fixed gap between shells
+  const MIN_NODE_SPACING = defaultNodeRadius * 2.5; // Node diameter + comfortable gap
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
 
   for (let shell = 1; shell <= maxShell + 1; shell++) {
-    // Fixed radius per shell - no dynamic expansion based on node count
-    // This keeps shells consistent like shell 1, with arc-sector clustering
-    // handling the distribution of nodes within each parent's angular sector
-    radii[shell] = BASE_RADIUS + (shell - 1) * SHELL_GAP;
+    const nodeCount = nodesByShell.get(shell)?.length || 0;
+    const baseRadius = BASE_RADIUS + (shell - 1) * SHELL_GAP;
+
+    // Calculate minimum radius needed for this many nodes without overlap
+    // Formula: circumference = nodeCount * spacing, radius = circumference / (2 * PI)
+    if (nodeCount > 0) {
+      const circumferenceNeeded = nodeCount * MIN_NODE_SPACING;
+      const minRadiusForCount = circumferenceNeeded / (2 * Math.PI);
+      radii[shell] = Math.max(baseRadius, minRadiusForCount + 20); // +20 safety margin
+    } else {
+      radii[shell] = baseRadius;
+    }
   }
 
   return radii;
@@ -1639,17 +1648,18 @@ function createSimulation(){
       )
       .force('collide', d3.forceCollide()
         .radius(d => {
-          if (d.type === 'main') return mainNodeRadius + 5;
-          if (d.type === 'pathway') return 45;
-          if (d.type === 'function' || d.isFunction) return 30;
-          return (d.radius || interactorNodeRadius) + 5;
+          // Increased padding to prevent visual overlap
+          if (d.type === 'main') return mainNodeRadius + 15;
+          if (d.type === 'pathway') return 60;
+          if (d.type === 'function' || d.isFunction) return 40;
+          return (d.radius || interactorNodeRadius) + 12;
         })
-        .iterations(1)
-        .strength(0.3) // Light collision only
+        .iterations(4)   // More passes to resolve overlaps
+        .strength(0.7)   // Strong collision push
       );
 
-    // In shell mode, stop simulation quickly (just need one tick for link resolution)
-    simulation.alpha(0.1).alphaDecay(0.5);
+    // Shell mode: run collision resolution with enough time to settle
+    simulation.alpha(0.4).alphaDecay(0.08);
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
@@ -3420,8 +3430,9 @@ function updateSimulation() {
       simulation.force('link').links(links);
     }
 
-    // STOP simulation - don't let forces modify calculated positions
-    simulation.stop();
+    // Run collision resolution to push overlapping nodes apart
+    // Shell positions are set, now let collision force resolve any overlaps
+    simulation.alpha(0.4).alphaDecay(0.08).restart();
   } else {
     // FORCE MODE: Standard physics update
     simulation.nodes(nodes);
@@ -3851,7 +3862,8 @@ function renderGraph() {
 }
 
 /**
- * Simple link path calculation
+ * Link path calculation with parallel link offset
+ * Bidirectional/parallel links between same nodes curve in opposite directions
  */
 function calculateLinkPath(d) {
   const sourceNode = typeof d.source === 'object' ? d.source : nodeMap.get(d.source);
@@ -3873,16 +3885,36 @@ function calculateLinkPath(d) {
     return `M ${x1} ${y1} L ${x2} ${y2}`;
   }
 
+  // Perpendicular vector to the link direction
+  const perpX = -dy / dist;
+  const perpY = dx / dist;
+
+  // Calculate offset for parallel links between same node pair
+  const srcId = sourceNode.id;
+  const tgtId = targetNode.id;
+  const linkKey = [srcId, tgtId].sort().join('::');
+
+  // Find all links between these two nodes (parallel/bidirectional links)
+  const parallelLinks = links.filter(l => {
+    const s = typeof l.source === 'object' ? l.source.id : l.source;
+    const t = typeof l.target === 'object' ? l.target.id : l.target;
+    return [s, t].sort().join('::') === linkKey;
+  });
+
+  const linkIndex = parallelLinks.indexOf(d);
+  const totalParallel = parallelLinks.length;
+
+  // Offset parallel links perpendicular to direction (±16px per link)
+  // This separates bidirectional arrows so they don't overlap
+  const parallelOffset = totalParallel > 1
+    ? (linkIndex - (totalParallel - 1) / 2) * 16
+    : 0;
+
   // CURVED LINKS: Quadratic bezier that curves away from center
-  // This reduces visual crossing when links traverse the center area
   const midX = (x1 + x2) / 2;
   const midY = (y1 + y2) / 2;
   const cx = width / 2;
   const cy = height / 2;
-
-  // Perpendicular vector to the link direction
-  const perpX = -dy / dist;
-  const perpY = dx / dist;
 
   // Determine curve direction: curve AWAY from center
   const midToCenterX = cx - midX;
@@ -3890,10 +3922,10 @@ function calculateLinkPath(d) {
   const dot = perpX * midToCenterX + perpY * midToCenterY;
   const sign = dot > 0 ? -1 : 1;
 
-  // Curve strength: stronger for longer links, capped at 50px
-  const curveStrength = Math.min(dist * 0.12, 50);
-  const ctrlX = midX + perpX * curveStrength * sign;
-  const ctrlY = midY + perpY * curveStrength * sign;
+  // Curve strength + parallel offset (increased base curve for better separation)
+  const curveStrength = Math.min(dist * 0.15, 60);
+  const ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
+  const ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
 
   return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
 }
