@@ -552,6 +552,13 @@ function recalculateShellPositions() {
           parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
+        // For placeholder expansions: if any child has _anchorAngle, use that for the whole group
+        // This keeps interactors anchored where the placeholder was positioned
+        const anchorNode = children.find(n => n._anchorAngle !== undefined);
+        if (anchorNode && anchorNode._anchorAngle !== undefined) {
+          parentAngle = anchorNode._anchorAngle;
+        }
+
         // Spread children within an arc around parent's angle
         // Calculate arc span based on node count and shell radius to prevent overlap
         const minNodeSpacing = interactorNodeRadius * 2.5; // Same spacing as adaptive radii
@@ -562,8 +569,10 @@ function recalculateShellPositions() {
         const startAngle = parentAngle - arcSpan / 2;
 
         children.forEach((node, idx) => {
+          // Offset single pathway children to avoid visual overlap with parent
+          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
           const angle = children.length === 1
-            ? parentAngle
+            ? parentAngle + singleChildOffset
             : startAngle + (arcSpan * idx) / (children.length - 1);
 
           node.x = centerX + shellRadius * Math.cos(angle);
@@ -2137,7 +2146,9 @@ function expandPathway(pathwayNode) {
   // Note: Radial force will automatically push pathway to expanded radius (430px)
 
   // Check if we have full interaction data for this pathway (leaf pathway with interactions)
-  const pathwayInteractions = pathwayToInteractions.get(pathwayNode.id);
+  // Try both context-qualified ID and original ID (for child pathways created with @parent suffix)
+  const pathwayInteractions = pathwayToInteractions.get(pathwayNode.id) ||
+                              pathwayToInteractions.get(pathwayNode.originalId);
   if (pathwayInteractions && pathwayInteractions.length > 0) {
     // NEW: Interaction-based expansion - show protein nodes connected by interaction edges
     expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
@@ -2486,8 +2497,12 @@ function expandPathway(pathwayNode) {
 /**
  * Expand pathway with full interaction data - shows protein nodes connected by interaction edges
  * This renders actual interactions (protein ↔ protein) instead of just pathway → protein links
+ * @param {Object} pathwayNode - The pathway node being expanded
+ * @param {Array} interactions - Array of interaction objects
+ * @param {Object} options - Optional settings { anchorAngle: number } for placeholder expansions
  */
-function expandPathwayWithInteractions(pathwayNode, interactions) {
+function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) {
+  const { anchorAngle } = options;  // Used to anchor interactors at placeholder's original position
   const queryProtein = SNAP.main;
 
   // Step 1: Classify proteins by direction relative to query
@@ -2533,6 +2548,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
         _pathwayContext: pathwayNode.id,
         _pathwayName: pathwayNode.label,
         _directionRole: 'query',
+        _anchorAngle: anchorAngle,  // For placeholder expansion positioning
         radius: interactorNodeRadius * 1.0,  // Reference is smaller
         x: queryX,
         y: queryY,
@@ -2561,6 +2577,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
         _pathwayContext: pathwayNode.id,
         _pathwayName: pathwayNode.label,
         _directionRole: 'query',
+        _anchorAngle: anchorAngle,  // For placeholder expansion positioning
         radius: interactorNodeRadius * 1.2,  // Slightly larger
         x: queryX,
         y: queryY,
@@ -2613,6 +2630,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'upstream',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius * 0.85,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -2639,6 +2657,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'upstream',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -2694,6 +2713,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'downstream',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius * 0.85,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -2720,6 +2740,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'downstream',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -2774,6 +2795,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'bidirectional',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius * 0.85,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -2800,6 +2822,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions) {
           _pathwayContext: pathwayNode.id,
           _pathwayName: pathwayNode.label,
           _directionRole: 'bidirectional',
+          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
           radius: interactorNodeRadius,
           arrow: actualArrow,
           interactionData: interactionData,
@@ -3202,6 +3225,9 @@ function handlePlaceholderClick(placeholderNode) {
 
   console.log(`📦 Expanding placeholder for: ${pathwayNode.label}`);
 
+  // Capture placeholder's angle BEFORE removing it - used to anchor expanded interactors
+  const placeholderAngle = placeholderNode._targetAngle;
+
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
   if (placeholderIdx !== -1) {
@@ -3226,7 +3252,10 @@ function handlePlaceholderClick(placeholderNode) {
   if (pathwayInteractions && pathwayInteractions.length > 0) {
     expandedPathways.add(pathwayId);
     pathwayNode.expanded = true;
-    expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
+    // Pass placeholder's angle as anchor for shell positioning
+    expandPathwayWithInteractions(pathwayNode, pathwayInteractions, {
+      anchorAngle: placeholderAngle
+    });
   } else {
     // Fallback to legacy expansion
     expandPathway(pathwayNode);
