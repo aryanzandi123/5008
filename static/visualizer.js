@@ -315,36 +315,49 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
     pathwayMode: pMode = pathwayMode  // Extract from context with fallback to global
   } = context;
 
-  // First pass: assign based on node type and depth
+  // PASS 1: Assign main node and ALL pathways first (so their shells are known for interactors)
+  // Sort pathways by hierarchy level to ensure parents are assigned before children
+  const pathwayNodes = allNodes
+    .filter(n => n.type === 'pathway')
+    .sort((a, b) => {
+      const aLevel = pwHierarchy?.get(a.originalId || a.id)?.level ?? a.hierarchyLevel ?? 0;
+      const bLevel = pwHierarchy?.get(b.originalId || b.id)?.level ?? b.hierarchyLevel ?? 0;
+      return aLevel - bLevel; // Lower levels first
+    });
+
+  // Assign main node
   allNodes.forEach(node => {
     if (node.id === mainNodeId || node.type === 'main') {
       assignments.set(node.id, { shell: 0, role: 'main', parentId: null, parentShell: null });
-      return;
     }
+  });
 
-    // Skip function nodes (they follow their parent)
-    if (node.type === 'function' || node.isFunction) {
-      return;
-    }
+  // Assign pathways in hierarchy order
+  pathwayNodes.forEach(node => {
+    const hier = pwHierarchy?.get(node.originalId || node.id);
+    const level = hier?.level ?? node.hierarchyLevel ?? 0;
+    const shell = level + 1;
+    const parentId = node.parentPathwayId || node._isChildOf || null;
+    assignments.set(node.id, { shell, role: 'pathway', parentId, parentShell: null });
+  });
+
+  // PASS 2: Assign interactors (now all parent pathways have shells assigned)
+  allNodes.forEach(node => {
+    // Skip already assigned (main, pathways) and function nodes
+    if (assignments.has(node.id)) return;
+    if (node.type === 'function' || node.isFunction) return;
 
     let shell = 1; // Default shell
     let role = node.type || 'interactor';
     let parentId = node._pathwayContext || node._isChildOf || null;
     let parentShell = null;
 
-    // Pathway nodes: shell based on hierarchy level
-    if (node.type === 'pathway') {
-      // Use originalId for hierarchy lookup (context-qualified IDs won't match)
-      const hier = pwHierarchy?.get(node.originalId || node.id);
-      const level = hier?.level ?? node.hierarchyLevel ?? 0;
-      shell = level + 1; // Level 0 pathways go to shell 1, level 1 to shell 2, etc.
-      role = 'pathway';
-    }
     // Interactors expanded from pathways: go to shell after parent pathway
-    else if (node._pathwayContext && pMode) {
+    if (node._pathwayContext && pMode) {
       const parentNode = allNodes.find(n => n.id === node._pathwayContext);
       if (parentNode) {
         const parentAssignment = assignments.get(parentNode.id);
+        // Now parent pathway is guaranteed to have a shell assigned
         parentShell = parentAssignment?.shell ?? 1;
 
         // Direction-based shell assignment for interactors
@@ -539,8 +552,13 @@ function recalculateShellPositions() {
           parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
-        // Spread children within a small arc around parent's angle
-        const arcSpan = Math.min(Math.PI / 3, Math.PI / Math.max(children.length, 1)); // 60° max
+        // Spread children within an arc around parent's angle
+        // Calculate arc span based on node count and shell radius to prevent overlap
+        const minNodeSpacing = interactorNodeRadius * 2.5; // Same spacing as adaptive radii
+        const minAngularSpacing = minNodeSpacing / shellRadius; // Radians per node
+        const neededArc = children.length * minAngularSpacing;
+        // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
+        const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
         const startAngle = parentAngle - arcSpan / 2;
 
         children.forEach((node, idx) => {
