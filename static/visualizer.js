@@ -1730,7 +1730,13 @@ function createSimulation(){
       .force('radialPathways', d3.forceRadial(
         d => {
           if (d.type === 'pathway') {
-            return expandedPathways.has(d.id) ? pathwayRingRadius + 80 : pathwayRingRadius;
+            // Hierarchical spacing: each level gets pushed further out
+            const hier = pathwayHierarchy.get(d.originalId || d.id);
+            const level = hier?.level ?? d.hierarchyLevel ?? 0;
+            const levelGap = 120; // Gap between hierarchy levels
+            const baseRadius = pathwayRingRadius + (level * levelGap);
+            const expandedOffset = expandedPathways.has(d.id) ? 80 : 0;
+            return baseRadius + expandedOffset;
           }
           return 0;
         },
@@ -3066,9 +3072,57 @@ function expandPathwayHierarchy(pathwayNode) {
     }
   });
 
-  // MIXED CONTENT: Add "Interactors" placeholder on the opposite side
+  // MIXED CONTENT: Add query protein reference node AND "Interactors" placeholder
   if (hasMixedContent) {
+    const queryProtein = SNAP.main;
+    const queryRadius = expandRadius * 0.6; // Query closer to pathway
     const placeholderAngle = -Math.PI * 0.2; // Right side (opposite of children)
+    const queryAngle = placeholderAngle - 0.3; // Query slightly above placeholder
+
+    // Create query protein reference node (so interactors connect to it)
+    const existingQueryNode = findExistingInteractorNode(queryProtein);
+    const queryNodeId = `ref_${queryProtein}@${pathwayNode.id}`;
+
+    if (!nodeMap.has(queryNodeId)) {
+      const queryX = pathwayNode.x + queryRadius * Math.cos(queryAngle);
+      const queryY = pathwayNode.y + queryRadius * Math.sin(queryAngle);
+
+      const queryNode = {
+        id: queryNodeId,
+        label: queryProtein,
+        symbol: queryProtein,
+        type: 'interactor',
+        isReferenceNode: true,
+        primaryNodeId: existingQueryNode?.id || queryProtein,
+        isQueryProtein: true,
+        originalId: queryProtein,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        _directionRole: 'query',
+        radius: interactorNodeRadius * 1.0,
+        x: queryX,
+        y: queryY,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(queryNode);
+      nodeMap.set(queryNodeId, queryNode);
+      newlyAddedNodes.add(queryNodeId);
+
+      // Link pathway to query
+      links.push({
+        id: `${pathwayNode.id}-${queryNodeId}`,
+        source: pathwayNode.id,
+        target: queryNodeId,
+        type: 'pathway-interactor-link',
+        isReferenceLink: true
+      });
+
+      console.log(`🔗 Added query protein reference for mixed content: ${pathwayNode.label}`);
+    }
+
+    // Create placeholder for remaining interactors
     const placeholder = createInteractorPlaceholder(pathwayNode, placeholderAngle, expandRadius);
 
     if (placeholder && !nodeMap.has(placeholder.id)) {
@@ -3233,6 +3287,17 @@ function handlePlaceholderClick(placeholderNode) {
   }
 
   updateSimulation();
+
+  // Force a second layout pass after initial settling to ensure proper shell distribution
+  // This is needed because placeholder expansion adds many nodes that need to integrate
+  // with existing nodes in their shells
+  setTimeout(() => {
+    if (layoutMode === 'shell') {
+      recalculateShellPositions();
+      simulation.alpha(0.5).alphaDecay(0.05).restart();
+      renderGraph();
+    }
+  }, 100);
 }
 
 /**
@@ -3456,11 +3521,17 @@ function updateSimulation() {
     simulation.nodes(nodes);
     simulation.force('link').links(links);
 
-    // Update radial force for pathways (recalculates expanded state)
+    // Update radial force for pathways (recalculates expanded state with hierarchy)
     simulation.force('radialPathways', d3.forceRadial(
       d => {
         if (d.type === 'pathway') {
-          return expandedPathways.has(d.id) ? pathwayRingRadius + 100 : pathwayRingRadius;
+          // Hierarchical spacing: each level gets pushed further out
+          const hier = pathwayHierarchy.get(d.originalId || d.id);
+          const level = hier?.level ?? d.hierarchyLevel ?? 0;
+          const levelGap = 120; // Gap between hierarchy levels
+          const baseRadius = pathwayRingRadius + (level * levelGap);
+          const expandedOffset = expandedPathways.has(d.id) ? 100 : 0;
+          return baseRadius + expandedOffset;
         }
         return 0;
       },
