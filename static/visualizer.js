@@ -161,6 +161,63 @@ function calculateArcPositions(count, cx, cy, radius, startAngle, endAngle) {
   return positions;
 }
 
+/**
+ * Find an unoccupied angular sector around a center point
+ * Scans existing nodes and returns an angle in the largest gap
+ * @param {number} centerX - Center X coordinate
+ * @param {number} centerY - Center Y coordinate
+ * @param {Array} existingNodes - Nodes to avoid
+ * @param {number} preferredAngle - Preferred angle if space is available
+ * @param {number} minClearance - Minimum angular clearance needed (radians)
+ * @returns {number} - Safe angle in radians
+ */
+function findUnoccupiedSector(centerX, centerY, existingNodes, preferredAngle, minClearance = Math.PI / 4) {
+  if (!existingNodes || existingNodes.length === 0) {
+    return preferredAngle;
+  }
+
+  // Calculate angles of existing nodes relative to center
+  const angles = existingNodes
+    .map(n => {
+      const dx = n.x - centerX;
+      const dy = n.y - centerY;
+      return Math.atan2(dy, dx);
+    })
+    .sort((a, b) => a - b);
+
+  // Check if preferred angle has enough clearance
+  const hasSpace = angles.every(existingAngle => {
+    let diff = Math.abs(preferredAngle - existingAngle);
+    if (diff > Math.PI) diff = 2 * Math.PI - diff;
+    return diff >= minClearance;
+  });
+
+  if (hasSpace) {
+    return preferredAngle;
+  }
+
+  // Find the largest gap between consecutive angles
+  let maxGap = 0;
+  let maxGapStart = 0;
+
+  for (let i = 0; i < angles.length; i++) {
+    const current = angles[i];
+    const next = angles[(i + 1) % angles.length];
+    // Handle wrap-around from last to first angle
+    let gap = (i === angles.length - 1)
+      ? (next + 2 * Math.PI) - current
+      : next - current;
+
+    if (gap > maxGap) {
+      maxGap = gap;
+      maxGapStart = current;
+    }
+  }
+
+  // Return angle in the middle of the largest gap
+  return maxGapStart + maxGap / 2;
+}
+
 // ============================================================================
 // SHELL-BASED LAYOUT SYSTEM - Deterministic radial positioning
 // ============================================================================
@@ -1677,16 +1734,16 @@ function createSimulation(){
         .radius(d => {
           // Increased padding to prevent visual overlap
           if (d.type === 'main') return mainNodeRadius + 15;
-          if (d.type === 'pathway') return 60;
+          if (d.type === 'pathway') return 65;  // Increased from 60
           if (d.type === 'function' || d.isFunction) return 40;
-          return (d.radius || interactorNodeRadius) + 12;
+          return (d.radius || interactorNodeRadius) + 15;  // Increased from 12
         })
-        .iterations(4)   // More passes to resolve overlaps
-        .strength(0.7)   // Strong collision push
+        .iterations(6)   // More passes to resolve overlaps (was 4)
+        .strength(0.85)  // Stronger collision push (was 0.7)
       );
 
     // Shell mode: run collision resolution with enough time to settle
-    simulation.alpha(0.4).alphaDecay(0.08);
+    simulation.alpha(0.5).alphaDecay(0.05);  // More time to settle (was 0.4, 0.08)
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
@@ -2981,7 +3038,10 @@ function expandPathwayHierarchy(pathwayNode) {
   const totalItems = hasMixedContent ? childPathways.length + 1 : childPathways.length;
 
   // Calculate positions around parent
-  const expandRadius = calculateExpandRadius(totalItems, 60);
+  // Pathway children need more distance: parent radius (~50) + child radius (~45) + gap (35) = 130
+  const PATHWAY_MIN_CHILD_DISTANCE = 130;
+  const baseExpandRadius = calculateExpandRadius(totalItems, 60);
+  const expandRadius = Math.max(baseExpandRadius, PATHWAY_MIN_CHILD_DISTANCE);
   const angleStep = (2 * Math.PI) / Math.max(totalItems, 1);
 
   // For mixed content: children on left arc, placeholder on right
@@ -3228,6 +3288,25 @@ function handlePlaceholderClick(placeholderNode) {
   // Capture placeholder's angle BEFORE removing it - used to anchor expanded interactors
   const placeholderAngle = placeholderNode._targetAngle;
 
+  // Find existing nearby interactors to avoid placing new ones on top
+  const CLUSTER_RADIUS = 300; // Consider nodes within 300px
+  const existingNearby = nodes.filter(n =>
+    n.type === 'interactor' &&
+    n.id !== placeholderNode.id &&
+    Math.hypot(n.x - pathwayNode.x, n.y - pathwayNode.y) < CLUSTER_RADIUS
+  );
+
+  // Find unoccupied sector for expansion
+  const safeAngle = findUnoccupiedSector(
+    pathwayNode.x,
+    pathwayNode.y,
+    existingNearby,
+    placeholderAngle,
+    Math.PI / 3  // Need ~60 degrees clearance
+  );
+
+  console.log(`📐 Placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°, Safe angle: ${(safeAngle * 180 / Math.PI).toFixed(1)}° (${existingNearby.length} nearby nodes)`);
+
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
   if (placeholderIdx !== -1) {
@@ -3252,9 +3331,9 @@ function handlePlaceholderClick(placeholderNode) {
   if (pathwayInteractions && pathwayInteractions.length > 0) {
     expandedPathways.add(pathwayId);
     pathwayNode.expanded = true;
-    // Pass placeholder's angle as anchor for shell positioning
+    // Pass safe angle (avoiding existing clusters) as anchor for shell positioning
     expandPathwayWithInteractions(pathwayNode, pathwayInteractions, {
-      anchorAngle: placeholderAngle
+      anchorAngle: safeAngle
     });
   } else {
     // Fallback to legacy expansion
