@@ -3358,7 +3358,10 @@ function expandPathwayHierarchy(pathwayNode) {
     return childIds.includes(pwId);
   });
 
-  // Calculate positions for child pathways (no placeholder - interactors shown directly)
+  // Calculate positions for child pathways
+  // When there are both pathways and interactors, separate them angularly to prevent overlap:
+  // - Child pathways in UPPER arc (top 180°)
+  // - Interactors in LOWER arc (bottom 180°) - handled by expandPathwayWithInteractions
   const totalItems = childPathways.length;
 
   // Calculate positions around parent
@@ -3366,16 +3369,20 @@ function expandPathwayHierarchy(pathwayNode) {
   const PATHWAY_MIN_CHILD_DISTANCE = 130;
   const baseExpandRadius = calculateExpandRadius(totalItems, 60);
   const expandRadius = Math.max(baseExpandRadius, PATHWAY_MIN_CHILD_DISTANCE);
-  const angleStep = (2 * Math.PI) / Math.max(totalItems, 1);
 
-  // Child pathways distributed evenly starting from top
+  // If we have both pathways and interactors, use half the circle for pathways
+  const arcSpan = hasInteractors ? Math.PI : (2 * Math.PI);  // Upper half vs full circle
+  const startAngle = -Math.PI / 2;  // Start from top
+  const angleStep = arcSpan / Math.max(totalItems, 1);
 
   childPathways.forEach((child, idx) => {
     const childId = child.id || `pathway_${child.name.replace(/\s+/g, '_')}`;
     const nodeId = `${childId}@${pathwayNode.id}`;  // Context-qualified ID
 
-    // Calculate angle - distribute evenly around parent
-    const angle = idx * angleStep - Math.PI / 2;
+    // Calculate angle - spread within arc (centered if single child)
+    const angle = totalItems === 1
+      ? startAngle + arcSpan / 2
+      : startAngle + idx * angleStep + angleStep / 2;
 
     // Check if this pathway already exists under another parent (DAG handling)
     const existingNode = findExistingPathwayNode(childId);
@@ -3470,7 +3477,12 @@ function expandPathwayHierarchy(pathwayNode) {
       // Mark as expanded and show interactors directly
       expandedPathways.add(pathwayId);
       pathwayNode.expanded = true;
-      expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
+      // If we have child pathways, anchor interactors to LOWER arc (bottom 180°)
+      // to prevent overlap with pathway children in upper arc
+      const anchorOptions = childPathways.length > 0
+        ? { anchorAngle: Math.PI / 2 }  // Bottom center (90° = π/2)
+        : {};
+      expandPathwayWithInteractions(pathwayNode, pathwayInteractions, anchorOptions);
       console.log(`🔗 Expanded interactors for: ${pathwayNode.label} (${pathwayInteractions.length} interactions)`);
     }
   }
