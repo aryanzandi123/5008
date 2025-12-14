@@ -832,43 +832,51 @@ function recalculateShellPositions() {
           parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
-        // For placeholder expansions: if any child has _anchorAngle, use that for the whole group
-        // This keeps interactors anchored where the placeholder was positioned
-        const anchorNode = children.find(n => n._anchorAngle !== undefined);
-        if (anchorNode && anchorNode._anchorAngle !== undefined) {
-          parentAngle = anchorNode._anchorAngle;
+        // Split children by type to prevent anchor angle conflicts
+        // Pathways should stay near parent's angle, interactors may use anchor angle
+        const pathwayChildren = children.filter(n => n.type === 'pathway');
+        const otherChildren = children.filter(n => n.type !== 'pathway');
+
+        // Helper to position a group of nodes around a center angle
+        const positionGroup = (group, centerAngle, nodeRadius) => {
+          if (group.length === 0) return;
+
+          const minNodeSpacing = nodeRadius * 2.5;
+          const minAngularSpacing = minNodeSpacing / shellRadius;
+          const neededArc = group.length * minAngularSpacing;
+          const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
+          const startAngle = centerAngle - arcSpan / 2;
+
+          group.forEach((node, idx) => {
+            const singleChildOffset = (group.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+            const angle = group.length === 1
+              ? centerAngle + singleChildOffset
+              : startAngle + (arcSpan * idx) / (group.length - 1);
+
+            node.x = centerX + shellRadius * Math.cos(angle);
+            node.y = centerY + shellRadius * Math.sin(angle);
+            node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
+            node._targetAngle = angle;
+            nodeAngles.set(node.id, angle);
+            if (node.originalId) nodeAngles.set(node.originalId, angle);
+            const baseId = node.id.split('@')[0];
+            if (baseId !== node.id) nodeAngles.set(baseId, angle);
+            node.fx = null;
+            node.fy = null;
+          });
+        };
+
+        // Position pathway children using parent's actual angle (stable positioning)
+        positionGroup(pathwayChildren, parentAngle, pathwayNodeRadius);
+
+        // Position other children - use anchor angle if present to keep them separate
+        if (otherChildren.length > 0) {
+          const anchorNode = otherChildren.find(n => n._anchorAngle !== undefined);
+          const groupAngle = (anchorNode && anchorNode._anchorAngle !== undefined)
+            ? anchorNode._anchorAngle
+            : parentAngle;
+          positionGroup(otherChildren, groupAngle, interactorNodeRadius);
         }
-
-        // Spread children within an arc around parent's angle
-        // Calculate arc span based on node count and shell radius to prevent overlap
-        // Use larger radius for pathway children (45px vs 32px for interactors)
-        const hasPathwayChildren = children.some(n => n.type === 'pathway');
-        const effectiveRadius = hasPathwayChildren ? pathwayNodeRadius : interactorNodeRadius;
-        const minNodeSpacing = effectiveRadius * 2.5;
-        const minAngularSpacing = minNodeSpacing / shellRadius; // Radians per node
-        const neededArc = children.length * minAngularSpacing;
-        // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
-        const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
-        const startAngle = parentAngle - arcSpan / 2;
-
-        children.forEach((node, idx) => {
-          // Offset single pathway children to avoid visual overlap with parent
-          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
-          const angle = children.length === 1
-            ? parentAngle + singleChildOffset
-            : startAngle + (arcSpan * idx) / (children.length - 1);
-
-          node.x = centerX + shellRadius * Math.cos(angle);
-          node.y = centerY + shellRadius * Math.sin(angle);
-          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
-          node._targetAngle = angle;
-          nodeAngles.set(node.id, angle);
-          if (node.originalId) nodeAngles.set(node.originalId, angle);
-          const baseId = node.id.split('@')[0];
-          if (baseId !== node.id) nodeAngles.set(baseId, angle);
-          node.fx = null;
-          node.fy = null;
-        });
       }
     }
   }
