@@ -3288,24 +3288,23 @@ function handlePlaceholderClick(placeholderNode) {
   // Capture placeholder's angle BEFORE removing it - used to anchor expanded interactors
   const placeholderAngle = placeholderNode._targetAngle;
 
-  // Find existing nearby interactors to avoid placing new ones on top
-  const CLUSTER_RADIUS = 300; // Consider nodes within 300px
-  const existingNearby = nodes.filter(n =>
+  // Find ALL existing interactors to avoid overlapping ANY cluster
+  // (not just nearby - deep child pathways like Aggrephagy may have interactors far from parent)
+  const existingInteractors = nodes.filter(n =>
     n.type === 'interactor' &&
-    n.id !== placeholderNode.id &&
-    Math.hypot(n.x - pathwayNode.x, n.y - pathwayNode.y) < CLUSTER_RADIUS
+    n.id !== placeholderNode.id
   );
 
   // Find unoccupied sector for expansion
   const safeAngle = findUnoccupiedSector(
     pathwayNode.x,
     pathwayNode.y,
-    existingNearby,
+    existingInteractors,
     placeholderAngle,
     Math.PI / 3  // Need ~60 degrees clearance
   );
 
-  console.log(`📐 Placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°, Safe angle: ${(safeAngle * 180 / Math.PI).toFixed(1)}° (${existingNearby.length} nearby nodes)`);
+  console.log(`📐 Placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°, Safe angle: ${(safeAngle * 180 / Math.PI).toFixed(1)}° (${existingInteractors.length} total interactors)`);
 
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
