@@ -553,7 +553,10 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
       // Estimate arc span based on child count (max 150°, min 30°)
-      const neededArc = children.length * MIN_NODE_SPACING / baseRadius;
+      // Use larger spacing for pathway children (45px vs default)
+      const hasPathwayChildren = children.some(n => n.type === 'pathway');
+      const effectiveSpacing = hasPathwayChildren ? (pathwayNodeRadius * 2.5) : MIN_NODE_SPACING;
+      const neededArc = children.length * effectiveSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
 
       // Density = nodes that must fit / arc span available
@@ -838,7 +841,10 @@ function recalculateShellPositions() {
 
         // Spread children within an arc around parent's angle
         // Calculate arc span based on node count and shell radius to prevent overlap
-        const minNodeSpacing = interactorNodeRadius * 2.5; // Same spacing as adaptive radii
+        // Use larger radius for pathway children (45px vs 32px for interactors)
+        const hasPathwayChildren = children.some(n => n.type === 'pathway');
+        const effectiveRadius = hasPathwayChildren ? pathwayNodeRadius : interactorNodeRadius;
+        const minNodeSpacing = effectiveRadius * 2.5;
         const minAngularSpacing = minNodeSpacing / shellRadius; // Radians per node
         const neededArc = children.length * minAngularSpacing;
         // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
