@@ -3288,34 +3288,24 @@ function handlePlaceholderClick(placeholderNode) {
   // Capture placeholder's angle BEFORE removing it - used to anchor expanded interactors
   const placeholderAngle = placeholderNode._targetAngle;
 
-  // Find ALL existing interactors to avoid overlapping ANY cluster
-  // (not just nearby - deep child pathways like Aggrephagy may have interactors far from parent)
-  const existingInteractors = nodes.filter(n =>
+  // Find existing nearby interactors to avoid placing new ones on top
+  const CLUSTER_RADIUS = 300; // Consider nodes within 300px
+  const existingNearby = nodes.filter(n =>
     n.type === 'interactor' &&
-    n.id !== placeholderNode.id
+    n.id !== placeholderNode.id &&
+    Math.hypot(n.x - pathwayNode.x, n.y - pathwayNode.y) < CLUSTER_RADIUS
   );
 
-  // Calculate safe angle: position new interactors OPPOSITE to existing clusters
-  let safeAngle = placeholderAngle;
+  // Find unoccupied sector for expansion
+  const safeAngle = findUnoccupiedSector(
+    pathwayNode.x,
+    pathwayNode.y,
+    existingNearby,
+    placeholderAngle,
+    Math.PI / 3  // Need ~60 degrees clearance
+  );
 
-  if (existingInteractors.length > 0) {
-    // Calculate centroid of all existing interactors
-    const centroidX = existingInteractors.reduce((sum, n) => sum + n.x, 0) / existingInteractors.length;
-    const centroidY = existingInteractors.reduce((sum, n) => sum + n.y, 0) / existingInteractors.length;
-
-    // Calculate angle FROM pathway TO centroid of existing clusters
-    const angleToExisting = Math.atan2(
-      centroidY - pathwayNode.y,
-      centroidX - pathwayNode.x
-    );
-
-    // Position new interactors on OPPOSITE side (add PI radians = 180 degrees)
-    safeAngle = angleToExisting + Math.PI;
-
-    console.log(`📐 Existing cluster centroid at angle ${(angleToExisting * 180 / Math.PI).toFixed(1)}° → placing new interactors at ${(safeAngle * 180 / Math.PI).toFixed(1)}° (opposite side)`);
-  } else {
-    console.log(`📐 No existing interactors, using placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°`);
-  }
+  console.log(`📐 Placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°, Safe angle: ${(safeAngle * 180 / Math.PI).toFixed(1)}° (${existingNearby.length} nearby nodes)`);
 
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
