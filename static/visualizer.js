@@ -3358,9 +3358,8 @@ function expandPathwayHierarchy(pathwayNode) {
     return childIds.includes(pwId);
   });
 
-  // Calculate total items to position (children + placeholder if mixed content)
-  const hasMixedContent = childPathways.length > 0 && hasInteractors;
-  const totalItems = hasMixedContent ? childPathways.length + 1 : childPathways.length;
+  // Calculate positions for child pathways (no placeholder - interactors shown directly)
+  const totalItems = childPathways.length;
 
   // Calculate positions around parent
   // Pathway children need more distance: parent radius (~50) + child radius (~45) + gap (35) = 130
@@ -3369,27 +3368,14 @@ function expandPathwayHierarchy(pathwayNode) {
   const expandRadius = Math.max(baseExpandRadius, PATHWAY_MIN_CHILD_DISTANCE);
   const angleStep = (2 * Math.PI) / Math.max(totalItems, 1);
 
-  // For mixed content: children on left arc, placeholder on right
-  // For children only: distribute evenly around
-  let childStartAngle = -Math.PI / 2; // Start from top
-  if (hasMixedContent) {
-    // Children occupy left side (π/2 to 3π/2), placeholder on right
-    childStartAngle = Math.PI * 0.6; // Start from left side
-  }
-
-  // Calculate child angle step (only for children, not placeholder)
-  const childAngleStep = hasMixedContent
-    ? (Math.PI * 1.2) / Math.max(childPathways.length, 1)  // Left arc only
-    : angleStep;
+  // Child pathways distributed evenly starting from top
 
   childPathways.forEach((child, idx) => {
     const childId = child.id || `pathway_${child.name.replace(/\s+/g, '_')}`;
     const nodeId = `${childId}@${pathwayNode.id}`;  // Context-qualified ID
 
-    // Calculate angle based on whether we have mixed content
-    const angle = hasMixedContent
-      ? childStartAngle + idx * childAngleStep
-      : idx * angleStep - Math.PI / 2;
+    // Calculate angle - distribute evenly around parent
+    const angle = idx * angleStep - Math.PI / 2;
 
     // Check if this pathway already exists under another parent (DAG handling)
     const existingNode = findExistingPathwayNode(childId);
@@ -3474,29 +3460,22 @@ function expandPathwayHierarchy(pathwayNode) {
     }
   });
 
-  // MIXED CONTENT: Add "Interactors" placeholder on the opposite side
-  if (hasMixedContent) {
-    const placeholderAngle = -Math.PI * 0.2; // Right side (opposite of children)
-    const placeholder = createInteractorPlaceholder(pathwayNode, placeholderAngle, expandRadius);
+  // Show interactors directly (no placeholder) if pathway has any
+  if (hasInteractors) {
+    const pathwayId = pathwayNode.id;
+    const originalId = pathwayNode.originalId || pathwayId;
+    const pathwayInteractions = pathwayToInteractions.get(pathwayId) || pathwayToInteractions.get(originalId) || [];
 
-    if (placeholder && !nodeMap.has(placeholder.id)) {
-      nodes.push(placeholder);
-      nodeMap.set(placeholder.id, placeholder);
-      newlyAddedNodes.add(placeholder.id);
-
-      // Link from pathway to placeholder
-      links.push({
-        id: `${pathwayNode.id}-${placeholder.id}`,
-        source: pathwayNode.id,
-        target: placeholder.id,
-        type: 'pathway-placeholder-link'
-      });
-
-      console.log(`📦 Added interactors placeholder for: ${pathwayNode.label} (${placeholder.interactorCount} interactors)`);
+    if (pathwayInteractions.length > 0) {
+      // Mark as expanded and show interactors directly
+      expandedPathways.add(pathwayId);
+      pathwayNode.expanded = true;
+      expandPathwayWithInteractions(pathwayNode, pathwayInteractions);
+      console.log(`🔗 Expanded interactors for: ${pathwayNode.label} (${pathwayInteractions.length} interactions)`);
     }
   }
 
-  console.log(`🌳 Expanded hierarchy: ${pathwayNode.label} → ${childPathways.length} sub-pathways${hasMixedContent ? ' + interactors placeholder' : ''}`);
+  console.log(`🌳 Expanded hierarchy: ${pathwayNode.label} → ${childPathways.length} sub-pathways${hasInteractors ? ' + interactors' : ''}`);
 }
 
 /**
