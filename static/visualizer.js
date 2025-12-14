@@ -557,10 +557,12 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Use larger spacing for pathway children
-      const hasPathwayChildren = children.some(n => n.type === 'pathway');
-      const effectiveSpacing = hasPathwayChildren ? 120 : MIN_NODE_SPACING;
-      const neededArc = children.length * effectiveSpacing / baseRadius;
+      // Sum per-node spacing requirements (pathway=120px, interactor=MIN_NODE_SPACING)
+      let totalSpacing = 0;
+      children.forEach(child => {
+        totalSpacing += child.type === 'pathway' ? 120 : MIN_NODE_SPACING;
+      });
+      const neededArc = totalSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
 
       // Density = nodes that must fit / arc span available
@@ -836,22 +838,35 @@ function recalculateShellPositions() {
         }
 
         // Position ALL children together in one arc around parent's angle
-        // Use largest node radius among children for spacing calculation
-        const hasPathwayChildren = children.some(n => n.type === 'pathway');
-        const effectiveRadius = hasPathwayChildren ? pathwayNodeRadius : interactorNodeRadius;
-        const minNodeSpacing = effectiveRadius * 2.5;
-        const minAngularSpacing = minNodeSpacing / shellRadius;
-        const neededArc = children.length * minAngularSpacing;
+        // Use per-node spacing based on node type (pathway vs interactor)
+        const getNodeAngularSpacing = (node) => {
+          const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
+          return (radius * 2.5) / shellRadius;
+        };
+
+        // Sum total arc needed (each node contributes its own spacing)
+        let totalAngularSpacing = 0;
+        children.forEach(child => {
+          totalAngularSpacing += getNodeAngularSpacing(child);
+        });
+
         // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
-        const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
+        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 5 / 6));
+
+        // Calculate scale factor if we had to clamp
+        const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
         const startAngle = parentAngle - arcSpan / 2;
 
-        children.forEach((node, idx) => {
+        // Position each child using cumulative spacing (not uniform)
+        let currentAngle = startAngle;
+        children.forEach((node) => {
+          const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
+
           // Offset single pathway children slightly to avoid visual overlap with parent
           const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
           const angle = children.length === 1
             ? parentAngle + singleChildOffset
-            : startAngle + (arcSpan * idx) / (children.length - 1);
+            : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
 
           node.x = centerX + shellRadius * Math.cos(angle);
           node.y = centerY + shellRadius * Math.sin(angle);
@@ -863,6 +878,8 @@ function recalculateShellPositions() {
           if (baseId !== node.id) nodeAngles.set(baseId, angle);
           node.fx = null;
           node.fy = null;
+
+          currentAngle += nodeAngularSpan;
         });
       }
     }
