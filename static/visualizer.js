@@ -791,7 +791,7 @@ function recalculateShellPositions() {
         node.fy = null;
       });
     } else {
-      // SHELL 2+: Group by parent, use Angular Space Manager for global coordination
+      // SHELL 2+: Group by parent, inherit parent's angle
       const byParent = new Map();
       shellNodes.forEach(node => {
         const parentId = node.type === 'pathway'
@@ -804,16 +804,9 @@ function recalculateShellPositions() {
         byParent.get(parentId).push(node);
       });
 
-      // Clear previous reservations for this shell (will re-reserve)
-      angularSpaceManager.clearShell(shellNum);
-
-      // Sort parents by child count (descending) - larger groups get first pick of space
-      const sortedParents = Array.from(byParent.entries())
-        .sort((a, b) => b[1].length - a[1].length);
-
-      // Position each parent's children using Angular Space Manager
-      for (const [parentId, children] of sortedParents) {
-        // Get parent's preferred angle - try multiple lookup methods
+      // Position each parent's children
+      for (const [parentId, children] of byParent) {
+        // Get parent's angle - try multiple lookup methods
         let parentAngle = nodeAngles.get(parentId);
         if (parentAngle === undefined) {
           const baseParentId = parentId.split('@')[0];
@@ -831,45 +824,32 @@ function recalculateShellPositions() {
         }
         if (parentAngle === undefined) {
           // Final fallback: spread evenly among all parent groups
-          const parentKeys = Array.from(sortedParents).map(([k]) => k);
+          const parentKeys = Array.from(byParent.keys());
           const parentIdx = parentKeys.indexOf(parentId);
           parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
         // For placeholder expansions: if any child has _anchorAngle, use that for the whole group
+        // This keeps interactors anchored where the placeholder was positioned
         const anchorNode = children.find(n => n._anchorAngle !== undefined);
         if (anchorNode && anchorNode._anchorAngle !== undefined) {
           parentAngle = anchorNode._anchorAngle;
         }
 
-        // Calculate required angular span for this group
-        const minNodeSpacing = interactorNodeRadius * 2.5;
-        const minAngularSpacing = minNodeSpacing / shellRadius;
+        // Spread children within an arc around parent's angle
+        // Calculate arc span based on node count and shell radius to prevent overlap
+        const minNodeSpacing = interactorNodeRadius * 2.5; // Same spacing as adaptive radii
+        const minAngularSpacing = minNodeSpacing / shellRadius; // Radians per node
         const neededArc = children.length * minAngularSpacing;
         // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
-        const requiredSpan = Math.max(Math.PI / 6, Math.min(neededArc * 1.1, Math.PI * 5 / 6));
-
-        // Query Angular Space Manager for best available sector
-        const sector = angularSpaceManager.findBestSector(shellNum, requiredSpan, parentAngle);
-
-        // If quality is 0, log warning (radius may need expansion)
-        if (sector.quality === 0) {
-          console.warn(`⚠️ Shell ${shellNum} congested near angle ${(parentAngle * 180 / Math.PI).toFixed(1)}° for ${parentId}`);
-        }
-
-        // Reserve the allocated sector
-        angularSpaceManager.reserve(shellNum, sector.startAngle, sector.endAngle, parentId,
-          children[0]?.type === 'pathway' ? 50 : 10);
-
-        // Position children within allocated sector
-        const arcSpan = sector.endAngle - sector.startAngle;
-        const startAngle = sector.startAngle;
+        const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
+        const startAngle = parentAngle - arcSpan / 2;
 
         children.forEach((node, idx) => {
           // Offset single pathway children to avoid visual overlap with parent
           const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
           const angle = children.length === 1
-            ? (sector.startAngle + sector.endAngle) / 2 + singleChildOffset
+            ? parentAngle + singleChildOffset
             : startAngle + (arcSpan * idx) / (children.length - 1);
 
           node.x = centerX + shellRadius * Math.cos(angle);
@@ -3326,9 +3306,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
 function collapsePathway(pathwayNode) {
   expandedPathways.delete(pathwayNode.id);
   pathwayNode.expanded = false;
-
-  // Release angular space reservations for this pathway
-  angularSpaceManager.releaseOwnerSectors(pathwayNode.id);
+  // Note: Radial force will automatically return pathway to base radius (350px)
 
   // ALWAYS remove ALL nodes belonging to this pathway (including reference nodes)
   // User preference: collapse removes nodes regardless of visibility elsewhere
@@ -3631,34 +3609,37 @@ function handlePlaceholderClick(placeholderNode) {
 
   console.log(`📦 Expanding placeholder for: ${pathwayNode.label}`);
 
-  // Capture placeholder's shell and angle BEFORE removing it
-  const placeholderShell = placeholderNode._shellData?.shell || 2;
-  const placeholderAngle = placeholderNode._targetAngle || 0;
+  // Capture placeholder's angle BEFORE removing it - used to anchor expanded interactors
+  const placeholderAngle = placeholderNode._targetAngle;
 
-  // Get interaction data to know how many interactors will be added
-  const pathwayInteractions = pathwayToInteractions.get(pathwayId) ||
-                               pathwayToInteractions.get(pathwayOriginalId);
-  const interactorCount = pathwayInteractions?.length || 0;
+  // Find ALL existing interactors to avoid overlapping ANY cluster
+  // (not just nearby - deep child pathways like Aggrephagy may have interactors far from parent)
+  const existingInteractors = nodes.filter(n =>
+    n.type === 'interactor' &&
+    n.id !== placeholderNode.id
+  );
 
-  // Calculate required angular span for new interactors
-  const targetShell = placeholderShell + 1; // Interactors go to next shell out
-  const shellRadius = shellRadii[targetShell] || (targetShell * 150 + 100);
-  const minNodeSpacing = interactorNodeRadius * 2.5;
-  const minAngularSpacing = minNodeSpacing / shellRadius;
-  const requiredSpan = Math.max(Math.PI / 6, interactorCount * minAngularSpacing * 1.1);
+  // Calculate safe angle: position new interactors OPPOSITE to existing clusters
+  let safeAngle = placeholderAngle;
 
-  // Use Angular Space Manager to find best available sector
-  const sector = angularSpaceManager.findBestSector(targetShell, requiredSpan, placeholderAngle);
-  const safeAngle = (sector.startAngle + sector.endAngle) / 2;
+  if (existingInteractors.length > 0) {
+    // Calculate centroid of all existing interactors
+    const centroidX = existingInteractors.reduce((sum, n) => sum + n.x, 0) / existingInteractors.length;
+    const centroidY = existingInteractors.reduce((sum, n) => sum + n.y, 0) / existingInteractors.length;
 
-  if (sector.quality < 0.5) {
-    console.log(`📐 Limited space available, quality=${sector.quality.toFixed(2)}, using angle ${(safeAngle * 180 / Math.PI).toFixed(1)}°`);
+    // Calculate angle FROM pathway TO centroid of existing clusters
+    const angleToExisting = Math.atan2(
+      centroidY - pathwayNode.y,
+      centroidX - pathwayNode.x
+    );
+
+    // Position new interactors on OPPOSITE side (add PI radians = 180 degrees)
+    safeAngle = angleToExisting + Math.PI;
+
+    console.log(`📐 Existing cluster centroid at angle ${(angleToExisting * 180 / Math.PI).toFixed(1)}° → placing new interactors at ${(safeAngle * 180 / Math.PI).toFixed(1)}° (opposite side)`);
   } else {
-    console.log(`📐 Found good sector at angle ${(safeAngle * 180 / Math.PI).toFixed(1)}° (quality=${sector.quality.toFixed(2)})`);
+    console.log(`📐 No existing interactors, using placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°`);
   }
-
-  // Pre-reserve the sector for these interactors (will be finalized in recalculateShellPositions)
-  angularSpaceManager.reserve(targetShell, sector.startAngle, sector.endAngle, pathwayId, 10);
 
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
@@ -3677,13 +3658,16 @@ function handlePlaceholderClick(placeholderNode) {
   }
 
   // Now expand the actual interactors
+  // Check for interaction data first (new format)
+  const pathwayInteractions = pathwayToInteractions.get(pathwayId) ||
+                               pathwayToInteractions.get(pathwayOriginalId);
+
   if (pathwayInteractions && pathwayInteractions.length > 0) {
     expandedPathways.add(pathwayId);
     pathwayNode.expanded = true;
-    // Pass safe angle from Angular Space Manager as anchor for shell positioning
+    // Pass safe angle (avoiding existing clusters) as anchor for shell positioning
     expandPathwayWithInteractions(pathwayNode, pathwayInteractions, {
-      anchorAngle: safeAngle,
-      reservedSector: sector
+      anchorAngle: safeAngle
     });
   } else {
     // Fallback to legacy expansion
@@ -3745,9 +3729,6 @@ function collapsePathwayHierarchy(pathwayNode) {
   expandedHierarchyPathways.delete(pathwayNode.id);
   pathwayNode.hierarchyExpanded = false;
 
-  // Release angular space reservations for this pathway
-  angularSpaceManager.releaseOwnerSectors(pathwayNode.id);
-
   const nodesToRemove = new Set();
 
   // Recursively collect all descendant nodes
@@ -3755,8 +3736,6 @@ function collapsePathwayHierarchy(pathwayNode) {
     nodes.forEach(n => {
       if (n.parentPathwayId === parentId) {
         nodesToRemove.add(n.id);
-        // Release angular space for this descendant
-        angularSpaceManager.releaseOwnerSectors(n.id);
         // If this is a pathway, also collapse its children and interactors
         if (n.type === 'pathway') {
           collectDescendants(n.id);
@@ -3767,7 +3746,6 @@ function collapsePathwayHierarchy(pathwayNode) {
       // Also remove interactor nodes under this pathway
       if (n.pathwayId === parentId) {
         nodesToRemove.add(n.id);
-        angularSpaceManager.releaseOwnerSectors(n.id);
       }
     });
   }
@@ -7444,9 +7422,6 @@ async function mergeSubgraph(raw, clickedNode){
 async function collapseInteractor(ownerId){
   const reg = expansionRegistry.get(ownerId);
   if (!reg){ expanded.delete(ownerId); return; }
-
-  // Release angular space reservations for this interactor
-  angularSpaceManager.releaseOwnerSectors(ownerId);
 
   // Remove links first
   const toRemoveLinks = [];
