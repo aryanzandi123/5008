@@ -3295,16 +3295,27 @@ function handlePlaceholderClick(placeholderNode) {
     n.id !== placeholderNode.id
   );
 
-  // Find unoccupied sector for expansion
-  const safeAngle = findUnoccupiedSector(
-    pathwayNode.x,
-    pathwayNode.y,
-    existingInteractors,
-    placeholderAngle,
-    Math.PI / 3  // Need ~60 degrees clearance
-  );
+  // Calculate safe angle: position new interactors OPPOSITE to existing clusters
+  let safeAngle = placeholderAngle;
 
-  console.log(`📐 Placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°, Safe angle: ${(safeAngle * 180 / Math.PI).toFixed(1)}° (${existingInteractors.length} total interactors)`);
+  if (existingInteractors.length > 0) {
+    // Calculate centroid of all existing interactors
+    const centroidX = existingInteractors.reduce((sum, n) => sum + n.x, 0) / existingInteractors.length;
+    const centroidY = existingInteractors.reduce((sum, n) => sum + n.y, 0) / existingInteractors.length;
+
+    // Calculate angle FROM pathway TO centroid of existing clusters
+    const angleToExisting = Math.atan2(
+      centroidY - pathwayNode.y,
+      centroidX - pathwayNode.x
+    );
+
+    // Position new interactors on OPPOSITE side (add PI radians = 180 degrees)
+    safeAngle = angleToExisting + Math.PI;
+
+    console.log(`📐 Existing cluster centroid at angle ${(angleToExisting * 180 / Math.PI).toFixed(1)}° → placing new interactors at ${(safeAngle * 180 / Math.PI).toFixed(1)}° (opposite side)`);
+  } else {
+    console.log(`📐 No existing interactors, using placeholder angle: ${(placeholderAngle * 180 / Math.PI).toFixed(1)}°`);
+  }
 
   // Remove the placeholder node
   const placeholderIdx = nodes.findIndex(n => n.id === placeholderNode.id);
