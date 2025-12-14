@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 250;     // Shell 1 radius
-  const SHELL_GAP = 180;       // Increased gap between shells for better separation
-  const MIN_NODE_SPACING = 100; // Minimum spacing between node centers (generous)
+  const BASE_RADIUS = 250;     // Shell 1 minimum radius
+  const SHELL_GAP = 180;       // Minimum gap between shells
+  const MIN_NODE_SPACING = 100; // Minimum spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -524,7 +524,12 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   for (let shell = 1; shell <= maxShell + 1; shell++) {
     const shellNodes = nodesByShell.get(shell) || [];
     const nodeCount = shellNodes.length;
-    const baseRadius = BASE_RADIUS + (shell - 1) * SHELL_GAP;
+
+    // CUMULATIVE BASE RADIUS: Each shell starts from previous shell's ACTUAL radius
+    // This ensures that if shell 1 expands, ALL outer shells push outward too
+    const baseRadius = shell === 1
+      ? BASE_RADIUS
+      : radii[shell - 1] + SHELL_GAP;
 
     if (nodeCount === 0) {
       radii[shell] = baseRadius;
@@ -552,7 +557,7 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Use larger spacing for pathway children (45px vs 32px for interactors)
+      // Use larger spacing for pathway children
       const hasPathwayChildren = children.some(n => n.type === 'pathway');
       const effectiveSpacing = hasPathwayChildren ? 120 : MIN_NODE_SPACING;
       const neededArc = children.length * effectiveSpacing / baseRadius;
@@ -566,11 +571,11 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     // Calculate minimum radius to satisfy density constraint
     const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
-    // Take the larger of all constraints with generous safety margin
+    // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
-      baseRadius,
-      circumferenceRadius + 50,  // Increased buffer
-      densityBasedRadius + 60    // Increased buffer
+      baseRadius,                 // Cumulative base (expands if inner shells expanded)
+      circumferenceRadius + 50,   // Circumference-based
+      densityBasedRadius + 60     // Density-based
     );
   }
 
