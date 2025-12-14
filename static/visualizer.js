@@ -515,8 +515,8 @@ function calculateArcSectorPosition(config) {
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
   const BASE_RADIUS = 250;     // Shell 1 radius
-  const SHELL_GAP = 150;       // Fixed gap between shells
-  const MIN_NODE_SPACING = defaultNodeRadius * 2.5; // Node diameter + comfortable gap
+  const SHELL_GAP = 180;       // Increased gap between shells for better separation
+  const MIN_NODE_SPACING = 100; // Minimum spacing between node centers (generous)
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -531,11 +531,11 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       continue;
     }
 
-    // Method 1: Simple circumference-based (existing logic)
+    // Method 1: Simple circumference-based - ensure all nodes fit around full circle
     const circumferenceNeeded = nodeCount * MIN_NODE_SPACING;
     const circumferenceRadius = circumferenceNeeded / (2 * Math.PI);
 
-    // Method 2: Angular density-based (new - accounts for clustering)
+    // Method 2: Angular density-based - accounts for clustering by parent
     // Group nodes by parent to find angular clusters
     const byParent = new Map();
     shellNodes.forEach(node => {
@@ -552,10 +552,9 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Estimate arc span based on child count (max 150°, min 30°)
-      // Use larger spacing for pathway children (45px vs default)
+      // Use larger spacing for pathway children (45px vs 32px for interactors)
       const hasPathwayChildren = children.some(n => n.type === 'pathway');
-      const effectiveSpacing = hasPathwayChildren ? (pathwayNodeRadius * 2.5) : MIN_NODE_SPACING;
+      const effectiveSpacing = hasPathwayChildren ? 120 : MIN_NODE_SPACING;
       const neededArc = children.length * effectiveSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
 
@@ -565,14 +564,13 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     }
 
     // Calculate minimum radius to satisfy density constraint
-    // At this radius, the densest sector will have MIN_NODE_SPACING between nodes
     const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
-    // Take the larger of all constraints with safety margin
+    // Take the larger of all constraints with generous safety margin
     radii[shell] = Math.max(
       baseRadius,
-      circumferenceRadius + 20,
-      densityBasedRadius + 30
+      circumferenceRadius + 50,  // Increased buffer
+      densityBasedRadius + 60    // Increased buffer
     );
   }
 
@@ -832,51 +830,35 @@ function recalculateShellPositions() {
           parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
-        // Split children by type to prevent anchor angle conflicts
-        // Pathways should stay near parent's angle, interactors may use anchor angle
-        const pathwayChildren = children.filter(n => n.type === 'pathway');
-        const otherChildren = children.filter(n => n.type !== 'pathway');
+        // Position ALL children together in one arc around parent's angle
+        // Use largest node radius among children for spacing calculation
+        const hasPathwayChildren = children.some(n => n.type === 'pathway');
+        const effectiveRadius = hasPathwayChildren ? pathwayNodeRadius : interactorNodeRadius;
+        const minNodeSpacing = effectiveRadius * 2.5;
+        const minAngularSpacing = minNodeSpacing / shellRadius;
+        const neededArc = children.length * minAngularSpacing;
+        // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
+        const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
+        const startAngle = parentAngle - arcSpan / 2;
 
-        // Helper to position a group of nodes around a center angle
-        const positionGroup = (group, centerAngle, nodeRadius) => {
-          if (group.length === 0) return;
+        children.forEach((node, idx) => {
+          // Offset single pathway children slightly to avoid visual overlap with parent
+          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+          const angle = children.length === 1
+            ? parentAngle + singleChildOffset
+            : startAngle + (arcSpan * idx) / (children.length - 1);
 
-          const minNodeSpacing = nodeRadius * 2.5;
-          const minAngularSpacing = minNodeSpacing / shellRadius;
-          const neededArc = group.length * minAngularSpacing;
-          const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
-          const startAngle = centerAngle - arcSpan / 2;
-
-          group.forEach((node, idx) => {
-            const singleChildOffset = (group.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
-            const angle = group.length === 1
-              ? centerAngle + singleChildOffset
-              : startAngle + (arcSpan * idx) / (group.length - 1);
-
-            node.x = centerX + shellRadius * Math.cos(angle);
-            node.y = centerY + shellRadius * Math.sin(angle);
-            node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
-            node._targetAngle = angle;
-            nodeAngles.set(node.id, angle);
-            if (node.originalId) nodeAngles.set(node.originalId, angle);
-            const baseId = node.id.split('@')[0];
-            if (baseId !== node.id) nodeAngles.set(baseId, angle);
-            node.fx = null;
-            node.fy = null;
-          });
-        };
-
-        // Position pathway children using parent's actual angle (stable positioning)
-        positionGroup(pathwayChildren, parentAngle, pathwayNodeRadius);
-
-        // Position other children - use anchor angle if present to keep them separate
-        if (otherChildren.length > 0) {
-          const anchorNode = otherChildren.find(n => n._anchorAngle !== undefined);
-          const groupAngle = (anchorNode && anchorNode._anchorAngle !== undefined)
-            ? anchorNode._anchorAngle
-            : parentAngle;
-          positionGroup(otherChildren, groupAngle, interactorNodeRadius);
-        }
+          node.x = centerX + shellRadius * Math.cos(angle);
+          node.y = centerY + shellRadius * Math.sin(angle);
+          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
+          node._targetAngle = angle;
+          nodeAngles.set(node.id, angle);
+          if (node.originalId) nodeAngles.set(node.originalId, angle);
+          const baseId = node.id.split('@')[0];
+          if (baseId !== node.id) nodeAngles.set(baseId, angle);
+          node.fx = null;
+          node.fy = null;
+        });
       }
     }
   }
@@ -2070,18 +2052,18 @@ function createSimulation(){
       )
       .force('collide', d3.forceCollide()
         .radius(d => {
-          // Increased padding to prevent visual overlap
-          if (d.type === 'main') return mainNodeRadius + 15;
-          if (d.type === 'pathway') return 65;  // Increased from 60
-          if (d.type === 'function' || d.isFunction) return 40;
-          return (d.radius || interactorNodeRadius) + 15;  // Increased from 12
+          // Generous padding to prevent any visual overlap
+          if (d.type === 'main') return mainNodeRadius + 20;
+          if (d.type === 'pathway') return 70;  // Larger buffer for pathways
+          if (d.type === 'function' || d.isFunction) return 45;
+          return (d.radius || interactorNodeRadius) + 20;  // Larger buffer for interactors
         })
-        .iterations(6)   // More passes to resolve overlaps (was 4)
-        .strength(0.85)  // Stronger collision push (was 0.7)
+        .iterations(10)  // More passes to fully resolve overlaps
+        .strength(1.0)   // Maximum collision strength
       );
 
-    // Shell mode: run collision resolution with enough time to settle
-    simulation.alpha(0.5).alphaDecay(0.05);  // More time to settle (was 0.4, 0.08)
+    // Shell mode: run collision resolution with more time to settle
+    simulation.alpha(0.6).alphaDecay(0.04);  // More time to settle completely
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
