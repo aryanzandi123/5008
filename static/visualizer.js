@@ -1030,9 +1030,10 @@ function forcePathwayOrbit() {
 }
 
 /**
- * Custom D3 force: constrain pathway interactors to their assigned sector around parent pathway
- * Unlike forceAngularPosition (which pulls toward canvas center), this pulls toward parent pathway
- * This keeps pathway clusters organized as cohesive groups that orbit their parent
+ * Custom D3 force: constrain ALL interactors to their assigned sector
+ * - For pathway interactors: pulls toward sector around parent pathway
+ * - For regular interactors: pulls toward sector around canvas center
+ * This keeps all interactors organized in their assigned angular positions
  */
 function forceSectorConstraint() {
   let nodes = [];
@@ -1040,26 +1041,34 @@ function forceSectorConstraint() {
 
   function force(alpha) {
     nodes.forEach(node => {
-      // Only apply to pathway interactors with assigned angle
-      if (!node._pathwayContext) return;
+      // Apply to ALL interactors with assigned angle (not just pathway-expanded)
+      if (node.type !== 'interactor') return;
       if (node._targetAngle === undefined) return;
-      if (!pathwayMode) return;
 
-      // Find parent pathway node
-      const parent = nodeMap.get(node._pathwayContext);
-      if (!parent) return;
+      // Determine reference point: parent pathway or canvas center
+      const parent = node._pathwayContext ? nodeMap.get(node._pathwayContext) : null;
+      const refX = parent ? parent.x : (width / 2);
+      const refY = parent ? parent.y : (height / 2);
 
-      // Calculate target position relative to PARENT (not canvas center)
-      // Use shell-relative distance for deep pathway interactors
-      const parentShell = parent._shellData?.shell || 1;
-      const nodeShell = node._shellData?.shell || (parentShell + 1);
-      const shellOffset = Math.max(1, nodeShell - parentShell);
-      const SHELL_OFFSET_DISTANCE = 120;
-      const targetRadius = node.isQueryProtein
-        ? Math.max(shellOffset * SHELL_OFFSET_DISTANCE * 0.6, 60)
-        : Math.max(shellOffset * SHELL_OFFSET_DISTANCE, 60);
-      const targetX = parent.x + targetRadius * Math.cos(node._targetAngle);
-      const targetY = parent.y + targetRadius * Math.sin(node._targetAngle);
+      // Calculate target radius based on shell data
+      let targetRadius;
+      if (parent) {
+        // Pathway interactors: use shell-relative distance from parent
+        const parentShell = parent._shellData?.shell || 1;
+        const nodeShell = node._shellData?.shell || (parentShell + 1);
+        const shellOffset = Math.max(1, nodeShell - parentShell);
+        const SHELL_OFFSET_DISTANCE = 120;
+        targetRadius = node.isQueryProtein
+          ? Math.max(shellOffset * SHELL_OFFSET_DISTANCE * 0.6, 60)
+          : Math.max(shellOffset * SHELL_OFFSET_DISTANCE, 60);
+      } else {
+        // Regular interactors: use shell radius from center
+        const shellNum = node._shellData?.shell || 1;
+        targetRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
+      }
+
+      const targetX = refX + targetRadius * Math.cos(node._targetAngle);
+      const targetY = refY + targetRadius * Math.sin(node._targetAngle);
 
       // Apply force toward sector position
       node.vx += (targetX - node.x) * alpha * strength;
@@ -2277,7 +2286,8 @@ function createSimulation(){
           if (d.type === 'main') return mainNodeRadius + 35;
           if (d.type === 'pathway') return 95;  // Large buffer for pathways
           if (d.type === 'function' || d.isFunction) return 55;
-          return (d.radius || interactorNodeRadius) + 35;  // Large buffer for interactors
+          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 50;  // Larger buffer for interactors
+          return (d.radius || interactorNodeRadius) + 35;
         })
         .iterations(25)  // Many passes to fully resolve overlaps
         .strength(1.0)   // Maximum collision strength
@@ -2329,6 +2339,7 @@ function createSimulation(){
           if (d.type === 'pathway') return 55;
           if (d.type === 'function' || d.isFunction) return 35;
           if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
+          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 20;  // Increased buffer
           return (d.radius || interactorNodeRadius) + 6;
         })
         .iterations(2)
@@ -2366,19 +2377,18 @@ function createSimulation(){
         width / 2,
         height / 2
       ).strength(d => {
+        // ALL nodes except main get 0 radial strength - let angular positioning dominate
+        // This matches pathway behavior: pathways stay organized because radial force is disabled
+        // Interactors should behave the same - stay in assigned angular sectors
         if (d.type === 'main' || d.isFunction || d.type === 'function' || d.type === 'pathway') return 0;
-
-        // In pathway mode, moderate strength for interactors with shell data
-        // Lower than orbit force (0.6) to allow parent-relative clustering
-        if (pathwayMode && d._shellData?.shell) return 0.25;
-
-        return 0.6;
+        if (d.type === 'interactor') return 0;  // Disable radial pull for interactors too!
+        return 0;
       }))
       .force('pathwayOrbit', forcePathwayOrbit().strength(0.6))
       .force('sectorConstraint', forceSectorConstraint().strength(0.35))
       .force('angularPosition', forceAngularPosition()
         .center(width / 2, height / 2)
-        .strength(0.12));
+        .strength(0.5));  // Strong angular constraint - keeps interactors in sectors like pathways
 
     simulation.alpha(1);
   }
