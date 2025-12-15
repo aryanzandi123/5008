@@ -795,11 +795,12 @@ function recalculateShellPositions() {
         node._targetAngle = angle;
         nodeAngles.set(node.id, angle);
         if (node.originalId) nodeAngles.set(node.originalId, angle);
-        // Store by base ID too
+        // Store by base ID too (for backwards compatibility)
         const baseId = node.id.split('@')[0];
         if (baseId !== node.id) nodeAngles.set(baseId, angle);
-        node.fx = null;
-        node.fy = null;
+        // ANCHOR positions - keep nodes at calculated shell positions
+        node.fx = node.x;
+        node.fy = node.y;
       });
     } else {
       // SHELL 2+: Group by parent, inherit parent's angle
@@ -879,8 +880,9 @@ function recalculateShellPositions() {
           if (node.originalId) nodeAngles.set(node.originalId, angle);
           const baseId = node.id.split('@')[0];
           if (baseId !== node.id) nodeAngles.set(baseId, angle);
-          node.fx = null;
-          node.fy = null;
+          // ANCHOR positions - keep nodes at calculated shell positions
+          node.fx = node.x;
+          node.fy = node.y;
 
           currentAngle += nodeAngularSpan;
         });
@@ -2818,94 +2820,35 @@ function expandPathway(pathwayNode) {
   let directIdx = 0;
 
   directInteractors.forEach(interactorId => {
-    const nodeId = `${interactorId}@${pathwayNode.id}`;
+    // TRUE DEDUPLICATION: Use protein ID directly (no pathway suffix)
+    const nodeId = interactorId;
 
-    if (!nodeMap.has(nodeId)) {
-      const angle = directIdx * directAngleStep - Math.PI / 2;
-      const x = pathwayNode.x + expandRadius * Math.cos(angle);
-      const y = pathwayNode.y + expandRadius * Math.sin(angle);
+    const interactionData = interactorDataMap.get(interactorId);
+    const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
 
-      const interactionData = interactorDataMap.get(interactorId);
-      const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
+    // Determine direction role from interaction data
+    const direction = interactionData?.direction || 'bidirectional';
+    let directionRole = 'bidirectional';
+    if (direction === 'primary_to_main') directionRole = 'upstream';
+    else if (direction === 'main_to_primary') directionRole = 'downstream';
 
-      // Determine direction role from interaction data
-      const direction = interactionData?.direction || 'bidirectional';
-      let directionRole = 'bidirectional';
-      if (direction === 'primary_to_main') directionRole = 'upstream';
-      else if (direction === 'main_to_primary') directionRole = 'downstream';
+    // Check if node already exists
+    const existingNode = nodeMap.get(nodeId);
 
-      // CHECK: Does this protein already exist as a node from another pathway?
-      const existingNode = findExistingInteractorNode(interactorId);
+    if (existingNode) {
+      // NODE EXISTS: Just add this pathway to its contexts and create link
+      if (!existingNode.pathwayContexts) {
+        existingNode.pathwayContexts = [existingNode._pathwayContext || existingNode.pathwayId];
+      }
+      if (!existingNode.pathwayContexts.includes(pathwayNode.id)) {
+        existingNode.pathwayContexts.push(pathwayNode.id);
+      }
 
-      if (existingNode) {
-        // CREATE REFERENCE NODE - points to the existing primary node
-        const refNodeId = `ref_${interactorId}@${pathwayNode.id}`;
-
-        const refNode = {
-          id: refNodeId,
-          label: interactorId,
-          symbol: interactorId,
-          type: 'interactor',
-          isReferenceNode: true,
-          primaryNodeId: existingNode.id,
-          originalId: interactorId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: directionRole,
-          radius: interactorNodeRadius * 0.85,  // Slightly smaller
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: x,
-          y: y,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-
-        nodes.push(refNode);
-        nodeMap.set(refNodeId, refNode);
-        newlyAddedNodes.add(refNodeId);
-
-        // Link: pathway → reference node (dashed style applied in rendering)
+      // Create link from this pathway to the existing node
+      const linkId = `${pathwayNode.id}-${nodeId}`;
+      if (!links.some(l => l.id === linkId)) {
         links.push({
-          id: `${pathwayNode.id}-${refNodeId}`,
-          source: pathwayNode.id,
-          target: refNodeId,
-          type: 'pathway-interactor-link',
-          isReferenceLink: true,
-          arrow: actualArrow,
-          data: interactionData
-        });
-
-        console.log(`📍 Created reference node for ${interactorId} → primary at ${existingNode.id}`);
-      } else {
-        // CREATE PRIMARY NODE - first occurrence of this protein
-        const newNode = {
-          id: nodeId,
-          label: interactorId,
-          symbol: interactorId,
-          type: 'interactor',
-          originalId: interactorId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
-          _pathwayName: pathwayNode.label,    // Pathway name for badge display
-          _directionRole: directionRole,
-          radius: interactorNodeRadius,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: x,
-          y: y,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-
-        nodes.push(newNode);
-        nodeMap.set(nodeId, newNode);
-        newlyAddedNodes.add(nodeId);
-
-        // Link: pathway → direct interactor
-        links.push({
-          id: `${pathwayNode.id}-${nodeId}`,
+          id: linkId,
           source: pathwayNode.id,
           target: nodeId,
           type: 'pathway-interactor-link',
@@ -2913,14 +2856,54 @@ function expandPathway(pathwayNode) {
           data: interactionData
         });
       }
+      console.log(`🔗 Linked pathway ${pathwayNode.label} to existing node ${nodeId}`);
+    } else {
+      // CREATE NEW NODE - first occurrence of this protein
+      const angle = directIdx * directAngleStep - Math.PI / 2;
+      const x = pathwayNode.x + expandRadius * Math.cos(angle);
+      const y = pathwayNode.y + expandRadius * Math.sin(angle);
+
+      const newNode = {
+        id: nodeId,
+        label: interactorId,
+        symbol: interactorId,
+        type: 'interactor',
+        originalId: interactorId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        pathwayContexts: [pathwayNode.id],  // Track all pathways
+        _directionRole: directionRole,
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: x,
+        y: y,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
+
+      // Link: pathway → direct interactor
+      links.push({
+        id: `${pathwayNode.id}-${nodeId}`,
+        source: pathwayNode.id,
+        target: nodeId,
+        type: 'pathway-interactor-link',
+        arrow: actualArrow,
+        data: interactionData
+      });
     }
     directIdx++;
   });
 
   // STEP 3: Create indirect interactor nodes (linked to their mediators)
   indirectByMediator.forEach((indirectIds, mediatorId) => {
-    // Find the mediator node (it should exist as a direct interactor)
-    const mediatorNodeId = `${mediatorId}@${pathwayNode.id}`;
+    // TRUE DEDUPLICATION: Use simple mediator ID
+    const mediatorNodeId = mediatorId;
     let mediatorNode = nodeMap.get(mediatorNodeId);
 
     if (!mediatorNode) {
@@ -2928,7 +2911,7 @@ function expandPathway(pathwayNode) {
       console.log(`📍 Creating mediator node ${mediatorId} on-demand for pathway ${pathwayNode.id}`);
 
       // Position mediator at an offset from pathway center
-      const mediatorAngle = Math.random() * 2 * Math.PI;  // Random angle
+      const mediatorAngle = Math.random() * 2 * Math.PI;
       const mediatorX = pathwayNode.x + expandRadius * 0.7 * Math.cos(mediatorAngle);
       const mediatorY = pathwayNode.y + expandRadius * 0.7 * Math.sin(mediatorAngle);
 
@@ -2936,9 +2919,9 @@ function expandPathway(pathwayNode) {
       const mediatorInteractionData = getInteractionForInteractor(mediatorId);
       const mediatorArrow = mediatorInteractionData ? arrowKind(mediatorInteractionData.arrow, mediatorInteractionData.intent, mediatorInteractionData.direction) : 'binds';
 
-      // Determine direction role for mediator (typically downstream of query, upstream of indirect)
+      // Determine direction role for mediator
       const mediatorDirection = mediatorInteractionData?.direction || 'bidirectional';
-      let mediatorDirectionRole = 'downstream';  // Default: mediators are downstream of query
+      let mediatorDirectionRole = 'downstream';
       if (mediatorDirection === 'primary_to_main') mediatorDirectionRole = 'upstream';
       else if (mediatorDirection === 'main_to_primary') mediatorDirectionRole = 'downstream';
 
@@ -2950,11 +2933,12 @@ function expandPathway(pathwayNode) {
         pathwayId: pathwayNode.id,
         _pathwayContext: pathwayNode.id,
         _pathwayName: pathwayNode.label,
+        pathwayContexts: [pathwayNode.id],
         _directionRole: mediatorDirectionRole,
         radius: interactorNodeRadius,
         arrow: mediatorArrow,
         interactionData: mediatorInteractionData,
-        isMediatorNode: true,  // Mark as mediator for styling
+        isMediatorNode: true,
         x: mediatorX,
         y: mediatorY,
         expandRadius: expandRadius,
@@ -2975,6 +2959,14 @@ function expandPathway(pathwayNode) {
         arrow: mediatorArrow,
         data: mediatorInteractionData
       });
+    } else {
+      // Mediator exists - add pathway context
+      if (!mediatorNode.pathwayContexts) {
+        mediatorNode.pathwayContexts = [mediatorNode._pathwayContext || mediatorNode.pathwayId];
+      }
+      if (!mediatorNode.pathwayContexts.includes(pathwayNode.id)) {
+        mediatorNode.pathwayContexts.push(pathwayNode.id);
+      }
     }
 
     // Use the mediator's target position for indirect node positioning
@@ -2987,102 +2979,80 @@ function expandPathway(pathwayNode) {
     let indirectIdx = 0;
 
     indirectIds.forEach(indirectId => {
-      const nodeId = `${indirectId}@${pathwayNode.id}`;
+      // TRUE DEDUPLICATION: Use simple indirect ID
+      const nodeId = indirectId;
 
-      if (!nodeMap.has(nodeId)) {
-        // Position around mediator (not pathway)
-        const angle = indirectIdx * indirectAngleStep - Math.PI / 2;
-        const x = mediatorX + indirectRadius * Math.cos(angle);
-        const y = mediatorY + indirectRadius * Math.sin(angle);
+      const interactionData = interactorDataMap.get(indirectId);
+      const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
 
-        const interactionData = interactorDataMap.get(indirectId);
-        const actualArrow = interactionData ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction) : 'binds';
+      const existingNode = nodeMap.get(nodeId);
 
-        // CHECK: Does this protein already exist as a node from another pathway?
-        const existingNode = findExistingInteractorNode(indirectId);
+      if (existingNode) {
+        // NODE EXISTS: Just add pathway context and create link
+        if (!existingNode.pathwayContexts) {
+          existingNode.pathwayContexts = [existingNode._pathwayContext || existingNode.pathwayId];
+        }
+        if (!existingNode.pathwayContexts.includes(pathwayNode.id)) {
+          existingNode.pathwayContexts.push(pathwayNode.id);
+        }
 
-        if (existingNode) {
-          // CREATE REFERENCE NODE for indirect interactor
-          const refNodeId = `ref_${indirectId}@${pathwayNode.id}`;
-
-          const refNode = {
-            id: refNodeId,
-            label: indirectId,
-            symbol: indirectId,
-            type: 'interactor',
-            isReferenceNode: true,
-            primaryNodeId: existingNode.id,
-            originalId: indirectId,
-            pathwayId: pathwayNode.id,
-            _pathwayContext: pathwayNode.id,
-            _pathwayName: pathwayNode.label,
-            _directionRole: 'indirect',
-            _indirectHopCount: 1,
-            radius: interactorNodeRadius * 0.85,
-            arrow: actualArrow,
-            interactionData: interactionData,
-            upstream_interactor: mediatorId,
-            interaction_type: 'indirect',
-            x: x,
-            y: y,
-            expandRadius: indirectRadius,
-            isNewlyExpanded: true
-          };
-
-          nodes.push(refNode);
-          nodeMap.set(refNodeId, refNode);
-          newlyAddedNodes.add(refNodeId);
-
-          // Link: mediator → reference node
+        // Create link from mediator to existing node
+        const linkId = `${mediatorNodeId}-${nodeId}`;
+        if (!links.some(l => l.id === linkId)) {
           links.push({
-            id: `${mediatorNodeId}-${refNodeId}`,
-            source: mediatorNodeId,
-            target: refNodeId,
-            type: 'pathway-interactor-link',
-            linkType: 'indirect-chain',
-            isReferenceLink: true,
-            arrow: actualArrow,
-            data: interactionData
-          });
-        } else {
-          // CREATE PRIMARY NODE
-          const newNode = {
-            id: nodeId,
-            label: indirectId,
-            symbol: indirectId,
-            type: 'interactor',
-            originalId: indirectId,
-            pathwayId: pathwayNode.id,
-            _pathwayContext: pathwayNode.id,    // Track pathway context for filtering
-            _pathwayName: pathwayNode.label,    // Pathway name for badge display
-            _directionRole: 'indirect',
-            _indirectHopCount: 1,
-            radius: interactorNodeRadius,
-            arrow: actualArrow,
-            interactionData: interactionData,
-            upstream_interactor: mediatorId,  // Track mediator for this indirect node
-            interaction_type: 'indirect',
-            x: x,
-            y: y,
-            expandRadius: indirectRadius,
-            isNewlyExpanded: true
-          };
-
-          nodes.push(newNode);
-          nodeMap.set(nodeId, newNode);
-          newlyAddedNodes.add(nodeId);
-
-          // Link: mediator → indirect interactor (NOT pathway → indirect)
-          links.push({
-            id: `${mediatorNodeId}-${nodeId}`,
+            id: linkId,
             source: mediatorNodeId,
             target: nodeId,
             type: 'pathway-interactor-link',
-            linkType: 'indirect-chain',  // Mark as indirect chain link
+            linkType: 'indirect-chain',
             arrow: actualArrow,
             data: interactionData
           });
         }
+        console.log(`🔗 Linked mediator ${mediatorId} to existing indirect node ${nodeId}`);
+      } else {
+        // CREATE NEW NODE
+        const angle = indirectIdx * indirectAngleStep - Math.PI / 2;
+        const x = mediatorX + indirectRadius * Math.cos(angle);
+        const y = mediatorY + indirectRadius * Math.sin(angle);
+
+        const newNode = {
+          id: nodeId,
+          label: indirectId,
+          symbol: indirectId,
+          type: 'interactor',
+          originalId: indirectId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          pathwayContexts: [pathwayNode.id],
+          _directionRole: 'indirect',
+          _indirectHopCount: 1,
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          upstream_interactor: mediatorId,
+          interaction_type: 'indirect',
+          x: x,
+          y: y,
+          expandRadius: indirectRadius,
+          isNewlyExpanded: true
+        };
+
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+
+        // Link: mediator → indirect interactor
+        links.push({
+          id: `${mediatorNodeId}-${nodeId}`,
+          source: mediatorNodeId,
+          target: nodeId,
+          type: 'pathway-interactor-link',
+          linkType: 'indirect-chain',
+          arrow: actualArrow,
+          data: interactionData
+        });
       }
       indirectIdx++;
     });
@@ -3123,71 +3093,45 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
   const proteinNodeMap = new Map();
 
   // Step 2: Create query protein node (positioned between pathway and interactors)
-  // Query protein always gets a reference node since it's the main protein
-  const existingQueryNode = findExistingInteractorNode(queryProtein);
-  let queryNodeId;
+  // TRUE DEDUPLICATION: Use simple protein ID
+  const queryNodeId = queryProtein;
+  const existingQueryNode = nodeMap.get(queryNodeId);
 
   if (existingQueryNode) {
-    // Create reference node for query protein
-    queryNodeId = `ref_${queryProtein}@${pathwayNode.id}`;
-    if (!nodeMap.has(queryNodeId)) {
-      const queryX = pathwayNode.x + queryRadius;
-      const queryY = pathwayNode.y;
-
-      const refNode = {
-        id: queryNodeId,
-        label: queryProtein,
-        symbol: queryProtein,
-        type: 'interactor',
-        isReferenceNode: true,
-        primaryNodeId: existingQueryNode.id,
-        isQueryProtein: true,
-        originalId: queryProtein,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,
-        _pathwayName: pathwayNode.label,
-        _directionRole: 'query',
-        _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-        radius: interactorNodeRadius * 1.0,  // Reference is smaller
-        x: queryX,
-        y: queryY,
-        expandRadius: expandRadius,
-        isNewlyExpanded: true
-      };
-
-      nodes.push(refNode);
-      nodeMap.set(queryNodeId, refNode);
-      newlyAddedNodes.add(queryNodeId);
+    // Node exists - add pathway context
+    if (!existingQueryNode.pathwayContexts) {
+      existingQueryNode.pathwayContexts = [existingQueryNode._pathwayContext || existingQueryNode.pathwayId];
+    }
+    if (!existingQueryNode.pathwayContexts.includes(pathwayNode.id)) {
+      existingQueryNode.pathwayContexts.push(pathwayNode.id);
     }
   } else {
-    queryNodeId = `${queryProtein}@${pathwayNode.id}`;
-    if (!nodeMap.has(queryNodeId)) {
-      const queryX = pathwayNode.x + queryRadius;
-      const queryY = pathwayNode.y;
+    const queryX = pathwayNode.x + queryRadius;
+    const queryY = pathwayNode.y;
 
-      const queryNode = {
-        id: queryNodeId,
-        label: queryProtein,
-        symbol: queryProtein,
-        type: 'interactor',
-        isQueryProtein: true,  // Mark for special styling
-        originalId: queryProtein,
-        pathwayId: pathwayNode.id,
-        _pathwayContext: pathwayNode.id,
-        _pathwayName: pathwayNode.label,
-        _directionRole: 'query',
-        _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-        radius: interactorNodeRadius * 1.2,  // Slightly larger
-        x: queryX,
-        y: queryY,
-        expandRadius: expandRadius,
-        isNewlyExpanded: true
-      };
+    const queryNode = {
+      id: queryNodeId,
+      label: queryProtein,
+      symbol: queryProtein,
+      type: 'interactor',
+      isQueryProtein: true,
+      originalId: queryProtein,
+      pathwayId: pathwayNode.id,
+      _pathwayContext: pathwayNode.id,
+      _pathwayName: pathwayNode.label,
+      pathwayContexts: [pathwayNode.id],
+      _directionRole: 'query',
+      _anchorAngle: anchorAngle,
+      radius: interactorNodeRadius * 1.2,
+      x: queryX,
+      y: queryY,
+      expandRadius: expandRadius,
+      isNewlyExpanded: true
+    };
 
-      nodes.push(queryNode);
-      nodeMap.set(queryNodeId, queryNode);
-      newlyAddedNodes.add(queryNodeId);
-    }
+    nodes.push(queryNode);
+    nodeMap.set(queryNodeId, queryNode);
+    newlyAddedNodes.add(queryNodeId);
   }
   proteinNodeMap.set(queryProtein, queryNodeId);
 
@@ -3209,67 +3153,43 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
       ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
       : 'binds';
 
-    // Check for existing node
-    const existingNode = findExistingInteractorNode(proteinId);
-    let nodeId;
+    // TRUE DEDUPLICATION: Use simple protein ID
+    const nodeId = proteinId;
+    const existingNode = nodeMap.get(nodeId);
 
     if (existingNode) {
-      // Create reference node
-      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const refNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          isReferenceNode: true,
-          primaryNodeId: existingNode.id,
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'upstream',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius * 0.85,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-        nodes.push(refNode);
-        nodeMap.set(nodeId, refNode);
-        newlyAddedNodes.add(nodeId);
+      // Node exists - add pathway context
+      if (!existingNode.pathwayContexts) {
+        existingNode.pathwayContexts = [existingNode._pathwayContext || existingNode.pathwayId];
+      }
+      if (!existingNode.pathwayContexts.includes(pathwayNode.id)) {
+        existingNode.pathwayContexts.push(pathwayNode.id);
       }
     } else {
-      nodeId = `${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const newNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'upstream',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-        nodes.push(newNode);
-        nodeMap.set(nodeId, newNode);
-        newlyAddedNodes.add(nodeId);
-      }
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        symbol: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        pathwayContexts: [pathwayNode.id],
+        _directionRole: 'upstream',
+        _anchorAngle: anchorAngle,
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
+        _targetAngle: pos.angle,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -3292,67 +3212,43 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
       ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
       : 'binds';
 
-    // Check for existing node
-    const existingNode = findExistingInteractorNode(proteinId);
-    let nodeId;
+    // TRUE DEDUPLICATION: Use simple protein ID
+    const nodeId = proteinId;
+    const existingNode = nodeMap.get(nodeId);
 
     if (existingNode) {
-      // Create reference node
-      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const refNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          isReferenceNode: true,
-          primaryNodeId: existingNode.id,
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'downstream',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius * 0.85,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius * 1.3,
-          isNewlyExpanded: true
-        };
-        nodes.push(refNode);
-        nodeMap.set(nodeId, refNode);
-        newlyAddedNodes.add(nodeId);
+      // Node exists - add pathway context
+      if (!existingNode.pathwayContexts) {
+        existingNode.pathwayContexts = [existingNode._pathwayContext || existingNode.pathwayId];
+      }
+      if (!existingNode.pathwayContexts.includes(pathwayNode.id)) {
+        existingNode.pathwayContexts.push(pathwayNode.id);
       }
     } else {
-      nodeId = `${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const newNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'downstream',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius * 1.3,
-          isNewlyExpanded: true
-        };
-        nodes.push(newNode);
-        nodeMap.set(nodeId, newNode);
-        newlyAddedNodes.add(nodeId);
-      }
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        symbol: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        pathwayContexts: [pathwayNode.id],
+        _directionRole: 'downstream',
+        _anchorAngle: anchorAngle,
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
+        _targetAngle: pos.angle,
+        expandRadius: expandRadius * 1.3,
+        isNewlyExpanded: true
+      };
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -3374,67 +3270,43 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
       ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
       : 'binds';
 
-    // Check for existing node
-    const existingNode = findExistingInteractorNode(proteinId);
-    let nodeId;
+    // TRUE DEDUPLICATION: Use simple protein ID
+    const nodeId = proteinId;
+    const existingNode = nodeMap.get(nodeId);
 
     if (existingNode) {
-      // Create reference node
-      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const refNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          isReferenceNode: true,
-          primaryNodeId: existingNode.id,
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'bidirectional',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius * 0.85,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-        nodes.push(refNode);
-        nodeMap.set(nodeId, refNode);
-        newlyAddedNodes.add(nodeId);
+      // Node exists - add pathway context
+      if (!existingNode.pathwayContexts) {
+        existingNode.pathwayContexts = [existingNode._pathwayContext || existingNode.pathwayId];
+      }
+      if (!existingNode.pathwayContexts.includes(pathwayNode.id)) {
+        existingNode.pathwayContexts.push(pathwayNode.id);
       }
     } else {
-      nodeId = `${proteinId}@${pathwayNode.id}`;
-      if (!nodeMap.has(nodeId)) {
-        const newNode = {
-          id: nodeId,
-          label: proteinId,
-          symbol: proteinId,
-          type: 'interactor',
-          originalId: proteinId,
-          pathwayId: pathwayNode.id,
-          _pathwayContext: pathwayNode.id,
-          _pathwayName: pathwayNode.label,
-          _directionRole: 'bidirectional',
-          _anchorAngle: anchorAngle,  // For placeholder expansion positioning
-          radius: interactorNodeRadius,
-          arrow: actualArrow,
-          interactionData: interactionData,
-          x: pos.x,
-          y: pos.y,
-          _targetAngle: pos.angle,
-          expandRadius: expandRadius,
-          isNewlyExpanded: true
-        };
-        nodes.push(newNode);
-        nodeMap.set(nodeId, newNode);
-        newlyAddedNodes.add(nodeId);
-      }
+      const newNode = {
+        id: nodeId,
+        label: proteinId,
+        symbol: proteinId,
+        type: 'interactor',
+        originalId: proteinId,
+        pathwayId: pathwayNode.id,
+        _pathwayContext: pathwayNode.id,
+        _pathwayName: pathwayNode.label,
+        pathwayContexts: [pathwayNode.id],
+        _directionRole: 'bidirectional',
+        _anchorAngle: anchorAngle,
+        radius: interactorNodeRadius,
+        arrow: actualArrow,
+        interactionData: interactionData,
+        x: pos.x,
+        y: pos.y,
+        _targetAngle: pos.angle,
+        expandRadius: expandRadius,
+        isNewlyExpanded: true
+      };
+      nodes.push(newNode);
+      nodeMap.set(nodeId, newNode);
+      newlyAddedNodes.add(nodeId);
     }
     proteinNodeMap.set(proteinId, nodeId);
   });
@@ -3520,35 +3392,68 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
 
 /**
  * Collapse a pathway node - remove its interactors
+ * With TRUE DEDUPLICATION: Only remove nodes that belong ONLY to this pathway
  */
 function collapsePathway(pathwayNode) {
   expandedPathways.delete(pathwayNode.id);
   pathwayNode.expanded = false;
-  // Note: Radial force will automatically return pathway to base radius (350px)
 
-  // ALWAYS remove ALL nodes belonging to this pathway (including reference nodes)
-  // User preference: collapse removes nodes regardless of visibility elsewhere
   const nodesToRemove = new Set();
+  const nodesToKeep = new Set();
+
+  // Check each interactor node
   nodes.forEach(n => {
-    if (n.pathwayId === pathwayNode.id) {
-      nodesToRemove.add(n.id);
+    if (n.type !== 'interactor') return;
+
+    // Check if this node belongs to the collapsing pathway
+    const belongsToThisPathway = n.pathwayId === pathwayNode.id ||
+      (n.pathwayContexts && n.pathwayContexts.includes(pathwayNode.id));
+
+    if (belongsToThisPathway) {
+      // Remove this pathway from the node's contexts
+      if (n.pathwayContexts) {
+        n.pathwayContexts = n.pathwayContexts.filter(pid => pid !== pathwayNode.id);
+      }
+
+      // Only remove node if it has no remaining pathway contexts
+      if (!n.pathwayContexts || n.pathwayContexts.length === 0) {
+        nodesToRemove.add(n.id);
+      } else {
+        nodesToKeep.add(n.id);
+      }
     }
   });
 
-  // Remove nodes
+  // Remove nodes that belong only to this pathway
   nodes = nodes.filter(n => !nodesToRemove.has(n.id));
 
-  // Remove associated links
+  // Remove links that belong to this pathway (pathway → node links)
   links = links.filter(l => {
     const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
     const targetId = typeof l.target === 'object' ? l.target.id : l.target;
-    return !nodesToRemove.has(sourceId) && !nodesToRemove.has(targetId);
+
+    // Remove if source or target is being removed
+    if (nodesToRemove.has(sourceId) || nodesToRemove.has(targetId)) {
+      return false;
+    }
+
+    // Remove pathway-specific links from this pathway
+    if (sourceId === pathwayNode.id && l.type === 'pathway-interactor-link') {
+      return false;
+    }
+
+    // Remove interaction edges that belong to this pathway context
+    if (l._pathwayContext === pathwayNode.id) {
+      return false;
+    }
+
+    return true;
   });
 
   // Rebuild node map
   rebuildNodeMap();
 
-  console.log(`🛤️ Collapsed pathway: ${pathwayNode.label} (removed ${nodesToRemove.size} nodes)`);
+  console.log(`🛤️ Collapsed pathway: ${pathwayNode.label} (removed ${nodesToRemove.size} nodes, kept ${nodesToKeep.size} shared nodes)`);
 }
 
 /**
@@ -3726,17 +3631,14 @@ function findExistingPathwayNode(pathwayId) {
 }
 
 /**
- * Find an existing interactor node by protein symbol (for DAG handling)
- * Returns the PRIMARY node (not reference nodes) if the protein is already visible
+ * Find an existing interactor node by protein symbol
+ * With TRUE DEDUPLICATION: nodes are stored by simple protein ID
  */
 function findExistingInteractorNode(symbol) {
-  for (const node of nodes) {
-    if (node.type === 'interactor' && !node.isReferenceNode) {
-      // Match by symbol/label or originalId
-      if (node.symbol === symbol || node.label === symbol || node.originalId === symbol) {
-        return node;
-      }
-    }
+  // Direct lookup by protein ID (no more context-qualified IDs)
+  const node = nodeMap.get(symbol);
+  if (node && node.type === 'interactor') {
+    return node;
   }
   return null;
 }
