@@ -730,6 +730,9 @@ function findParentNode(parentId) {
 function recalculateShellPositions() {
   if (layoutMode !== 'shell') return;
 
+  // Clear crossing cache when layout changes
+  clearCrossingCache();
+
   const centerX = width / 2;
   const centerY = height / 2;
 
@@ -2121,6 +2124,488 @@ function getLinkControlPoint(link) {
   const ctrlY = midY + perpY * curveStrength * sign;
 
   return { cx: ctrlX, cy: ctrlY, x1, y1, x2, y2, isStraight: false };
+}
+
+// ============================================================================
+// LINK CROSSING PREVENTION SYSTEM
+// Detects link-link intersections and adjusts control points to route around
+// ============================================================================
+
+/** Cache for link crossing detection and resolution */
+const crossingCache = {
+  linkSegments: new Map(),      // linkId -> segment array
+  boundingBoxes: new Map(),     // linkId -> {minX, minY, maxX, maxY}
+  spatialIndex: new Map(),      // "gridX,gridY" -> Set<linkId>
+  crossingPairs: [],            // detected crossings
+  controlOffsets: new Map(),    // linkId -> {dx, dy} adjustment
+  frameCount: 0
+};
+
+/** Priority for crossing resolution - higher number yields more */
+const LINK_PRIORITY = {
+  'pathway-anchor-link': 3,    // Yields most (subtle visual)
+  'pathway-interactor': 3,
+  'interaction-edge': 2,
+  'link-binding': 1,           // Yields least (important)
+  'link-activate': 1,
+  'link-inhibit': 1,
+  'link-regulate': 1
+};
+
+/**
+ * Evaluate quadratic Bezier curve at parameter t
+ * @param {Object} ctrl - Control point data {x1, y1, cx, cy, x2, y2}
+ * @param {number} t - Parameter 0 to 1
+ * @returns {{x: number, y: number}}
+ */
+function evaluateBezier(ctrl, t) {
+  const mt = 1 - t;
+  return {
+    x: mt * mt * ctrl.x1 + 2 * mt * t * ctrl.cx + t * t * ctrl.x2,
+    y: mt * mt * ctrl.y1 + 2 * mt * t * ctrl.cy + t * t * ctrl.y2
+  };
+}
+
+/**
+ * Convert Bezier curve to line segments for intersection testing
+ * @param {Object} link - Link data object
+ * @param {number} segments - Number of segments (default 10)
+ * @returns {Array} Array of {x1, y1, x2, y2} line segments
+ */
+function bezierToSegments(link, segments = 10) {
+  const ctrl = getLinkControlPoint(link);
+  if (!ctrl) return [];
+
+  const result = [];
+  for (let i = 0; i < segments; i++) {
+    const t1 = i / segments;
+    const t2 = (i + 1) / segments;
+    const p1 = evaluateBezier(ctrl, t1);
+    const p2 = evaluateBezier(ctrl, t2);
+    result.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
+  }
+  return result;
+}
+
+/**
+ * Find intersection point between two line segments
+ * @param {Object} seg1 - First segment {x1, y1, x2, y2}
+ * @param {Object} seg2 - Second segment {x1, y1, x2, y2}
+ * @returns {Object|null} {x, y, t1, t2} or null if no intersection
+ */
+function segmentIntersection(seg1, seg2) {
+  const { x1, y1, x2, y2 } = seg1;
+  const { x1: x3, y1: y3, x2: x4, y2: y4 } = seg2;
+
+  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+  if (Math.abs(denom) < 1e-10) return null;  // Parallel or coincident
+
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+
+  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+    return {
+      x: x1 + t * (x2 - x1),
+      y: y1 + t * (y2 - y1),
+      t1: t,
+      t2: u
+    };
+  }
+  return null;
+}
+
+/**
+ * Compute bounding box for a link's Bezier curve
+ * @param {Object} link - Link data object
+ * @returns {Object|null} {minX, minY, maxX, maxY} or null
+ */
+function computeLinkBoundingBox(link) {
+  const ctrl = getLinkControlPoint(link);
+  if (!ctrl) return null;
+
+  // For quadratic Bezier, the bounding box contains all control points
+  // plus we add margin for the curve bulge
+  const margin = 20;
+  return {
+    minX: Math.min(ctrl.x1, ctrl.cx, ctrl.x2) - margin,
+    maxX: Math.max(ctrl.x1, ctrl.cx, ctrl.x2) + margin,
+    minY: Math.min(ctrl.y1, ctrl.cy, ctrl.y2) - margin,
+    maxY: Math.max(ctrl.y1, ctrl.cy, ctrl.y2) + margin
+  };
+}
+
+/**
+ * Check if two bounding boxes overlap
+ */
+function bboxOverlap(a, b) {
+  return a.minX <= b.maxX && a.maxX >= b.minX &&
+         a.minY <= b.maxY && a.maxY >= b.minY;
+}
+
+/**
+ * Check if two links share an endpoint (node)
+ */
+function linksShareEndpoint(linkA, linkB) {
+  const srcA = typeof linkA.source === 'object' ? linkA.source.id : linkA.source;
+  const tgtA = typeof linkA.target === 'object' ? linkA.target.id : linkA.target;
+  const srcB = typeof linkB.source === 'object' ? linkB.source.id : linkB.source;
+  const tgtB = typeof linkB.target === 'object' ? linkB.target.id : linkB.target;
+
+  return srcA === srcB || srcA === tgtB || tgtA === srcB || tgtA === tgtB;
+}
+
+/**
+ * Get link priority for crossing resolution
+ * Higher priority yields (adjusts curve) to lower priority
+ */
+function getLinkPriority(link) {
+  // Check CSS classes from arrowType
+  const arrowType = link.arrowType || 'binding';
+  const classKey = `link-${arrowType}`;
+
+  if (LINK_PRIORITY[classKey] !== undefined) {
+    return LINK_PRIORITY[classKey];
+  }
+
+  // Check if pathway-related
+  const srcNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+  const tgtNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+
+  if (srcNode?.type === 'pathway' || tgtNode?.type === 'pathway') {
+    return LINK_PRIORITY['pathway-anchor-link'];
+  }
+
+  return 2; // Default middle priority
+}
+
+/**
+ * Build spatial index of link bounding boxes
+ * @param {number} cellSize - Grid cell size (default 100px)
+ */
+function buildLinkSpatialIndex(cellSize = 100) {
+  crossingCache.spatialIndex.clear();
+  crossingCache.boundingBoxes.clear();
+  crossingCache.linkSegments.clear();
+
+  links.forEach(link => {
+    const linkId = getLinkId(link);
+    const bbox = computeLinkBoundingBox(link);
+    if (!bbox) return;
+
+    crossingCache.boundingBoxes.set(linkId, bbox);
+    crossingCache.linkSegments.set(linkId, bezierToSegments(link, 10));
+
+    // Insert into all grid cells the bbox overlaps
+    const minCellX = Math.floor(bbox.minX / cellSize);
+    const maxCellX = Math.floor(bbox.maxX / cellSize);
+    const minCellY = Math.floor(bbox.minY / cellSize);
+    const maxCellY = Math.floor(bbox.maxY / cellSize);
+
+    for (let cx = minCellX; cx <= maxCellX; cx++) {
+      for (let cy = minCellY; cy <= maxCellY; cy++) {
+        const key = `${cx},${cy}`;
+        if (!crossingCache.spatialIndex.has(key)) {
+          crossingCache.spatialIndex.set(key, new Set());
+        }
+        crossingCache.spatialIndex.get(key).add(linkId);
+      }
+    }
+  });
+}
+
+/**
+ * Generate unique ID for a link
+ */
+function getLinkId(link) {
+  const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+  const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+  return `${srcId}::${tgtId}::${link.arrowType || 'default'}`;
+}
+
+/**
+ * Find link object by its ID
+ */
+function getLinkById(linkId) {
+  return links.find(l => getLinkId(l) === linkId);
+}
+
+/**
+ * Get candidate links from spatial index that may intersect with given link
+ */
+function getCandidatesFromSpatialIndex(linkId) {
+  const bbox = crossingCache.boundingBoxes.get(linkId);
+  if (!bbox) return new Set();
+
+  const candidates = new Set();
+  const cellSize = 100;
+
+  const minCellX = Math.floor(bbox.minX / cellSize);
+  const maxCellX = Math.floor(bbox.maxX / cellSize);
+  const minCellY = Math.floor(bbox.minY / cellSize);
+  const maxCellY = Math.floor(bbox.maxY / cellSize);
+
+  for (let cx = minCellX; cx <= maxCellX; cx++) {
+    for (let cy = minCellY; cy <= maxCellY; cy++) {
+      const key = `${cx},${cy}`;
+      const linksInCell = crossingCache.spatialIndex.get(key);
+      if (linksInCell) {
+        linksInCell.forEach(id => {
+          if (id !== linkId) candidates.add(id);
+        });
+      }
+    }
+  }
+
+  return candidates;
+}
+
+/**
+ * Find intersection between two links' segment approximations
+ * @returns {Object|null} {x, y, segIdxA, segIdxB} or null
+ */
+function findLinkIntersection(linkIdA, linkIdB) {
+  const segsA = crossingCache.linkSegments.get(linkIdA);
+  const segsB = crossingCache.linkSegments.get(linkIdB);
+
+  if (!segsA || !segsB || segsA.length === 0 || segsB.length === 0) return null;
+
+  // Test all segment pairs
+  for (let i = 0; i < segsA.length; i++) {
+    for (let j = 0; j < segsB.length; j++) {
+      const intersection = segmentIntersection(segsA[i], segsB[j]);
+      if (intersection) {
+        return {
+          x: intersection.x,
+          y: intersection.y,
+          segIdxA: i,
+          segIdxB: j,
+          tA: (i + intersection.t1) / segsA.length,
+          tB: (j + intersection.t2) / segsB.length
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Detect all link-link crossings using spatial index
+ */
+function detectCrossings() {
+  crossingCache.crossingPairs = [];
+  const testedPairs = new Set();
+
+  links.forEach(linkA => {
+    const linkIdA = getLinkId(linkA);
+    const bboxA = crossingCache.boundingBoxes.get(linkIdA);
+    if (!bboxA) return;
+
+    const candidates = getCandidatesFromSpatialIndex(linkIdA);
+
+    candidates.forEach(linkIdB => {
+      // Avoid duplicate tests
+      const pairKey = [linkIdA, linkIdB].sort().join('|||');
+      if (testedPairs.has(pairKey)) return;
+      testedPairs.add(pairKey);
+
+      const linkB = getLinkById(linkIdB);
+      if (!linkB) return;
+
+      // Skip links that share endpoints
+      if (linksShareEndpoint(linkA, linkB)) return;
+
+      // Check bounding box overlap first
+      const bboxB = crossingCache.boundingBoxes.get(linkIdB);
+      if (!bboxB || !bboxOverlap(bboxA, bboxB)) return;
+
+      // Find actual intersection
+      const crossPoint = findLinkIntersection(linkIdA, linkIdB);
+      if (crossPoint) {
+        crossingCache.crossingPairs.push({
+          linkIdA,
+          linkIdB,
+          crossPoint,
+          resolved: false
+        });
+      }
+    });
+  });
+}
+
+/**
+ * Calculate avoidance offset for a link to avoid crossing point
+ * @param {Object} link - Link to adjust
+ * @param {Object} crossPoint - Crossing point {x, y}
+ * @param {Object} otherLink - The other link being avoided
+ * @returns {{dx: number, dy: number}}
+ */
+function calculateAvoidanceOffset(link, crossPoint, otherLink) {
+  const ctrl = getLinkControlPoint(link);
+  const otherCtrl = getLinkControlPoint(otherLink);
+  if (!ctrl || !otherCtrl) return { dx: 0, dy: 0 };
+
+  // Direction from link's midpoint to crossing point
+  const midX = (ctrl.x1 + ctrl.x2) / 2;
+  const midY = (ctrl.y1 + ctrl.y2) / 2;
+
+  // Perpendicular to link direction
+  const linkDx = ctrl.x2 - ctrl.x1;
+  const linkDy = ctrl.y2 - ctrl.y1;
+  const linkLen = Math.sqrt(linkDx * linkDx + linkDy * linkDy);
+
+  if (linkLen < 1) return { dx: 0, dy: 0 };
+
+  const perpX = -linkDy / linkLen;
+  const perpY = linkDx / linkLen;
+
+  // Determine which side to push to - away from other link's control point
+  const toOtherCtrlX = otherCtrl.cx - midX;
+  const toOtherCtrlY = otherCtrl.cy - midY;
+  const dot = perpX * toOtherCtrlX + perpY * toOtherCtrlY;
+  const sign = dot > 0 ? -1 : 1;
+
+  // Offset magnitude based on how close the crossing is to midpoint
+  const crossToMidDist = Math.sqrt(
+    (crossPoint.x - midX) ** 2 + (crossPoint.y - midY) ** 2
+  );
+  const offsetMagnitude = Math.min(80, Math.max(30, 60 - crossToMidDist * 0.3));
+
+  return {
+    dx: perpX * offsetMagnitude * sign,
+    dy: perpY * offsetMagnitude * sign
+  };
+}
+
+/**
+ * Resolve a single crossing by adjusting control point of yielding link
+ */
+function resolveCrossing(crossing) {
+  const linkA = getLinkById(crossing.linkIdA);
+  const linkB = getLinkById(crossing.linkIdB);
+  if (!linkA || !linkB) return;
+
+  const priorityA = getLinkPriority(linkA);
+  const priorityB = getLinkPriority(linkB);
+
+  // Higher priority number yields (moves its control point)
+  const yieldingLink = priorityA >= priorityB ? linkA : linkB;
+  const fixedLink = priorityA >= priorityB ? linkB : linkA;
+  const yieldingId = getLinkId(yieldingLink);
+
+  // Calculate offset
+  const offset = calculateAvoidanceOffset(yieldingLink, crossing.crossPoint, fixedLink);
+
+  // Accumulate offset (may have multiple crossings)
+  const existing = crossingCache.controlOffsets.get(yieldingId) || { dx: 0, dy: 0 };
+  const newOffset = {
+    dx: existing.dx + offset.dx,
+    dy: existing.dy + offset.dy
+  };
+
+  // Limit maximum offset to prevent extreme curves
+  const maxOffset = 100;
+  const offsetMag = Math.sqrt(newOffset.dx ** 2 + newOffset.dy ** 2);
+  if (offsetMag > maxOffset) {
+    newOffset.dx = (newOffset.dx / offsetMag) * maxOffset;
+    newOffset.dy = (newOffset.dy / offsetMag) * maxOffset;
+  }
+
+  crossingCache.controlOffsets.set(yieldingId, newOffset);
+  crossing.resolved = true;
+}
+
+/**
+ * Resolve all detected crossings
+ * Iterates multiple times to handle cascade effects
+ */
+function resolveAllCrossings() {
+  const MAX_ITERATIONS = 3;
+
+  for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
+    const unresolved = crossingCache.crossingPairs.filter(c => !c.resolved);
+    if (unresolved.length === 0) break;
+
+    unresolved.forEach(crossing => resolveCrossing(crossing));
+
+    // Rebuild segments with new offsets and re-detect
+    if (iter < MAX_ITERATIONS - 1) {
+      rebuildSegmentsWithOffsets();
+      detectCrossings();
+    }
+  }
+}
+
+/**
+ * Rebuild link segments incorporating current offsets
+ */
+function rebuildSegmentsWithOffsets() {
+  links.forEach(link => {
+    const linkId = getLinkId(link);
+    const ctrl = getLinkControlPoint(link);
+    if (!ctrl) return;
+
+    // Apply current offset
+    const offset = crossingCache.controlOffsets.get(linkId) || { dx: 0, dy: 0 };
+    const adjustedCtrl = {
+      x1: ctrl.x1,
+      y1: ctrl.y1,
+      cx: ctrl.cx + offset.dx,
+      cy: ctrl.cy + offset.dy,
+      x2: ctrl.x2,
+      y2: ctrl.y2
+    };
+
+    // Generate segments from adjusted control point
+    const segments = [];
+    for (let i = 0; i < 10; i++) {
+      const t1 = i / 10;
+      const t2 = (i + 1) / 10;
+      const p1 = evaluateBezier(adjustedCtrl, t1);
+      const p2 = evaluateBezier(adjustedCtrl, t2);
+      segments.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
+    }
+
+    crossingCache.linkSegments.set(linkId, segments);
+  });
+}
+
+/**
+ * Main entry point: Detect and resolve link-link crossings
+ * Called from tick handler with frame throttling
+ */
+function resolveLinkCrossings(forceRecalculate = false) {
+  if (!links || links.length < 2) return;
+
+  // Frame throttling - recalculate every 5 frames
+  crossingCache.frameCount++;
+  if (!forceRecalculate && crossingCache.frameCount % 5 !== 0) return;
+
+  // Clear previous offsets for fresh calculation
+  crossingCache.controlOffsets.clear();
+
+  // Build spatial index
+  buildLinkSpatialIndex(100);
+
+  // Detect crossings
+  detectCrossings();
+
+  // Resolve crossings
+  if (crossingCache.crossingPairs.length > 0) {
+    resolveAllCrossings();
+  }
+}
+
+/**
+ * Clear crossing cache - call when graph structure changes
+ */
+function clearCrossingCache() {
+  crossingCache.linkSegments.clear();
+  crossingCache.boundingBoxes.clear();
+  crossingCache.spatialIndex.clear();
+  crossingCache.crossingPairs = [];
+  crossingCache.controlOffsets.clear();
+  crossingCache.frameCount = 0;
 }
 
 /**
@@ -4129,6 +4614,9 @@ function updateSimulation() {
 function renderGraph() {
   if (!g) return;
 
+  // Clear crossing cache on structural changes
+  clearCrossingCache();
+
   // Remove existing elements
   g.selectAll('.node-group').remove();
   g.selectAll('path').remove();
@@ -4509,6 +4997,7 @@ function renderGraph() {
   // Update tick handler
   simulation.on('tick', () => {
     resolveNodeLinkCollisions();  // Push nodes away from link lines
+    resolveLinkCrossings();       // Prevent links from crossing each other
     node.attr('transform', d => `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });
@@ -4580,8 +5069,16 @@ function calculateLinkPath(d) {
 
   // Curve strength + parallel offset (increased base curve for better separation)
   const curveStrength = Math.min(dist * 0.15, 60);
-  const ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
-  const ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
+  let ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
+  let ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
+
+  // Apply crossing avoidance offset if present
+  const linkId = getLinkId(d);
+  const crossingOffset = crossingCache.controlOffsets.get(linkId);
+  if (crossingOffset) {
+    ctrlX += crossingOffset.dx;
+    ctrlY += crossingOffset.dy;
+  }
 
   return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
 }
