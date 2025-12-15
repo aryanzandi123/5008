@@ -683,6 +683,20 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
       }
       role = 'interactor';
     }
+    // NEW: Handle interactors in pathway mode WITHOUT _pathwayContext
+    // These are initial interactors that were created at graph build time
+    // Without this case, they fall through and stay at default shell=1 without proper assignment
+    else if (pMode && node.type === 'interactor') {
+      if (node._isChildOf) {
+        // Children of expanded nodes go to outer shell
+        const parentNode = allNodes.find(n => n.id === node._isChildOf);
+        parentShell = parentNode ? (assignments.get(parentNode.id)?.shell ?? 1) : 1;
+        shell = parentShell + 1;
+      } else {
+        shell = 1; // Base shell for initial interactors
+      }
+      role = 'interactor';
+    }
 
     // Placeholder nodes stay in same shell as parent's children
     if (node.isPlaceholder) {
