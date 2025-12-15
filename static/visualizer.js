@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 250;     // Shell 1 minimum radius
-  const SHELL_GAP = 220;       // Increased gap between shells to prevent overlap
-  const MIN_NODE_SPACING = 110; // Minimum spacing between node centers
+  const BASE_RADIUS = 280;     // Shell 1 minimum radius - larger for better spacing
+  const SHELL_GAP = 280;       // Large gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 140; // Generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -563,7 +563,7 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
         totalSpacing += child.type === 'pathway' ? 120 : MIN_NODE_SPACING;
       });
       const neededArc = totalSpacing / baseRadius;
-      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
+      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
 
       // Density = nodes that must fit / arc span available
       const density = children.length / arcSpan; // nodes per radian
@@ -853,8 +853,8 @@ function recalculateShellPositions() {
           totalAngularSpacing += getNodeAngularSpacing(child);
         });
 
-        // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
-        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 5 / 6));
+        // Allow up to 270° (1.5π) for large groups, but at least 30° for small groups
+        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 1.5));
 
         // Calculate scale factor if we had to clamp
         const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
@@ -1955,8 +1955,8 @@ function buildInitialGraph(){
  * Iteratively pushes overlapping nodes apart
  */
 function resolveInitialOverlaps() {
-  const MAX_ITERATIONS = 5;
-  const MIN_SEPARATION = interactorNodeRadius * 2.2;
+  const MAX_ITERATIONS = 20;
+  const MIN_SEPARATION = interactorNodeRadius * 3.0;  // ~96px - stronger separation
 
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     let overlapsResolved = 0;
@@ -2077,18 +2077,18 @@ function createSimulation(){
       )
       .force('collide', d3.forceCollide()
         .radius(d => {
-          // Generous padding to prevent any visual overlap
-          if (d.type === 'main') return mainNodeRadius + 20;
-          if (d.type === 'pathway') return 70;  // Larger buffer for pathways
-          if (d.type === 'function' || d.isFunction) return 45;
-          return (d.radius || interactorNodeRadius) + 20;  // Larger buffer for interactors
+          // Very generous padding to make overlaps impossible
+          if (d.type === 'main') return mainNodeRadius + 35;
+          if (d.type === 'pathway') return 95;  // Large buffer for pathways
+          if (d.type === 'function' || d.isFunction) return 55;
+          return (d.radius || interactorNodeRadius) + 35;  // Large buffer for interactors
         })
-        .iterations(10)  // More passes to fully resolve overlaps
+        .iterations(25)  // Many passes to fully resolve overlaps
         .strength(1.0)   // Maximum collision strength
       );
 
-    // Shell mode: run collision resolution with more time to settle
-    simulation.alpha(0.6).alphaDecay(0.04);  // More time to settle completely
+    // Shell mode: run collision resolution with much more time to settle
+    simulation.alpha(0.8).alphaDecay(0.015);  // Much more time to settle completely
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
@@ -3890,7 +3890,7 @@ function updateSimulation() {
 
     // Run collision resolution to push overlapping nodes apart
     // Shell positions are set, now let collision force resolve any overlaps
-    simulation.alpha(0.4).alphaDecay(0.08).restart();
+    simulation.alpha(0.8).alphaDecay(0.02).restart();  // More time to resolve collisions
   } else {
     // FORCE MODE: Standard physics update
     simulation.nodes(nodes);
