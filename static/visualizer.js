@@ -2053,6 +2053,178 @@ function resolveInitialOverlaps() {
 }
 
 /**
+ * Find closest point on a quadratic Bézier curve to a given point
+ * @param {number} px, py - Point to test
+ * @param {number} x1, y1 - Start point
+ * @param {number} cx, cy - Control point
+ * @param {number} x2, y2 - End point
+ * @returns {Object} - {x, y, dist, t} of closest point
+ */
+function getClosestPointOnBezier(px, py, x1, y1, cx, cy, x2, y2) {
+  let minDist = Infinity;
+  let closestPoint = { x: x1, y: y1, dist: Infinity, t: 0 };
+
+  // Sample the curve at intervals
+  for (let t = 0; t <= 1; t += 0.05) {
+    const mt = 1 - t;
+    // Quadratic Bézier formula: B(t) = (1-t)²·P₀ + 2(1-t)t·C + t²·P₁
+    const bx = mt * mt * x1 + 2 * mt * t * cx + t * t * x2;
+    const by = mt * mt * y1 + 2 * mt * t * cy + t * t * y2;
+
+    const dx = px - bx, dy = py - by;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < minDist) {
+      minDist = dist;
+      closestPoint = { x: bx, y: by, dist, t };
+    }
+  }
+  return closestPoint;
+}
+
+/**
+ * Calculate the control point for a link's Bézier curve
+ * Extracted from calculateLinkPath logic
+ */
+function getLinkControlPoint(link) {
+  const sourceNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+  const targetNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+
+  if (!sourceNode || !targetNode || sourceNode.x === undefined || targetNode.x === undefined) {
+    return null;
+  }
+
+  const x1 = sourceNode.x, y1 = sourceNode.y;
+  const x2 = targetNode.x, y2 = targetNode.y;
+  const dx = x2 - x1, dy = y2 - y1;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  if (dist < 80 || dist === 0) {
+    // Straight line - use midpoint as control
+    return { cx: (x1 + x2) / 2, cy: (y1 + y2) / 2, x1, y1, x2, y2, isStraight: true };
+  }
+
+  const perpX = -dy / dist;
+  const perpY = dx / dist;
+
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
+  const centerX = width / 2, centerY = height / 2;
+
+  const midToCenterX = centerX - midX;
+  const midToCenterY = centerY - midY;
+  const dot = perpX * midToCenterX + perpY * midToCenterY;
+  const sign = dot > 0 ? -1 : 1;
+
+  const curveStrength = Math.min(dist * 0.15, 60);
+  const ctrlX = midX + perpX * curveStrength * sign;
+  const ctrlY = midY + perpY * curveStrength * sign;
+
+  return { cx: ctrlX, cy: ctrlY, x1, y1, x2, y2, isStraight: false };
+}
+
+/**
+ * Resolve link-node collisions by pushing nodes away from nearby links
+ * Called on every tick to prevent nodes from overlapping with link lines
+ */
+function resolveNodeLinkCollisions() {
+  if (!links || !nodes || links.length === 0) return;
+
+  const AVOIDANCE_MARGIN = 60;  // Min distance from link to node edge
+  const cellSize = AVOIDANCE_MARGIN * 2;
+
+  // Build spatial hash for links
+  const linkGrid = new Map();
+
+  links.forEach(link => {
+    const ctrl = getLinkControlPoint(link);
+    if (!ctrl) return;
+
+    // Store link in grid cells around its bounding box
+    const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - AVOIDANCE_MARGIN;
+    const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + AVOIDANCE_MARGIN;
+    const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - AVOIDANCE_MARGIN;
+    const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + AVOIDANCE_MARGIN;
+
+    const minCellX = Math.floor(minX / cellSize);
+    const maxCellX = Math.floor(maxX / cellSize);
+    const minCellY = Math.floor(minY / cellSize);
+    const maxCellY = Math.floor(maxY / cellSize);
+
+    for (let cx = minCellX; cx <= maxCellX; cx++) {
+      for (let cy = minCellY; cy <= maxCellY; cy++) {
+        const key = `${cx},${cy}`;
+        if (!linkGrid.has(key)) linkGrid.set(key, []);
+        linkGrid.get(key).push({ link, ctrl });
+      }
+    }
+  });
+
+  // Check each node against nearby links
+  nodes.forEach(node => {
+    // Skip function nodes, main node, and nodes without positions
+    if (node.type === 'function' || node.isFunction) return;
+    if (node.type === 'main') return;
+    if (node.x === undefined || node.y === undefined) return;
+
+    const cellX = Math.floor(node.x / cellSize);
+    const cellY = Math.floor(node.y / cellSize);
+    const nearbyLinks = new Set();
+
+    // Gather links from 3x3 neighborhood
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        const linksInCell = linkGrid.get(`${cellX + dx},${cellY + dy}`) || [];
+        linksInCell.forEach(item => nearbyLinks.add(item));
+      }
+    }
+
+    // Get node radius
+    const nodeRadius = node.type === 'pathway' ? 70 : (node.radius || interactorNodeRadius);
+    const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
+
+    // Test each nearby link
+    nearbyLinks.forEach(({ link, ctrl }) => {
+      const sourceNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+      const targetNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+
+      // Skip if this link connects to the node
+      if (sourceNode === node || targetNode === node) return;
+      if (sourceNode?.id === node.id || targetNode?.id === node.id) return;
+
+      // Get closest point on link curve to node center
+      const closestPt = getClosestPointOnBezier(
+        node.x, node.y,
+        ctrl.x1, ctrl.y1,
+        ctrl.cx, ctrl.cy,
+        ctrl.x2, ctrl.y2
+      );
+
+      if (closestPt.dist < totalMargin) {
+        // Push node away from link
+        const pushX = node.x - closestPt.x;
+        const pushY = node.y - closestPt.y;
+        const pushDist = Math.sqrt(pushX * pushX + pushY * pushY);
+
+        if (pushDist > 0) {
+          const pushAmount = (totalMargin - closestPt.dist) * 0.5;  // Gradual push
+          const pushUnitX = pushX / pushDist;
+          const pushUnitY = pushY / pushDist;
+
+          node.x += pushUnitX * pushAmount;
+          node.y += pushUnitY * pushAmount;
+        } else {
+          // Node center exactly on link - push in random direction
+          const angle = Math.random() * Math.PI * 2;
+          node.x += Math.cos(angle) * totalMargin;
+          node.y += Math.sin(angle) * totalMargin;
+        }
+      }
+    });
+  });
+}
+
+/**
  * Creates D3 force simulation
  * In 'shell' mode: minimal forces, deterministic positions
  * In 'force' mode: full physics simulation (legacy)
@@ -2327,6 +2499,7 @@ function createSimulation(){
 
   // Tick handler
   simulation.on('tick', ()=>{
+    resolveNodeLinkCollisions();  // Push nodes away from link lines
     node.attr('transform', d=> `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });
@@ -4311,6 +4484,7 @@ function renderGraph() {
 
   // Update tick handler
   simulation.on('tick', () => {
+    resolveNodeLinkCollisions();  // Push nodes away from link lines
     node.attr('transform', d => `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });
