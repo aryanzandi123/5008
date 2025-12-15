@@ -865,7 +865,16 @@ function recalculateShellPositions() {
 
         // Calculate scale factor if we had to clamp
         const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
-        const startAngle = parentAngle - arcSpan / 2;
+
+        // For child pathways: bias arc upward (toward top of canvas at -π/2)
+        // This prevents child pathways from being positioned below parents and crossing links
+        let arcBias = 0;
+        const hasPathwayChildren = children.some(c => c.type === 'pathway');
+        if (hasPathwayChildren) {
+          // Shift arc counterclockwise (toward smaller angles / top)
+          arcBias = -arcSpan * 0.3;
+        }
+        const startAngle = parentAngle - arcSpan / 2 + arcBias;
 
         // Position each child using cumulative spacing (not uniform)
         let currentAngle = startAngle;
@@ -2777,8 +2786,14 @@ function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, node
       }
     });
 
-    // Sort children by barycenter
-    children.sort((a, b) => (barycenters.get(a.id) || 0) - (barycenters.get(b.id) || 0));
+    // Sort children: pathways first (will be at start of arc = top), then by barycenter
+    children.sort((a, b) => {
+      // Pathways should be positioned toward top (start of arc)
+      if (a.type === 'pathway' && b.type !== 'pathway') return -1;
+      if (b.type === 'pathway' && a.type !== 'pathway') return 1;
+      // Among same type, use barycenter
+      return (barycenters.get(a.id) || 0) - (barycenters.get(b.id) || 0);
+    });
 
     // Reposition within same arc but in barycenter order
     const parentAngle = nodeAngles.get(parentId) || 0;
@@ -2792,7 +2807,11 @@ function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, node
 
     const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 1.5));
     const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
-    const startAngle = parentAngle - arcSpan / 2;
+
+    // For child pathways: bias arc upward (toward top of canvas)
+    const hasPathwayChildren = children.some(c => c.type === 'pathway');
+    const arcBias = hasPathwayChildren ? -arcSpan * 0.3 : 0;
+    const startAngle = parentAngle - arcSpan / 2 + arcBias;
 
     let currentAngle = startAngle;
     children.forEach((node) => {
