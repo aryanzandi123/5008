@@ -2816,7 +2816,8 @@ function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, node
     let currentAngle = startAngle;
     children.forEach((node) => {
       const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
-      const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+      // Single child pathways: position ABOVE parent (negative = counterclockwise = top)
+      const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? -Math.PI / 6 : 0;
       const angle = children.length === 1
         ? parentAngle + singleChildOffset
         : currentAngle + nodeAngularSpan / 2;
