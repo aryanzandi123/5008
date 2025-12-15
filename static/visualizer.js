@@ -822,16 +822,10 @@ function recalculateShellPositions() {
         byParent.get(parentId).push(node);
       });
 
-      // Reorder parent groups to minimize inter-parent crossings
-      const reorderedParentAngles = reorderParentGroups(byParent, nodeAngles);
-
       // Position each parent's children
       for (const [parentId, children] of byParent) {
-        // Use reordered angle if available, otherwise fall back to original lookup
-        let parentAngle = reorderedParentAngles?.get(parentId);
-        if (parentAngle === undefined) {
-          parentAngle = nodeAngles.get(parentId);
-        }
+        // Get parent's angle - try multiple lookup methods
+        let parentAngle = nodeAngles.get(parentId);
         if (parentAngle === undefined) {
           const baseParentId = parentId.split('@')[0];
           parentAngle = nodeAngles.get(baseParentId);
@@ -2739,77 +2733,6 @@ function optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAng
     const baseId = node.id.split('@')[0];
     if (baseId !== node.id) nodeAngles.set(baseId, newAngle);
   });
-}
-
-/**
- * Reorder parent groups so connected groups are placed adjacent to each other
- * Uses barycenter heuristic on parent-to-parent connectivity
- * @param {Map} byParent - Map of parentId -> [child nodes]
- * @param {Map} nodeAngles - Map of nodeId -> angle
- * @returns {Map|null} - Map of parentId -> new angle, or null if no reordering needed
- */
-function reorderParentGroups(byParent, nodeAngles) {
-  const parentIds = Array.from(byParent.keys());
-  if (parentIds.length < 2) return null; // No reordering needed
-
-  // Build parent-to-parent edge weights (count links between children of different parents)
-  const parentEdges = new Map(); // parentId -> Map<otherParentId, weight>
-
-  for (const [parentId] of byParent) {
-    parentEdges.set(parentId, new Map());
-  }
-
-  // Count edges between parent groups
-  links.forEach(link => {
-    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-
-    let srcParent = null, tgtParent = null;
-    for (const [parentId, children] of byParent) {
-      if (children.some(c => c.id === srcId)) srcParent = parentId;
-      if (children.some(c => c.id === tgtId)) tgtParent = parentId;
-    }
-
-    if (srcParent && tgtParent && srcParent !== tgtParent) {
-      const srcEdges = parentEdges.get(srcParent);
-      srcEdges.set(tgtParent, (srcEdges.get(tgtParent) || 0) + 1);
-      const tgtEdges = parentEdges.get(tgtParent);
-      tgtEdges.set(srcParent, (tgtEdges.get(srcParent) || 0) + 1);
-    }
-  });
-
-  // Compute barycenter for each parent based on connected parents' current angles
-  const parentBarycenters = new Map();
-  for (const [parentId, edges] of parentEdges) {
-    if (edges.size === 0) {
-      // No inter-parent edges, keep current angle
-      parentBarycenters.set(parentId, nodeAngles.get(parentId) || 0);
-      continue;
-    }
-
-    let sinSum = 0, cosSum = 0, totalWeight = 0;
-    for (const [otherParent, weight] of edges) {
-      const otherAngle = nodeAngles.get(otherParent) || 0;
-      sinSum += Math.sin(otherAngle) * weight;
-      cosSum += Math.cos(otherAngle) * weight;
-      totalWeight += weight;
-    }
-    parentBarycenters.set(parentId, Math.atan2(sinSum, cosSum));
-  }
-
-  // Sort parents by barycenter
-  parentIds.sort((a, b) =>
-    (parentBarycenters.get(a) || 0) - (parentBarycenters.get(b) || 0)
-  );
-
-  // Assign new angles evenly around circle in sorted order
-  const angleStep = (2 * Math.PI) / parentIds.length;
-  const newParentAngles = new Map();
-  parentIds.forEach((parentId, idx) => {
-    newParentAngles.set(parentId, idx * angleStep);
-  });
-
-  return newParentAngles;
 }
 
 /**
