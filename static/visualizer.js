@@ -788,7 +788,7 @@ function recalculateShellPositions() {
     // Shell 2+: group by parent, position at parent's angle with small spread
 
     if (shellNum === 1) {
-      // SHELL 1: Spread evenly around center
+      // SHELL 1: Spread evenly around center initially
       const angleStep = (2 * Math.PI) / Math.max(shellNodes.length, 1);
       shellNodes.forEach((node, idx) => {
         const angle = idx * angleStep;
@@ -804,6 +804,10 @@ function recalculateShellPositions() {
         node.fx = null;
         node.fy = null;
       });
+
+      // OPTIMIZE: Reorder shell 1 nodes to minimize crossings
+      // Uses barycenter heuristic - places nodes near their neighbors
+      optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAngles);
     } else {
       // SHELL 2+: Group by parent, inherit parent's angle
       const byParent = new Map();
@@ -2465,11 +2469,12 @@ function calculateAvoidanceOffset(link, crossPoint, otherLink) {
   const dot = perpX * toOtherCtrlX + perpY * toOtherCtrlY;
   const sign = dot > 0 ? -1 : 1;
 
-  // Offset magnitude based on how close the crossing is to midpoint
+  // AGGRESSIVE offset magnitude - much larger to actually separate curves
+  // Base offset is 120px, scales up to 200px for crossings near midpoint
   const crossToMidDist = Math.sqrt(
     (crossPoint.x - midX) ** 2 + (crossPoint.y - midY) ** 2
   );
-  const offsetMagnitude = Math.min(80, Math.max(30, 60 - crossToMidDist * 0.3));
+  const offsetMagnitude = Math.min(200, Math.max(120, 180 - crossToMidDist * 0.2));
 
   return {
     dx: perpX * offsetMagnitude * sign,
@@ -2503,8 +2508,8 @@ function resolveCrossing(crossing) {
     dy: existing.dy + offset.dy
   };
 
-  // Limit maximum offset to prevent extreme curves
-  const maxOffset = 100;
+  // Limit maximum offset to prevent extreme curves (but allow large values)
+  const maxOffset = 250;
   const offsetMag = Math.sqrt(newOffset.dx ** 2 + newOffset.dy ** 2);
   if (offsetMag > maxOffset) {
     newOffset.dx = (newOffset.dx / offsetMag) * maxOffset;
@@ -2571,24 +2576,189 @@ function rebuildSegmentsWithOffsets() {
 }
 
 /**
+ * Count current link-link crossings (for debugging/metrics)
+ * @returns {number} Number of crossings
+ */
+function countLinkCrossings() {
+  if (!links || links.length < 2) return 0;
+
+  buildLinkSpatialIndex(100);
+  detectCrossings();
+  return crossingCache.crossingPairs.length;
+}
+
+/**
+ * Check if two line segments intersect
+ * @param {number} x1,y1,x2,y2 - First segment endpoints
+ * @param {number} x3,y3,x4,y4 - Second segment endpoints
+ * @returns {boolean} True if segments cross
+ */
+function segmentsCross(x1, y1, x2, y2, x3, y3, x4, y4) {
+  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+  if (Math.abs(denom) < 1e-10) return false;
+
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+
+  return t > 0.01 && t < 0.99 && u > 0.01 && u < 0.99;
+}
+
+/**
+ * Count crossings for a given node arrangement (using straight-line approximation)
+ * @param {Array} nodesWithAngles - Array of {node, angle, x, y}
+ * @param {number} centerX - Center X
+ * @param {number} centerY - Center Y
+ * @returns {number} Number of crossings
+ */
+function countArrangementCrossings(nodesWithAngles, centerX, centerY) {
+  if (!links || links.length === 0) return 0;
+
+  // Build position lookup
+  const posMap = new Map();
+  nodesWithAngles.forEach(({node, x, y}) => {
+    posMap.set(node.id, {x, y});
+  });
+
+  // Also include existing node positions for nodes not in this arrangement
+  nodes.forEach(n => {
+    if (!posMap.has(n.id) && n.x !== undefined) {
+      posMap.set(n.id, {x: n.x, y: n.y});
+    }
+  });
+
+  let crossings = 0;
+  const linkEndpoints = [];
+
+  // Get link endpoints
+  links.forEach(link => {
+    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+    const srcPos = posMap.get(srcId);
+    const tgtPos = posMap.get(tgtId);
+    if (srcPos && tgtPos) {
+      linkEndpoints.push({srcId, tgtId, x1: srcPos.x, y1: srcPos.y, x2: tgtPos.x, y2: tgtPos.y});
+    }
+  });
+
+  // Count pairwise crossings
+  for (let i = 0; i < linkEndpoints.length; i++) {
+    for (let j = i + 1; j < linkEndpoints.length; j++) {
+      const a = linkEndpoints[i];
+      const b = linkEndpoints[j];
+
+      // Skip if links share an endpoint
+      if (a.srcId === b.srcId || a.srcId === b.tgtId ||
+          a.tgtId === b.srcId || a.tgtId === b.tgtId) continue;
+
+      if (segmentsCross(a.x1, a.y1, a.x2, a.y2, b.x1, b.y1, b.x2, b.y2)) {
+        crossings++;
+      }
+    }
+  }
+
+  return crossings;
+}
+
+/**
+ * Optimize angular ordering of nodes within a shell to minimize crossings
+ * Uses barycenter heuristic: sort nodes by average angle of their neighbors
+ * @param {Array} shellNodes - Nodes in this shell
+ * @param {number} shellRadius - Radius of this shell
+ * @param {number} centerX - Center X
+ * @param {number} centerY - Center Y
+ * @param {Map} nodeAngles - Map of nodeId -> angle for positioned nodes
+ */
+function optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAngles) {
+  if (shellNodes.length < 3) return; // No optimization needed for 1-2 nodes
+
+  // Build adjacency: for each node, find connected nodes
+  const adjacency = new Map();
+  shellNodes.forEach(n => adjacency.set(n.id, []));
+
+  links.forEach(link => {
+    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+
+    // Get angles of connected nodes
+    const srcAngle = nodeAngles.get(srcId);
+    const tgtAngle = nodeAngles.get(tgtId);
+
+    // If src is in shellNodes and tgt has an angle, add to adjacency
+    if (adjacency.has(srcId) && tgtAngle !== undefined) {
+      adjacency.get(srcId).push(tgtAngle);
+    }
+    if (adjacency.has(tgtId) && srcAngle !== undefined) {
+      adjacency.get(tgtId).push(srcAngle);
+    }
+  });
+
+  // Compute barycenter (average neighbor angle) for each node
+  const barycenters = new Map();
+  shellNodes.forEach(node => {
+    const neighborAngles = adjacency.get(node.id) || [];
+    if (neighborAngles.length > 0) {
+      // Use circular mean for angles
+      let sinSum = 0, cosSum = 0;
+      neighborAngles.forEach(a => {
+        sinSum += Math.sin(a);
+        cosSum += Math.cos(a);
+      });
+      barycenters.set(node.id, Math.atan2(sinSum, cosSum));
+    } else {
+      // No neighbors - keep current angle or use 0
+      barycenters.set(node.id, node._targetAngle || 0);
+    }
+  });
+
+  // Sort nodes by barycenter
+  shellNodes.sort((a, b) => {
+    const ba = barycenters.get(a.id) || 0;
+    const bb = barycenters.get(b.id) || 0;
+    return ba - bb;
+  });
+
+  // Reassign angles evenly around circle in barycenter order
+  const angleStep = (2 * Math.PI) / shellNodes.length;
+  shellNodes.forEach((node, idx) => {
+    const newAngle = idx * angleStep;
+    node.x = centerX + shellRadius * Math.cos(newAngle);
+    node.y = centerY + shellRadius * Math.sin(newAngle);
+    node._targetAngle = newAngle;
+    if (node._shellData) node._shellData.angle = newAngle;
+    nodeAngles.set(node.id, newAngle);
+    if (node.originalId) nodeAngles.set(node.originalId, newAngle);
+    const baseId = node.id.split('@')[0];
+    if (baseId !== node.id) nodeAngles.set(baseId, newAngle);
+  });
+}
+
+/**
  * Main entry point: Detect and resolve link-link crossings
  * Called from tick handler with frame throttling
  */
 function resolveLinkCrossings(forceRecalculate = false) {
   if (!links || links.length < 2) return;
 
-  // Frame throttling - recalculate every 5 frames
+  // Frame throttling - recalculate every 3 frames (more frequent)
   crossingCache.frameCount++;
-  if (!forceRecalculate && crossingCache.frameCount % 5 !== 0) return;
+  if (!forceRecalculate && crossingCache.frameCount % 3 !== 0) return;
 
-  // Clear previous offsets for fresh calculation
-  crossingCache.controlOffsets.clear();
+  // DON'T clear offsets - let them persist and accumulate properly
+  // Only clear on force recalculate
+  if (forceRecalculate) {
+    crossingCache.controlOffsets.clear();
+  }
 
   // Build spatial index
   buildLinkSpatialIndex(100);
 
   // Detect crossings
   detectCrossings();
+
+  // Debug: log crossing count periodically
+  if (crossingCache.frameCount % 30 === 0 && crossingCache.crossingPairs.length > 0) {
+    console.log(`[CrossingPrevention] Detected ${crossingCache.crossingPairs.length} crossings, ${crossingCache.controlOffsets.size} offsets applied`);
+  }
 
   // Resolve crossings
   if (crossingCache.crossingPairs.length > 0) {
