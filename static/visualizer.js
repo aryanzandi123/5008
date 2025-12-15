@@ -2439,8 +2439,8 @@ function detectCrossings() {
       const linkB = getLinkById(linkIdB);
       if (!linkB) return;
 
-      // NOTE: Don't skip links that share endpoints - they can still cross in the middle
-      // The old check was too aggressive and prevented detection of fanning links from same node
+      // Skip links that share endpoints
+      if (linksShareEndpoint(linkA, linkB)) return;
 
       // Check bounding box overlap first
       const bboxB = crossingCache.boundingBoxes.get(linkIdB);
