@@ -554,29 +554,16 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     });
 
     // Find the densest angular sector (worst-case clustering)
-    // Uses PROPORTIONAL arc allocation to match positioning logic
     let maxDensity = 0;
-
-    // First calculate total nodes for proportional allocation
-    let totalNodesInShell = 0;
-    for (const [, children] of byParent) {
-      totalNodesInShell += children.length;
-    }
-
     for (const [parentId, children] of byParent) {
-      // Proportional arc allocation - matches the positioning logic
-      const proportion = children.length / Math.max(totalNodesInShell, 1);
-      const allocatedArc = Math.max(Math.PI / 18, proportion * 2 * Math.PI);
-
+      // Each parent's children must fit in their allocated arc
       // Sum per-node spacing requirements (pathway=120px, interactor=MIN_NODE_SPACING)
       let totalSpacing = 0;
       children.forEach(child => {
         totalSpacing += child.type === 'pathway' ? 120 : MIN_NODE_SPACING;
       });
       const neededArc = totalSpacing / baseRadius;
-
-      // Use the smaller of allocated arc or needed arc
-      const arcSpan = Math.min(allocatedArc, Math.max(neededArc, Math.PI / 18));
+      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 5 / 6));
 
       // Density = nodes that must fit / arc span available
       const density = children.length / arcSpan; // nodes per radian
@@ -812,8 +799,7 @@ function recalculateShellPositions() {
         node.fy = null;
       });
     } else {
-      // SHELL 2+: Group by parent, position within PROPORTIONALLY ALLOCATED arcs
-      // This prevents overlap between different parent groups
+      // SHELL 2+: Group by parent, inherit parent's angle
       const byParent = new Map();
       shellNodes.forEach(node => {
         const parentId = node.type === 'pathway'
@@ -826,73 +812,61 @@ function recalculateShellPositions() {
         byParent.get(parentId).push(node);
       });
 
-      // STEP 1: Calculate total children across ALL parent groups
-      let totalChildrenInShell = 0;
-      for (const [, children] of byParent) {
-        totalChildrenInShell += children.length;
-      }
-
-      // STEP 2: Calculate proportional arc allocation for each parent
-      // Each parent gets a share of the full 360° based on their child count
-      const parentAllocatedArcs = new Map();
+      // Position each parent's children
       for (const [parentId, children] of byParent) {
-        const proportion = children.length / Math.max(totalChildrenInShell, 1);
-        // Minimum 10° (π/18) per parent for visibility, maximum is their proportion
-        const allocatedArc = Math.max(Math.PI / 18, proportion * 2 * Math.PI);
-        parentAllocatedArcs.set(parentId, allocatedArc);
-      }
+        // Get parent's angle - try multiple lookup methods
+        let parentAngle = nodeAngles.get(parentId);
+        if (parentAngle === undefined) {
+          const baseParentId = parentId.split('@')[0];
+          parentAngle = nodeAngles.get(baseParentId);
+        }
+        if (parentAngle === undefined) {
+          // Try to find parent node and get its angle
+          const parent = findParentNode(parentId);
+          if (parent) {
+            parentAngle = parent._shellData?.angle ?? parent._targetAngle;
+            if (parentAngle === undefined && parent.x !== undefined) {
+              parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
+            }
+          }
+        }
+        if (parentAngle === undefined) {
+          // Final fallback: spread evenly among all parent groups
+          const parentKeys = Array.from(byParent.keys());
+          const parentIdx = parentKeys.indexOf(parentId);
+          parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
+        }
 
-      // STEP 3: Calculate starting angles for each parent group
-      // Sort parents by their natural angle to maintain visual coherence
-      const parentEntries = Array.from(byParent.entries());
-      parentEntries.sort((a, b) => {
-        const angleA = nodeAngles.get(a[0]) ?? nodeAngles.get(a[0].split('@')[0]) ?? 0;
-        const angleB = nodeAngles.get(b[0]) ?? nodeAngles.get(b[0].split('@')[0]) ?? 0;
-        return angleA - angleB;
-      });
-
-      // Calculate cumulative start angles - each parent gets a distinct sector
-      let cumulativeAngle = 0;
-      const parentStartAngles = new Map();
-      for (const [parentId] of parentEntries) {
-        parentStartAngles.set(parentId, cumulativeAngle);
-        cumulativeAngle += parentAllocatedArcs.get(parentId);
-      }
-
-      // STEP 4: Position each parent's children within their allocated arc
-      for (const [parentId, children] of byParent) {
-        const allocatedArc = parentAllocatedArcs.get(parentId);
-        const sectorStartAngle = parentStartAngles.get(parentId);
-
-        // Calculate per-node angular spacing based on node type
+        // Position ALL children together in one arc around parent's angle
+        // Use per-node spacing based on node type (pathway vs interactor)
         const getNodeAngularSpacing = (node) => {
           const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
           return (radius * 2.5) / shellRadius;
         };
 
-        // Sum total spacing needed
+        // Sum total arc needed (each node contributes its own spacing)
         let totalAngularSpacing = 0;
         children.forEach(child => {
           totalAngularSpacing += getNodeAngularSpacing(child);
         });
 
-        // Use allocated arc, scaling down if children don't fill it
-        const arcSpan = Math.min(allocatedArc, Math.max(totalAngularSpacing, Math.PI / 18));
+        // Allow up to 150° (5π/6) for large groups, but at least 30° for small groups
+        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 5 / 6));
+
+        // Calculate scale factor if we had to clamp
         const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
+        const startAngle = parentAngle - arcSpan / 2;
 
-        // Center children within allocated sector
-        const startAngle = sectorStartAngle + (allocatedArc - arcSpan) / 2;
-
-        // Position each child using cumulative spacing
+        // Position each child using cumulative spacing (not uniform)
         let currentAngle = startAngle;
         children.forEach((node) => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
 
-          // Single child offset for pathways
+          // Offset single pathway children slightly to avoid visual overlap with parent
           const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
           const angle = children.length === 1
-            ? sectorStartAngle + allocatedArc / 2 + singleChildOffset
-            : currentAngle + nodeAngularSpan / 2;
+            ? parentAngle + singleChildOffset
+            : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
 
           node.x = centerX + shellRadius * Math.cos(angle);
           node.y = centerY + shellRadius * Math.sin(angle);
