@@ -2275,20 +2275,31 @@ function linksShareEndpoint(linkA, linkB) {
  * Higher priority yields (adjusts curve) to lower priority
  */
 function getLinkPriority(link) {
-  // Check CSS classes from arrowType
-  const arrowType = link.arrowType || 'binding';
-  const classKey = `link-${arrowType}`;
+  // First check link.type directly (most reliable for pathway links)
+  if (link.type) {
+    if (link.type === 'pathway-interactor-link' || link.type === 'pathway-interactor') {
+      return LINK_PRIORITY['pathway-interactor'] || 3;
+    }
+    if (link.type === 'pathway-anchor-link') {
+      return LINK_PRIORITY['pathway-anchor-link'] || 3;
+    }
+    if (link.type === 'interaction-edge') {
+      return LINK_PRIORITY['interaction-edge'] || 2;
+    }
+  }
 
+  // Then check arrowType/arrow for interaction links
+  const arrowType = link.arrowType || link.arrow || 'binding';
+  const classKey = `link-${arrowType}`;
   if (LINK_PRIORITY[classKey] !== undefined) {
     return LINK_PRIORITY[classKey];
   }
 
-  // Check if pathway-related
+  // Fallback: check if pathway-related by node types
   const srcNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
   const tgtNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
-
   if (srcNode?.type === 'pathway' || tgtNode?.type === 'pathway') {
-    return LINK_PRIORITY['pathway-anchor-link'];
+    return 3; // Pathway links yield most
   }
 
   return 2; // Default middle priority
