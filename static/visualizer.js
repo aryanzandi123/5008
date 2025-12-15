@@ -892,6 +892,9 @@ function recalculateShellPositions() {
           currentAngle += nodeAngularSpan;
         });
       }
+
+      // Optimize Shell 2+ ordering within parent groups to minimize crossings
+      optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, nodeAngles);
     }
   }
 
@@ -2730,6 +2733,87 @@ function optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAng
     const baseId = node.id.split('@')[0];
     if (baseId !== node.id) nodeAngles.set(baseId, newAngle);
   });
+}
+
+/**
+ * Optimize ordering of Shell 2+ nodes within parent groups to minimize crossings
+ * Uses barycenter heuristic - orders nodes by average angle of their connected nodes
+ * @param {Map} byParent - Map of parentId -> [child nodes]
+ * @param {number} shellRadius - Radius of this shell
+ * @param {number} centerX - Center X
+ * @param {number} centerY - Center Y
+ * @param {Map} nodeAngles - Map of nodeId -> angle for all positioned nodes
+ */
+function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, nodeAngles) {
+  for (const [parentId, children] of byParent) {
+    if (children.length < 2) continue;
+
+    // Compute barycenter for each child based on ALL its links
+    const barycenters = new Map();
+    children.forEach(node => {
+      const neighborAngles = [];
+
+      links.forEach(link => {
+        const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+        const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+
+        if (srcId === node.id) {
+          const tgtAngle = nodeAngles.get(tgtId);
+          if (tgtAngle !== undefined) neighborAngles.push(tgtAngle);
+        }
+        if (tgtId === node.id) {
+          const srcAngle = nodeAngles.get(srcId);
+          if (srcAngle !== undefined) neighborAngles.push(srcAngle);
+        }
+      });
+
+      if (neighborAngles.length > 0) {
+        // Circular mean for angles
+        let sinSum = 0, cosSum = 0;
+        neighborAngles.forEach(a => { sinSum += Math.sin(a); cosSum += Math.cos(a); });
+        barycenters.set(node.id, Math.atan2(sinSum, cosSum));
+      } else {
+        barycenters.set(node.id, node._targetAngle || 0);
+      }
+    });
+
+    // Sort children by barycenter
+    children.sort((a, b) => (barycenters.get(a.id) || 0) - (barycenters.get(b.id) || 0));
+
+    // Reposition within same arc but in barycenter order
+    const parentAngle = nodeAngles.get(parentId) || 0;
+    const getNodeAngularSpacing = (node) => {
+      const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
+      return (radius * 2.5) / shellRadius;
+    };
+
+    let totalAngularSpacing = 0;
+    children.forEach(child => { totalAngularSpacing += getNodeAngularSpacing(child); });
+
+    const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 1.5));
+    const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
+    const startAngle = parentAngle - arcSpan / 2;
+
+    let currentAngle = startAngle;
+    children.forEach((node) => {
+      const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
+      const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+      const angle = children.length === 1
+        ? parentAngle + singleChildOffset
+        : currentAngle + nodeAngularSpan / 2;
+
+      node.x = centerX + shellRadius * Math.cos(angle);
+      node.y = centerY + shellRadius * Math.sin(angle);
+      node._shellData = { ...node._shellData, angle };
+      node._targetAngle = angle;
+      nodeAngles.set(node.id, angle);
+      if (node.originalId) nodeAngles.set(node.originalId, angle);
+      const baseId = node.id.split('@')[0];
+      if (baseId !== node.id) nodeAngles.set(baseId, angle);
+
+      currentAngle += nodeAngularSpan;
+    });
+  }
 }
 
 /**
