@@ -2126,102 +2126,126 @@ function getLinkControlPoint(link) {
 /**
  * Resolve link-node collisions by pushing nodes away from nearby links
  * Called on every tick to prevent nodes from overlapping with link lines
+ * AGGRESSIVE version: large margins, full push, multiple iterations
  */
 function resolveNodeLinkCollisions() {
   if (!links || !nodes || links.length === 0) return;
 
-  const AVOIDANCE_MARGIN = 60;  // Min distance from link to node edge
+  const AVOIDANCE_MARGIN = 120;  // LARGE margin to keep nodes far from links
   const cellSize = AVOIDANCE_MARGIN * 2;
+  const MAX_ITERATIONS = 3;  // Multiple passes per tick
 
-  // Build spatial hash for links
-  const linkGrid = new Map();
+  for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+    // Build spatial hash for links (rebuild each iteration as nodes move)
+    const linkGrid = new Map();
 
-  links.forEach(link => {
-    const ctrl = getLinkControlPoint(link);
-    if (!ctrl) return;
+    links.forEach(link => {
+      const ctrl = getLinkControlPoint(link);
+      if (!ctrl) return;
 
-    // Store link in grid cells around its bounding box
-    const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - AVOIDANCE_MARGIN;
-    const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + AVOIDANCE_MARGIN;
-    const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - AVOIDANCE_MARGIN;
-    const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + AVOIDANCE_MARGIN;
+      // Store link in grid cells around its bounding box
+      const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - AVOIDANCE_MARGIN;
+      const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + AVOIDANCE_MARGIN;
+      const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - AVOIDANCE_MARGIN;
+      const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + AVOIDANCE_MARGIN;
 
-    const minCellX = Math.floor(minX / cellSize);
-    const maxCellX = Math.floor(maxX / cellSize);
-    const minCellY = Math.floor(minY / cellSize);
-    const maxCellY = Math.floor(maxY / cellSize);
+      const minCellX = Math.floor(minX / cellSize);
+      const maxCellX = Math.floor(maxX / cellSize);
+      const minCellY = Math.floor(minY / cellSize);
+      const maxCellY = Math.floor(maxY / cellSize);
 
-    for (let cx = minCellX; cx <= maxCellX; cx++) {
-      for (let cy = minCellY; cy <= maxCellY; cy++) {
-        const key = `${cx},${cy}`;
-        if (!linkGrid.has(key)) linkGrid.set(key, []);
-        linkGrid.get(key).push({ link, ctrl });
-      }
-    }
-  });
-
-  // Check each node against nearby links
-  nodes.forEach(node => {
-    // Skip function nodes, main node, and nodes without positions
-    if (node.type === 'function' || node.isFunction) return;
-    if (node.type === 'main') return;
-    if (node.x === undefined || node.y === undefined) return;
-
-    const cellX = Math.floor(node.x / cellSize);
-    const cellY = Math.floor(node.y / cellSize);
-    const nearbyLinks = new Set();
-
-    // Gather links from 3x3 neighborhood
-    for (let dx = -1; dx <= 1; dx++) {
-      for (let dy = -1; dy <= 1; dy++) {
-        const linksInCell = linkGrid.get(`${cellX + dx},${cellY + dy}`) || [];
-        linksInCell.forEach(item => nearbyLinks.add(item));
-      }
-    }
-
-    // Get node radius
-    const nodeRadius = node.type === 'pathway' ? 70 : (node.radius || interactorNodeRadius);
-    const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
-
-    // Test each nearby link
-    nearbyLinks.forEach(({ link, ctrl }) => {
-      const sourceNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
-      const targetNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
-
-      // Skip if this link connects to the node
-      if (sourceNode === node || targetNode === node) return;
-      if (sourceNode?.id === node.id || targetNode?.id === node.id) return;
-
-      // Get closest point on link curve to node center
-      const closestPt = getClosestPointOnBezier(
-        node.x, node.y,
-        ctrl.x1, ctrl.y1,
-        ctrl.cx, ctrl.cy,
-        ctrl.x2, ctrl.y2
-      );
-
-      if (closestPt.dist < totalMargin) {
-        // Push node away from link
-        const pushX = node.x - closestPt.x;
-        const pushY = node.y - closestPt.y;
-        const pushDist = Math.sqrt(pushX * pushX + pushY * pushY);
-
-        if (pushDist > 0) {
-          const pushAmount = (totalMargin - closestPt.dist) * 0.5;  // Gradual push
-          const pushUnitX = pushX / pushDist;
-          const pushUnitY = pushY / pushDist;
-
-          node.x += pushUnitX * pushAmount;
-          node.y += pushUnitY * pushAmount;
-        } else {
-          // Node center exactly on link - push in random direction
-          const angle = Math.random() * Math.PI * 2;
-          node.x += Math.cos(angle) * totalMargin;
-          node.y += Math.sin(angle) * totalMargin;
+      for (let cx = minCellX; cx <= maxCellX; cx++) {
+        for (let cy = minCellY; cy <= maxCellY; cy++) {
+          const key = `${cx},${cy}`;
+          if (!linkGrid.has(key)) linkGrid.set(key, []);
+          linkGrid.get(key).push({ link, ctrl });
         }
       }
     });
-  });
+
+    let collisionsResolved = 0;
+
+    // Check each node against nearby links
+    nodes.forEach(node => {
+      // Skip function nodes, main node, and nodes without positions
+      if (node.type === 'function' || node.isFunction) return;
+      if (node.type === 'main') return;
+      if (node.x === undefined || node.y === undefined) return;
+
+      const cellX = Math.floor(node.x / cellSize);
+      const cellY = Math.floor(node.y / cellSize);
+      const nearbyLinks = new Set();
+
+      // Gather links from 3x3 neighborhood
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const linksInCell = linkGrid.get(`${cellX + dx},${cellY + dy}`) || [];
+          linksInCell.forEach(item => nearbyLinks.add(item));
+        }
+      }
+
+      // Get node radius - use LARGER values for pathways
+      const nodeRadius = node.type === 'pathway' ? 90 : (node.radius || interactorNodeRadius + 10);
+      const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
+
+      // Test each nearby link
+      nearbyLinks.forEach(({ link, ctrl }) => {
+        const sourceNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+        const targetNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+
+        // Skip if this link connects to the node
+        if (sourceNode === node || targetNode === node) return;
+        if (sourceNode?.id === node.id || targetNode?.id === node.id) return;
+
+        // Get closest point on link curve to node center
+        const closestPt = getClosestPointOnBezier(
+          node.x, node.y,
+          ctrl.x1, ctrl.y1,
+          ctrl.cx, ctrl.cy,
+          ctrl.x2, ctrl.y2
+        );
+
+        if (closestPt.dist < totalMargin) {
+          collisionsResolved++;
+
+          // Push node away from link - FULL push immediately
+          const pushX = node.x - closestPt.x;
+          const pushY = node.y - closestPt.y;
+          const pushDist = Math.sqrt(pushX * pushX + pushY * pushY);
+
+          if (pushDist > 0.1) {
+            // Full push to clear the margin completely
+            const pushAmount = (totalMargin - closestPt.dist) * 1.1;  // 110% to ensure clearance
+            const pushUnitX = pushX / pushDist;
+            const pushUnitY = pushY / pushDist;
+
+            node.x += pushUnitX * pushAmount;
+            node.y += pushUnitY * pushAmount;
+          } else {
+            // Node center exactly on link - push perpendicular to link direction
+            const linkDx = ctrl.x2 - ctrl.x1;
+            const linkDy = ctrl.y2 - ctrl.y1;
+            const linkLen = Math.sqrt(linkDx * linkDx + linkDy * linkDy);
+            if (linkLen > 0) {
+              // Push perpendicular (90 degrees from link direction)
+              const perpX = -linkDy / linkLen;
+              const perpY = linkDx / linkLen;
+              node.x += perpX * totalMargin;
+              node.y += perpY * totalMargin;
+            } else {
+              // Fallback: random direction
+              const angle = Math.random() * Math.PI * 2;
+              node.x += Math.cos(angle) * totalMargin;
+              node.y += Math.sin(angle) * totalMargin;
+            }
+          }
+        }
+      });
+    });
+
+    // If no collisions found, no need for more iterations
+    if (collisionsResolved === 0) break;
+  }
 }
 
 /**
