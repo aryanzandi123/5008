@@ -881,8 +881,8 @@ function recalculateShellPositions() {
         children.forEach((node) => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
 
-          // Offset single pathway children slightly to avoid visual overlap with parent
-          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+          // Single child pathways: position ABOVE parent (negative = counterclockwise = top)
+          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? -Math.PI / 6 : 0;
           const angle = children.length === 1
             ? parentAngle + singleChildOffset
             : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
