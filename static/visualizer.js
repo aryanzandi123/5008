@@ -841,10 +841,16 @@ function recalculateShellPositions() {
           }
         }
         if (parentAngle === undefined) {
-          // Final fallback: spread evenly among all parent groups
-          const parentKeys = Array.from(byParent.keys());
-          const parentIdx = parentKeys.indexOf(parentId);
-          parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
+          // Try to get angle from actual parent node position
+          const parent = findParentNode(parentId);
+          if (parent && parent.x !== undefined) {
+            parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
+          } else {
+            // Final fallback: spread evenly among all parent groups
+            const parentKeys = Array.from(byParent.keys());
+            const parentIdx = parentKeys.indexOf(parentId);
+            parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
+          }
         }
 
         // Position ALL children together in one arc around parent's angle
@@ -887,8 +893,21 @@ function recalculateShellPositions() {
             ? parentAngle + singleChildOffset
             : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
 
-          node.x = centerX + shellRadius * Math.cos(angle);
-          node.y = centerY + shellRadius * Math.sin(angle);
+          // For interactors from pathways: position relative to parent pathway node
+          // For pathways: position relative to canvas center (maintain radial layout)
+          const isPathwayInteractor = node.type !== 'pathway' && node._pathwayContext;
+          const parent = isPathwayInteractor ? findParentNode(parentId) : null;
+
+          if (parent && parent.x !== undefined) {
+            // Position relative to parent pathway with local radius
+            const localRadius = 120;  // Fixed distance from parent
+            node.x = parent.x + localRadius * Math.cos(angle);
+            node.y = parent.y + localRadius * Math.sin(angle);
+          } else {
+            // Position relative to canvas center
+            node.x = centerX + shellRadius * Math.cos(angle);
+            node.y = centerY + shellRadius * Math.sin(angle);
+          }
           node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
           node._targetAngle = angle;
           nodeAngles.set(node.id, angle);
