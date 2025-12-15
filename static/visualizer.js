@@ -895,19 +895,6 @@ function recalculateShellPositions() {
     }
   }
 
-  // GLOBAL OPTIMIZATION: Optimize ALL shells to minimize crossings
-  // This allows pathway nodes to reposition freely, not locked to parent angle
-  for (const shellNum of sortedShells) {
-    if (shellNum === 0) continue; // Skip main node
-    const shellNodes = nodesByShell.get(shellNum);
-    if (!shellNodes || shellNodes.length < 2) continue;
-    const shellRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
-    optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAngles);
-  }
-
-  // ITERATIVE REFINEMENT: Try swapping nodes to reduce crossings further
-  iterativeSwapOptimization(nodesByShell, shellRadii, centerX, centerY, nodeAngles);
-
   // Position function nodes within parent's allocated arc
   // Uses arc-sector logic with scaled radius based on parent's shell depth
   nodes.forEach(node => {
@@ -2650,118 +2637,6 @@ function countArrangementCrossings(nodesWithAngles, centerX, centerY) {
     const tgtPos = posMap.get(tgtId);
     if (srcPos && tgtPos) {
       linkEndpoints.push({srcId, tgtId, x1: srcPos.x, y1: srcPos.y, x2: tgtPos.x, y2: tgtPos.y});
-    }
-  });
-
-  // Count pairwise crossings
-  for (let i = 0; i < linkEndpoints.length; i++) {
-    for (let j = i + 1; j < linkEndpoints.length; j++) {
-      const a = linkEndpoints[i];
-      const b = linkEndpoints[j];
-
-      // Skip if links share an endpoint
-      if (a.srcId === b.srcId || a.srcId === b.tgtId ||
-          a.tgtId === b.srcId || a.tgtId === b.tgtId) continue;
-
-      if (segmentsCross(a.x1, a.y1, a.x2, a.y2, b.x1, b.y1, b.x2, b.y2)) {
-        crossings++;
-      }
-    }
-  }
-
-  return crossings;
-}
-
-/**
- * Iterative swap optimization - try swapping pairs of nodes to reduce crossings
- * @param {Map} nodesByShell - Map of shell number to node arrays
- * @param {Array} shellRadii - Array of shell radii
- * @param {number} centerX - Center X
- * @param {number} centerY - Center Y
- * @param {Map} nodeAngles - Map of nodeId -> angle
- */
-function iterativeSwapOptimization(nodesByShell, shellRadii, centerX, centerY, nodeAngles) {
-  const MAX_ITERATIONS = 5;
-  const MAX_SWAPS_PER_ITERATION = 20;
-
-  for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
-    let swapsMade = 0;
-    const initialCrossings = countCurrentCrossings(nodeAngles, centerX, centerY);
-
-    // Try swapping pairs within each shell
-    for (const [shellNum, shellNodes] of nodesByShell) {
-      if (shellNum === 0 || shellNodes.length < 2) continue;
-      const shellRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
-
-      // Try each pair of nodes
-      for (let i = 0; i < shellNodes.length && swapsMade < MAX_SWAPS_PER_ITERATION; i++) {
-        for (let j = i + 1; j < shellNodes.length && swapsMade < MAX_SWAPS_PER_ITERATION; j++) {
-          const nodeA = shellNodes[i];
-          const nodeB = shellNodes[j];
-
-          // Save original positions
-          const origAx = nodeA.x, origAy = nodeA.y, origAangle = nodeA._targetAngle;
-          const origBx = nodeB.x, origBy = nodeB.y, origBangle = nodeB._targetAngle;
-
-          // Swap positions
-          nodeA.x = origBx; nodeA.y = origBy; nodeA._targetAngle = origBangle;
-          nodeB.x = origAx; nodeB.y = origAy; nodeB._targetAngle = origAangle;
-
-          // Update angle maps
-          nodeAngles.set(nodeA.id, origBangle);
-          nodeAngles.set(nodeB.id, origAangle);
-          if (nodeA._shellData) nodeA._shellData.angle = origBangle;
-          if (nodeB._shellData) nodeB._shellData.angle = origAangle;
-
-          // Count crossings after swap
-          const newCrossings = countCurrentCrossings(nodeAngles, centerX, centerY);
-
-          if (newCrossings < initialCrossings) {
-            // Keep the swap
-            swapsMade++;
-          } else {
-            // Revert the swap
-            nodeA.x = origAx; nodeA.y = origAy; nodeA._targetAngle = origAangle;
-            nodeB.x = origBx; nodeB.y = origBy; nodeB._targetAngle = origBangle;
-            nodeAngles.set(nodeA.id, origAangle);
-            nodeAngles.set(nodeB.id, origBangle);
-            if (nodeA._shellData) nodeA._shellData.angle = origAangle;
-            if (nodeB._shellData) nodeB._shellData.angle = origBangle;
-          }
-        }
-      }
-    }
-
-    // Stop if no improvement
-    if (swapsMade === 0) break;
-  }
-}
-
-/**
- * Count current link crossings based on node positions
- */
-function countCurrentCrossings(nodeAngles, centerX, centerY) {
-  if (!links || links.length < 2) return 0;
-
-  // Build position map from current node positions
-  const posMap = new Map();
-  nodes.forEach(n => {
-    if (n.x !== undefined && n.y !== undefined) {
-      posMap.set(n.id, { x: n.x, y: n.y });
-    }
-  });
-
-  let crossings = 0;
-  const linkEndpoints = [];
-
-  // Get link endpoints
-  links.forEach(link => {
-    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-    const srcPos = posMap.get(srcId);
-    const tgtPos = posMap.get(tgtId);
-    if (srcPos && tgtPos) {
-      linkEndpoints.push({ srcId, tgtId, x1: srcPos.x, y1: srcPos.y, x2: tgtPos.x, y2: tgtPos.y });
     }
   });
 
