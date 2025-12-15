@@ -1421,8 +1421,6 @@ function initNetwork(){
    cachedMainNode = nodes.find(n => n.type === 'main');
    // PERFORMANCE: Build node lookup map for O(1) access
    rebuildNodeMap();
-   // Calculate offsets for initial links
-   updateLinkOffsets();
    createSimulation();
 }
 
@@ -2089,9 +2087,6 @@ function getClosestPointOnBezier(px, py, x1, y1, cx, cy, x2, y2) {
  * Extracted from calculateLinkPath logic
  */
 function getLinkControlPoint(link) {
-  // Use cached control point if available (from calculateLinkPath)
-  if (link._controlPoint) return link._controlPoint;
-
   const sourceNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
   const targetNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
 
@@ -2121,12 +2116,9 @@ function getLinkControlPoint(link) {
   const dot = perpX * midToCenterX + perpY * midToCenterY;
   const sign = dot > 0 ? -1 : 1;
 
-  // Use parallel offset if available (fallback to 0)
-  const parallelOffset = link._parallelOffset || 0;
-
   const curveStrength = Math.min(dist * 0.15, 60);
-  const ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
-  const ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
+  const ctrlX = midX + perpX * curveStrength * sign;
+  const ctrlY = midY + perpY * curveStrength * sign;
 
   return { cx: ctrlX, cy: ctrlY, x1, y1, x2, y2, isStraight: false };
 }
@@ -2136,15 +2128,14 @@ function getLinkControlPoint(link) {
  * Called on every tick to prevent nodes from overlapping with link lines
  * AGGRESSIVE version: large margins, full push, multiple iterations
  */
-function resolveNodeLinkCollisions(iterations = 3) {
+function resolveNodeLinkCollisions() {
   if (!links || !nodes || links.length === 0) return;
 
-  const BASE_MARGIN = 130; // Increased from 120
-  const SPECIAL_MARGIN = 180; // Increased from 160
-  const MAX_MARGIN = SPECIAL_MARGIN;
-  const cellSize = MAX_MARGIN * 2;
+  const AVOIDANCE_MARGIN = 120;  // LARGE margin to keep nodes far from links
+  const cellSize = AVOIDANCE_MARGIN * 2;
+  const MAX_ITERATIONS = 3;  // Multiple passes per tick
 
-  for (let iteration = 0; iteration < iterations; iteration++) {
+  for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
     // Build spatial hash for links (rebuild each iteration as nodes move)
     const linkGrid = new Map();
 
@@ -2153,10 +2144,10 @@ function resolveNodeLinkCollisions(iterations = 3) {
       if (!ctrl) return;
 
       // Store link in grid cells around its bounding box
-      const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - MAX_MARGIN;
-      const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + MAX_MARGIN;
-      const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - MAX_MARGIN;
-      const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + MAX_MARGIN;
+      const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - AVOIDANCE_MARGIN;
+      const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + AVOIDANCE_MARGIN;
+      const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - AVOIDANCE_MARGIN;
+      const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + AVOIDANCE_MARGIN;
 
       const minCellX = Math.floor(minX / cellSize);
       const maxCellX = Math.floor(maxX / cellSize);
@@ -2194,15 +2185,8 @@ function resolveNodeLinkCollisions(iterations = 3) {
       }
 
       // Get node radius - use LARGER values for pathways
-      const nodeRadius = node.type === 'pathway' ? 100 : (node.radius || interactorNodeRadius + 15);
-      
-      // Dynamic margin based on link type
-      let currentMargin = BASE_MARGIN;
-      // Include pathway-link in special margin to prevent overlap with main spokes
-      if (link.type === 'pathway-anchor-link' || link.type === 'interaction-edge' || link.type === 'pathway-link') {
-        currentMargin = SPECIAL_MARGIN;
-      }
-      const totalMargin = nodeRadius + currentMargin;
+      const nodeRadius = node.type === 'pathway' ? 90 : (node.radius || interactorNodeRadius + 10);
+      const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
 
       // Test each nearby link
       nearbyLinks.forEach(({ link, ctrl }) => {
@@ -2262,31 +2246,6 @@ function resolveNodeLinkCollisions(iterations = 3) {
     // If no collisions found, no need for more iterations
     if (collisionsResolved === 0) break;
   }
-}
-
-/**
- * Update parallel link offsets
- * Called when links array changes to pre-calculate offsets for parallel links
- */
-function updateLinkOffsets() {
-  const linkGroups = new Map();
-  
-  links.forEach(l => {
-    const srcId = typeof l.source === 'object' ? l.source.id : l.source;
-    const tgtId = typeof l.target === 'object' ? l.target.id : l.target;
-    // Sort IDs to group A->B and B->A together
-    const key = [srcId, tgtId].sort().join('::');
-    if (!linkGroups.has(key)) linkGroups.set(key, []);
-    linkGroups.get(key).push(l);
-  });
-
-  linkGroups.forEach(group => {
-    const total = group.length;
-    group.forEach((l, i) => {
-      // Offset parallel links perpendicular to direction (±16px per link)
-      l._parallelOffset = total > 1 ? (i - (total - 1) / 2) * 16 : 0;
-    });
-  });
 }
 
 /**
@@ -4579,9 +4538,6 @@ function calculateLinkPath(d) {
 
   // Straight line for very short links or zero distance
   if (dist < 80 || dist === 0) {
-    const midX = (x1 + x2) / 2;
-    const midY = (y1 + y2) / 2;
-    d._controlPoint = { cx: midX, cy: midY, x1, y1, x2, y2, isStraight: true };
     return `M ${x1} ${y1} L ${x2} ${y2}`;
   }
 
@@ -4589,8 +4545,26 @@ function calculateLinkPath(d) {
   const perpX = -dy / dist;
   const perpY = dx / dist;
 
-  // Use pre-calculated offset if available
-  const parallelOffset = d._parallelOffset || 0;
+  // Calculate offset for parallel links between same node pair
+  const srcId = sourceNode.id;
+  const tgtId = targetNode.id;
+  const linkKey = [srcId, tgtId].sort().join('::');
+
+  // Find all links between these two nodes (parallel/bidirectional links)
+  const parallelLinks = links.filter(l => {
+    const s = typeof l.source === 'object' ? l.source.id : l.source;
+    const t = typeof l.target === 'object' ? l.target.id : l.target;
+    return [s, t].sort().join('::') === linkKey;
+  });
+
+  const linkIndex = parallelLinks.indexOf(d);
+  const totalParallel = parallelLinks.length;
+
+  // Offset parallel links perpendicular to direction (±16px per link)
+  // This separates bidirectional arrows so they don't overlap
+  const parallelOffset = totalParallel > 1
+    ? (linkIndex - (totalParallel - 1) / 2) * 16
+    : 0;
 
   // CURVED LINKS: Quadratic bezier that curves away from center
   const midX = (x1 + x2) / 2;
@@ -4608,9 +4582,6 @@ function calculateLinkPath(d) {
   const curveStrength = Math.min(dist * 0.15, 60);
   const ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
   const ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
-
-  // Store control point for collision detection
-  d._controlPoint = { cx: ctrlX, cy: ctrlY, x1, y1, x2, y2, isStraight: false };
 
   return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
 }
@@ -7734,9 +7705,6 @@ function updateGraphWithTransitions(){
       node.y = pos.y;
     }
   });
-
-  // Update link offsets before rendering
-  updateLinkOffsets();
 
   // Update links with transitions
   if (!linkGroup) {
