@@ -2128,15 +2128,14 @@ function getLinkControlPoint(link) {
  * Called on every tick to prevent nodes from overlapping with link lines
  * AGGRESSIVE version: large margins, full push, multiple iterations
  */
-function resolveNodeLinkCollisions(iterations = 3) {
+function resolveNodeLinkCollisions() {
   if (!links || !nodes || links.length === 0) return;
 
-  const BASE_MARGIN = 120;
-  const SPECIAL_MARGIN = 160; // Larger margin for structural links
-  const MAX_MARGIN = SPECIAL_MARGIN;
-  const cellSize = MAX_MARGIN * 2;
+  const AVOIDANCE_MARGIN = 120;  // LARGE margin to keep nodes far from links
+  const cellSize = AVOIDANCE_MARGIN * 2;
+  const MAX_ITERATIONS = 3;  // Multiple passes per tick
 
-  for (let iteration = 0; iteration < iterations; iteration++) {
+  for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
     // Build spatial hash for links (rebuild each iteration as nodes move)
     const linkGrid = new Map();
 
@@ -2145,10 +2144,10 @@ function resolveNodeLinkCollisions(iterations = 3) {
       if (!ctrl) return;
 
       // Store link in grid cells around its bounding box
-      const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - MAX_MARGIN;
-      const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + MAX_MARGIN;
-      const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - MAX_MARGIN;
-      const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + MAX_MARGIN;
+      const minX = Math.min(ctrl.x1, ctrl.x2, ctrl.cx) - AVOIDANCE_MARGIN;
+      const maxX = Math.max(ctrl.x1, ctrl.x2, ctrl.cx) + AVOIDANCE_MARGIN;
+      const minY = Math.min(ctrl.y1, ctrl.y2, ctrl.cy) - AVOIDANCE_MARGIN;
+      const maxY = Math.max(ctrl.y1, ctrl.y2, ctrl.cy) + AVOIDANCE_MARGIN;
 
       const minCellX = Math.floor(minX / cellSize);
       const maxCellX = Math.floor(maxX / cellSize);
@@ -2187,13 +2186,7 @@ function resolveNodeLinkCollisions(iterations = 3) {
 
       // Get node radius - use LARGER values for pathways
       const nodeRadius = node.type === 'pathway' ? 90 : (node.radius || interactorNodeRadius + 10);
-      
-      // Dynamic margin based on link type
-      let currentMargin = BASE_MARGIN;
-      if (link.type === 'pathway-anchor-link' || link.type === 'interaction-edge') {
-        currentMargin = SPECIAL_MARGIN;
-      }
-      const totalMargin = nodeRadius + currentMargin;
+      const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
 
       // Test each nearby link
       nearbyLinks.forEach(({ link, ctrl }) => {
@@ -2264,12 +2257,7 @@ function createSimulation(){
   // SHELL MODE: Calculate deterministic positions first
   if (layoutMode === 'shell') {
     recalculateShellPositions();
-    
-    // Iteratively resolve overlaps (node-node AND node-link)
-    for (let i = 0; i < 3; i++) {
-      resolveInitialOverlaps();
-      resolveNodeLinkCollisions(5);
-    }
+    resolveInitialOverlaps();  // Pre-collision pass before simulation starts
   }
 
   // Create simulation - needed for rendering even in shell mode
@@ -2535,7 +2523,7 @@ function createSimulation(){
 
   // Tick handler
   simulation.on('tick', ()=>{
-    resolveNodeLinkCollisions(2);  // Push nodes away from link lines
+    resolveNodeLinkCollisions();  // Push nodes away from link lines
     node.attr('transform', d=> `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });
@@ -4520,7 +4508,7 @@ function renderGraph() {
 
   // Update tick handler
   simulation.on('tick', () => {
-    resolveNodeLinkCollisions(2);  // Push nodes away from link lines
+    resolveNodeLinkCollisions();  // Push nodes away from link lines
     node.attr('transform', d => `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });

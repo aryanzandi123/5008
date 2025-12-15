@@ -306,6 +306,7 @@ console.log('✅ Step 3: Data loaded (hydration removed - using direct database 
 document.getElementById('networkTitle').textContent = `${SNAP.main} Interaction Network`;
 </script>
 <script src="/static/visualizer.js?v=779"></script>
+<script src="/static/visualizer.js?v=780"></script>
 </body>
 </html>
 """
