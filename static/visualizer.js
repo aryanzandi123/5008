@@ -881,14 +881,8 @@ function recalculateShellPositions() {
         children.forEach((node) => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
 
-          // Single child pathways: bias toward TOP of canvas (angle = -π/2)
-          let singleChildOffset = 0;
-          if (children.length === 1 && node.type === 'pathway') {
-            const topAngle = -Math.PI / 2;
-            const angleDiff = topAngle - parentAngle;
-            const normalizedDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
-            singleChildOffset = normalizedDiff * 0.3;  // 30% toward top
-          }
+          // Single child pathways: NO offset - keep at parent's angle (different shells prevent overlap)
+          const singleChildOffset = 0;
           const angle = children.length === 1
             ? parentAngle + singleChildOffset
             : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
@@ -2822,14 +2816,8 @@ function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, node
     let currentAngle = startAngle;
     children.forEach((node) => {
       const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
-      // Single child pathways: bias toward TOP of canvas (angle = -π/2)
-      let singleChildOffset = 0;
-      if (children.length === 1 && node.type === 'pathway') {
-        const topAngle = -Math.PI / 2;
-        const angleDiff = topAngle - parentAngle;
-        const normalizedDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
-        singleChildOffset = normalizedDiff * 0.3;  // 30% toward top
-      }
+      // Single child pathways: NO offset - keep at parent's angle (different shells prevent overlap)
+      const singleChildOffset = 0;
       const angle = children.length === 1
         ? parentAngle + singleChildOffset
         : currentAngle + nodeAngularSpan / 2;
