@@ -730,9 +730,6 @@ function findParentNode(parentId) {
 function recalculateShellPositions() {
   if (layoutMode !== 'shell') return;
 
-  // Clear crossing cache when layout changes
-  clearCrossingCache();
-
   const centerX = width / 2;
   const centerY = height / 2;
 
@@ -788,7 +785,7 @@ function recalculateShellPositions() {
     // Shell 2+: group by parent, position at parent's angle with small spread
 
     if (shellNum === 1) {
-      // SHELL 1: Spread evenly around center initially
+      // SHELL 1: Spread evenly around center
       const angleStep = (2 * Math.PI) / Math.max(shellNodes.length, 1);
       shellNodes.forEach((node, idx) => {
         const angle = idx * angleStep;
@@ -804,10 +801,6 @@ function recalculateShellPositions() {
         node.fx = null;
         node.fy = null;
       });
-
-      // OPTIMIZE: Reorder shell 1 nodes to minimize crossings
-      // Uses barycenter heuristic - places nodes near their neighbors
-      optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAngles);
     } else {
       // SHELL 2+: Group by parent, inherit parent's angle
       const byParent = new Map();
@@ -841,16 +834,10 @@ function recalculateShellPositions() {
           }
         }
         if (parentAngle === undefined) {
-          // Try to get angle from actual parent node position
-          const parent = findParentNode(parentId);
-          if (parent && parent.x !== undefined) {
-            parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
-          } else {
-            // Final fallback: spread evenly among all parent groups
-            const parentKeys = Array.from(byParent.keys());
-            const parentIdx = parentKeys.indexOf(parentId);
-            parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
-          }
+          // Final fallback: spread evenly among all parent groups
+          const parentKeys = Array.from(byParent.keys());
+          const parentIdx = parentKeys.indexOf(parentId);
+          parentAngle = (2 * Math.PI * parentIdx) / Math.max(parentKeys.length, 1);
         }
 
         // Position ALL children together in one arc around parent's angle
@@ -871,43 +858,21 @@ function recalculateShellPositions() {
 
         // Calculate scale factor if we had to clamp
         const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
-
-        // For child pathways: bias arc upward (toward top of canvas at -π/2)
-        // This prevents child pathways from being positioned below parents and crossing links
-        let arcBias = 0;
-        const hasPathwayChildren = children.some(c => c.type === 'pathway');
-        if (hasPathwayChildren) {
-          // Shift arc counterclockwise (toward smaller angles / top)
-          arcBias = -arcSpan * 0.3;
-        }
-        const startAngle = parentAngle - arcSpan / 2 + arcBias;
+        const startAngle = parentAngle - arcSpan / 2;
 
         // Position each child using cumulative spacing (not uniform)
         let currentAngle = startAngle;
         children.forEach((node) => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
 
-          // Single child pathways: NO offset - keep at parent's angle (different shells prevent overlap)
-          const singleChildOffset = 0;
+          // Offset single pathway children slightly to avoid visual overlap with parent
+          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
           const angle = children.length === 1
             ? parentAngle + singleChildOffset
             : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
 
-          // For interactors from pathways: position relative to parent pathway node
-          // For pathways: position relative to canvas center (maintain radial layout)
-          const isPathwayInteractor = node.type !== 'pathway' && node._pathwayContext;
-          const parent = isPathwayInteractor ? findParentNode(parentId) : null;
-
-          if (parent && parent.x !== undefined) {
-            // Position relative to parent pathway with local radius
-            const localRadius = 120;  // Fixed distance from parent
-            node.x = parent.x + localRadius * Math.cos(angle);
-            node.y = parent.y + localRadius * Math.sin(angle);
-          } else {
-            // Position relative to canvas center
-            node.x = centerX + shellRadius * Math.cos(angle);
-            node.y = centerY + shellRadius * Math.sin(angle);
-          }
+          node.x = centerX + shellRadius * Math.cos(angle);
+          node.y = centerY + shellRadius * Math.sin(angle);
           node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
           node._targetAngle = angle;
           nodeAngles.set(node.id, angle);
@@ -920,9 +885,6 @@ function recalculateShellPositions() {
           currentAngle += nodeAngularSpan;
         });
       }
-
-      // Optimize Shell 2+ ordering within parent groups to minimize crossings
-      optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, nodeAngles);
     }
   }
 
@@ -2159,757 +2121,6 @@ function getLinkControlPoint(link) {
   const ctrlY = midY + perpY * curveStrength * sign;
 
   return { cx: ctrlX, cy: ctrlY, x1, y1, x2, y2, isStraight: false };
-}
-
-// ============================================================================
-// LINK CROSSING PREVENTION SYSTEM
-// Detects link-link intersections and adjusts control points to route around
-// ============================================================================
-
-/** Cache for link crossing detection and resolution */
-const crossingCache = {
-  linkSegments: new Map(),      // linkId -> segment array
-  boundingBoxes: new Map(),     // linkId -> {minX, minY, maxX, maxY}
-  spatialIndex: new Map(),      // "gridX,gridY" -> Set<linkId>
-  crossingPairs: [],            // detected crossings
-  controlOffsets: new Map(),    // linkId -> {dx, dy} adjustment
-  frameCount: 0
-};
-
-/** Priority for crossing resolution - higher number yields more */
-const LINK_PRIORITY = {
-  'pathway-anchor-link': 3,    // Yields most (subtle visual)
-  'pathway-interactor': 3,
-  'interaction-edge': 2,
-  'link-binding': 1,           // Yields least (important)
-  'link-activate': 1,
-  'link-inhibit': 1,
-  'link-regulate': 1
-};
-
-/**
- * Evaluate quadratic Bezier curve at parameter t
- * @param {Object} ctrl - Control point data {x1, y1, cx, cy, x2, y2}
- * @param {number} t - Parameter 0 to 1
- * @returns {{x: number, y: number}}
- */
-function evaluateBezier(ctrl, t) {
-  const mt = 1 - t;
-  return {
-    x: mt * mt * ctrl.x1 + 2 * mt * t * ctrl.cx + t * t * ctrl.x2,
-    y: mt * mt * ctrl.y1 + 2 * mt * t * ctrl.cy + t * t * ctrl.y2
-  };
-}
-
-/**
- * Convert Bezier curve to line segments for intersection testing
- * @param {Object} link - Link data object
- * @param {number} segments - Number of segments (default 10)
- * @returns {Array} Array of {x1, y1, x2, y2} line segments
- */
-function bezierToSegments(link, segments = 10) {
-  const ctrl = getLinkControlPoint(link);
-  if (!ctrl) return [];
-
-  const result = [];
-  for (let i = 0; i < segments; i++) {
-    const t1 = i / segments;
-    const t2 = (i + 1) / segments;
-    const p1 = evaluateBezier(ctrl, t1);
-    const p2 = evaluateBezier(ctrl, t2);
-    result.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
-  }
-  return result;
-}
-
-/**
- * Find intersection point between two line segments
- * @param {Object} seg1 - First segment {x1, y1, x2, y2}
- * @param {Object} seg2 - Second segment {x1, y1, x2, y2}
- * @returns {Object|null} {x, y, t1, t2} or null if no intersection
- */
-function segmentIntersection(seg1, seg2) {
-  const { x1, y1, x2, y2 } = seg1;
-  const { x1: x3, y1: y3, x2: x4, y2: y4 } = seg2;
-
-  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-  if (Math.abs(denom) < 1e-10) return null;  // Parallel or coincident
-
-  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
-  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
-
-  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-    return {
-      x: x1 + t * (x2 - x1),
-      y: y1 + t * (y2 - y1),
-      t1: t,
-      t2: u
-    };
-  }
-  return null;
-}
-
-/**
- * Compute bounding box for a link's Bezier curve
- * @param {Object} link - Link data object
- * @returns {Object|null} {minX, minY, maxX, maxY} or null
- */
-function computeLinkBoundingBox(link) {
-  const ctrl = getLinkControlPoint(link);
-  if (!ctrl) return null;
-
-  // For quadratic Bezier, the bounding box contains all control points
-  // plus we add margin for the curve bulge
-  const margin = 20;
-  return {
-    minX: Math.min(ctrl.x1, ctrl.cx, ctrl.x2) - margin,
-    maxX: Math.max(ctrl.x1, ctrl.cx, ctrl.x2) + margin,
-    minY: Math.min(ctrl.y1, ctrl.cy, ctrl.y2) - margin,
-    maxY: Math.max(ctrl.y1, ctrl.cy, ctrl.y2) + margin
-  };
-}
-
-/**
- * Check if two bounding boxes overlap
- */
-function bboxOverlap(a, b) {
-  return a.minX <= b.maxX && a.maxX >= b.minX &&
-         a.minY <= b.maxY && a.maxY >= b.minY;
-}
-
-/**
- * Check if two links share an endpoint (node)
- */
-function linksShareEndpoint(linkA, linkB) {
-  const srcA = typeof linkA.source === 'object' ? linkA.source.id : linkA.source;
-  const tgtA = typeof linkA.target === 'object' ? linkA.target.id : linkA.target;
-  const srcB = typeof linkB.source === 'object' ? linkB.source.id : linkB.source;
-  const tgtB = typeof linkB.target === 'object' ? linkB.target.id : linkB.target;
-
-  return srcA === srcB || srcA === tgtB || tgtA === srcB || tgtA === tgtB;
-}
-
-/**
- * Get link priority for crossing resolution
- * Higher priority yields (adjusts curve) to lower priority
- */
-function getLinkPriority(link) {
-  // First check link.type directly (most reliable for pathway links)
-  if (link.type) {
-    if (link.type === 'pathway-interactor-link' || link.type === 'pathway-interactor') {
-      return LINK_PRIORITY['pathway-interactor'] || 3;
-    }
-    if (link.type === 'pathway-anchor-link') {
-      return LINK_PRIORITY['pathway-anchor-link'] || 3;
-    }
-    if (link.type === 'interaction-edge') {
-      return LINK_PRIORITY['interaction-edge'] || 2;
-    }
-  }
-
-  // Then check arrowType/arrow for interaction links
-  const arrowType = link.arrowType || link.arrow || 'binding';
-  const classKey = `link-${arrowType}`;
-  if (LINK_PRIORITY[classKey] !== undefined) {
-    return LINK_PRIORITY[classKey];
-  }
-
-  // Fallback: check if pathway-related by node types
-  const srcNode = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
-  const tgtNode = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
-  if (srcNode?.type === 'pathway' || tgtNode?.type === 'pathway') {
-    return 3; // Pathway links yield most
-  }
-
-  return 2; // Default middle priority
-}
-
-/**
- * Build spatial index of link bounding boxes
- * @param {number} cellSize - Grid cell size (default 100px)
- */
-function buildLinkSpatialIndex(cellSize = 100) {
-  crossingCache.spatialIndex.clear();
-  crossingCache.boundingBoxes.clear();
-  crossingCache.linkSegments.clear();
-
-  links.forEach(link => {
-    const linkId = getLinkId(link);
-    const bbox = computeLinkBoundingBox(link);
-    if (!bbox) return;
-
-    crossingCache.boundingBoxes.set(linkId, bbox);
-    crossingCache.linkSegments.set(linkId, bezierToSegments(link, 10));
-
-    // Insert into all grid cells the bbox overlaps
-    const minCellX = Math.floor(bbox.minX / cellSize);
-    const maxCellX = Math.floor(bbox.maxX / cellSize);
-    const minCellY = Math.floor(bbox.minY / cellSize);
-    const maxCellY = Math.floor(bbox.maxY / cellSize);
-
-    for (let cx = minCellX; cx <= maxCellX; cx++) {
-      for (let cy = minCellY; cy <= maxCellY; cy++) {
-        const key = `${cx},${cy}`;
-        if (!crossingCache.spatialIndex.has(key)) {
-          crossingCache.spatialIndex.set(key, new Set());
-        }
-        crossingCache.spatialIndex.get(key).add(linkId);
-      }
-    }
-  });
-}
-
-/**
- * Generate unique ID for a link
- */
-function getLinkId(link) {
-  const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-  const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-  return `${srcId}::${tgtId}::${link.arrowType || 'default'}`;
-}
-
-/**
- * Find link object by its ID
- */
-function getLinkById(linkId) {
-  return links.find(l => getLinkId(l) === linkId);
-}
-
-/**
- * Get candidate links from spatial index that may intersect with given link
- */
-function getCandidatesFromSpatialIndex(linkId) {
-  const bbox = crossingCache.boundingBoxes.get(linkId);
-  if (!bbox) return new Set();
-
-  const candidates = new Set();
-  const cellSize = 100;
-
-  const minCellX = Math.floor(bbox.minX / cellSize);
-  const maxCellX = Math.floor(bbox.maxX / cellSize);
-  const minCellY = Math.floor(bbox.minY / cellSize);
-  const maxCellY = Math.floor(bbox.maxY / cellSize);
-
-  for (let cx = minCellX; cx <= maxCellX; cx++) {
-    for (let cy = minCellY; cy <= maxCellY; cy++) {
-      const key = `${cx},${cy}`;
-      const linksInCell = crossingCache.spatialIndex.get(key);
-      if (linksInCell) {
-        linksInCell.forEach(id => {
-          if (id !== linkId) candidates.add(id);
-        });
-      }
-    }
-  }
-
-  return candidates;
-}
-
-/**
- * Find intersection between two links' segment approximations
- * @returns {Object|null} {x, y, segIdxA, segIdxB} or null
- */
-function findLinkIntersection(linkIdA, linkIdB) {
-  const segsA = crossingCache.linkSegments.get(linkIdA);
-  const segsB = crossingCache.linkSegments.get(linkIdB);
-
-  if (!segsA || !segsB || segsA.length === 0 || segsB.length === 0) return null;
-
-  // Test all segment pairs
-  for (let i = 0; i < segsA.length; i++) {
-    for (let j = 0; j < segsB.length; j++) {
-      const intersection = segmentIntersection(segsA[i], segsB[j]);
-      if (intersection) {
-        return {
-          x: intersection.x,
-          y: intersection.y,
-          segIdxA: i,
-          segIdxB: j,
-          tA: (i + intersection.t1) / segsA.length,
-          tB: (j + intersection.t2) / segsB.length
-        };
-      }
-    }
-  }
-
-  return null;
-}
-
-/**
- * Detect all link-link crossings using spatial index
- */
-function detectCrossings() {
-  crossingCache.crossingPairs = [];
-  const testedPairs = new Set();
-
-  links.forEach(linkA => {
-    const linkIdA = getLinkId(linkA);
-    const bboxA = crossingCache.boundingBoxes.get(linkIdA);
-    if (!bboxA) return;
-
-    const candidates = getCandidatesFromSpatialIndex(linkIdA);
-
-    candidates.forEach(linkIdB => {
-      // Avoid duplicate tests
-      const pairKey = [linkIdA, linkIdB].sort().join('|||');
-      if (testedPairs.has(pairKey)) return;
-      testedPairs.add(pairKey);
-
-      const linkB = getLinkById(linkIdB);
-      if (!linkB) return;
-
-      // Skip links that share endpoints
-      if (linksShareEndpoint(linkA, linkB)) return;
-
-      // Check bounding box overlap first
-      const bboxB = crossingCache.boundingBoxes.get(linkIdB);
-      if (!bboxB || !bboxOverlap(bboxA, bboxB)) return;
-
-      // Find actual intersection
-      const crossPoint = findLinkIntersection(linkIdA, linkIdB);
-      if (crossPoint) {
-        crossingCache.crossingPairs.push({
-          linkIdA,
-          linkIdB,
-          crossPoint,
-          resolved: false
-        });
-      }
-    });
-  });
-}
-
-/**
- * Calculate avoidance offset for a link to avoid crossing point
- * @param {Object} link - Link to adjust
- * @param {Object} crossPoint - Crossing point {x, y}
- * @param {Object} otherLink - The other link being avoided
- * @returns {{dx: number, dy: number}}
- */
-function calculateAvoidanceOffset(link, crossPoint, otherLink) {
-  const ctrl = getLinkControlPoint(link);
-  const otherCtrl = getLinkControlPoint(otherLink);
-  if (!ctrl || !otherCtrl) return { dx: 0, dy: 0 };
-
-  // Direction from link's midpoint to crossing point
-  const midX = (ctrl.x1 + ctrl.x2) / 2;
-  const midY = (ctrl.y1 + ctrl.y2) / 2;
-
-  // Perpendicular to link direction
-  const linkDx = ctrl.x2 - ctrl.x1;
-  const linkDy = ctrl.y2 - ctrl.y1;
-  const linkLen = Math.sqrt(linkDx * linkDx + linkDy * linkDy);
-
-  if (linkLen < 1) return { dx: 0, dy: 0 };
-
-  const perpX = -linkDy / linkLen;
-  const perpY = linkDx / linkLen;
-
-  // Determine which side to push to - away from other link's control point
-  const toOtherCtrlX = otherCtrl.cx - midX;
-  const toOtherCtrlY = otherCtrl.cy - midY;
-  const dot = perpX * toOtherCtrlX + perpY * toOtherCtrlY;
-  const sign = dot > 0 ? -1 : 1;
-
-  // AGGRESSIVE offset magnitude - much larger to actually separate curves
-  // Base offset is 120px, scales up to 200px for crossings near midpoint
-  const crossToMidDist = Math.sqrt(
-    (crossPoint.x - midX) ** 2 + (crossPoint.y - midY) ** 2
-  );
-  const offsetMagnitude = Math.min(200, Math.max(120, 180 - crossToMidDist * 0.2));
-
-  return {
-    dx: perpX * offsetMagnitude * sign,
-    dy: perpY * offsetMagnitude * sign
-  };
-}
-
-/**
- * Resolve a single crossing by adjusting control point of yielding link
- */
-function resolveCrossing(crossing) {
-  const linkA = getLinkById(crossing.linkIdA);
-  const linkB = getLinkById(crossing.linkIdB);
-  if (!linkA || !linkB) return;
-
-  const priorityA = getLinkPriority(linkA);
-  const priorityB = getLinkPriority(linkB);
-
-  // Higher priority number yields (moves its control point)
-  const yieldingLink = priorityA >= priorityB ? linkA : linkB;
-  const fixedLink = priorityA >= priorityB ? linkB : linkA;
-  const yieldingId = getLinkId(yieldingLink);
-
-  // Calculate offset
-  const offset = calculateAvoidanceOffset(yieldingLink, crossing.crossPoint, fixedLink);
-
-  // Accumulate offset (may have multiple crossings)
-  const existing = crossingCache.controlOffsets.get(yieldingId) || { dx: 0, dy: 0 };
-  const newOffset = {
-    dx: existing.dx + offset.dx,
-    dy: existing.dy + offset.dy
-  };
-
-  // Limit maximum offset to prevent extreme curves (but allow large values)
-  const maxOffset = 250;
-  const offsetMag = Math.sqrt(newOffset.dx ** 2 + newOffset.dy ** 2);
-  if (offsetMag > maxOffset) {
-    newOffset.dx = (newOffset.dx / offsetMag) * maxOffset;
-    newOffset.dy = (newOffset.dy / offsetMag) * maxOffset;
-  }
-
-  crossingCache.controlOffsets.set(yieldingId, newOffset);
-  crossing.resolved = true;
-}
-
-/**
- * Resolve all detected crossings
- * Iterates multiple times to handle cascade effects
- */
-function resolveAllCrossings() {
-  const MAX_ITERATIONS = 3;
-
-  for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
-    const unresolved = crossingCache.crossingPairs.filter(c => !c.resolved);
-    if (unresolved.length === 0) break;
-
-    unresolved.forEach(crossing => resolveCrossing(crossing));
-
-    // Rebuild segments with new offsets and re-detect
-    if (iter < MAX_ITERATIONS - 1) {
-      rebuildSegmentsWithOffsets();
-      detectCrossings();
-    }
-  }
-}
-
-/**
- * Rebuild link segments incorporating current offsets
- */
-function rebuildSegmentsWithOffsets() {
-  links.forEach(link => {
-    const linkId = getLinkId(link);
-    const ctrl = getLinkControlPoint(link);
-    if (!ctrl) return;
-
-    // Apply current offset
-    const offset = crossingCache.controlOffsets.get(linkId) || { dx: 0, dy: 0 };
-    const adjustedCtrl = {
-      x1: ctrl.x1,
-      y1: ctrl.y1,
-      cx: ctrl.cx + offset.dx,
-      cy: ctrl.cy + offset.dy,
-      x2: ctrl.x2,
-      y2: ctrl.y2
-    };
-
-    // Generate segments from adjusted control point
-    const segments = [];
-    for (let i = 0; i < 10; i++) {
-      const t1 = i / 10;
-      const t2 = (i + 1) / 10;
-      const p1 = evaluateBezier(adjustedCtrl, t1);
-      const p2 = evaluateBezier(adjustedCtrl, t2);
-      segments.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
-    }
-
-    crossingCache.linkSegments.set(linkId, segments);
-  });
-}
-
-/**
- * Count current link-link crossings (for debugging/metrics)
- * @returns {number} Number of crossings
- */
-function countLinkCrossings() {
-  if (!links || links.length < 2) return 0;
-
-  buildLinkSpatialIndex(100);
-  detectCrossings();
-  return crossingCache.crossingPairs.length;
-}
-
-/**
- * Check if two line segments intersect
- * @param {number} x1,y1,x2,y2 - First segment endpoints
- * @param {number} x3,y3,x4,y4 - Second segment endpoints
- * @returns {boolean} True if segments cross
- */
-function segmentsCross(x1, y1, x2, y2, x3, y3, x4, y4) {
-  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-  if (Math.abs(denom) < 1e-10) return false;
-
-  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
-  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
-
-  return t > 0.01 && t < 0.99 && u > 0.01 && u < 0.99;
-}
-
-/**
- * Count crossings for a given node arrangement (using straight-line approximation)
- * @param {Array} nodesWithAngles - Array of {node, angle, x, y}
- * @param {number} centerX - Center X
- * @param {number} centerY - Center Y
- * @returns {number} Number of crossings
- */
-function countArrangementCrossings(nodesWithAngles, centerX, centerY) {
-  if (!links || links.length === 0) return 0;
-
-  // Build position lookup
-  const posMap = new Map();
-  nodesWithAngles.forEach(({node, x, y}) => {
-    posMap.set(node.id, {x, y});
-  });
-
-  // Also include existing node positions for nodes not in this arrangement
-  nodes.forEach(n => {
-    if (!posMap.has(n.id) && n.x !== undefined) {
-      posMap.set(n.id, {x: n.x, y: n.y});
-    }
-  });
-
-  let crossings = 0;
-  const linkEndpoints = [];
-
-  // Get link endpoints
-  links.forEach(link => {
-    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-    const srcPos = posMap.get(srcId);
-    const tgtPos = posMap.get(tgtId);
-    if (srcPos && tgtPos) {
-      linkEndpoints.push({srcId, tgtId, x1: srcPos.x, y1: srcPos.y, x2: tgtPos.x, y2: tgtPos.y});
-    }
-  });
-
-  // Count pairwise crossings
-  for (let i = 0; i < linkEndpoints.length; i++) {
-    for (let j = i + 1; j < linkEndpoints.length; j++) {
-      const a = linkEndpoints[i];
-      const b = linkEndpoints[j];
-
-      // Skip if links share an endpoint
-      if (a.srcId === b.srcId || a.srcId === b.tgtId ||
-          a.tgtId === b.srcId || a.tgtId === b.tgtId) continue;
-
-      if (segmentsCross(a.x1, a.y1, a.x2, a.y2, b.x1, b.y1, b.x2, b.y2)) {
-        crossings++;
-      }
-    }
-  }
-
-  return crossings;
-}
-
-/**
- * Optimize angular ordering of nodes within a shell to minimize crossings
- * Uses barycenter heuristic: sort nodes by average angle of their neighbors
- * @param {Array} shellNodes - Nodes in this shell
- * @param {number} shellRadius - Radius of this shell
- * @param {number} centerX - Center X
- * @param {number} centerY - Center Y
- * @param {Map} nodeAngles - Map of nodeId -> angle for positioned nodes
- */
-function optimizeAngularOrder(shellNodes, shellRadius, centerX, centerY, nodeAngles) {
-  if (shellNodes.length < 3) return; // No optimization needed for 1-2 nodes
-
-  // Build adjacency: for each node, find connected nodes
-  const adjacency = new Map();
-  shellNodes.forEach(n => adjacency.set(n.id, []));
-
-  links.forEach(link => {
-    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-
-    // Get angles of connected nodes
-    const srcAngle = nodeAngles.get(srcId);
-    const tgtAngle = nodeAngles.get(tgtId);
-
-    // If src is in shellNodes and tgt has an angle, add to adjacency
-    if (adjacency.has(srcId) && tgtAngle !== undefined) {
-      adjacency.get(srcId).push(tgtAngle);
-    }
-    if (adjacency.has(tgtId) && srcAngle !== undefined) {
-      adjacency.get(tgtId).push(srcAngle);
-    }
-  });
-
-  // Compute barycenter (average neighbor angle) for each node
-  const barycenters = new Map();
-  shellNodes.forEach(node => {
-    const neighborAngles = adjacency.get(node.id) || [];
-    if (neighborAngles.length > 0) {
-      // Use circular mean for angles
-      let sinSum = 0, cosSum = 0;
-      neighborAngles.forEach(a => {
-        sinSum += Math.sin(a);
-        cosSum += Math.cos(a);
-      });
-      barycenters.set(node.id, Math.atan2(sinSum, cosSum));
-    } else {
-      // No neighbors - keep current angle or use 0
-      barycenters.set(node.id, node._targetAngle || 0);
-    }
-  });
-
-  // Sort nodes by barycenter
-  shellNodes.sort((a, b) => {
-    const ba = barycenters.get(a.id) || 0;
-    const bb = barycenters.get(b.id) || 0;
-    return ba - bb;
-  });
-
-  // Reassign angles evenly around circle in barycenter order
-  const angleStep = (2 * Math.PI) / shellNodes.length;
-  shellNodes.forEach((node, idx) => {
-    const newAngle = idx * angleStep;
-    node.x = centerX + shellRadius * Math.cos(newAngle);
-    node.y = centerY + shellRadius * Math.sin(newAngle);
-    node._targetAngle = newAngle;
-    if (node._shellData) node._shellData.angle = newAngle;
-    nodeAngles.set(node.id, newAngle);
-    if (node.originalId) nodeAngles.set(node.originalId, newAngle);
-    const baseId = node.id.split('@')[0];
-    if (baseId !== node.id) nodeAngles.set(baseId, newAngle);
-  });
-}
-
-/**
- * Optimize ordering of Shell 2+ nodes within parent groups to minimize crossings
- * Uses barycenter heuristic - orders nodes by average angle of their connected nodes
- * @param {Map} byParent - Map of parentId -> [child nodes]
- * @param {number} shellRadius - Radius of this shell
- * @param {number} centerX - Center X
- * @param {number} centerY - Center Y
- * @param {Map} nodeAngles - Map of nodeId -> angle for all positioned nodes
- */
-function optimizeShellTwoPlusOrder(byParent, shellRadius, centerX, centerY, nodeAngles) {
-  for (const [parentId, children] of byParent) {
-    if (children.length < 2) continue;
-
-    // Compute barycenter for each child based on ALL its links
-    const barycenters = new Map();
-    children.forEach(node => {
-      const neighborAngles = [];
-
-      links.forEach(link => {
-        const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-        const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-
-        if (srcId === node.id) {
-          const tgtAngle = nodeAngles.get(tgtId);
-          if (tgtAngle !== undefined) neighborAngles.push(tgtAngle);
-        }
-        if (tgtId === node.id) {
-          const srcAngle = nodeAngles.get(srcId);
-          if (srcAngle !== undefined) neighborAngles.push(srcAngle);
-        }
-      });
-
-      if (neighborAngles.length > 0) {
-        // Circular mean for angles
-        let sinSum = 0, cosSum = 0;
-        neighborAngles.forEach(a => { sinSum += Math.sin(a); cosSum += Math.cos(a); });
-        barycenters.set(node.id, Math.atan2(sinSum, cosSum));
-      } else {
-        barycenters.set(node.id, node._targetAngle || 0);
-      }
-    });
-
-    // Sort children: pathways first (will be at start of arc = top), then by barycenter
-    children.sort((a, b) => {
-      // Pathways should be positioned toward top (start of arc)
-      if (a.type === 'pathway' && b.type !== 'pathway') return -1;
-      if (b.type === 'pathway' && a.type !== 'pathway') return 1;
-      // Among same type, use barycenter
-      return (barycenters.get(a.id) || 0) - (barycenters.get(b.id) || 0);
-    });
-
-    // Reposition within same arc but in barycenter order
-    const parentAngle = nodeAngles.get(parentId) || 0;
-    const getNodeAngularSpacing = (node) => {
-      const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
-      return (radius * 2.5) / shellRadius;
-    };
-
-    let totalAngularSpacing = 0;
-    children.forEach(child => { totalAngularSpacing += getNodeAngularSpacing(child); });
-
-    const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 1.5));
-    const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
-
-    // For child pathways: bias arc upward (toward top of canvas)
-    const hasPathwayChildren = children.some(c => c.type === 'pathway');
-    const arcBias = hasPathwayChildren ? -arcSpan * 0.3 : 0;
-    const startAngle = parentAngle - arcSpan / 2 + arcBias;
-
-    let currentAngle = startAngle;
-    children.forEach((node) => {
-      const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
-      // Single child pathways: NO offset - keep at parent's angle (different shells prevent overlap)
-      const singleChildOffset = 0;
-      const angle = children.length === 1
-        ? parentAngle + singleChildOffset
-        : currentAngle + nodeAngularSpan / 2;
-
-      node.x = centerX + shellRadius * Math.cos(angle);
-      node.y = centerY + shellRadius * Math.sin(angle);
-      node._shellData = { ...node._shellData, angle };
-      node._targetAngle = angle;
-      nodeAngles.set(node.id, angle);
-      if (node.originalId) nodeAngles.set(node.originalId, angle);
-      const baseId = node.id.split('@')[0];
-      if (baseId !== node.id) nodeAngles.set(baseId, angle);
-
-      currentAngle += nodeAngularSpan;
-    });
-  }
-}
-
-/**
- * Main entry point: Detect and resolve link-link crossings
- * Called from tick handler with frame throttling
- */
-function resolveLinkCrossings(forceRecalculate = false) {
-  if (!links || links.length < 2) return;
-
-  // Frame throttling - recalculate every 3 frames (more frequent)
-  crossingCache.frameCount++;
-  if (!forceRecalculate && crossingCache.frameCount % 3 !== 0) return;
-
-  // DON'T clear offsets - let them persist and accumulate properly
-  // Only clear on force recalculate
-  if (forceRecalculate) {
-    crossingCache.controlOffsets.clear();
-  }
-
-  // Build spatial index
-  buildLinkSpatialIndex(100);
-
-  // Detect crossings
-  detectCrossings();
-
-  // Debug: log crossing count periodically
-  if (crossingCache.frameCount % 30 === 0 && crossingCache.crossingPairs.length > 0) {
-    console.log(`[CrossingPrevention] Detected ${crossingCache.crossingPairs.length} crossings, ${crossingCache.controlOffsets.size} offsets applied`);
-  }
-
-  // Resolve crossings
-  if (crossingCache.crossingPairs.length > 0) {
-    resolveAllCrossings();
-  }
-}
-
-/**
- * Clear crossing cache - call when graph structure changes
- */
-function clearCrossingCache() {
-  crossingCache.linkSegments.clear();
-  crossingCache.boundingBoxes.clear();
-  crossingCache.spatialIndex.clear();
-  crossingCache.crossingPairs = [];
-  crossingCache.controlOffsets.clear();
-  crossingCache.frameCount = 0;
 }
 
 /**
@@ -4918,9 +4129,6 @@ function updateSimulation() {
 function renderGraph() {
   if (!g) return;
 
-  // Clear crossing cache on structural changes
-  clearCrossingCache();
-
   // Remove existing elements
   g.selectAll('.node-group').remove();
   g.selectAll('path').remove();
@@ -5301,7 +4509,6 @@ function renderGraph() {
   // Update tick handler
   simulation.on('tick', () => {
     resolveNodeLinkCollisions();  // Push nodes away from link lines
-    resolveLinkCrossings();       // Prevent links from crossing each other
     node.attr('transform', d => `translate(${d.x},${d.y})`);
     link.attr('d', calculateLinkPath);
   });
@@ -5373,16 +4580,8 @@ function calculateLinkPath(d) {
 
   // Curve strength + parallel offset (increased base curve for better separation)
   const curveStrength = Math.min(dist * 0.15, 60);
-  let ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
-  let ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
-
-  // Apply crossing avoidance offset if present
-  const linkId = getLinkId(d);
-  const crossingOffset = crossingCache.controlOffsets.get(linkId);
-  if (crossingOffset) {
-    ctrlX += crossingOffset.dx;
-    ctrlY += crossingOffset.dy;
-  }
+  const ctrlX = midX + perpX * (curveStrength * sign + parallelOffset);
+  const ctrlY = midY + perpY * (curveStrength * sign + parallelOffset);
 
   return `M ${x1} ${y1} Q ${ctrlX} ${ctrlY} ${x2} ${y2}`;
 }
