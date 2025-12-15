@@ -650,6 +650,9 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
           shell = parentShell + 1;
         } else if (node.isQueryProtein || node._directionRole === 'query') {
           shell = parentShell + 2;
+        } else if (node._directionRole === 'bidirectional') {
+          // Bidirectional interactors get distinct shell to avoid crowding with upstream/pathways
+          shell = parentShell + 2;
         } else if (node._directionRole === 'downstream') {
           shell = parentShell + 3;
         } else if (node._directionRole === 'indirect') {
@@ -657,7 +660,7 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
           const hopCount = node._indirectHopCount || 1;
           shell = parentShell + 3 + hopCount;
         } else {
-          // Default: bidirectional or unknown direction - conservative placement
+          // Default: unknown direction - conservative placement
           if (!node._directionRole) {
             console.warn(`⚠️ Node ${node.id} missing _directionRole, defaulting to shell ${parentShell + 1}`);
           }
