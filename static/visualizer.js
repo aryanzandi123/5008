@@ -84,24 +84,25 @@ function calculateExpandRadius(nodeCount, nodeRadius) {
 /**
  * Get consistent collision radius for any node type
  * Used by all collision detection functions for uniform behavior
+ * LARGE VALUES to ensure no overlap - nodes need significant separation
  * @param {Object} node - Node to get collision radius for
  * @returns {number} - Collision radius in pixels
  */
 function getCollisionRadius(node) {
   if (node.type === 'main') {
-    return mainNodeRadius + 30;
+    return mainNodeRadius + 60;  // 120px total
   }
   if (node.type === 'pathway') {
-    // Pathway nodes are rectangles - use half diagonal + padding
+    // Pathway nodes are rectangles - use half diagonal + LARGE padding
     const w = node.rectWidth || 120;
     const h = node.rectHeight || 44;
-    return Math.sqrt(w * w + h * h) / 2 + 25;
+    return Math.sqrt(w * w + h * h) / 2 + 70;  // ~134px total for standard pathway
   }
   if (node.type === 'function' || node.isFunction) {
-    return 40;
+    return 60;
   }
   // Interactor nodes (all types: normal, reference, expanded)
-  return (node.radius || interactorNodeRadius) + 35;
+  return (node.radius || interactorNodeRadius) + 70;  // ~102px total
 }
 
 /**
@@ -537,9 +538,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 320;     // Shell 1 minimum radius - larger for better spacing
-  const SHELL_GAP = 320;       // Large gap between shells to prevent overlap
-  const MIN_NODE_SPACING = 180; // Generous spacing between node centers
+  const BASE_RADIUS = 400;     // Shell 1 minimum radius - INCREASED for better spacing
+  const SHELL_GAP = 400;       // LARGE gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 280; // VERY generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -2514,8 +2515,8 @@ function buildInitialGraph(){
  * Iteratively pushes overlapping nodes apart
  */
 function resolveInitialOverlaps() {
-  const MAX_ITERATIONS = 20;
-  const MIN_SEPARATION = interactorNodeRadius * 3.0;  // ~96px - stronger separation
+  const MAX_ITERATIONS = 50;  // MANY iterations to fully resolve
+  const MIN_SEPARATION = 200;  // Large separation to match collision radii
 
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     let overlapsResolved = 0;
@@ -2825,17 +2826,17 @@ function createSimulation(){
     simulation
       .force('link', d3.forceLink(links)
         .id(d => d.id)
-        .distance(100)
+        .distance(200)  // Increased link distance
         .strength(0) // No pull - positions are fixed by shell calculations
       )
       .force('collide', d3.forceCollide()
         .radius(d => getCollisionRadius(d))  // Unified collision radius for all node types
-        .iterations(25)  // Many passes to fully resolve overlaps
+        .iterations(50)  // MANY passes to fully resolve overlaps
         .strength(1.0)   // Maximum collision strength
       );
 
-    // Shell mode: run collision resolution with much more time to settle
-    simulation.alpha(0.8).alphaDecay(0.015);  // Much more time to settle completely
+    // Shell mode: run collision resolution with MUCH more time to settle
+    simulation.alpha(1.0).alphaDecay(0.005);  // Very slow decay - more time to resolve
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
