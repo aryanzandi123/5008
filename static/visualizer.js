@@ -820,6 +820,120 @@ function sortNodesByConnectionTopology(shellNodes) {
 }
 
 /**
+ * Check if two line segments cross
+ * Each segment is defined by two points: (x1,y1)-(x2,y2) and (x3,y3)-(x4,y4)
+ */
+function segmentsCross(x1, y1, x2, y2, x3, y3, x4, y4) {
+  // Calculate direction vectors
+  const d1x = x2 - x1, d1y = y2 - y1;
+  const d2x = x4 - x3, d2y = y4 - y3;
+
+  const cross = d1x * d2y - d1y * d2x;
+  if (Math.abs(cross) < 1e-10) return false; // Parallel
+
+  const t = ((x3 - x1) * d2y - (y3 - y1) * d2x) / cross;
+  const u = ((x3 - x1) * d1y - (y3 - y1) * d1x) / cross;
+
+  // Check if intersection point is within both segments (excluding endpoints)
+  return t > 0.01 && t < 0.99 && u > 0.01 && u < 0.99;
+}
+
+/**
+ * Count link crossings for current node arrangement
+ * Only counts crossings between links that share no common node
+ */
+function countLinkCrossings() {
+  let crossings = 0;
+  const linkPairs = [];
+
+  // Get all links with resolved positions
+  links.forEach(link => {
+    const src = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+    const tgt = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+    if (src && tgt && src.x !== undefined && tgt.x !== undefined) {
+      linkPairs.push({ src, tgt, link });
+    }
+  });
+
+  // Check each pair of links
+  for (let i = 0; i < linkPairs.length; i++) {
+    for (let j = i + 1; j < linkPairs.length; j++) {
+      const a = linkPairs[i];
+      const b = linkPairs[j];
+
+      // Skip if links share a node
+      if (a.src.id === b.src.id || a.src.id === b.tgt.id ||
+          a.tgt.id === b.src.id || a.tgt.id === b.tgt.id) continue;
+
+      if (segmentsCross(a.src.x, a.src.y, a.tgt.x, a.tgt.y,
+                        b.src.x, b.src.y, b.tgt.x, b.tgt.y)) {
+        crossings++;
+      }
+    }
+  }
+  return crossings;
+}
+
+/**
+ * Minimize link crossings by swapping adjacent nodes within each shell
+ * Uses a greedy local search algorithm
+ */
+function minimizeLinkCrossings(shellNodes, shellRadius, centerX, centerY, nodeAngles) {
+  if (shellNodes.length <= 2) return shellNodes;
+
+  const angleStep = (2 * Math.PI) / shellNodes.length;
+
+  // Helper to position nodes and count crossings
+  function positionAndCount(orderedNodes) {
+    orderedNodes.forEach((node, idx) => {
+      const angle = idx * angleStep;
+      node.x = centerX + shellRadius * Math.cos(angle);
+      node.y = centerY + shellRadius * Math.sin(angle);
+      node._targetAngle = angle;
+    });
+    return countLinkCrossings();
+  }
+
+  // Start with current arrangement
+  let currentOrder = [...shellNodes];
+  let currentCrossings = positionAndCount(currentOrder);
+
+  // If no crossings, we're done
+  if (currentCrossings === 0) return currentOrder;
+
+  // Try to improve by swapping adjacent nodes
+  let improved = true;
+  let iterations = 0;
+  const maxIterations = shellNodes.length * 3; // Limit iterations
+
+  while (improved && iterations < maxIterations) {
+    improved = false;
+    iterations++;
+
+    for (let i = 0; i < currentOrder.length; i++) {
+      // Try swapping with next node (circular)
+      const j = (i + 1) % currentOrder.length;
+
+      // Swap
+      [currentOrder[i], currentOrder[j]] = [currentOrder[j], currentOrder[i]];
+      const newCrossings = positionAndCount(currentOrder);
+
+      if (newCrossings < currentCrossings) {
+        currentCrossings = newCrossings;
+        improved = true;
+        if (currentCrossings === 0) break; // Perfect!
+      } else {
+        // Revert swap
+        [currentOrder[i], currentOrder[j]] = [currentOrder[j], currentOrder[i]];
+        positionAndCount(currentOrder); // Restore positions
+      }
+    }
+  }
+
+  return currentOrder;
+}
+
+/**
  * Rebuild shell registry and recalculate all positions
  * Call this after any node addition/removal
  */
@@ -881,10 +995,23 @@ function recalculateShellPositions() {
     // Shell 2+: group by parent, position at parent's angle with small spread
 
     if (shellNum === 1) {
-      // SHELL 1: Sort by connection topology FIRST, then spread evenly
-      // This minimizes link crossings by placing related nodes adjacent
-      const sortedShellNodes = sortNodesByConnectionTopology(shellNodes);
+      // SHELL 1: Sort by connection topology FIRST, then minimize crossings
+      // Step 1: Sort by connection similarity
+      let sortedShellNodes = sortNodesByConnectionTopology(shellNodes);
+
+      // Step 2: Initial positioning
       const angleStep = (2 * Math.PI) / Math.max(sortedShellNodes.length, 1);
+      sortedShellNodes.forEach((node, idx) => {
+        const angle = idx * angleStep;
+        node.x = centerX + shellRadius * Math.cos(angle);
+        node.y = centerY + shellRadius * Math.sin(angle);
+        node._targetAngle = angle;
+      });
+
+      // Step 3: Minimize link crossings by swapping nodes
+      sortedShellNodes = minimizeLinkCrossings(sortedShellNodes, shellRadius, centerX, centerY, nodeAngles);
+
+      // Step 4: Final positioning with all metadata
       sortedShellNodes.forEach((node, idx) => {
         const angle = idx * angleStep;
         node.x = centerX + shellRadius * Math.cos(angle);
@@ -1025,6 +1152,35 @@ function recalculateShellPositions() {
       parentId: parentId
     };
   });
+
+  // GLOBAL CROSSING MINIMIZATION
+  // After all positioning is done, try to reduce remaining crossings
+  // by doing a final pass of swapping within each shell
+  const crossingsBefore = countLinkCrossings();
+  if (crossingsBefore > 0) {
+    console.log(`⚠️ ${crossingsBefore} link crossings detected, attempting to minimize...`);
+
+    // Try swapping nodes within each shell to reduce crossings
+    for (const shellNum of sortedShells) {
+      if (shellNum === 0) continue;
+      const shellNodes = nodesByShell.get(shellNum);
+      if (!shellNodes || shellNodes.length <= 2) continue;
+
+      const shellRadius = shellRadii[shellNum] || (shellNum * 150 + 100);
+      minimizeLinkCrossings(shellNodes, shellRadius, centerX, centerY, nodeAngles);
+
+      // Update nodeAngles after optimization
+      shellNodes.forEach(node => {
+        if (node._targetAngle !== undefined) {
+          nodeAngles.set(node.id, node._targetAngle);
+          if (node.originalId) nodeAngles.set(node.originalId, node._targetAngle);
+        }
+      });
+    }
+
+    const crossingsAfter = countLinkCrossings();
+    console.log(`✅ Link crossings: ${crossingsBefore} → ${crossingsAfter}`);
+  }
 }
 
 /**
