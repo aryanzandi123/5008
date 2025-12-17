@@ -926,12 +926,82 @@ function sortNodesByConnectionTopology(shellNodes) {
 }
 
 /**
+ * Sort children within a parent group by the angle of their external connections.
+ * This ensures siblings are positioned so their links to other nodes don't cross.
+ * Nodes whose connections are on the "left" (lower angles) get placed at lower angles,
+ * and nodes whose connections are on the "right" (higher angles) get placed at higher angles.
+ * @param {Array} children - All children of the same parent
+ * @param {Map} nodeAngles - Map of nodeId → angle for already-positioned nodes
+ * @param {string} parentId - The parent's ID (to exclude from connection analysis)
+ * @returns {Array} - Children sorted by external connection angles
+ */
+function sortChildrenByExternalConnections(children, nodeAngles, parentId) {
+  if (children.length <= 1) return children;
+
+  // For each child, calculate the average angle of its external connections
+  const childConnectionAngles = new Map();
+
+  children.forEach(child => {
+    let weightedSum = 0;
+    let totalWeight = 0;
+
+    // Find all links connected to this child
+    links.forEach(link => {
+      const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+      const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+
+      let otherId = null;
+      if (srcId === child.id) otherId = tgtId;
+      else if (tgtId === child.id) otherId = srcId;
+      else return;
+
+      // Skip the parent connection (we're sorting within parent group)
+      if (otherId === parentId) return;
+      // Also skip base ID match
+      const baseParentId = parentId.split('@')[0];
+      if (otherId === baseParentId || otherId.split('@')[0] === baseParentId) return;
+
+      // Get the other node's angle if already positioned
+      let otherAngle = nodeAngles.get(otherId);
+      if (otherAngle === undefined) {
+        const baseOtherId = otherId.split('@')[0];
+        otherAngle = nodeAngles.get(baseOtherId);
+      }
+
+      if (otherAngle !== undefined) {
+        weightedSum += otherAngle;
+        totalWeight += 1;
+      }
+    });
+
+    // If no external connections found, use topology-based fallback
+    // (check if connected to any siblings - place similar siblings together)
+    if (totalWeight === 0) {
+      // Fallback: use the child's ID hash for consistent ordering
+      let hash = 0;
+      for (let i = 0; i < child.id.length; i++) {
+        hash = ((hash << 5) - hash) + child.id.charCodeAt(i);
+        hash |= 0;
+      }
+      childConnectionAngles.set(child.id, (hash % 1000) / 1000 * 2 * Math.PI - Math.PI);
+    } else {
+      childConnectionAngles.set(child.id, weightedSum / totalWeight);
+    }
+  });
+
+  // Sort by connection angle
+  return children.slice().sort((a, b) => {
+    return childConnectionAngles.get(a.id) - childConnectionAngles.get(b.id);
+  });
+}
+
+/**
  * Sort ALL nodes at a shell level by their parent's angle.
  * This ensures nodes from different parents don't overlap angularly,
  * preventing link crossings between different parent-child pairs.
  * @param {Array} shellNodes - All nodes at this shell level
  * @param {Map} nodeAngles - Map of nodeId → angle for parent lookup
- * @returns {Array} - Nodes sorted by parent angle, with topology sort within same-parent groups
+ * @returns {Array} - Nodes sorted by parent angle, with external-connection sort within same-parent groups
  */
 function sortShellNodesByParentAngle(shellNodes, nodeAngles) {
   if (shellNodes.length <= 1) return shellNodes;
@@ -969,12 +1039,12 @@ function sortShellNodesByParentAngle(shellNodes, nodeAngles) {
     return angleA - angleB;
   });
 
-  // Flatten: for each parent group in angle order, add topology-sorted children
+  // Flatten: for each parent group in angle order, add children sorted by external connections
   const result = [];
   for (const parentId of sortedParentIds) {
     const children = byParent.get(parentId);
-    // Sort within parent group by connection topology
-    const sortedChildren = sortNodesByConnectionTopology(children);
+    // Sort within parent group by external connection angles (not just topology)
+    const sortedChildren = sortChildrenByExternalConnections(children, nodeAngles, parentId);
     result.push(...sortedChildren);
   }
 
@@ -1085,12 +1155,9 @@ function recalculateShellPositions() {
         node.fy = null;
       });
     } else {
-      // SHELL 2+: Global sorting by parent angle to prevent cross-parent overlaps
-      // Instead of processing each parent group independently, we:
-      // 1. Sort ALL nodes by parent angle (keeps children near their parents)
-      // 2. Position all nodes in a single pass (continuous angle, no gaps/overlaps)
-
-      const sortedShellNodes = sortShellNodesByParentAngle(shellNodes, nodeAngles);
+      // SHELL 2+: Parent-centric positioning with overlap prevention
+      // Each parent's children are anchored near the parent's angle,
+      // but sectors are adjusted to prevent cross-parent overlaps.
 
       // Use per-node spacing based on node type (pathway vs interactor)
       const getNodeAngularSpacing = (node) => {
@@ -1098,59 +1165,130 @@ function recalculateShellPositions() {
         return (radius * 2.5) / shellRadius;
       };
 
-      // Calculate total angular spacing needed for all nodes
-      let totalAngularSpacing = 0;
-      sortedShellNodes.forEach(node => {
-        totalAngularSpacing += getNodeAngularSpacing(node);
-      });
-
-      // Scale if nodes don't fit in full circle
-      const maxAvailableArc = 2 * Math.PI;
-      const scaleFactor = totalAngularSpacing > maxAvailableArc
-        ? maxAvailableArc / totalAngularSpacing
-        : 1;
-
-      // Start from top of circle (-PI/2)
-      let currentAngle = -Math.PI / 2;
-
-      // Track parent groups for sector allocation
-      const parentGroups = new Map(); // parentId -> {nodes: [], startAngle, endAngle}
-
-      // Position all nodes in a single sequential pass
-      sortedShellNodes.forEach((node) => {
-        const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
-        const angle = currentAngle + nodeAngularSpan / 2;
-
-        // Track parent group boundaries
+      // Step 1: Group nodes by parent and calculate arc needs
+      const byParent = new Map();
+      shellNodes.forEach(node => {
         const parentId = node.type === 'pathway'
           ? (node.parentPathwayId || node._isChildOf || SNAP.main)
           : (node._pathwayContext || node._isChildOf || SNAP.main);
 
-        if (!parentGroups.has(parentId)) {
-          parentGroups.set(parentId, { nodes: [], startAngle: currentAngle, endAngle: currentAngle });
+        if (!byParent.has(parentId)) {
+          byParent.set(parentId, []);
         }
-        const parentGroup = parentGroups.get(parentId);
-        parentGroup.nodes.push(node);
-        parentGroup.endAngle = currentAngle + nodeAngularSpan;
-
-        // Position node
-        node.x = centerX + shellRadius * Math.cos(angle);
-        node.y = centerY + shellRadius * Math.sin(angle);
-        node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
-        node._targetAngle = angle;
-        nodeAngles.set(node.id, angle);
-        if (node.originalId) nodeAngles.set(node.originalId, angle);
-        const baseId = node.id.split('@')[0];
-        if (baseId !== node.id) nodeAngles.set(baseId, angle);
-        node.fx = null;
-        node.fy = null;
-
-        currentAngle += nodeAngularSpan;
+        byParent.get(parentId).push(node);
       });
 
-      // Assign sector allocations to pathway nodes for their children
-      // Use each pathway's actual positioned span
-      sortedShellNodes.forEach(node => {
+      // Step 2: Build parent data with angles and arc needs
+      const parentData = [];
+      for (const [parentId, children] of byParent) {
+        // Get parent's angle
+        let parentAngle = nodeAngles.get(parentId);
+        if (parentAngle === undefined) {
+          const baseParentId = parentId.split('@')[0];
+          parentAngle = nodeAngles.get(baseParentId);
+        }
+        if (parentAngle === undefined) {
+          const parent = findParentNode(parentId);
+          if (parent) {
+            parentAngle = parent._shellData?.angle ?? parent._targetAngle;
+            if (parentAngle === undefined && parent.x !== undefined) {
+              parentAngle = Math.atan2(parent.y - centerY, parent.x - centerX);
+            }
+          }
+        }
+        if (parentAngle === undefined) parentAngle = 0;
+
+        // Calculate arc needed for this parent's children
+        let arcNeeded = 0;
+        children.forEach(child => arcNeeded += getNodeAngularSpacing(child));
+
+        parentData.push({
+          parentId,
+          parentAngle,
+          children,
+          arcNeeded,
+          sortedChildren: sortChildrenByExternalConnections(children, nodeAngles, parentId)
+        });
+      }
+
+      // Step 3: Sort parents by angle
+      parentData.sort((a, b) => a.parentAngle - b.parentAngle);
+
+      // Step 4: Assign non-overlapping sectors centered on parent angles
+      // First pass: calculate ideal sectors (centered on parent)
+      parentData.forEach(pd => {
+        pd.idealStart = pd.parentAngle - pd.arcNeeded / 2;
+        pd.idealEnd = pd.parentAngle + pd.arcNeeded / 2;
+        pd.sectorStart = pd.idealStart;
+        pd.sectorEnd = pd.idealEnd;
+      });
+
+      // Second pass: resolve overlaps by pushing later sectors
+      for (let i = 1; i < parentData.length; i++) {
+        const prev = parentData[i - 1];
+        const curr = parentData[i];
+        if (curr.sectorStart < prev.sectorEnd) {
+          // Overlap detected - push current sector forward
+          curr.sectorStart = prev.sectorEnd;
+          curr.sectorEnd = curr.sectorStart + curr.arcNeeded;
+        }
+      }
+
+      // Check for wrap-around overlap (last sector overlapping first)
+      if (parentData.length > 1) {
+        const first = parentData[0];
+        const last = parentData[parentData.length - 1];
+        const wrapOverlap = (last.sectorEnd - 2 * Math.PI) - first.sectorStart;
+        if (wrapOverlap > 0) {
+          // Scale all sectors to fit within 2*PI
+          const totalArc = last.sectorEnd - first.sectorStart;
+          const scale = (2 * Math.PI) / totalArc;
+          const baseStart = first.sectorStart;
+          parentData.forEach(pd => {
+            const relStart = pd.sectorStart - baseStart;
+            const relEnd = pd.sectorEnd - baseStart;
+            pd.sectorStart = baseStart + relStart * scale;
+            pd.sectorEnd = baseStart + relEnd * scale;
+            pd.arcNeeded *= scale;
+          });
+        }
+      }
+
+      // Step 5: Position children within each parent's sector
+      const parentGroups = new Map();
+      parentData.forEach(pd => {
+        let currentAngle = pd.sectorStart;
+        const arcScale = pd.arcNeeded > 0 ? (pd.sectorEnd - pd.sectorStart) / pd.arcNeeded : 1;
+
+        pd.sortedChildren.forEach(node => {
+          const nodeAngularSpan = getNodeAngularSpacing(node) * arcScale;
+          const angle = currentAngle + nodeAngularSpan / 2;
+
+          // Position node
+          node.x = centerX + shellRadius * Math.cos(angle);
+          node.y = centerY + shellRadius * Math.sin(angle);
+          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
+          node._targetAngle = angle;
+          nodeAngles.set(node.id, angle);
+          if (node.originalId) nodeAngles.set(node.originalId, angle);
+          const baseId = node.id.split('@')[0];
+          if (baseId !== node.id) nodeAngles.set(baseId, angle);
+          node.fx = null;
+          node.fy = null;
+
+          currentAngle += nodeAngularSpan;
+        });
+
+        // Store parent group info for sector allocation
+        parentGroups.set(pd.parentId, {
+          nodes: pd.sortedChildren,
+          startAngle: pd.sectorStart,
+          endAngle: pd.sectorEnd
+        });
+      });
+
+      // Step 6: Assign sector allocations to pathway nodes for their children
+      shellNodes.forEach(node => {
         if (node.type === 'pathway') {
           const parentId = node.parentPathwayId || node._isChildOf || SNAP.main;
           const parentGroup = parentGroups.get(parentId);
@@ -1161,7 +1299,7 @@ function recalculateShellPositions() {
           // Divide parent group's arc among pathway siblings
           const groupArcSpan = parentGroup
             ? parentGroup.endAngle - parentGroup.startAngle
-            : getNodeAngularSpacing(node) * scaleFactor;
+            : getNodeAngularSpacing(node);
           const pathwaySectorSpan = groupArcSpan / siblingCount;
           const sectorStart = parentGroup
             ? parentGroup.startAngle + siblingIdx * pathwaySectorSpan
