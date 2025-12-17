@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 180;     // Shell 1 minimum radius - compact
-  const SHELL_GAP = 140;       // Gap between shells
-  const MIN_NODE_SPACING = 120; // Spacing between node centers
+  const BASE_RADIUS = 150;     // Shell 1 minimum radius - compact
+  const SHELL_GAP = 100;       // Gap between shells
+  const MIN_NODE_SPACING = 85; // Spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
