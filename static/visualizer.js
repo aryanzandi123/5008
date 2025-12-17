@@ -25,7 +25,7 @@ let nodeMap = new Map(); // Map<nodeId, node>
 
 // Pathway visualization state
 let pathwayNodeRadius = 45;          // Size for pathway nodes (used for collision detection)
-let pathwayRingRadius = 450;         // Distance from center for pathway nodes - INCREASED for spacing
+let pathwayRingRadius = 300;         // Distance from center for pathway nodes (reduced for compact layout)
 let expandedPathways = new Set();    // Set of expanded pathway IDs (showing interactors)
 let pathwayToInteractors = new Map(); // Map<pathwayId, Set<interactorId>>
 let pathwayToInteractions = new Map(); // Map<pathwayId, Array<interaction>> - full interaction objects for leaf pathways
@@ -79,30 +79,6 @@ function calculateExpandRadius(nodeCount, nodeRadius) {
   const minRadius = 90;   // Was 150
   const maxRadius = 180;  // Was 250
   return Math.max(minRadius, Math.min(maxRadius, calculatedRadius));
-}
-
-/**
- * Get consistent collision radius for any node type
- * Used by all collision detection functions for uniform behavior
- * LARGE VALUES to ensure no overlap - nodes need significant separation
- * @param {Object} node - Node to get collision radius for
- * @returns {number} - Collision radius in pixels
- */
-function getCollisionRadius(node) {
-  if (node.type === 'main') {
-    return mainNodeRadius + 60;  // 120px total
-  }
-  if (node.type === 'pathway') {
-    // Pathway nodes are rectangles - use half diagonal + LARGE padding
-    const w = node.rectWidth || 120;
-    const h = node.rectHeight || 44;
-    return Math.sqrt(w * w + h * h) / 2 + 70;  // ~134px total for standard pathway
-  }
-  if (node.type === 'function' || node.isFunction) {
-    return 60;
-  }
-  // Interactor nodes (all types: normal, reference, expanded)
-  return (node.radius || interactorNodeRadius) + 70;  // ~102px total
 }
 
 /**
@@ -538,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 400;     // Shell 1 minimum radius - INCREASED for better spacing
-  const SHELL_GAP = 400;       // LARGE gap between shells to prevent overlap
-  const MIN_NODE_SPACING = 280; // VERY generous spacing between node centers
+  const BASE_RADIUS = 320;     // Shell 1 minimum radius - larger for better spacing
+  const SHELL_GAP = 320;       // Large gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 180; // Generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -577,42 +553,32 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       byParent.get(parentId).push(node);
     });
 
-    // Find the densest angular sector and calculate required radius expansion
-    let maxRequiredRadius = baseRadius;
-
+    // Find the densest angular sector (worst-case clustering)
+    let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Sum per-node spacing using unified collision radius for all node types
+      // Sum per-node spacing requirements (pathway=240px, interactor=MIN_NODE_SPACING)
+      // Pathways need more space because they're larger rectangular boxes
       let totalSpacing = 0;
       children.forEach(child => {
-        totalSpacing += getCollisionRadius(child) * 2 + 20; // diameter + gap
+        totalSpacing += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
       });
+      const neededArc = totalSpacing / baseRadius;
+      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
 
-      // Calculate the arc span this parent will get (proportional to number of parents)
-      // Each parent gets roughly equal share of the circle
-      const numParents = byParent.size;
-      const parentArcShare = (2 * Math.PI) / Math.max(numParents, 1);
-      // Cap at 270° max for any single parent, but don't compress below what's needed
-      const maxArcSpan = Math.min(parentArcShare, Math.PI * 1.5);
-
-      // KEY FIX: If children need more space than the arc provides at current radius,
-      // calculate the radius needed to fit them WITHOUT compression
-      // Formula: totalSpacing = arcSpan * radius  =>  radius = totalSpacing / arcSpan
-      const radiusNeededForArc = totalSpacing / maxArcSpan;
-
-      // Also calculate based on circumference for this parent's children alone
-      const childCircumferenceRadius = totalSpacing / (2 * Math.PI);
-
-      // Take the larger: either fit in arc at expanded radius, or spread around full circle
-      const requiredRadiusForParent = Math.max(radiusNeededForArc, childCircumferenceRadius);
-      maxRequiredRadius = Math.max(maxRequiredRadius, requiredRadiusForParent);
+      // Density = nodes that must fit / arc span available
+      const density = children.length / arcSpan; // nodes per radian
+      maxDensity = Math.max(maxDensity, density);
     }
+
+    // Calculate minimum radius to satisfy density constraint
+    const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
-      baseRadius,                    // Cumulative base (expands if inner shells expanded)
-      circumferenceRadius + 50,      // Circumference-based (all nodes around full circle)
-      maxRequiredRadius + 80         // Arc-based (worst-case parent cluster needs this radius)
+      baseRadius,                 // Cumulative base (expands if inner shells expanded)
+      circumferenceRadius + 50,   // Circumference-based
+      densityBasedRadius + 60     // Density-based
     );
   }
 
@@ -1203,11 +1169,11 @@ function recalculateShellPositions() {
       // Each parent's children are anchored near the parent's angle,
       // but sectors are adjusted to prevent cross-parent overlaps.
 
-      // Use per-node spacing based on unified collision radius
-      // This ensures consistent angular spacing for all node types
-      // NOTE: Takes radius parameter to use correct radius after expansion
-      const getNodeAngularSpacing = (node, radius = shellRadius) => {
-        return (getCollisionRadius(node) * 2) / radius;
+      // Use per-node spacing based on node type (pathway vs interactor)
+      // Multiplier of 6.0 ensures links to siblings don't pass too close to other siblings
+      const getNodeAngularSpacing = (node) => {
+        const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
+        return (radius * 2.5) / shellRadius;
       };
 
       // Step 1: Group nodes by parent and calculate arc needs
@@ -1306,43 +1272,24 @@ function recalculateShellPositions() {
       }
 
       // Check for wrap-around overlap (last sector overlapping first)
-      // FIX: Instead of scaling DOWN (compressing), expand the radius
       if (parentData.length > 1) {
         const first = parentData[0];
         const last = parentData[parentData.length - 1];
-        const totalArcNeeded = last.sectorEnd - first.sectorStart;
-
-        if (totalArcNeeded > 2 * Math.PI) {
-          // Total needed exceeds 360° - need to expand radius, not compress
-          // Calculate the scale factor to fit at current radius
-          const overflowRatio = totalArcNeeded / (2 * Math.PI);
-
-          // EXPAND the shell radius by this ratio (instead of shrinking sectors)
-          const expandedRadius = shellRadius * overflowRatio;
-          shellRadii[shellNum] = expandedRadius;
-
-          // Recalculate all sector positions with expanded radius
-          // (Since radius is larger, same arc angles = more physical space)
-          // Re-spread sectors evenly with the new radius
+        const wrapOverlap = (last.sectorEnd - 2 * Math.PI) - first.sectorStart;
+        if (wrapOverlap > 0) {
+          // Scale all sectors to fit within 2*PI
+          const totalArc = last.sectorEnd - first.sectorStart;
+          const scale = (2 * Math.PI) / totalArc;
           const baseStart = first.sectorStart;
-          const scale = (2 * Math.PI) / totalArcNeeded;
           parentData.forEach(pd => {
             const relStart = pd.sectorStart - baseStart;
             const relEnd = pd.sectorEnd - baseStart;
             pd.sectorStart = baseStart + relStart * scale;
             pd.sectorEnd = baseStart + relEnd * scale;
-            // DON'T scale down arcNeeded - the expanded radius provides the space
-            // pd.arcNeeded stays the same - more radius means more linear space per radian
+            pd.arcNeeded *= scale;
           });
-
-          // Update shellRadius for positioning below
-          // Re-read from shellRadii since we updated it
-          console.log(`🔄 Shell ${shellNum}: Expanded radius from ${shellRadius.toFixed(0)} to ${expandedRadius.toFixed(0)} (${(overflowRatio * 100 - 100).toFixed(0)}% more space needed)`);
         }
       }
-
-      // Re-read shellRadius in case it was expanded above
-      const finalShellRadius = shellRadii[shellNum] || shellRadius;
 
       // Step 5: Position children within each parent's sector
       const parentGroups = new Map();
@@ -1354,10 +1301,10 @@ function recalculateShellPositions() {
           const nodeAngularSpan = getNodeAngularSpacing(node) * arcScale;
           const angle = currentAngle + nodeAngularSpan / 2;
 
-          // Position node using finalShellRadius (may have been expanded for overcrowding)
-          node.x = centerX + finalShellRadius * Math.cos(angle);
-          node.y = centerY + finalShellRadius * Math.sin(angle);
-          node._shellData = { ...node._shellData, angle, radius: finalShellRadius, shell: shellNum };
+          // Position node
+          node.x = centerX + shellRadius * Math.cos(angle);
+          node.y = centerY + shellRadius * Math.sin(angle);
+          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
           node._targetAngle = angle;
           nodeAngles.set(node.id, angle);
           if (node.originalId) nodeAngles.set(node.originalId, angle);
@@ -2516,8 +2463,8 @@ function buildInitialGraph(){
  * Iteratively pushes overlapping nodes apart
  */
 function resolveInitialOverlaps() {
-  const MAX_ITERATIONS = 100;  // VERY MANY iterations to fully resolve
-  const MIN_SEPARATION = 250;  // VERY large separation to match collision radii
+  const MAX_ITERATIONS = 20;
+  const MIN_SEPARATION = interactorNodeRadius * 3.0;  // ~96px - stronger separation
 
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     let overlapsResolved = 0;
@@ -2558,18 +2505,20 @@ function resolveInitialOverlaps() {
             const distY = node.y - other.y;
             const dist = Math.sqrt(distX * distX + distY * distY);
 
-            // Calculate minimum distance using unified collision radius
-            const minDist = getCollisionRadius(node) + getCollisionRadius(other);
+            // Calculate minimum distance based on node types
+            const nodeRadius = node.type === 'pathway' ? 60 : (node.radius || interactorNodeRadius);
+            const otherRadius = other.type === 'pathway' ? 60 : (other.radius || interactorNodeRadius);
+            const minDist = nodeRadius + otherRadius + 8; // 8px padding
 
             if (dist < minDist && dist > 0.001) {
-              // Push apart along line between centers - FULL separation
+              // Push apart along line between centers
               const overlap = minDist - dist;
-              const pushX = (distX / dist) * overlap * 0.6;  // Increased from 0.5
-              const pushY = (distY / dist) * overlap * 0.6;
+              const pushX = (distX / dist) * overlap * 0.5;
+              const pushY = (distY / dist) * overlap * 0.5;
 
               // Weight by priority: main=fixed, pathway=heavy, interactor=light
-              const nodePriority = node.type === 'main' ? 100 : (node.type === 'pathway' ? 30 : 10);
-              const otherPriority = other.type === 'main' ? 100 : (other.type === 'pathway' ? 30 : 10);
+              const nodePriority = node.type === 'main' ? 100 : (node.type === 'pathway' ? 50 : 10);
+              const otherPriority = other.type === 'main' ? 100 : (other.type === 'pathway' ? 50 : 10);
               const totalPriority = nodePriority + otherPriority;
 
               // Lower priority nodes move more
@@ -2577,12 +2526,12 @@ function resolveInitialOverlaps() {
               const otherWeight = 1 - (otherPriority / totalPriority);
 
               if (node.type !== 'main') {
-                node.x += pushX * nodeWeight * 3;  // Increased from 2
-                node.y += pushY * nodeWeight * 3;
+                node.x += pushX * nodeWeight * 2;
+                node.y += pushY * nodeWeight * 2;
               }
               if (other.type !== 'main') {
-                other.x -= pushX * otherWeight * 3;  // Increased from 2
-                other.y -= pushY * otherWeight * 3;  // Increased from 2
+                other.x -= pushX * otherWeight * 2;
+                other.y -= pushY * otherWeight * 2;
               }
 
               overlapsResolved++;
@@ -2685,14 +2634,14 @@ function getLinkControlPoint(link) {
 /**
  * Resolve link-node collisions by pushing nodes away from nearby links
  * Called on every tick to prevent nodes from overlapping with link lines
- * VERY AGGRESSIVE version: huge margins, full push, many iterations
+ * AGGRESSIVE version: large margins, full push, multiple iterations
  */
 function resolveNodeLinkCollisions() {
   if (!links || !nodes || links.length === 0) return;
 
-  const AVOIDANCE_MARGIN = 180;  // HUGE margin to keep nodes far from links
+  const AVOIDANCE_MARGIN = 120;  // LARGE margin to keep nodes far from links
   const cellSize = AVOIDANCE_MARGIN * 2;
-  const MAX_ITERATIONS = 8;  // Many passes per tick
+  const MAX_ITERATIONS = 3;  // Multiple passes per tick
 
   for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
     // Build spatial hash for links (rebuild each iteration as nodes move)
@@ -2726,10 +2675,11 @@ function resolveNodeLinkCollisions() {
 
     // Check each node against nearby links
     nodes.forEach(node => {
-      // Skip function nodes, main node, and nodes without positions
-      // All other nodes (including pathways) participate in link collision detection
+      // Skip function nodes, main node, pathway nodes, and nodes without positions
+      // Pathway nodes have deterministic shell positions - don't push them around
       if (node.type === 'function' || node.isFunction) return;
       if (node.type === 'main') return;
+      if (node.type === 'pathway') return;
       if (node.x === undefined || node.y === undefined) return;
 
       const cellX = Math.floor(node.x / cellSize);
@@ -2744,8 +2694,9 @@ function resolveNodeLinkCollisions() {
         }
       }
 
-      // Get node collision radius using unified function
-      const totalMargin = getCollisionRadius(node) + AVOIDANCE_MARGIN;
+      // Get node radius - use LARGER values for pathways
+      const nodeRadius = node.type === 'pathway' ? 90 : (node.radius || interactorNodeRadius + 10);
+      const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
 
       // Test each nearby link
       nearbyLinks.forEach(({ link, ctrl }) => {
@@ -2827,17 +2778,24 @@ function createSimulation(){
     simulation
       .force('link', d3.forceLink(links)
         .id(d => d.id)
-        .distance(200)  // Increased link distance
+        .distance(100)
         .strength(0) // No pull - positions are fixed by shell calculations
       )
       .force('collide', d3.forceCollide()
-        .radius(d => getCollisionRadius(d))  // Unified collision radius for all node types
-        .iterations(50)  // MANY passes to fully resolve overlaps
+        .radius(d => {
+          // Very generous padding to make overlaps impossible
+          if (d.type === 'main') return mainNodeRadius + 35;
+          if (d.type === 'pathway') return 95;  // Large buffer for pathways
+          if (d.type === 'function' || d.isFunction) return 55;
+          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 50;  // Larger buffer for interactors
+          return (d.radius || interactorNodeRadius) + 35;
+        })
+        .iterations(25)  // Many passes to fully resolve overlaps
         .strength(1.0)   // Maximum collision strength
       );
 
-    // Shell mode: run collision resolution with MUCH more time to settle
-    simulation.alpha(1.0).alphaDecay(0.005);  // Very slow decay - more time to resolve
+    // Shell mode: run collision resolution with much more time to settle
+    simulation.alpha(0.8).alphaDecay(0.015);  // Much more time to settle completely
   } else {
     // FORCE MODE: Full physics simulation (legacy behavior)
     simulation
@@ -2877,8 +2835,15 @@ function createSimulation(){
       )
       .force('center', d3.forceCenter(width / 2, height / 2).strength(0.03))
       .force('collide', d3.forceCollide()
-        .radius(d => getCollisionRadius(d))  // Unified collision radius for all node types
-        .iterations(3)
+        .radius(d => {
+          if (d.type === 'main') return mainNodeRadius + 15;
+          if (d.type === 'pathway') return 55;
+          if (d.type === 'function' || d.isFunction) return 35;
+          if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
+          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 20;  // Increased buffer
+          return (d.radius || interactorNodeRadius) + 6;
+        })
+        .iterations(2)
         .strength(0.85)
       )
       .force('radialPathways', d3.forceRadial(
@@ -4624,7 +4589,6 @@ function updateSimulation() {
   if (layoutMode === 'shell') {
     // SHELL MODE: Recalculate deterministic positions
     recalculateShellPositions();
-    resolveInitialOverlaps();  // Resolve overlaps after shell positioning
 
     // Update simulation nodes/links (needed for link resolution)
     simulation.nodes(nodes);
@@ -4634,7 +4598,7 @@ function updateSimulation() {
 
     // Run collision resolution to push overlapping nodes apart
     // Shell positions are set, now let collision force resolve any overlaps
-    simulation.alpha(1.0).alphaDecay(0.005).restart();  // Much more time to resolve collisions
+    simulation.alpha(0.8).alphaDecay(0.02).restart();  // More time to resolve collisions
   } else {
     // FORCE MODE: Standard physics update
     simulation.nodes(nodes);
