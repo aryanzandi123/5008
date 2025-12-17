@@ -574,34 +574,11 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     // Calculate minimum radius to satisfy density constraint
     const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
-    // Method 3: Per-parent cluster analysis - ensure each parent's children have enough arc space
-    // This accounts for parents with allocated sectors that constrain their children's positions
-    let maxClusterRadius = 0;
-    for (const [parentId, children] of byParent) {
-      const parent = findParentNode(parentId);
-      if (!parent) continue;
-
-      // Get parent's allocated sector arc span (or default to 60°)
-      const arcSpan = parent._sectorAllocation?.arcSpan || (Math.PI / 3);
-
-      // Calculate circumference needed for this parent's children within their arc
-      let childrenCircumference = 0;
-      children.forEach(child => {
-        childrenCircumference += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
-      });
-
-      // Arc length = radius * angle, so radius = arc_length / angle
-      // Add safety margin to prevent edge-to-edge touching
-      const requiredRadiusForArc = (childrenCircumference / arcSpan) + 40;
-      maxClusterRadius = Math.max(maxClusterRadius, requiredRadiusForArc);
-    }
-
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
       circumferenceRadius + 50,   // Circumference-based
-      densityBasedRadius + 60,    // Density-based
-      maxClusterRadius + 80       // Cluster-based (ensures children fit in parent's arc)
+      densityBasedRadius + 60     // Density-based
     );
   }
 
@@ -728,16 +705,6 @@ function assignNodesToShells(allNodes, mainNodeId, expandedSet, context = {}) {
     }
 
     assignments.set(node.id, { shell, role, parentId, parentShell });
-  });
-
-  // Final validation pass: ensure ALL non-function nodes have shell assignments
-  // This catches any edge cases where nodes might have slipped through without assignment
-  allNodes.forEach(node => {
-    if (node.type === 'function' || node.isFunction) return; // Functions handled separately
-    if (!assignments.has(node.id)) {
-      console.warn(`⚠️ Node ${node.id} (type: ${node.type}) missing shell assignment, defaulting to shell 1`);
-      assignments.set(node.id, { shell: 1, role: node.type || 'unknown', parentId: null, parentShell: null });
-    }
   });
 
   return assignments;
@@ -1222,24 +1189,6 @@ function recalculateShellPositions() {
         byParent.get(parentId).push(node);
       });
 
-      // Step 1.5: Calculate per-parent radial offset to prevent overlap between sibling expansions
-      // Each expanded parent gets a unique sub-shell offset within the shell's radius band
-      const RADIAL_OFFSET_STEP = 60; // 60px offset between each expanded parent's children
-      const parentRadialOffsets = new Map();
-      let offsetIndex = 0;
-
-      byParent.forEach((children, parentId) => {
-        const parent = findParentNode(parentId);
-        const isExpanded = parent && (expandedPathways.has(parent.id) || expandedHierarchyPathways.has(parent.id));
-
-        if (isExpanded && children.length > 0) {
-          parentRadialOffsets.set(parentId, offsetIndex * RADIAL_OFFSET_STEP);
-          offsetIndex++;
-        } else {
-          parentRadialOffsets.set(parentId, 0);
-        }
-      });
-
       // Step 2: Build parent data with angles and arc needs
       const parentData = [];
       for (const [parentId, children] of byParent) {
@@ -1278,19 +1227,10 @@ function recalculateShellPositions() {
 
       // Step 4: Assign non-overlapping sectors centered on parent angles
       // First pass: calculate ideal sectors (centered on parent, constrained by parent's sector)
-      const MIN_EXPANDED_ARC_SPAN = Math.PI / 4; // Minimum 45° arc span for expanded parents
-
       parentData.forEach(pd => {
         // Check if parent has a sector allocation that constrains children
         const parent = findParentNode(pd.parentId);
         const parentSector = parent?._sectorAllocation;
-
-        // Enforce minimum arc span for expanded parents to prevent compression
-        const isExpanded = parent && (expandedPathways.has(parent.id) || expandedHierarchyPathways.has(parent.id));
-        if (isExpanded && pd.arcNeeded < MIN_EXPANDED_ARC_SPAN) {
-          // Expand arc to minimum, keeping it centered on parent angle
-          pd.arcNeeded = MIN_EXPANDED_ARC_SPAN;
-        }
 
         let idealStart = pd.parentAngle - pd.arcNeeded / 2;
         let idealEnd = pd.parentAngle + pd.arcNeeded / 2;
@@ -1352,24 +1292,19 @@ function recalculateShellPositions() {
       }
 
       // Step 5: Position children within each parent's sector
-      // Apply per-parent radial offset to prevent overlap between different parents' children
       const parentGroups = new Map();
       parentData.forEach(pd => {
         let currentAngle = pd.sectorStart;
         const arcScale = pd.arcNeeded > 0 ? (pd.sectorEnd - pd.sectorStart) / pd.arcNeeded : 1;
 
-        // Get radial offset for this parent (expanded parents get unique offsets)
-        const parentOffset = parentRadialOffsets.get(pd.parentId) || 0;
-        const nodeRadius = shellRadius + parentOffset;
-
         pd.sortedChildren.forEach(node => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * arcScale;
           const angle = currentAngle + nodeAngularSpan / 2;
 
-          // Position node with per-parent radial offset
-          node.x = centerX + nodeRadius * Math.cos(angle);
-          node.y = centerY + nodeRadius * Math.sin(angle);
-          node._shellData = { ...node._shellData, angle, radius: nodeRadius, shell: shellNum };
+          // Position node
+          node.x = centerX + shellRadius * Math.cos(angle);
+          node.y = centerY + shellRadius * Math.sin(angle);
+          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
           node._targetAngle = angle;
           nodeAngles.set(node.id, angle);
           if (node.originalId) nodeAngles.set(node.originalId, angle);
