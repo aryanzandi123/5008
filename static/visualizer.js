@@ -576,8 +576,9 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       byParent.get(parentId).push(node);
     });
 
-    // Find the densest angular sector (worst-case clustering)
-    let maxDensity = 0;
+    // Find the densest angular sector and calculate required radius expansion
+    let maxRequiredRadius = baseRadius;
+
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
       // Sum per-node spacing using unified collision radius for all node types
@@ -585,22 +586,32 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       children.forEach(child => {
         totalSpacing += getCollisionRadius(child) * 2 + 20; // diameter + gap
       });
-      const neededArc = totalSpacing / baseRadius;
-      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
 
-      // Density = nodes that must fit / arc span available
-      const density = children.length / arcSpan; // nodes per radian
-      maxDensity = Math.max(maxDensity, density);
+      // Calculate the arc span this parent will get (proportional to number of parents)
+      // Each parent gets roughly equal share of the circle
+      const numParents = byParent.size;
+      const parentArcShare = (2 * Math.PI) / Math.max(numParents, 1);
+      // Cap at 270° max for any single parent, but don't compress below what's needed
+      const maxArcSpan = Math.min(parentArcShare, Math.PI * 1.5);
+
+      // KEY FIX: If children need more space than the arc provides at current radius,
+      // calculate the radius needed to fit them WITHOUT compression
+      // Formula: totalSpacing = arcSpan * radius  =>  radius = totalSpacing / arcSpan
+      const radiusNeededForArc = totalSpacing / maxArcSpan;
+
+      // Also calculate based on circumference for this parent's children alone
+      const childCircumferenceRadius = totalSpacing / (2 * Math.PI);
+
+      // Take the larger: either fit in arc at expanded radius, or spread around full circle
+      const requiredRadiusForParent = Math.max(radiusNeededForArc, childCircumferenceRadius);
+      maxRequiredRadius = Math.max(maxRequiredRadius, requiredRadiusForParent);
     }
-
-    // Calculate minimum radius to satisfy density constraint
-    const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
-      baseRadius,                 // Cumulative base (expands if inner shells expanded)
-      circumferenceRadius + 50,   // Circumference-based
-      densityBasedRadius + 60     // Density-based
+      baseRadius,                    // Cumulative base (expands if inner shells expanded)
+      circumferenceRadius + 50,      // Circumference-based (all nodes around full circle)
+      maxRequiredRadius + 80         // Arc-based (worst-case parent cluster needs this radius)
     );
   }
 
@@ -1293,24 +1304,43 @@ function recalculateShellPositions() {
       }
 
       // Check for wrap-around overlap (last sector overlapping first)
+      // FIX: Instead of scaling DOWN (compressing), expand the radius
       if (parentData.length > 1) {
         const first = parentData[0];
         const last = parentData[parentData.length - 1];
-        const wrapOverlap = (last.sectorEnd - 2 * Math.PI) - first.sectorStart;
-        if (wrapOverlap > 0) {
-          // Scale all sectors to fit within 2*PI
-          const totalArc = last.sectorEnd - first.sectorStart;
-          const scale = (2 * Math.PI) / totalArc;
+        const totalArcNeeded = last.sectorEnd - first.sectorStart;
+
+        if (totalArcNeeded > 2 * Math.PI) {
+          // Total needed exceeds 360° - need to expand radius, not compress
+          // Calculate the scale factor to fit at current radius
+          const overflowRatio = totalArcNeeded / (2 * Math.PI);
+
+          // EXPAND the shell radius by this ratio (instead of shrinking sectors)
+          const expandedRadius = shellRadius * overflowRatio;
+          shellRadii[shellNum] = expandedRadius;
+
+          // Recalculate all sector positions with expanded radius
+          // (Since radius is larger, same arc angles = more physical space)
+          // Re-spread sectors evenly with the new radius
           const baseStart = first.sectorStart;
+          const scale = (2 * Math.PI) / totalArcNeeded;
           parentData.forEach(pd => {
             const relStart = pd.sectorStart - baseStart;
             const relEnd = pd.sectorEnd - baseStart;
             pd.sectorStart = baseStart + relStart * scale;
             pd.sectorEnd = baseStart + relEnd * scale;
-            pd.arcNeeded *= scale;
+            // DON'T scale down arcNeeded - the expanded radius provides the space
+            // pd.arcNeeded stays the same - more radius means more linear space per radian
           });
+
+          // Update shellRadius for positioning below
+          // Re-read from shellRadii since we updated it
+          console.log(`🔄 Shell ${shellNum}: Expanded radius from ${shellRadius.toFixed(0)} to ${expandedRadius.toFixed(0)} (${(overflowRatio * 100 - 100).toFixed(0)}% more space needed)`);
         }
       }
+
+      // Re-read shellRadius in case it was expanded above
+      const finalShellRadius = shellRadii[shellNum] || shellRadius;
 
       // Step 5: Position children within each parent's sector
       const parentGroups = new Map();
@@ -1322,10 +1352,10 @@ function recalculateShellPositions() {
           const nodeAngularSpan = getNodeAngularSpacing(node) * arcScale;
           const angle = currentAngle + nodeAngularSpan / 2;
 
-          // Position node
-          node.x = centerX + shellRadius * Math.cos(angle);
-          node.y = centerY + shellRadius * Math.sin(angle);
-          node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
+          // Position node using finalShellRadius (may have been expanded for overcrowding)
+          node.x = centerX + finalShellRadius * Math.cos(angle);
+          node.y = centerY + finalShellRadius * Math.sin(angle);
+          node._shellData = { ...node._shellData, angle, radius: finalShellRadius, shell: shellNum };
           node._targetAngle = angle;
           nodeAngles.set(node.id, angle);
           if (node.originalId) nodeAngles.set(node.originalId, angle);
