@@ -574,13 +574,10 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     // Calculate minimum radius to satisfy density constraint
     const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
-    // Method 3: Per-parent cluster analysis - only for parents with 3+ children
-    // Small groups don't need cluster-based expansion
+    // Method 3: Per-parent cluster analysis - ensure each parent's children have enough arc space
+    // This accounts for parents with allocated sectors that constrain their children's positions
     let maxClusterRadius = 0;
     for (const [parentId, children] of byParent) {
-      // Skip small groups - they don't need cluster expansion
-      if (children.length < 3) continue;
-
       const parent = findParentNode(parentId);
       if (!parent) continue;
 
@@ -590,20 +587,21 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       // Calculate circumference needed for this parent's children within their arc
       let childrenCircumference = 0;
       children.forEach(child => {
-        childrenCircumference += child.type === 'pathway' ? 180 : MIN_NODE_SPACING;
+        childrenCircumference += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
       });
 
       // Arc length = radius * angle, so radius = arc_length / angle
-      const requiredRadiusForArc = childrenCircumference / arcSpan;
+      // Add small safety margin to prevent edge-to-edge touching
+      const requiredRadiusForArc = (childrenCircumference / arcSpan) + 15;
       maxClusterRadius = Math.max(maxClusterRadius, requiredRadiusForArc);
     }
 
-    // Take the larger of all constraints - prioritize total node count (circumference)
+    // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
-      circumferenceRadius + 10,   // Circumference-based (main driver)
-      densityBasedRadius + 15,    // Density-based
-      maxClusterRadius            // Cluster-based (only for large groups)
+      circumferenceRadius + 20,   // Circumference-based
+      densityBasedRadius + 25,    // Density-based
+      maxClusterRadius + 30       // Cluster-based (ensures children fit in parent's arc)
     );
   }
 
@@ -1224,22 +1222,17 @@ function recalculateShellPositions() {
         byParent.get(parentId).push(node);
       });
 
-      // Step 1.5: Calculate per-parent radial offset ONLY when actually crowded
-      // Only apply offset for parents with 3+ children to prevent unnecessary spreading
-      const RADIAL_OFFSET_STEP = 20; // 20px offset between crowded parent groups
+      // Step 1.5: Calculate per-parent radial offset to prevent overlap between sibling expansions
+      // Each expanded parent gets a unique sub-shell offset within the shell's radius band
+      const RADIAL_OFFSET_STEP = 25; // 25px offset between each expanded parent's children
       const parentRadialOffsets = new Map();
       let offsetIndex = 0;
-
-      // Count total nodes in this shell to determine if we need offsets at all
-      const totalShellNodes = shellNodes.length;
-      const needsOffsets = totalShellNodes > 8; // Only apply offsets if shell is actually crowded
 
       byParent.forEach((children, parentId) => {
         const parent = findParentNode(parentId);
         const isExpanded = parent && (expandedPathways.has(parent.id) || expandedHierarchyPathways.has(parent.id));
 
-        // Only add offset if: shell is crowded AND parent is expanded AND has 3+ children
-        if (needsOffsets && isExpanded && children.length >= 3) {
+        if (isExpanded && children.length > 0) {
           parentRadialOffsets.set(parentId, offsetIndex * RADIAL_OFFSET_STEP);
           offsetIndex++;
         } else {
