@@ -1288,28 +1288,57 @@ function recalculateShellPositions() {
       });
 
       // Step 6: Assign sector allocations to pathway nodes for their children
+      // IMPORTANT: Consider ALL siblings (pathways AND interactors) to avoid link crossings
       shellNodes.forEach(node => {
         if (node.type === 'pathway') {
           const parentId = node.parentPathwayId || node._isChildOf || SNAP.main;
           const parentGroup = parentGroups.get(parentId);
-          const pathwaySiblings = parentGroup?.nodes.filter(n => n.type === 'pathway') || [node];
-          const siblingIdx = pathwaySiblings.indexOf(node);
-          const siblingCount = pathwaySiblings.length;
 
-          // Divide parent group's arc among pathway siblings
-          const groupArcSpan = parentGroup
-            ? parentGroup.endAngle - parentGroup.startAngle
-            : getNodeAngularSpacing(node);
-          const pathwaySectorSpan = groupArcSpan / siblingCount;
-          const sectorStart = parentGroup
-            ? parentGroup.startAngle + siblingIdx * pathwaySectorSpan
-            : node._shellData.angle - pathwaySectorSpan / 2;
+          if (!parentGroup || parentGroup.nodes.length === 0) {
+            // Fallback: use node's own angular span
+            const span = getNodeAngularSpacing(node);
+            node._sectorAllocation = {
+              startAngle: node._shellData.angle - span / 2,
+              endAngle: node._shellData.angle + span / 2,
+              centerAngle: node._shellData.angle,
+              arcSpan: span
+            };
+            return;
+          }
+
+          // Sort ALL siblings by their actual angular position
+          const sortedSiblings = parentGroup.nodes.slice().sort(
+            (a, b) => a._shellData.angle - b._shellData.angle
+          );
+          const idx = sortedSiblings.findIndex(n => n.id === node.id);
+
+          // Calculate sector bounds as midpoints to adjacent siblings (ANY type)
+          // This ensures pathway sectors don't overlap interactor positions
+          let sectorStart, sectorEnd;
+
+          if (idx === 0) {
+            // First sibling: start from parent group's start
+            sectorStart = parentGroup.startAngle;
+          } else {
+            // Midpoint to previous sibling
+            const prev = sortedSiblings[idx - 1];
+            sectorStart = (prev._shellData.angle + node._shellData.angle) / 2;
+          }
+
+          if (idx === sortedSiblings.length - 1) {
+            // Last sibling: end at parent group's end
+            sectorEnd = parentGroup.endAngle;
+          } else {
+            // Midpoint to next sibling
+            const next = sortedSiblings[idx + 1];
+            sectorEnd = (node._shellData.angle + next._shellData.angle) / 2;
+          }
 
           node._sectorAllocation = {
             startAngle: sectorStart,
-            endAngle: sectorStart + pathwaySectorSpan,
+            endAngle: sectorEnd,
             centerAngle: node._shellData.angle,
-            arcSpan: pathwaySectorSpan
+            arcSpan: sectorEnd - sectorStart
           };
         }
       });
