@@ -82,6 +82,29 @@ function calculateExpandRadius(nodeCount, nodeRadius) {
 }
 
 /**
+ * Get consistent collision radius for any node type
+ * Used by all collision detection functions for uniform behavior
+ * @param {Object} node - Node to get collision radius for
+ * @returns {number} - Collision radius in pixels
+ */
+function getCollisionRadius(node) {
+  if (node.type === 'main') {
+    return mainNodeRadius + 30;
+  }
+  if (node.type === 'pathway') {
+    // Pathway nodes are rectangles - use half diagonal + padding
+    const w = node.rectWidth || 120;
+    const h = node.rectHeight || 44;
+    return Math.sqrt(w * w + h * h) / 2 + 25;
+  }
+  if (node.type === 'function' || node.isFunction) {
+    return 40;
+  }
+  // Interactor nodes (all types: normal, reference, expanded)
+  return (node.radius || interactorNodeRadius) + 35;
+}
+
+/**
  * Classify proteins by their directional relationship to the query protein
  * @param {Array} interactions - Array of interaction objects with source, target, direction
  * @param {string} queryProtein - The main/query protein (SNAP.main)
@@ -557,11 +580,10 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Sum per-node spacing requirements (pathway=240px, interactor=MIN_NODE_SPACING)
-      // Pathways need more space because they're larger rectangular boxes
+      // Sum per-node spacing using unified collision radius for all node types
       let totalSpacing = 0;
       children.forEach(child => {
-        totalSpacing += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
+        totalSpacing += getCollisionRadius(child) * 2 + 20; // diameter + gap
       });
       const neededArc = totalSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
@@ -1169,11 +1191,10 @@ function recalculateShellPositions() {
       // Each parent's children are anchored near the parent's angle,
       // but sectors are adjusted to prevent cross-parent overlaps.
 
-      // Use per-node spacing based on node type (pathway vs interactor)
-      // Multiplier of 6.0 ensures links to siblings don't pass too close to other siblings
+      // Use per-node spacing based on unified collision radius
+      // This ensures consistent angular spacing for all node types
       const getNodeAngularSpacing = (node) => {
-        const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
-        return (radius * 2.5) / shellRadius;
+        return (getCollisionRadius(node) * 2) / shellRadius;
       };
 
       // Step 1: Group nodes by parent and calculate arc needs
@@ -2505,10 +2526,8 @@ function resolveInitialOverlaps() {
             const distY = node.y - other.y;
             const dist = Math.sqrt(distX * distX + distY * distY);
 
-            // Calculate minimum distance based on node types
-            const nodeRadius = node.type === 'pathway' ? 60 : (node.radius || interactorNodeRadius);
-            const otherRadius = other.type === 'pathway' ? 60 : (other.radius || interactorNodeRadius);
-            const minDist = nodeRadius + otherRadius + 8; // 8px padding
+            // Calculate minimum distance using unified collision radius
+            const minDist = getCollisionRadius(node) + getCollisionRadius(other);
 
             if (dist < minDist && dist > 0.001) {
               // Push apart along line between centers
@@ -2675,11 +2694,10 @@ function resolveNodeLinkCollisions() {
 
     // Check each node against nearby links
     nodes.forEach(node => {
-      // Skip function nodes, main node, pathway nodes, and nodes without positions
-      // Pathway nodes have deterministic shell positions - don't push them around
+      // Skip function nodes, main node, and nodes without positions
+      // All other nodes (including pathways) participate in link collision detection
       if (node.type === 'function' || node.isFunction) return;
       if (node.type === 'main') return;
-      if (node.type === 'pathway') return;
       if (node.x === undefined || node.y === undefined) return;
 
       const cellX = Math.floor(node.x / cellSize);
@@ -2694,9 +2712,8 @@ function resolveNodeLinkCollisions() {
         }
       }
 
-      // Get node radius - use LARGER values for pathways
-      const nodeRadius = node.type === 'pathway' ? 90 : (node.radius || interactorNodeRadius + 10);
-      const totalMargin = nodeRadius + AVOIDANCE_MARGIN;
+      // Get node collision radius using unified function
+      const totalMargin = getCollisionRadius(node) + AVOIDANCE_MARGIN;
 
       // Test each nearby link
       nearbyLinks.forEach(({ link, ctrl }) => {
@@ -2782,14 +2799,7 @@ function createSimulation(){
         .strength(0) // No pull - positions are fixed by shell calculations
       )
       .force('collide', d3.forceCollide()
-        .radius(d => {
-          // Very generous padding to make overlaps impossible
-          if (d.type === 'main') return mainNodeRadius + 35;
-          if (d.type === 'pathway') return 95;  // Large buffer for pathways
-          if (d.type === 'function' || d.isFunction) return 55;
-          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 50;  // Larger buffer for interactors
-          return (d.radius || interactorNodeRadius) + 35;
-        })
+        .radius(d => getCollisionRadius(d))  // Unified collision radius for all node types
         .iterations(25)  // Many passes to fully resolve overlaps
         .strength(1.0)   // Maximum collision strength
       );
@@ -2835,15 +2845,8 @@ function createSimulation(){
       )
       .force('center', d3.forceCenter(width / 2, height / 2).strength(0.03))
       .force('collide', d3.forceCollide()
-        .radius(d => {
-          if (d.type === 'main') return mainNodeRadius + 15;
-          if (d.type === 'pathway') return 55;
-          if (d.type === 'function' || d.isFunction) return 35;
-          if (d.isReferenceNode) return (d.radius || interactorNodeRadius) + 3;
-          if (d.type === 'interactor') return (d.radius || interactorNodeRadius) + 20;  // Increased buffer
-          return (d.radius || interactorNodeRadius) + 6;
-        })
-        .iterations(2)
+        .radius(d => getCollisionRadius(d))  // Unified collision radius for all node types
+        .iterations(3)
         .strength(0.85)
       )
       .force('radialPathways', d3.forceRadial(
