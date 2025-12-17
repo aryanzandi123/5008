@@ -738,6 +738,112 @@ function findParentNode(parentId) {
 }
 
 /**
+ * Calculate the subtree size for each expanded pathway.
+ * Subtree includes: pathway node + all interactors with _pathwayContext pointing to it.
+ * @param {Array} allNodes - All nodes in the graph
+ * @param {Set} expandedPathways - Set of expanded pathway IDs
+ * @returns {Map<string, number>} - pathwayId -> subtreeSize
+ */
+function calculateExpandedSubtreeSizes(allNodes, expandedPathways) {
+  const subtreeSizes = new Map();
+
+  expandedPathways.forEach(pathwayId => {
+    let count = 1; // The pathway node itself
+
+    allNodes.forEach(node => {
+      // Count nodes that belong to this pathway's subtree
+      if (node._pathwayContext === pathwayId ||
+          node.pathwayId === pathwayId ||
+          node.parentPathwayId === pathwayId) {
+        count++;
+      }
+    });
+
+    subtreeSizes.set(pathwayId, count);
+  });
+
+  return subtreeSizes;
+}
+
+/**
+ * Allocate angular sectors to pathways proportionally based on subtree sizes.
+ * Expanded pathways with more interactors get wider sectors.
+ * @param {Array} shell1Nodes - All nodes in shell 1
+ * @param {Map} subtreeSizes - pathwayId -> subtreeSize from calculateExpandedSubtreeSizes
+ * @param {Set} expandedPathways - Set of expanded pathway IDs
+ * @returns {Map<string, Object>} - pathwayId -> {startAngle, endAngle, centerAngle, arcSpan}
+ */
+function allocateSectorsBySubtreeSize(shell1Nodes, subtreeSizes, expandedPathways) {
+  const sectors = new Map();
+  const pathways = shell1Nodes.filter(n => n.type === 'pathway');
+
+  if (pathways.length === 0) return sectors;
+
+  // Calculate weights: expanded pathways get subtree size, unexpanded get 1
+  let totalWeight = 0;
+  const weights = new Map();
+
+  pathways.forEach(pw => {
+    const isExpanded = expandedPathways.has(pw.id);
+    const weight = isExpanded ? (subtreeSizes.get(pw.id) || 1) : 1;
+    weights.set(pw.id, weight);
+    totalWeight += weight;
+  });
+
+  // Sort pathways by connection topology for optimal ordering
+  const sortedPathways = sortNodesByConnectionTopology(pathways);
+
+  // Allocate sectors proportionally, starting from top (-PI/2)
+  let currentAngle = -Math.PI / 2;
+
+  sortedPathways.forEach(pw => {
+    const weight = weights.get(pw.id);
+    const arcSpan = (weight / totalWeight) * 2 * Math.PI;
+
+    sectors.set(pw.id, {
+      startAngle: currentAngle,
+      endAngle: currentAngle + arcSpan,
+      centerAngle: currentAngle + arcSpan / 2,
+      arcSpan: arcSpan
+    });
+
+    currentAngle += arcSpan;
+  });
+
+  return sectors;
+}
+
+/**
+ * Find the pathway node that a given node is connected to.
+ * Used for assigning non-pathway shell 1 nodes to sectors.
+ * @param {Object} node - The node to find a connected pathway for
+ * @returns {Object|null} - The connected pathway node, or null
+ */
+function findConnectedPathway(node) {
+  // First check if node has explicit pathway context
+  if (node._pathwayContext) {
+    return nodeMap.get(node._pathwayContext);
+  }
+
+  // Check links for pathway connections
+  for (const link of links) {
+    const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+    const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+
+    if (srcId === node.id) {
+      const target = nodeMap.get(tgtId);
+      if (target?.type === 'pathway') return target;
+    }
+    if (tgtId === node.id) {
+      const source = nodeMap.get(srcId);
+      if (source?.type === 'pathway') return source;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Sort nodes by their connection topology to minimize link crossings
  * Nodes connected to similar targets will be placed adjacent to each other
  * @param {Array} shellNodes - Nodes to sort
@@ -881,12 +987,35 @@ function recalculateShellPositions() {
     // Shell 2+: group by parent, position at parent's angle with small spread
 
     if (shellNum === 1) {
-      // SHELL 1: Sort by connection topology FIRST, then spread evenly
-      // This minimizes link crossings by placing related nodes adjacent
-      const sortedShellNodes = sortNodesByConnectionTopology(shellNodes);
-      const angleStep = (2 * Math.PI) / Math.max(sortedShellNodes.length, 1);
-      sortedShellNodes.forEach((node, idx) => {
-        const angle = idx * angleStep;
+      // SHELL 1: Use proportional sector allocation based on expanded subtree sizes
+      // Expanded pathways with more interactors get wider angular sectors
+      const subtreeSizes = calculateExpandedSubtreeSizes(nodes, expandedPathways);
+      const sectorAllocations = allocateSectorsBySubtreeSize(shellNodes, subtreeSizes, expandedPathways);
+
+      // Position each node based on its sector allocation
+      shellNodes.forEach(node => {
+        let angle;
+
+        if (node.type === 'pathway' && sectorAllocations.has(node.id)) {
+          // Pathway node: position at sector center
+          const sector = sectorAllocations.get(node.id);
+          angle = sector.centerAngle;
+          // Store sector info for children to inherit
+          node._sectorAllocation = sector;
+        } else {
+          // Non-pathway node: position based on connected pathway
+          const connectedPw = findConnectedPathway(node);
+          if (connectedPw && sectorAllocations.has(connectedPw.id)) {
+            angle = sectorAllocations.get(connectedPw.id).centerAngle;
+          } else {
+            // Fallback: find first available sector or use default
+            const nonPathwayNodes = shellNodes.filter(n => n.type !== 'pathway');
+            const idx = nonPathwayNodes.indexOf(node);
+            const count = nonPathwayNodes.length || 1;
+            angle = (idx / count) * 2 * Math.PI - Math.PI / 2;
+          }
+        }
+
         node.x = centerX + shellRadius * Math.cos(angle);
         node.y = centerY + shellRadius * Math.sin(angle);
         node._shellData = { ...node._shellData, angle, radius: shellRadius, shell: shellNum };
@@ -954,8 +1083,12 @@ function recalculateShellPositions() {
           totalAngularSpacing += getNodeAngularSpacing(child);
         });
 
-        // Allow up to 270° (1.5π) for large groups, but at least 30° for small groups
-        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, Math.PI * 1.5));
+        // Allow up to parent's sector span (or 270° fallback) for large groups
+        // Get parent's sector allocation to constrain children within bounds
+        const parentNode = findParentNode(parentId);
+        const parentSector = parentNode?._sectorAllocation;
+        const maxArcSpan = parentSector ? parentSector.arcSpan * 0.85 : Math.PI * 1.5;
+        const arcSpan = Math.max(Math.PI / 6, Math.min(totalAngularSpacing, maxArcSpan));
 
         // Calculate scale factor if we had to clamp
         const scaleFactor = totalAngularSpacing > 0 ? arcSpan / totalAngularSpacing : 1;
