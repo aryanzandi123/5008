@@ -1116,6 +1116,24 @@ function recalculateShellPositions() {
           node.fx = null;
           node.fy = null;
 
+          // Propagate sector allocation to pathway nodes
+          // This is critical - without this, shell 3+ children have no sector to inherit
+          if (node.type === 'pathway') {
+            // Calculate this pathway's sector for its children
+            // Divide parent's arc equally among pathway siblings
+            const pathwaySiblings = sortedChildren.filter(n => n.type === 'pathway');
+            const pathwaySectorSpan = pathwaySiblings.length > 0
+              ? arcSpan / pathwaySiblings.length
+              : arcSpan;
+
+            node._sectorAllocation = {
+              startAngle: angle - pathwaySectorSpan / 2,
+              endAngle: angle + pathwaySectorSpan / 2,
+              centerAngle: angle,
+              arcSpan: pathwaySectorSpan
+            };
+          }
+
           currentAngle += nodeAngularSpan;
         });
       }
