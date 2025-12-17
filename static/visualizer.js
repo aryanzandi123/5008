@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 320;     // Shell 1 minimum radius - larger for better spacing
-  const SHELL_GAP = 320;       // Large gap between shells to prevent overlap
-  const MIN_NODE_SPACING = 180; // Generous spacing between node centers
+  const BASE_RADIUS = 100;     // Shell 1 minimum radius - larger for better spacing
+  const SHELL_GAP = 100;       // Large gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 100; // Generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -2930,8 +2930,8 @@ function createSimulation(){
           // In pathway mode, calculate absolute radius from shell number
           // This ensures deep pathway interactors are pushed to outer rings
           if (pathwayMode && d._shellData?.shell) {
-            const BASE_RADIUS = 250;
-            const SHELL_GAP = 150;
+            const BASE_RADIUS = 100;
+            const SHELL_GAP = 100;
             return BASE_RADIUS + (d._shellData.shell - 1) * SHELL_GAP;
           }
 
