@@ -1205,8 +1205,9 @@ function recalculateShellPositions() {
 
       // Use per-node spacing based on unified collision radius
       // This ensures consistent angular spacing for all node types
-      const getNodeAngularSpacing = (node) => {
-        return (getCollisionRadius(node) * 2) / shellRadius;
+      // NOTE: Takes radius parameter to use correct radius after expansion
+      const getNodeAngularSpacing = (node, radius = shellRadius) => {
+        return (getCollisionRadius(node) * 2) / radius;
       };
 
       // Step 1: Group nodes by parent and calculate arc needs
@@ -2515,8 +2516,8 @@ function buildInitialGraph(){
  * Iteratively pushes overlapping nodes apart
  */
 function resolveInitialOverlaps() {
-  const MAX_ITERATIONS = 50;  // MANY iterations to fully resolve
-  const MIN_SEPARATION = 200;  // Large separation to match collision radii
+  const MAX_ITERATIONS = 100;  // VERY MANY iterations to fully resolve
+  const MIN_SEPARATION = 250;  // VERY large separation to match collision radii
 
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     let overlapsResolved = 0;
@@ -2561,14 +2562,14 @@ function resolveInitialOverlaps() {
             const minDist = getCollisionRadius(node) + getCollisionRadius(other);
 
             if (dist < minDist && dist > 0.001) {
-              // Push apart along line between centers
+              // Push apart along line between centers - FULL separation
               const overlap = minDist - dist;
-              const pushX = (distX / dist) * overlap * 0.5;
-              const pushY = (distY / dist) * overlap * 0.5;
+              const pushX = (distX / dist) * overlap * 0.6;  // Increased from 0.5
+              const pushY = (distY / dist) * overlap * 0.6;
 
               // Weight by priority: main=fixed, pathway=heavy, interactor=light
-              const nodePriority = node.type === 'main' ? 100 : (node.type === 'pathway' ? 50 : 10);
-              const otherPriority = other.type === 'main' ? 100 : (other.type === 'pathway' ? 50 : 10);
+              const nodePriority = node.type === 'main' ? 100 : (node.type === 'pathway' ? 30 : 10);
+              const otherPriority = other.type === 'main' ? 100 : (other.type === 'pathway' ? 30 : 10);
               const totalPriority = nodePriority + otherPriority;
 
               // Lower priority nodes move more
@@ -2576,12 +2577,12 @@ function resolveInitialOverlaps() {
               const otherWeight = 1 - (otherPriority / totalPriority);
 
               if (node.type !== 'main') {
-                node.x += pushX * nodeWeight * 2;
-                node.y += pushY * nodeWeight * 2;
+                node.x += pushX * nodeWeight * 3;  // Increased from 2
+                node.y += pushY * nodeWeight * 3;
               }
               if (other.type !== 'main') {
-                other.x -= pushX * otherWeight * 2;
-                other.y -= pushY * otherWeight * 2;
+                other.x -= pushX * otherWeight * 3;  // Increased from 2
+                other.y -= pushY * otherWeight * 3;  // Increased from 2
               }
 
               overlapsResolved++;
@@ -2684,14 +2685,14 @@ function getLinkControlPoint(link) {
 /**
  * Resolve link-node collisions by pushing nodes away from nearby links
  * Called on every tick to prevent nodes from overlapping with link lines
- * AGGRESSIVE version: large margins, full push, multiple iterations
+ * VERY AGGRESSIVE version: huge margins, full push, many iterations
  */
 function resolveNodeLinkCollisions() {
   if (!links || !nodes || links.length === 0) return;
 
-  const AVOIDANCE_MARGIN = 120;  // LARGE margin to keep nodes far from links
+  const AVOIDANCE_MARGIN = 180;  // HUGE margin to keep nodes far from links
   const cellSize = AVOIDANCE_MARGIN * 2;
-  const MAX_ITERATIONS = 3;  // Multiple passes per tick
+  const MAX_ITERATIONS = 8;  // Many passes per tick
 
   for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
     // Build spatial hash for links (rebuild each iteration as nodes move)
