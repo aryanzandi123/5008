@@ -5787,12 +5787,6 @@ function showInteractionModal(link, clickedNode = null){
 
 /* Handle node click - show interaction modal with expand/collapse controls */
 function handleNodeClick(node){
-  // REFERENCE NODE: Navigate to primary node instead of showing modal
-  if (node.isReferenceNode && node.primaryNodeId) {
-    navigateToPrimaryNode(node);
-    return;
-  }
-
   // For pathway-expanded nodes, use originalId to find actual interaction data
   const lookupId = node.originalId || node.id;
 
