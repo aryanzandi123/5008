@@ -1215,10 +1215,36 @@ function recalculateShellPositions() {
       parentData.sort((a, b) => a.parentAngle - b.parentAngle);
 
       // Step 4: Assign non-overlapping sectors centered on parent angles
-      // First pass: calculate ideal sectors (centered on parent)
+      // First pass: calculate ideal sectors (centered on parent, constrained by parent's sector)
       parentData.forEach(pd => {
-        pd.idealStart = pd.parentAngle - pd.arcNeeded / 2;
-        pd.idealEnd = pd.parentAngle + pd.arcNeeded / 2;
+        // Check if parent has a sector allocation that constrains children
+        const parent = findParentNode(pd.parentId);
+        const parentSector = parent?._sectorAllocation;
+
+        let idealStart = pd.parentAngle - pd.arcNeeded / 2;
+        let idealEnd = pd.parentAngle + pd.arcNeeded / 2;
+
+        // Constrain to parent's sector bounds if available
+        if (parentSector) {
+          // Clamp children's arc to parent's sector
+          if (idealStart < parentSector.startAngle) {
+            idealStart = parentSector.startAngle;
+            idealEnd = idealStart + pd.arcNeeded;
+          }
+          if (idealEnd > parentSector.endAngle) {
+            idealEnd = parentSector.endAngle;
+            idealStart = Math.max(parentSector.startAngle, idealEnd - pd.arcNeeded);
+          }
+          // If arc is larger than parent sector, scale it down
+          if (pd.arcNeeded > parentSector.arcSpan) {
+            idealStart = parentSector.startAngle;
+            idealEnd = parentSector.endAngle;
+            pd.arcNeeded = parentSector.arcSpan;
+          }
+        }
+
+        pd.idealStart = idealStart;
+        pd.idealEnd = idealEnd;
         pd.sectorStart = pd.idealStart;
         pd.sectorEnd = pd.idealEnd;
       });
