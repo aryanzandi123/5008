@@ -599,9 +599,9 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
-      circumferenceRadius + 50,   // Circumference-based
-      densityBasedRadius + 50,    // Density-based
-      maxClusterRadius + 30       // Cluster-based (ensures children fit in parent's arc)
+      circumferenceRadius + 0,   // Circumference-based
+      densityBasedRadius + 0,    // Density-based
+      maxClusterRadius + 0       // Cluster-based (ensures children fit in parent's arc)
     );
   }
 
