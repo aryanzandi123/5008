@@ -1173,7 +1173,7 @@ function recalculateShellPositions() {
       // Multiplier of 6.0 ensures links to siblings don't pass too close to other siblings
       const getNodeAngularSpacing = (node) => {
         const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
-        return (radius * 6.0) / shellRadius;
+        return (radius * 2.5) / shellRadius;
       };
 
       // Step 1: Group nodes by parent and calculate arc needs
