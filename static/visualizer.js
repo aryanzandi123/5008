@@ -3950,6 +3950,107 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
     proteinNodeMap.set(proteinId, nodeId);
   });
 
+  // Step 5.5: Create nodes for proteins ONLY in interactor-interactor links
+  // These are indirect interactors like UFD1 that aren't directly connected to query
+  // but appear in chains like VCP → UFD1
+  allProteins.forEach(proteinId => {
+    if (proteinId === queryProtein) return;  // Skip query
+    if (proteinNodeMap.has(proteinId)) return;  // Already created
+
+    // Find interaction data for this protein
+    const interactionData = interactions.find(i =>
+      i.source === proteinId || i.target === proteinId
+    );
+
+    // Find the mediator (protein this one connects to that we already have)
+    const mediator = interactionData?.source === proteinId
+      ? interactionData?.target
+      : interactionData?.source;
+    const mediatorNodeId = proteinNodeMap.get(mediator);
+    const mediatorNode = mediatorNodeId ? nodeMap.get(mediatorNodeId) : null;
+
+    // Position near mediator if found, otherwise at edge of expand radius
+    let x, y;
+    if (mediatorNode) {
+      // Position around mediator with slight offset
+      const angle = Math.random() * 2 * Math.PI;
+      const offset = interactorNodeRadius * 3;
+      x = mediatorNode.x + offset * Math.cos(angle);
+      y = mediatorNode.y + offset * Math.sin(angle);
+    } else {
+      // Fallback: position at outer edge
+      x = pathwayNode.x + expandRadius * 1.2;
+      y = pathwayNode.y;
+    }
+
+    const actualArrow = interactionData
+      ? arrowKind(interactionData.arrow, interactionData.intent, interactionData.direction)
+      : 'binds';
+
+    // Check for existing node
+    const existingNode = findExistingInteractorNode(proteinId);
+    let nodeId;
+
+    if (existingNode) {
+      // Create reference node
+      nodeId = `ref_${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const refNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          isReferenceNode: true,
+          primaryNodeId: existingNode.id,
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'indirect',
+          _anchorAngle: anchorAngle,
+          radius: interactorNodeRadius * 0.85,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: x,
+          y: y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(refNode);
+        nodeMap.set(nodeId, refNode);
+        newlyAddedNodes.add(nodeId);
+      }
+    } else {
+      nodeId = `${proteinId}@${pathwayNode.id}`;
+      if (!nodeMap.has(nodeId)) {
+        const newNode = {
+          id: nodeId,
+          label: proteinId,
+          symbol: proteinId,
+          type: 'interactor',
+          originalId: proteinId,
+          pathwayId: pathwayNode.id,
+          _pathwayContext: pathwayNode.id,
+          _pathwayName: pathwayNode.label,
+          _directionRole: 'indirect',
+          _anchorAngle: anchorAngle,
+          radius: interactorNodeRadius,
+          arrow: actualArrow,
+          interactionData: interactionData,
+          x: x,
+          y: y,
+          expandRadius: expandRadius,
+          isNewlyExpanded: true
+        };
+        nodes.push(newNode);
+        nodeMap.set(nodeId, newNode);
+        newlyAddedNodes.add(nodeId);
+      }
+    }
+    proteinNodeMap.set(proteinId, nodeId);
+    console.log(`📍 Created indirect interactor node: ${proteinId} (mediator: ${mediator || 'none'})`);
+  });
+
   // Step 6: Create anchor links from pathway to upstream proteins (they flow into query)
   upstreamArray.forEach(proteinId => {
     const nodeId = proteinNodeMap.get(proteinId);
