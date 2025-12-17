@@ -989,15 +989,15 @@ function sortChildrenByExternalConnections(children, nodeAngles, parentId) {
     }
   });
 
-  // Sort by: 1) Type (interactors first, pathways last) 2) Connection angle within type
-  // Interactors go first so pathway expansions go toward higher angles,
-  // away from sibling interactor links (prevents link crossings)
+  // Sort by: 1) Type (pathways first, interactors last) 2) Connection angle within type
+  // Pathways go first so their expansions continue in the same angular direction,
+  // while interactors (which don't expand) are positioned after them
   return children.slice().sort((a, b) => {
-    // Primary sort: interactors before pathways
-    const aIsInteractor = a.type === 'pathway' ? 1 : 0;
-    const bIsInteractor = b.type === 'pathway' ? 1 : 0;
-    if (aIsInteractor !== bIsInteractor) {
-      return aIsInteractor - bIsInteractor; // interactors (0) before pathways (1)
+    // Primary sort: pathways before interactors
+    const aIsPathway = a.type === 'pathway' ? 0 : 1;
+    const bIsPathway = b.type === 'pathway' ? 0 : 1;
+    if (aIsPathway !== bIsPathway) {
+      return aIsPathway - bIsPathway; // pathways (0) before interactors (1)
     }
     // Secondary sort: by connection angle within same type
     return childConnectionAngles.get(a.id) - childConnectionAngles.get(b.id);
@@ -2668,9 +2668,11 @@ function resolveNodeLinkCollisions() {
 
     // Check each node against nearby links
     nodes.forEach(node => {
-      // Skip function nodes, main node, and nodes without positions
+      // Skip function nodes, main node, pathway nodes, and nodes without positions
+      // Pathway nodes have deterministic shell positions - don't push them around
       if (node.type === 'function' || node.isFunction) return;
       if (node.type === 'main') return;
+      if (node.type === 'pathway') return;
       if (node.x === undefined || node.y === undefined) return;
 
       const cellX = Math.floor(node.x / cellSize);
