@@ -25,7 +25,7 @@ let nodeMap = new Map(); // Map<nodeId, node>
 
 // Pathway visualization state
 let pathwayNodeRadius = 45;          // Size for pathway nodes (used for collision detection)
-let pathwayRingRadius = 300;         // Distance from center for pathway nodes (reduced for compact layout)
+let pathwayRingRadius = 450;         // Distance from center for pathway nodes - INCREASED for spacing
 let expandedPathways = new Set();    // Set of expanded pathway IDs (showing interactors)
 let pathwayToInteractors = new Map(); // Map<pathwayId, Set<interactorId>>
 let pathwayToInteractions = new Map(); // Map<pathwayId, Array<interaction>> - full interaction objects for leaf pathways
@@ -4623,6 +4623,7 @@ function updateSimulation() {
   if (layoutMode === 'shell') {
     // SHELL MODE: Recalculate deterministic positions
     recalculateShellPositions();
+    resolveInitialOverlaps();  // Resolve overlaps after shell positioning
 
     // Update simulation nodes/links (needed for link resolution)
     simulation.nodes(nodes);
@@ -4632,7 +4633,7 @@ function updateSimulation() {
 
     // Run collision resolution to push overlapping nodes apart
     // Shell positions are set, now let collision force resolve any overlaps
-    simulation.alpha(0.8).alphaDecay(0.02).restart();  // More time to resolve collisions
+    simulation.alpha(1.0).alphaDecay(0.005).restart();  // Much more time to resolve collisions
   } else {
     // FORCE MODE: Standard physics update
     simulation.nodes(nodes);
