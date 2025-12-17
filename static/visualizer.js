@@ -59,26 +59,34 @@ const SHELL_RADIUS_CHILDREN = 450;    // Children of expanded nodes (was 700)
 
 /**
  * Calculate optimal expansion radius based on node count to prevent overlap
- * Uses circumference formula: radius = (nodeCount * spacing) / (2 * PI)
- * TIGHTENED: Reduced spacing and bounds for compact clusters
+ * Uses circumference formula: radius = (nodeCount * spacing) / arcSpan
+ * Supports dynamic expansion based on hierarchy depth and sector arc span
+ * @param {number} nodeCount - Number of nodes to position
+ * @param {number} nodeRadius - Radius of individual nodes
+ * @param {Object} options - Optional { depth, sectorArcSpan }
  */
-function calculateExpandRadius(nodeCount, nodeRadius) {
-  if (nodeCount <= 1) return 65; // Single node - REDUCED (was 80)
+function calculateExpandRadius(nodeCount, nodeRadius, options = {}) {
+  const { depth = 0, sectorArcSpan = 2 * Math.PI } = options;
+
+  if (nodeCount <= 1) return 65;
 
   // Minimum spacing between node centers (node diameter + gap)
-  // REDUCED: tighter spacing for more compact clusters
-  const minSpacing = nodeRadius * 2 + 16; // 16px gap (was 24px)
+  const minSpacing = nodeRadius * 2 + 16;
 
   // Calculate circumference needed: nodeCount * minSpacing
   const circumference = nodeCount * minSpacing;
 
-  // Radius = circumference / (2 * PI)
-  const calculatedRadius = circumference / (2 * Math.PI);
+  // For partial arcs, need larger radius to fit same nodes
+  // Clamp arc span to avoid division issues
+  const effectiveArc = Math.max(Math.min(sectorArcSpan, 2 * Math.PI), 0.5);
+  const calculatedRadius = circumference / effectiveArc;
 
-  // REDUCED bounds for tighter clusters
-  const minRadius = 90;   // Was 150
-  const maxRadius = 180;  // Was 250
-  return Math.max(minRadius, Math.min(maxRadius, calculatedRadius));
+  // Depth bonus: deeper nodes need more radial space to avoid ancestor overlap
+  const depthBonus = depth * 40;
+  const minRadius = 90 + depthBonus;
+
+  // No hard max - let dense sectors push outward dynamically
+  return Math.max(minRadius, calculatedRadius);
 }
 
 /**
@@ -555,6 +563,8 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
 
     // Find the densest angular sector (worst-case clustering)
     let maxDensity = 0;
+    let maxSectorRadius = 0; // NEW: Track sector-based radial pressure
+
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
       // Sum per-node spacing requirements (pathway=240px, interactor=MIN_NODE_SPACING)
@@ -563,11 +573,22 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       children.forEach(child => {
         totalSpacing += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
       });
-      const neededArc = totalSpacing / baseRadius;
-      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
 
-      // Density = nodes that must fit / arc span available
-      const density = children.length / arcSpan; // nodes per radian
+      // NEW: Get parent's actual sector allocation if available
+      const parent = findParentNode(parentId);
+      const parentArc = parent?._sectorAllocation?.arcSpan || (2 * Math.PI);
+      // Clamp to reasonable bounds
+      const effectiveArc = Math.max(parentArc, 0.5);
+
+      // Calculate radius needed to fit children in this specific sector
+      // sectorRadius = totalSpacing / arcSpan (narrower arc = larger radius needed)
+      const sectorRadius = totalSpacing / effectiveArc;
+      maxSectorRadius = Math.max(maxSectorRadius, sectorRadius);
+
+      // Original density calculation (fallback)
+      const neededArc = totalSpacing / baseRadius;
+      const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));
+      const density = children.length / arcSpan;
       maxDensity = Math.max(maxDensity, density);
     }
 
@@ -575,10 +596,12 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     const densityBasedRadius = maxDensity * MIN_NODE_SPACING;
 
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
+    // NEW: Include sector-based radial pressure to prevent overlap in narrow sectors
     radii[shell] = Math.max(
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
       circumferenceRadius + 50,   // Circumference-based
-      densityBasedRadius + 60     // Density-based
+      densityBasedRadius + 60,    // Density-based
+      maxSectorRadius + 80        // NEW: Sector-based (narrower parent arc = push out more)
     );
   }
 
@@ -740,27 +763,46 @@ function findParentNode(parentId) {
 
 /**
  * Calculate the subtree size for each expanded pathway.
- * Subtree includes: pathway node + all interactors with _pathwayContext pointing to it.
+ * Uses recursive depth-weighted counting: deeper descendants count more heavily
+ * to ensure adequate angular sector allocation for deeply nested structures.
  * @param {Array} allNodes - All nodes in the graph
  * @param {Set} expandedPathways - Set of expanded pathway IDs
- * @returns {Map<string, number>} - pathwayId -> subtreeSize
+ * @returns {Map<string, number>} - pathwayId -> subtreeSize (weighted)
  */
 function calculateExpandedSubtreeSizes(allNodes, expandedPathways) {
   const subtreeSizes = new Map();
+  const visited = new Set(); // Prevent infinite recursion in DAG structures
 
-  expandedPathways.forEach(pathwayId => {
-    let count = 1; // The pathway node itself
+  // Helper: recursively count descendants with depth weighting
+  function countDescendants(pathwayId, depth = 0) {
+    if (visited.has(pathwayId + '_' + depth)) return 0;
+    visited.add(pathwayId + '_' + depth);
+
+    let count = 1; // Self
+    const depthWeight = 1 + depth * 0.5; // Deeper nodes count more
 
     allNodes.forEach(node => {
-      // Count nodes that belong to this pathway's subtree
-      if (node._pathwayContext === pathwayId ||
-          node.pathwayId === pathwayId ||
-          node.parentPathwayId === pathwayId) {
-        count++;
+      // Count direct children (interactors with this pathway context)
+      if (node._pathwayContext === pathwayId || node.pathwayId === pathwayId) {
+        count += depthWeight;
+      }
+      // Count child pathways and recursively their descendants
+      if (node.parentPathwayId === pathwayId) {
+        if (node.type === 'pathway' && expandedHierarchyPathways.has(node.id)) {
+          // Recursively count this child pathway's subtree
+          count += countDescendants(node.id, depth + 1) * depthWeight;
+        } else {
+          count += depthWeight;
+        }
       }
     });
 
-    subtreeSizes.set(pathwayId, count);
+    return count;
+  }
+
+  expandedPathways.forEach(pathwayId => {
+    visited.clear(); // Reset for each top-level pathway
+    subtreeSizes.set(pathwayId, countDescendants(pathwayId, 0));
   });
 
   return subtreeSizes;
@@ -3322,7 +3364,13 @@ function expandPathway(pathwayNode) {
   });
 
   // Calculate dynamic radii based on node counts (prevents overlap)
-  const expandRadius = calculateExpandRadius(directInteractors.size, interactorNodeRadius);
+  // Pass depth/arc context for dynamic expansion in crowded sectors
+  const pathwayDepth = pathwayNode.hierarchyLevel || 0;
+  const pathwaySector = pathwayNode._sectorAllocation;
+  const expandRadius = calculateExpandRadius(directInteractors.size, interactorNodeRadius, {
+    depth: pathwayDepth,
+    sectorArcSpan: pathwaySector?.arcSpan || (2 * Math.PI)
+  });
 
   // STEP 2: Create direct interactor nodes (linked to pathway)
   const directAngleStep = (2 * Math.PI) / Math.max(directInteractors.size, 1);
@@ -3493,7 +3541,11 @@ function expandPathway(pathwayNode) {
     const mediatorY = mediatorNode.targetY || mediatorNode.y;
 
     // Calculate dynamic radius for this mediator's indirect interactors
-    const indirectRadius = calculateExpandRadius(indirectIds.size, interactorNodeRadius);
+    // Indirect interactors are one level deeper than the pathway's direct interactors
+    const indirectRadius = calculateExpandRadius(indirectIds.size, interactorNodeRadius, {
+      depth: pathwayDepth + 1,
+      sectorArcSpan: pathwaySector?.arcSpan || (2 * Math.PI)
+    });
     const indirectAngleStep = (2 * Math.PI) / Math.max(indirectIds.size, 1);
     let indirectIdx = 0;
 
@@ -3627,7 +3679,15 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
 
   // Calculate total node count for radius (upstream + downstream + bidirectional + query)
   const totalInteractors = upstream.size + downstream.size + bidirectional.size;
-  const expandRadius = calculateExpandRadius(totalInteractors + 1, interactorNodeRadius);
+
+  // Get pathway's depth and sector allocation for dynamic radius calculation
+  const pathwayDepth = pathwayNode.hierarchyLevel || 0;
+  const pathwaySector = pathwayNode._sectorAllocation;
+
+  const expandRadius = calculateExpandRadius(totalInteractors + 1, interactorNodeRadius, {
+    depth: pathwayDepth,
+    sectorArcSpan: pathwaySector?.arcSpan || (2 * Math.PI)
+  });
   const queryRadius = expandRadius * 0.5;  // Query protein closer to pathway
 
   // Map protein symbol → node id
@@ -4092,7 +4152,16 @@ function expandPathwayHierarchy(pathwayNode) {
   // Calculate positions around parent
   // Pathway children need more distance: parent radius (~50) + child radius (~45) + gap (35) = 130
   const PATHWAY_MIN_CHILD_DISTANCE = 130;
-  const baseExpandRadius = calculateExpandRadius(totalItems, 60);
+
+  // Get parent's depth and sector allocation for dynamic radius calculation
+  const parentDepth = pathwayNode.hierarchyLevel || 0;
+  const parentSector = pathwayNode._sectorAllocation;
+  const sectorArcSpan = parentSector?.arcSpan || (2 * Math.PI);
+
+  const baseExpandRadius = calculateExpandRadius(totalItems, 60, {
+    depth: parentDepth,
+    sectorArcSpan: sectorArcSpan
+  });
   const expandRadius = Math.max(baseExpandRadius, PATHWAY_MIN_CHILD_DISTANCE);
   const angleStep = (2 * Math.PI) / Math.max(totalItems, 1);
 
