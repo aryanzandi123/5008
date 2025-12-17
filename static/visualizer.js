@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 280;     // Shell 1 minimum radius - larger for better spacing
-  const SHELL_GAP = 280;       // Large gap between shells to prevent overlap
-  const MIN_NODE_SPACING = 140; // Generous spacing between node centers
+  const BASE_RADIUS = 320;     // Shell 1 minimum radius - larger for better spacing
+  const SHELL_GAP = 320;       // Large gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 180; // Generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -557,10 +557,10 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Sum per-node spacing requirements (pathway=120px, interactor=MIN_NODE_SPACING)
+      // Sum per-node spacing requirements (pathway=160px, interactor=MIN_NODE_SPACING)
       let totalSpacing = 0;
       children.forEach(child => {
-        totalSpacing += child.type === 'pathway' ? 120 : MIN_NODE_SPACING;
+        totalSpacing += child.type === 'pathway' ? 160 : MIN_NODE_SPACING;
       });
       const neededArc = totalSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
