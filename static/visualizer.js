@@ -738,6 +738,88 @@ function findParentNode(parentId) {
 }
 
 /**
+ * Sort nodes by their connection topology to minimize link crossings
+ * Nodes connected to similar targets will be placed adjacent to each other
+ * @param {Array} shellNodes - Nodes to sort
+ * @returns {Array} - Sorted nodes
+ */
+function sortNodesByConnectionTopology(shellNodes) {
+  if (shellNodes.length <= 2) return shellNodes;
+
+  // Build connection map: what does each node connect to?
+  const nodeConnections = new Map();
+  shellNodes.forEach(node => {
+    const connected = new Set();
+    links.forEach(link => {
+      const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+      const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+      if (srcId === node.id) connected.add(tgtId);
+      if (tgtId === node.id) connected.add(srcId);
+    });
+    nodeConnections.set(node.id, connected);
+  });
+
+  // Calculate connection similarity between two nodes
+  // Higher score = more common connections
+  function connectionSimilarity(nodeA, nodeB) {
+    const connA = nodeConnections.get(nodeA.id) || new Set();
+    const connB = nodeConnections.get(nodeB.id) || new Set();
+    let common = 0;
+    connA.forEach(id => { if (connB.has(id)) common++; });
+    return common;
+  }
+
+  // Greedy nearest-neighbor sorting:
+  // Start with first node, then always pick the most similar unvisited node
+  const sorted = [];
+  const remaining = new Set(shellNodes);
+
+  // Start with the node that has the most connections (hub node)
+  let current = shellNodes.reduce((best, node) => {
+    const conns = nodeConnections.get(node.id)?.size || 0;
+    const bestConns = nodeConnections.get(best.id)?.size || 0;
+    return conns > bestConns ? node : best;
+  }, shellNodes[0]);
+
+  sorted.push(current);
+  remaining.delete(current);
+
+  while (remaining.size > 0) {
+    // Find the remaining node most similar to current
+    let bestNext = null;
+    let bestScore = -1;
+
+    remaining.forEach(candidate => {
+      const score = connectionSimilarity(current, candidate);
+      if (score > bestScore) {
+        bestScore = score;
+        bestNext = candidate;
+      }
+    });
+
+    // If no good match (score=0), pick based on parent angle proximity
+    if (bestScore === 0 && bestNext) {
+      // Fall back to picking by type grouping (pathways together, interactors together)
+      const currentType = current.type;
+      for (const candidate of remaining) {
+        if (candidate.type === currentType) {
+          bestNext = candidate;
+          break;
+        }
+      }
+    }
+
+    if (!bestNext) bestNext = remaining.values().next().value;
+
+    sorted.push(bestNext);
+    remaining.delete(bestNext);
+    current = bestNext;
+  }
+
+  return sorted;
+}
+
+/**
  * Rebuild shell registry and recalculate all positions
  * Call this after any node addition/removal
  */
@@ -799,9 +881,11 @@ function recalculateShellPositions() {
     // Shell 2+: group by parent, position at parent's angle with small spread
 
     if (shellNum === 1) {
-      // SHELL 1: Spread evenly around center
-      const angleStep = (2 * Math.PI) / Math.max(shellNodes.length, 1);
-      shellNodes.forEach((node, idx) => {
+      // SHELL 1: Sort by connection topology FIRST, then spread evenly
+      // This minimizes link crossings by placing related nodes adjacent
+      const sortedShellNodes = sortNodesByConnectionTopology(shellNodes);
+      const angleStep = (2 * Math.PI) / Math.max(sortedShellNodes.length, 1);
+      sortedShellNodes.forEach((node, idx) => {
         const angle = idx * angleStep;
         node.x = centerX + shellRadius * Math.cos(angle);
         node.y = centerY + shellRadius * Math.sin(angle);
@@ -831,6 +915,9 @@ function recalculateShellPositions() {
 
       // Position each parent's children
       for (const [parentId, children] of byParent) {
+        // Sort children by connection topology to minimize link crossings
+        const sortedChildren = sortNodesByConnectionTopology(children);
+
         // Get parent's angle - try multiple lookup methods
         let parentAngle = nodeAngles.get(parentId);
         if (parentAngle === undefined) {
@@ -863,7 +950,7 @@ function recalculateShellPositions() {
 
         // Sum total arc needed (each node contributes its own spacing)
         let totalAngularSpacing = 0;
-        children.forEach(child => {
+        sortedChildren.forEach(child => {
           totalAngularSpacing += getNodeAngularSpacing(child);
         });
 
@@ -876,12 +963,12 @@ function recalculateShellPositions() {
 
         // Position each child using cumulative spacing (not uniform)
         let currentAngle = startAngle;
-        children.forEach((node) => {
+        sortedChildren.forEach((node) => {
           const nodeAngularSpan = getNodeAngularSpacing(node) * scaleFactor;
 
           // Offset single pathway children slightly to avoid visual overlap with parent
-          const singleChildOffset = (children.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
-          const angle = children.length === 1
+          const singleChildOffset = (sortedChildren.length === 1 && node.type === 'pathway') ? Math.PI / 12 : 0;
+          const angle = sortedChildren.length === 1
             ? parentAngle + singleChildOffset
             : currentAngle + nodeAngularSpan / 2;  // Center of node's arc slice
 
