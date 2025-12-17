@@ -989,8 +989,17 @@ function sortChildrenByExternalConnections(children, nodeAngles, parentId) {
     }
   });
 
-  // Sort by connection angle
+  // Sort by: 1) Type (interactors first, pathways last) 2) Connection angle within type
+  // This ensures pathways are at the "end" of the angular range, so when they expand,
+  // their children go "outward" and don't cross back through sibling interactor links
   return children.slice().sort((a, b) => {
+    // Primary sort: interactors before pathways
+    const aIsPathway = a.type === 'pathway' ? 1 : 0;
+    const bIsPathway = b.type === 'pathway' ? 1 : 0;
+    if (aIsPathway !== bIsPathway) {
+      return aIsPathway - bIsPathway; // interactors (0) before pathways (1)
+    }
+    // Secondary sort: by connection angle within same type
     return childConnectionAngles.get(a.id) - childConnectionAngles.get(b.id);
   });
 }
