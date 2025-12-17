@@ -514,9 +514,9 @@ function calculateArcSectorPosition(config) {
  */
 function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
   const radii = [0]; // Shell 0 is center
-  const BASE_RADIUS = 150;     // Shell 1 minimum radius - compact
-  const SHELL_GAP = 100;       // Gap between shells
-  const MIN_NODE_SPACING = 85; // Spacing between node centers
+  const BASE_RADIUS = 320;     // Shell 1 minimum radius - larger for better spacing
+  const SHELL_GAP = 320;       // Large gap between shells to prevent overlap
+  const MIN_NODE_SPACING = 180; // Generous spacing between node centers
 
   // Get max shell number
   const maxShell = Math.max(...Array.from(nodesByShell.keys()), 0);
@@ -591,17 +591,17 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       });
 
       // Arc length = radius * angle, so radius = arc_length / angle
-      // Add small safety margin to prevent edge-to-edge touching
-      const requiredRadiusForArc = (childrenCircumference / arcSpan) + 15;
+      // Add safety margin to prevent edge-to-edge touching
+      const requiredRadiusForArc = (childrenCircumference / arcSpan) + 40;
       maxClusterRadius = Math.max(maxClusterRadius, requiredRadiusForArc);
     }
 
     // Take the larger of all constraints - CUMULATIVE ensures outer shells expand
     radii[shell] = Math.max(
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
-      circumferenceRadius + 20,   // Circumference-based
-      densityBasedRadius + 25,    // Density-based
-      maxClusterRadius + 30       // Cluster-based (ensures children fit in parent's arc)
+      circumferenceRadius + 50,   // Circumference-based
+      densityBasedRadius + 60,    // Density-based
+      maxClusterRadius + 80       // Cluster-based (ensures children fit in parent's arc)
     );
   }
 
@@ -1224,7 +1224,7 @@ function recalculateShellPositions() {
 
       // Step 1.5: Calculate per-parent radial offset to prevent overlap between sibling expansions
       // Each expanded parent gets a unique sub-shell offset within the shell's radius band
-      const RADIAL_OFFSET_STEP = 25; // 25px offset between each expanded parent's children
+      const RADIAL_OFFSET_STEP = 60; // 60px offset between each expanded parent's children
       const parentRadialOffsets = new Map();
       let offsetIndex = 0;
 
@@ -1278,7 +1278,7 @@ function recalculateShellPositions() {
 
       // Step 4: Assign non-overlapping sectors centered on parent angles
       // First pass: calculate ideal sectors (centered on parent, constrained by parent's sector)
-      const MIN_EXPANDED_ARC_SPAN = Math.PI / 6; // Minimum 30° arc span for expanded parents
+      const MIN_EXPANDED_ARC_SPAN = Math.PI / 4; // Minimum 45° arc span for expanded parents
 
       parentData.forEach(pd => {
         // Check if parent has a sector allocation that constrains children
