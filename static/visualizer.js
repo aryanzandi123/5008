@@ -82,7 +82,7 @@ function calculateExpandRadius(nodeCount, nodeRadius, options = {}) {
   const calculatedRadius = circumference / effectiveArc;
 
   // Depth bonus: deeper nodes need more radial space to avoid ancestor overlap
-  const depthBonus = depth * 40;
+  const depthBonus = depth * 20; // Reduced from 40 for less aggressive expansion
   const minRadius = 90 + depthBonus;
 
   // No hard max - let dense sectors push outward dynamically
@@ -601,7 +601,7 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
       baseRadius,                 // Cumulative base (expands if inner shells expanded)
       circumferenceRadius + 50,   // Circumference-based
       densityBasedRadius + 60,    // Density-based
-      maxSectorRadius + 80        // NEW: Sector-based (narrower parent arc = push out more)
+      maxSectorRadius + 40        // Sector-based (reduced from 80 for less aggressive expansion)
     );
   }
 
@@ -779,7 +779,7 @@ function calculateExpandedSubtreeSizes(allNodes, expandedPathways) {
     visited.add(pathwayId + '_' + depth);
 
     let count = 1; // Self
-    const depthWeight = 1 + depth * 0.5; // Deeper nodes count more
+    const depthWeight = 1 + depth * 0.3; // Deeper nodes count more (reduced from 0.5)
 
     allNodes.forEach(node => {
       // Count direct children (interactors with this pathway context)
@@ -1541,9 +1541,13 @@ function forcePathwayOrbit() {
       const nodeShell = node._shellData?.shell || (parentShell + 1);
       const shellOffset = Math.max(1, nodeShell - parentShell);
 
-      // Each shell offset adds ~120px of distance from parent
-      const SHELL_OFFSET_DISTANCE = 120;
-      const baseTargetDist = shellOffset * SHELL_OFFSET_DISTANCE;
+      // DYNAMIC offset based on parent's sector allocation
+      // Narrower sectors need larger radial distances to fit nodes
+      const parentArc = parent._sectorAllocation?.arcSpan || (2 * Math.PI);
+      const arcFactor = Math.max(1, (Math.PI / 2) / Math.max(parentArc, 0.5)); // More expansion for narrow arcs
+      const BASE_OFFSET = 100;
+      const dynamicOffset = BASE_OFFSET * Math.min(arcFactor, 2.0); // Cap at 2x
+      const baseTargetDist = shellOffset * dynamicOffset;
 
       // Query protein closer to parent, others at full shell-offset distance
       const targetDist = node.isQueryProtein
@@ -1598,10 +1602,16 @@ function forceSectorConstraint() {
         const parentShell = parent._shellData?.shell || 1;
         const nodeShell = node._shellData?.shell || (parentShell + 1);
         const shellOffset = Math.max(1, nodeShell - parentShell);
-        const SHELL_OFFSET_DISTANCE = 120;
+
+        // DYNAMIC offset based on parent's sector allocation
+        const parentArc = parent._sectorAllocation?.arcSpan || (2 * Math.PI);
+        const arcFactor = Math.max(1, (Math.PI / 2) / Math.max(parentArc, 0.5));
+        const BASE_OFFSET = 100;
+        const dynamicOffset = BASE_OFFSET * Math.min(arcFactor, 2.0);
+
         targetRadius = node.isQueryProtein
-          ? Math.max(shellOffset * SHELL_OFFSET_DISTANCE * 0.6, 60)
-          : Math.max(shellOffset * SHELL_OFFSET_DISTANCE, 60);
+          ? Math.max(shellOffset * dynamicOffset * 0.6, 60)
+          : Math.max(shellOffset * dynamicOffset, 60);
       } else {
         // Regular interactors: use shell radius from center
         const shellNum = node._shellData?.shell || 1;
