@@ -1169,9 +1169,10 @@ function recalculateShellPositions() {
       // but sectors are adjusted to prevent cross-parent overlaps.
 
       // Use per-node spacing based on node type (pathway vs interactor)
+      // Multiplier of 6.0 ensures links to siblings don't pass too close to other siblings
       const getNodeAngularSpacing = (node) => {
         const radius = node.type === 'pathway' ? pathwayNodeRadius : interactorNodeRadius;
-        return (radius * 2.5) / shellRadius;
+        return (radius * 6.0) / shellRadius;
       };
 
       // Step 1: Group nodes by parent and calculate arc needs
