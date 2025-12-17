@@ -557,10 +557,11 @@ function calculateCollisionFreeRadii(nodesByShell, defaultNodeRadius = 35) {
     let maxDensity = 0;
     for (const [parentId, children] of byParent) {
       // Each parent's children must fit in their allocated arc
-      // Sum per-node spacing requirements (pathway=160px, interactor=MIN_NODE_SPACING)
+      // Sum per-node spacing requirements (pathway=240px, interactor=MIN_NODE_SPACING)
+      // Pathways need more space because they're larger rectangular boxes
       let totalSpacing = 0;
       children.forEach(child => {
-        totalSpacing += child.type === 'pathway' ? 160 : MIN_NODE_SPACING;
+        totalSpacing += child.type === 'pathway' ? 240 : MIN_NODE_SPACING;
       });
       const neededArc = totalSpacing / baseRadius;
       const arcSpan = Math.max(Math.PI / 6, Math.min(neededArc, Math.PI * 1.5));  // Up to 270° for large groups
