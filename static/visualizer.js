@@ -3983,7 +3983,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
       // Spread multiple indirect nodes at 30-degree intervals
       const spreadAngle = (indirectIndex - (indirectProteins.length - 1) / 2) * (Math.PI / 6);
       const angle = baseAngle + spreadAngle;
-      const offset = interactorNodeRadius * 2;  // Tighter clustering near mediator
+      const offset = interactorNodeRadius * 3;  // Tighter clustering near mediator
       x = mediatorNode.x + offset * Math.cos(angle);
       y = mediatorNode.y + offset * Math.sin(angle);
     } else {
