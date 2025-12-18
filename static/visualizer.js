@@ -6110,30 +6110,21 @@ function showAggregatedInteractionsModal(nodeLinks, clickedNode) {
     `;
   }
 
-  // Group links by type (direct, indirect, shared) - RELATIVE TO CLICKED NODE
-  // Direct = clicked node is directly in the interaction (source or target)
-  // Indirect = clicked node is reached via another protein (not directly in the interaction)
+  // Group links by type (direct, indirect, shared)
+  // Uses interaction_type field to distinguish:
+  // - Direct: direct protein-protein interaction
+  // - Indirect: interaction chain (e.g., ATXN3 → PARK2 → BCL2)
   const directLinks = [];
   const indirectLinks = [];
   const sharedLinks = [];
 
   actualLinks.forEach(link => {
     const L = link.data || {};
-
-    // Get source/target for this interaction
-    const src = L.source || link.source?.originalId || link.source?.id || link.source;
-    const tgt = L.target || link.target?.originalId || link.target?.id || link.target;
-
-    // Direct = clicked node is directly involved in this interaction
-    const isDirectForClickedNode = (src === lookupId || tgt === lookupId);
-
     if (L._is_shared_link) {
       sharedLinks.push(link);
-    } else if (!isDirectForClickedNode) {
-      // Indirect = clicked node NOT directly in this interaction (reached via mediator)
+    } else if (L.interaction_type === 'indirect') {
       indirectLinks.push(link);
     } else {
-      // Direct = clicked node IS source or target of this interaction
       directLinks.push(link);
     }
   });
@@ -6199,8 +6190,8 @@ function showAggregatedInteractionsModal(nodeLinks, clickedNode) {
       let chainDisplay = '';
 
       if (isViewingIndirectInteractor && upstream) {
-        // Viewing indirect interactor (e.g., ATM): show "PNKP → ATM" (mediator → this)
-        chainDisplay = `${escapeHtml(upstream)} → ${escapeHtml(indirectTarget)}`;
+        // Viewing indirect interactor (e.g., BCL2): show full chain "ATXN3 → PARK2 → BCL2"
+        chainDisplay = `${escapeHtml(SNAP.main)} → ${escapeHtml(upstream)} → ${escapeHtml(indirectTarget)}`;
       } else {
         // Viewing from main protein's perspective: show full chain
         const functions = L.functions || [];
@@ -6268,9 +6259,10 @@ function showAggregatedInteractionsModal(nodeLinks, clickedNode) {
       functionMainProtein = displaySrc;      // PNKP (the mediator)
       functionInteractorProtein = displayTgt; // ATM (the indirect target)
     } else {
-      // Standard case: use main protein and interactor
-      functionMainProtein = SNAP.main;
-      functionInteractorProtein = srcName === SNAP.main ? tgtName : srcName;
+      // Standard case: use the interaction's actual source/target (not SNAP.main)
+      // This ensures BCL2's modal shows "PARK2 → BCL2" not "ATXN3 → PARK2"
+      functionMainProtein = displaySrc;
+      functionInteractorProtein = displayTgt;
     }
 
     let functionsHTML = '';
