@@ -3983,7 +3983,7 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
       // Spread multiple indirect nodes at 30-degree intervals
       const spreadAngle = (indirectIndex - (indirectProteins.length - 1) / 2) * (Math.PI / 6);
       const angle = baseAngle + spreadAngle;
-      const offset = interactorNodeRadius * 3;
+      const offset = interactorNodeRadius * 2;  // Tighter clustering near mediator
       x = mediatorNode.x + offset * Math.cos(angle);
       y = mediatorNode.y + offset * Math.sin(angle);
     } else {
@@ -6110,18 +6110,30 @@ function showAggregatedInteractionsModal(nodeLinks, clickedNode) {
     `;
   }
 
-  // Group links by type (direct, indirect, shared)
+  // Group links by type (direct, indirect, shared) - RELATIVE TO CLICKED NODE
+  // Direct = clicked node is directly in the interaction (source or target)
+  // Indirect = clicked node is reached via another protein (not directly in the interaction)
   const directLinks = [];
   const indirectLinks = [];
   const sharedLinks = [];
 
   actualLinks.forEach(link => {
     const L = link.data || {};
+
+    // Get source/target for this interaction
+    const src = L.source || link.source?.originalId || link.source?.id || link.source;
+    const tgt = L.target || link.target?.originalId || link.target?.id || link.target;
+
+    // Direct = clicked node is directly involved in this interaction
+    const isDirectForClickedNode = (src === lookupId || tgt === lookupId);
+
     if (L._is_shared_link) {
       sharedLinks.push(link);
-    } else if (L.interaction_type === 'indirect') {
+    } else if (!isDirectForClickedNode) {
+      // Indirect = clicked node NOT directly in this interaction (reached via mediator)
       indirectLinks.push(link);
     } else {
+      // Direct = clicked node IS source or target of this interaction
       directLinks.push(link);
     }
   });
