@@ -3953,10 +3953,13 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
   // Step 5.5: Create nodes for proteins ONLY in interactor-interactor links
   // These are indirect interactors like UFD1 that aren't directly connected to query
   // but appear in chains like VCP → UFD1
-  allProteins.forEach(proteinId => {
-    if (proteinId === queryProtein) return;  // Skip query
-    if (proteinNodeMap.has(proteinId)) return;  // Already created
 
+  // Build list of indirect proteins for deterministic positioning
+  const indirectProteins = Array.from(allProteins).filter(p =>
+    p !== queryProtein && !proteinNodeMap.has(p)
+  );
+
+  indirectProteins.forEach((proteinId, indirectIndex) => {
     // Find interaction data for this protein
     const interactionData = interactions.find(i =>
       i.source === proteinId || i.target === proteinId
@@ -3972,15 +3975,22 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
     // Position near mediator if found, otherwise at edge of expand radius
     let x, y;
     if (mediatorNode) {
-      // Position around mediator with slight offset
-      const angle = Math.random() * 2 * Math.PI;
+      // Use deterministic angle based on mediator's position and index
+      // Position radially outward from mediator, opposite to pathway direction
+      const baseAngle = mediatorNode._targetAngle !== undefined
+        ? mediatorNode._targetAngle + Math.PI  // Opposite direction from pathway
+        : Math.atan2(mediatorNode.y - pathwayNode.y, mediatorNode.x - pathwayNode.x);
+      // Spread multiple indirect nodes at 30-degree intervals
+      const spreadAngle = (indirectIndex - (indirectProteins.length - 1) / 2) * (Math.PI / 6);
+      const angle = baseAngle + spreadAngle;
       const offset = interactorNodeRadius * 3;
       x = mediatorNode.x + offset * Math.cos(angle);
       y = mediatorNode.y + offset * Math.sin(angle);
     } else {
-      // Fallback: position at outer edge
-      x = pathwayNode.x + expandRadius * 1.2;
-      y = pathwayNode.y;
+      // Fallback: position at outer edge with deterministic spread
+      const fallbackAngle = (indirectIndex * Math.PI / 4) - Math.PI / 2;
+      x = pathwayNode.x + expandRadius * 1.3 * Math.cos(fallbackAngle);
+      y = pathwayNode.y + expandRadius * 1.3 * Math.sin(fallbackAngle);
     }
 
     const actualArrow = interactionData
@@ -4049,6 +4059,50 @@ function expandPathwayWithInteractions(pathwayNode, interactions, options = {}) 
     }
     proteinNodeMap.set(proteinId, nodeId);
     console.log(`📍 Created indirect interactor node: ${proteinId} (mediator: ${mediator || 'none'})`);
+  });
+
+  // Step 5.6: Add missing query links for orphan proteins
+  // Some proteins (like PARK2) appear in pathway data with interactor-interactor links
+  // but have a link back to query in SNAP.interactions that's not in pathway data
+  indirectProteins.forEach(proteinId => {
+    const nodeId = proteinNodeMap.get(proteinId);
+    if (!nodeId) return;
+
+    // Check if this protein already has any link to/from query in this pathway expansion
+    const hasQueryLink = links.some(l => {
+      const src = l.source?.id || l.source;
+      const tgt = l.target?.id || l.target;
+      return (src === queryNodeId && tgt === nodeId) ||
+             (tgt === queryNodeId && src === nodeId);
+    });
+
+    if (!hasQueryLink) {
+      // Check SNAP.interactions for a direct link between query and this protein
+      const snapInteraction = (SNAP.interactions || []).find(i =>
+        (i.source === queryProtein && i.target === proteinId) ||
+        (i.target === queryProtein && i.source === proteinId)
+      );
+
+      if (snapInteraction) {
+        // Add the missing link from query to this protein
+        const linkId = `${queryNodeId}-${nodeId}@${pathwayNode.id}`;
+        if (!links.find(l => l.id === linkId)) {
+          const actualArrow = arrowKind(snapInteraction.arrow, snapInteraction.intent, snapInteraction.direction);
+          links.push({
+            id: linkId,
+            source: queryNodeId,
+            target: nodeId,
+            type: 'interaction-edge',
+            arrow: actualArrow,
+            direction: snapInteraction.direction || 'bidirectional',
+            data: snapInteraction,
+            _pathwayContext: pathwayNode.id,
+            _addedFromSNAP: true  // Mark as added from global interactions
+          });
+          console.log(`📍 Added missing query link: ${queryProtein} → ${proteinId} (${actualArrow})`);
+        }
+      }
+    }
   });
 
   // Step 6: Create anchor links from pathway to upstream proteins (they flow into query)
