@@ -170,7 +170,7 @@ function readConfigFromInputs() {
 
   if (interactorRoundsInput && functionRoundsInput) {
     return {
-      ai_model: aiModelSelect ? aiModelSelect.value : 'gemini-2.5-pro',
+      ai_model: aiModelSelect ? aiModelSelect.value : 'gemini-3-flash-preview',
       interactor_rounds: parseInt(interactorRoundsInput.value) || 3,
       function_rounds: parseInt(functionRoundsInput.value) || 3,
       max_depth: maxDepthSelect ? parseInt(maxDepthSelect.value) || 3 : 3,
@@ -183,7 +183,7 @@ function readConfigFromInputs() {
 
   // Fallback to localStorage
   return {
-    ai_model: localStorage.getItem('ai_model') || 'gemini-2.5-pro',
+    ai_model: localStorage.getItem('ai_model') || 'gemini-3-flash-preview',
     interactor_rounds: parseInt(localStorage.getItem('interactor_rounds')) || 3,
     function_rounds: parseInt(localStorage.getItem('function_rounds')) || 3,
     max_depth: parseInt(localStorage.getItem('max_depth')) || 3,

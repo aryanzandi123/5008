@@ -148,7 +148,7 @@ CACHE_DIR = "cache"
 
 # Module-level AI model selection (can be set by run_full_job)
 # Valid options: 'gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-3-flash-preview'
-CURRENT_AI_MODEL = "gemini-2.5-pro"
+CURRENT_AI_MODEL = "gemini-3-flash-preview"
 
 
 def _coerce_token_count(value: Any) -> int:
@@ -1496,7 +1496,7 @@ def run_full_job(
     skip_deduplicator: bool = False,
     skip_arrow_determination: bool = False,
     skip_fact_checking: bool = False,
-    ai_model: str = "gemini-2.5-pro",
+    ai_model: str = "gemini-3-flash-preview",
     flask_app = None
 ):
     """

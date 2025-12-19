@@ -171,7 +171,7 @@ def validate_single_interaction(
         )
 
         response = client.models.generate_content(
-            model="gemini-2.5-pro",
+            model="gemini-3-flash-preview",
             contents=prompt,
             config=config,
         )

@@ -475,7 +475,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 1a - Initial interactor discovery (NAMES ONLY - NO ARROWS YET!)
     StepConfig(
         name="step1a_discover",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -599,7 +599,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 1b - Expand interactor network (NAMES ONLY)
     StepConfig(
         name="step1b_expand",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -645,7 +645,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 1c - Deep literature mining (NAMES ONLY)
     StepConfig(
         name="step1c_deep_mining",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -685,7 +685,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 1d-1g - Additional interactor discovery rounds (NAMES ONLY)
     StepConfig(
         name="step1d_discover_round2",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -721,7 +721,7 @@ PIPELINE_STEPS: list[StepConfig] = [
 
     StepConfig(
         name="step1e_discover_round3",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -757,7 +757,7 @@ PIPELINE_STEPS: list[StepConfig] = [
 
     StepConfig(
         name="step1f_discover_round4",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -793,7 +793,7 @@ PIPELINE_STEPS: list[StepConfig] = [
 
     StepConfig(
         name="step1g_discover_round5",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -830,7 +830,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2a - MAP FUNCTIONS (first batch) + TRACK INDIRECT INTERACTORS
     StepConfig(
         name="step2a_functions",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -941,7 +941,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2a2 - Continue function mapping + paper titles + indirect tracking
     StepConfig(
         name="step2a2_functions_batch",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -991,7 +991,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2a3 - Exhaustive function sweep + paper titles + indirect tracking
     StepConfig(
         name="step2a3_functions_exhaustive",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -1041,7 +1041,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2a4 - Round 2 function mapping + paper titles + indirect tracking
     StepConfig(
         name="step2a4_functions_round2",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -1079,7 +1079,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2a5 - Round 3 function mapping + paper titles + indirect tracking
     StepConfig(
         name="step2a5_functions_round3",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -1119,7 +1119,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2b - Deep function research + paper titles + indirect tracking
     StepConfig(
         name="step2b_deep_function_research",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -1159,7 +1159,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2b2 - GENERATE FUNCTIONS FOR INDIRECT INTERACTIONS
     StepConfig(
         name="step2b2_indirect_functions",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -1258,7 +1258,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2b3 - RESCUE DIRECT INTERACTORS WITHOUT FUNCTIONS
     StepConfig(
         name="step2b3_rescue_direct_functions",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -1385,7 +1385,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # This is a TEMPLATE showing the logic - actual steps generated dynamically
     StepConfig(
         name="step2c_arrow_TEMPLATE",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -1570,7 +1570,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 2g - Final quality control
     StepConfig(
         name="step2g_final_qc",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=True,
@@ -1613,7 +1613,7 @@ PIPELINE_STEPS: list[StepConfig] = [
     # 3 - Snapshot (handled by runner)
     StepConfig(
         name="step3_snapshot",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=False,
         reasoning_effort="high",
         use_google_search=False,

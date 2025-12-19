@@ -39,7 +39,7 @@ def create_interactor_discovery_step(round_num: int) -> StepConfig:
 
     return StepConfig(
         name=f"step1{letter}_discover_round{round_num}",
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,
@@ -137,7 +137,7 @@ def create_function_mapping_step(round_num: int) -> StepConfig:
 
     return StepConfig(
         name=step_name,
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         deep_research=True,
         reasoning_effort="high",
         use_google_search=True,

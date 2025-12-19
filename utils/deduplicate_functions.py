@@ -1,8 +1,8 @@
 """
 AI-Powered Function Deduplication Script
 
-Uses Gemini 2.5 Flash to intelligently detect and remove duplicate functions
-for the same interaction, even when function names differ slightly.
+Uses Gemini 3.0 Flash Preview with thinking to intelligently detect and remove
+duplicate functions for the same interaction, even when function names differ.
 
 If one function is more correct than another, keeps the better one.
 """
@@ -29,15 +29,18 @@ load_dotenv()
 
 
 def call_gemini_flash(prompt: str, api_key: str) -> str:
-    """Call Gemini 2.5 Pro for lightweight deduplication checks."""
+    """Call Gemini 3.0 Flash Preview with thinking for deduplication checks."""
     client = genai.Client(api_key=api_key)
 
     response = client.models.generate_content(
-        model="gemini-2.5-pro",
+        model="gemini-3-flash-preview",
         contents=prompt,
         config=types.GenerateContentConfig(
             temperature=0.1,  # Low temperature for consistency
             max_output_tokens=14000,
+            thinking_config=types.ThinkingConfig(
+                thinking_budget=8192,  # Moderate thinking for deduplication
+            ),
         )
     )
 

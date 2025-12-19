@@ -75,6 +75,9 @@ def _call_gemini_json(
         temperature=temperature,
         top_p=0.5,
         tools=[],  # No search for speed
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=32768,  # Moderate thinking for hierarchy building
+        ),
     )
 
     last_err = None

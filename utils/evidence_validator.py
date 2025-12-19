@@ -27,9 +27,10 @@ from google.genai import types
 from dotenv import load_dotenv
 
 # Constants
-MAX_OUTPUT_TOKENS = 60192 
-# MODEL ID: Using Gemini 3.0 Pro Preview for maximum reasoning power on validation
-MODEL_ID = "gemini-2.5-pro"
+MAX_OUTPUT_TOKENS = 60192
+MAX_THINKING_TOKENS = 32768  # Generous thinking budget for rigorous validation
+# MODEL ID: Using Gemini 3.0 Flash Preview with thinking for maximum reasoning power
+MODEL_ID = "gemini-3-flash-preview"
 
 class EvidenceValidatorError(RuntimeError):
     """Raised when evidence validation fails."""
@@ -85,11 +86,14 @@ def call_gemini_validation(
     """
     client = genai.Client(api_key=api_key)
     
-    # Configuration: High reasoning, Search enabled
+    # Configuration: High reasoning with thinking + Search enabled
     config = types.GenerateContentConfig(
         tools=[types.Tool(google_search=types.GoogleSearch())],
         max_output_tokens=MAX_OUTPUT_TOKENS,
-        temperature=0.3, # Low temp for factual rigor
+        temperature=0.3,  # Low temp for factual rigor
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=MAX_THINKING_TOKENS,  # 32K tokens for deep reasoning
+        ),
     )
 
     if verbose:
@@ -103,10 +107,10 @@ def call_gemini_validation(
         )
         return response.text
     except Exception as e:
-        print(f"[WARN] {MODEL_ID} failed ({e}), falling back to gemini-2.5-pro")
+        print(f"[WARN] {MODEL_ID} failed ({e}), falling back to gemini-3-flash-preview")
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=prompt,
                 config=config
             )

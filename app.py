@@ -183,9 +183,9 @@ def start_query():
 
     # Extract AI model selection (with validation)
     VALID_MODELS = ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-3-flash-preview']
-    ai_model = data.get('ai_model', 'gemini-2.5-pro')
+    ai_model = data.get('ai_model', 'gemini-3-flash-preview')
     if ai_model not in VALID_MODELS:
-        ai_model = 'gemini-2.5-pro'  # Default to pro if invalid
+        ai_model = 'gemini-3-flash-preview'  # Default to flash preview if invalid
 
     # Extract configuration (with defaults and validation)
     try:
@@ -2120,6 +2120,9 @@ def _call_chat_llm(messages: list, system_prompt: str, max_history: int = 10) ->
         maxOutputTokens=5096,  # Needs to be large for 40K+ char system prompts
         temperature=0.2,  # Lower for factual, deterministic answers
         topP=0.85,  # Focused sampling for consistent responses
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=8192,  # Moderate thinking for chat responses
+        ),
     )
 
     # Convert messages to Gemini format
@@ -2150,7 +2153,7 @@ def _call_chat_llm(messages: list, system_prompt: str, max_history: int = 10) ->
     for attempt in range(1, max_retries + 1):
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=gemini_contents,
                 config=config,
             )

@@ -321,7 +321,7 @@ def build_pruning_prompt(
 
 def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
     """
-    Call Gemini 2.5 Pro without Google Search (fast), parse strict JSON.
+    Call Gemini 3.0 Flash Preview with thinking (no search for speed), parse strict JSON.
     """
     from google import genai as google_genai
     from google.genai import types
@@ -332,13 +332,16 @@ def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
         temperature=0.2,
         top_p=0.4,
         tools=[],  # no search for speed
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=8192,  # Moderate thinking for pruning decisions
+        ),
     )
 
     last_err = None
     for attempt in range(1, max_retries+1):
         try:
             resp = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=prompt,
                 config=config,
             )
@@ -469,7 +472,7 @@ def build_pruned_json(
                 "keep_count": len(keep),
                 "hard_max_keep": hard_max_keep,
                 "reasons": reasons,
-                "model": "gemini-2.5-pro",
+                "model": "gemini-3-flash-preview",
                 "created_at": int(time.time()),
             },
         }
@@ -494,7 +497,7 @@ def build_pruned_json(
                 "keep_count": len(keep),
                 "hard_max_keep": hard_max_keep,
                 "reasons": reasons,
-                "model": "gemini-2.5-pro",
+                "model": "gemini-3-flash-preview",
                 "created_at": int(time.time()),
             },
         }

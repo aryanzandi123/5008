@@ -1346,7 +1346,7 @@ Be THOROUGH and FAIR. Verify the interactor protein name FIRST before deciding C
     # Log comprehensive validation details
     print(f"\n  [STATS] Validation details for {interactor}:")
     print(f"     - Functions to validate: {len(claims_batch)}")
-    print(f"     - Gemini model: gemini-2.5-pro (FULL POWER)")
+    print(f"     - Gemini model: gemini-3-flash-preview (FULL POWER)")
     print(f"     - Thinking budget: {MAX_THINKING_TOKENS:,} tokens (MAXIMUM reasoning enforced)")
     print(f"     - Max output: 65,536 tokens")
     print(f"     - Temperature: 0.3 (rigorous fact-checking mode)")
@@ -1362,7 +1362,7 @@ Be THOROUGH and FAIR. Verify the interactor protein name FIRST before deciding C
                 print(f"     - Retry attempt {attempt + 1}/{max_retries}...")
 
             response = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=prompt,
                 config=config,
             )
