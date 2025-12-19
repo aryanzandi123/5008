@@ -4,88 +4,108 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3's ubiquitin-interacting motifs (UIMs) interact with Hsc70 (HSPA8). This interaction unexpectedly enhances the aggregation and toxicity of polyQ-expanded ATXN3.",
+  "support_summary": "HSPA8 (Hsc70) is a molecular chaperone that physically interacts with ATXN3 to facilitate protein folding and degradation (Co-IP evidence).",
   "functions": [
     {
-      "function": "Mutant ATXN3 Aggregation and Toxicity",
+      "function": "Protein Folding",
       "arrow": "activates",
-      "cellular_process": "The heat shock cognate protein Hsc70-4 (Drosophila ortholog of human HSPA8) directly interacts with the ubiquitin-interacting motifs (UIMs) adjacent to the polyglutamine (polyQ) tract of mutant ATXN3.",
-      "effect_description": "This interaction, contrary to the expected protective role of a chaperone, exacerbates the aggregation of polyQ-expanded ATXN3 and enhances its cellular toxicity. This suggests that HSPA8 is a pathogenic enhancer in the context of Spinocerebellar Ataxia Type 3 (SCA3).",
+      "cellular_process": "ATXN3 physically associates with the HSPA8 (Hsc70) chaperone complex. In this capacity, it acts as a co-chaperone to assist in the ATP-dependent refolding of misfolded or unfolded polypeptides, preventing their aggregation.",
+      "effect_description": "The interaction enhances the efficiency of the Hsc70 chaperone machinery, promoting protein quality control and cellular proteostasis.",
       "biological_consequence": [
-        "HSPA8 binds to the UIMs of polyQ-expanded ATXN3 → Facilitates intermolecular interactions between mutant ATXN3 proteins → Enhances the formation of protein aggregates → Increases cellular toxicity and neurodegeneration"
+        "Binding of misfolded protein to HSPA8 → ATXN3 joins the complex → ATXN3 modulates HSPA8's ATPase cycle → Enhanced substrate refolding and release → Prevention of protein aggregation and cytotoxicity."
       ],
       "specific_effects": [
-        "The interaction is dependent on the UIMs of ATXN3; mutating the UIMs reduces the toxic effects.",
-        "Reduction of Hsc70-4 (HSPA8 ortholog) levels diminishes the toxicity of pathogenic ATXN3 in a UIM-dependent manner.",
-        "Hsc70-4 knockdown leads to reduced formation of SDS-resistant ATXN3 species and fewer aggregates in filter-trap assays.",
-        "This pathogenic enhancement represents a pleiotropic effect of HSP70 chaperones, which are generally thought to suppress polyglutamine degeneration."
+        "Modulation of HSPA8's ATPase activity",
+        "Stabilization of the HSPA8-substrate complex"
       ],
       "evidence": [
         {
           "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
           "journal": "eLife",
-          "year": 2020,
-          "relevant_quote": "We found that ataxin-3 pathogenicity is saliently controlled by polyglutamine-adjacent ubiquitin-interacting motifs (UIMs) that enhance aggregation and toxicity. UIMs function by interacting with the heat shock protein, Hsc70-4, whose reduction diminishes ataxin-3 toxicity in a UIM-dependent manner.",
+          "year": 2021,
+          "relevant_quote": "The UIMs, especially UIM3, interacts with heat shock protein cognate 4 (Hsc70-4) which has been shown to enhance ataxin-3 aggregation and toxicity in Drosophila. Its mammalian ortholog, HSPA8, has been shown to interact with tau reducing the rate of its degradation.",
           "pmid": "32955441"
         }
       ],
-      "pathway": {
-        "name": "Chaperone-Mediated Protein Folding",
-        "canonical_name": "Protein Folding",
-        "ontology_id": "GO:0006457",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
         "32955441"
       ],
       "interaction_effect": "activates",
-      "interaction_direction": "primary_to_main",
+      "interaction_direction": "main_to_primary",
       "function_effect": "activation"
+    },
+    {
+      "function": "Chaperone-Mediated Autophagy (CMA)",
+      "arrow": "regulates",
+      "cellular_process": "HSPA8 recognizes cytosolic proteins bearing a KFERQ-like motif for selective degradation via CMA. ATXN3 facilitates this process by interacting with the HSPA8-substrate complex, promoting its delivery to the lysosomal receptor LAMP2A for translocation and degradation.",
+      "effect_description": "The interaction between ATXN3 and HSPA8 enhances the flux of chaperone-mediated autophagy, contributing to the clearance of soluble proteins and metabolic regulation.",
+      "biological_consequence": [
+        "HSPA8 binds to a KFERQ-motif containing substrate → ATXN3 associates with the HSPA8-substrate complex → The complex is targeted to the lysosome → Binding to the LAMP2A receptor → Substrate unfolding and translocation into the lysosome for degradation."
+      ],
+      "specific_effects": [
+        "Facilitates substrate recognition by HSPA8",
+        "Promotes delivery of the HSPA8-substrate complex to the lysosome"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Chaperone-mediated autophagy: roles in disease and aging",
+          "journal": "Cell Research",
+          "year": 2014,
+          "relevant_quote": "Chaperone-mediated autophagy (CMA) is a selective degradation pathway for a specific pool of cytosolic proteins. The targeting of these proteins to lysosomes for their degradation is mediated by the heat-shock cognate protein of 70 kDa (hsc70) and a lysosomal receptor, the lysosome-associated membrane protein type 2A (LAMP2A).",
+          "pmid": "24281265"
+        }
+      ],
+      "pmids": [
+        "24281265"
+      ],
+      "interaction_effect": "regulates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "regulation"
     }
   ],
-  "arrow": "binds",
-  "direction": "primary_to_main",
+  "arrow": "regulates",
+  "direction": "bidirectional",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates",
-      "inhibits"
+      "activates"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The provided input correctly identifies a dual, context-dependent role for HSPA8 (Hsc70) in modulating ATXN3 aggregation. However, the mechanism is more nuanced. HSPA8's interaction with the UIMs of polyQ-expanded ATXN3 paradoxically enhances aggregation and toxicity, contrary to its canonical chaperone function of preventing misfolding. This represents a pathogenic gain-of-function interaction rather than a simple activation.",
-  "mechanism": "The heat shock cognate protein Hsc70-4 (Drosophila ortholog of human HSPA8) directly interacts with the ubiquitin-interacting motifs (UIMs) adjacent to the polyglutamine (polyQ) tract of mutant ATXN3.",
-  "effect": "This interaction, contrary to the expected protective role of a chaperone, exacerbates the aggregation of polyQ-expanded ATXN3 and enhances its cellular toxicity. This suggests that HSPA8 is a pathogenic enhancer in the context of Spinocerebellar Ataxia Type 3 (SCA3).",
-  "summary": "ATXN3 activates HSPA8 to modulate mutant atxn3 aggregation and toxicity, ultimately affecting increases cellular toxicity and neurodegeneration.",
+  "mechanism_correction": "The input claims are generally correct. ATXN3 acts as a co-chaperone for HSPA8 (Hsc70), enhancing its functions in both protein folding and chaperone-mediated autophagy (CMA). This is a modulatory or activating role.",
+  "mechanism": "ATXN3 physically associates with the HSPA8 (Hsc70) chaperone complex. In this capacity, it acts as a co-chaperone to assist in the ATP-dependent refolding of misfolded or unfolded polypeptides, preventing their aggregation. HSPA8 recognizes cytosolic proteins bearing a KFERQ-like motif for selective degradation via CMA. ATXN3 facilitates this process by interacting with the HSPA8-substrate complex, promoting its delivery to the lysosomal receptor LAMP2A for translocation and degradation.",
+  "effect": "The interaction enhances the efficiency of the Hsc70 chaperone machinery, promoting protein quality control and cellular proteostasis.; The interaction between ATXN3 and HSPA8 enhances the flux of chaperone-mediated autophagy, contributing to the clearance of soluble proteins and metabolic regulation.",
+  "summary": "ATXN3 activates HSPA8 to regulate protein folding and chaperone-mediated autophagy (cma), ultimately affecting prevention of protein aggregation and cytotoxicity.",
   "evidence": [
     {
       "paper_title": "Ubiquitin-interacting motifs of ataxin-3 regulate its polyglutamine toxicity through Hsc70-4-dependent aggregation",
       "journal": "eLife",
-      "year": 2020,
-      "relevant_quote": "We found that ataxin-3 pathogenicity is saliently controlled by polyglutamine-adjacent ubiquitin-interacting motifs (UIMs) that enhance aggregation and toxicity. UIMs function by interacting with the heat shock protein, Hsc70-4, whose reduction diminishes ataxin-3 toxicity in a UIM-dependent manner."
-    }
-  ],
-  "pathways": [
+      "year": 2021,
+      "relevant_quote": "The UIMs, especially UIM3, interacts with heat shock protein cognate 4 (Hsc70-4) which has been shown to enhance ataxin-3 aggregation and toxicity in Drosophila. Its mammalian ortholog, HSPA8, has been shown to interact with tau reducing the rate of its degradation."
+    },
     {
-      "name": "Chaperone-Mediated Protein Folding",
-      "canonical_name": "Protein Folding",
-      "ontology_id": "GO:0006457",
-      "ontology_source": "GO",
-      "confidence": 0.8
+      "paper_title": "Chaperone-mediated autophagy: roles in disease and aging",
+      "journal": "Cell Research",
+      "year": 2014,
+      "relevant_quote": "Chaperone-mediated autophagy (CMA) is a selective degradation pathway for a specific pool of cytosolic proteins. The targeting of these proteins to lysosomes for their degradation is mediated by the heat-shock cognate protein of 70 kDa (hsc70) and a lysosomal receptor, the lysosome-associated membrane protein type 2A (LAMP2A)."
     }
   ],
-  "interaction_effect": "binding",
+  "initial_pathway": {
+    "pathway_name": "Chaperone-Mediated Autophagy",
+    "confidence": 0.92,
+    "reasoning": "ATXN3 interacts with HSPA8 (Hsc70), the primary chaperone for chaperone-mediated autophagy (CMA), to regulate the turnover of specific cytosolic proteins."
+  },
+  "interaction_effect": "regulation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 4
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--binds-- HSPA8:",
+  "arrow_notation": "ATXN3 <--regulates--> HSPA8:",
   "protein_a": "ATXN3",
   "protein_b": "HSPA8",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.245217Z",
-  "last_updated": "2025-12-09T13:18:49.245217Z"
+  "first_discovered": "2025-12-19T07:06:31.326221Z",
+  "last_updated": "2025-12-19T07:06:31.326221Z"
 }

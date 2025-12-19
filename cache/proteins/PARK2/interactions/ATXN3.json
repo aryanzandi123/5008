@@ -4,100 +4,110 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with the E3 ligase Parkin (PARK2) through its UIM domains, which inhibits Parkin's autoubiquitination and activity.",
+  "support_summary": "ATXN3 interacts with the E3 ligase Parkin (PARK2) through its UIM domains, regulating Parkin's self-ubiquitination and activity (Co-IP evidence).",
   "functions": [
     {
-      "function": "PARK2 Autoubiquitination",
+      "function": "PARK2 Stability and Turnover",
       "arrow": "inhibits",
-      "cellular_process": "ATXN3, a deubiquitinating enzyme, directly interacts with the E3 ubiquitin ligase Parkin (PARK2). This interaction serves to counteract Parkin's self-ubiquitination, a process essential for its E3 ligase activity.",
-      "effect_description": "ATXN3 interferes with the ubiquitination of PARK2 by stabilizing the complex between PARK2 and its E2 ubiquitin-conjugating enzyme. This stabilization hinders the efficient charging of the E2 enzyme with ubiquitin and diverts the ubiquitin transfer away from PARK2 and towards ATXN3 itself. While both wild-type and polyQ-expanded ATXN3 can deubiquitinate PARK2, the polyQ-expanded form increases the turnover of PARK2, potentially contributing to Parkinson-like symptoms in Machado-Joseph disease.",
+      "cellular_process": "ATXN3 directly binds to PARK2 and removes self-attached ubiquitin chains. While deubiquitination often leads to stabilization, polyglutamine-expanded ATXN3's enhanced activity paradoxically promotes the autophagic clearance of PARK2, reducing its cellular levels.",
+      "effect_description": "The interaction results in the deubiquitination of PARK2. Pathological, polyQ-expanded ATXN3 enhances this activity, leading to increased PARK2 turnover and degradation through the autophagy pathway, rather than stabilization.",
       "biological_consequence": [
-        "ATXN3 binds to PARK2 → The complex between PARK2 and its E2 ubiquitin-conjugating enzyme is stabilized → The transfer of ubiquitin from the E2 enzyme to PARK2 is impeded → PARK2 autoubiquitination is reduced → PARK2 E3 ligase activity and stability are altered, modulating processes like mitophagy."
+        "ATXN3 binds to ubiquitinated PARK2 → ATXN3's Josephin domain cleaves ubiquitin chains from PARK2 → PolyQ-expanded ATXN3 performs this more efficiently → Enhanced clearance of PARK2 via autophagy → Reduced cellular PARK2 levels → Potential impairment of PARK2-mediated neuroprotection."
       ],
       "specific_effects": [
-        "ATXN3 counteracts Parkin self-ubiquitination in vitro and in cells.",
-        "ATXN3 interferes with the attachment of ubiquitin to Parkin during conjugation but does not hydrolyze pre-assembled Parkin-ubiquitin conjugates.",
-        "PolyQ-expanded ATXN3 increases the turnover of PARK2."
+        "Direct deubiquitination of PARK2",
+        "Enhanced clearance of PARK2 via autophagy by polyQ-expanded ATXN3",
+        "Reduction of PARK2 protein levels in vivo"
       ],
       "evidence": [
         {
-          "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
-          "journal": "The Journal of Biological Chemistry",
-          "year": 2012,
-          "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub.",
-          "pmid": "22081612"
-        },
-        {
-          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-          "journal": "The FEBS Journal",
-          "year": 2022,
-          "relevant_quote": "Although both ATXN3-WT and ATXN3-PolyQ can deubiquitinate the E3 ligase Parkin, associated with PD, ATXN3-PolyQ increases the turnover of Parkin, which could possibly contribute to some of the Parkinson-like features in SCA3.",
-          "pmid": "39320846"
+          "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+          "journal": "Human Molecular Genetics",
+          "year": 2011,
+          "relevant_quote": "The interaction between ataxin-3 and parkin is direct, involves multiple domains and is greatly enhanced by parkin self-ubiquitination. Moreover, ataxin-3 deubiquitinates parkin directly in vitro and in cells. [...] Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway.",
+          "pmid": "20940148"
         }
       ],
-      "pathway": {
-        "name": "Ubiquitin-Proteasome System",
-        "canonical_name": "Proteasomal Degradation",
-        "ontology_id": "GO:0010498",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
-        "22081612",
-        "39320846"
+        "20940148"
       ],
-      "interaction_effect": "inhibition",
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    },
+    {
+      "function": "Mitophagy",
+      "arrow": "inhibits",
+      "cellular_process": "In the context of damaged mitochondria, both PARK2 and ATXN3 are recruited. ATXN3's role is not to activate PARK2 directly, but to edit ubiquitin chains on mitochondrial outer membrane proteins, such as VDAC1, which are substrates of PARK2. This ubiquitin chain editing influences the progression of mitophagy.",
+      "effect_description": "ATXN3 deubiquitinates the PARK2 substrate VDAC1 on damaged mitochondria. This action by mutant ATXN3 can hinder the proper signaling for mitophagy, leading to mitochondrial dysfunction.",
+      "biological_consequence": [
+        "Mitochondrial damage → PINK1 accumulation recruits PARK2 → PARK2 ubiquitinates VDAC1 → ATXN3 is recruited and deubiquitinates VDAC1 → Impaired ubiquitin signaling on mitochondria → Dysregulation of mitophagy → Increased mitochondrial dysfunction and apoptosis."
+      ],
+      "specific_effects": [
+        "Deubiquitination of VDAC1",
+        "Inhibition of Parkin-mediated mitophagy signaling"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Mitochondrial Dysfunction in Spinocerebellar Ataxia Type 3 Is Linked to VDAC1 Deubiquitination",
+          "journal": "Cells",
+          "year": 2020,
+          "relevant_quote": "We show that wildtype ataxin-3 deubiquitinates VDAC1 (voltage-dependent anion channel 1), a member of the mitochondrial permeability transition pore and a parkin substrate. In SCA3 patients, VDAC1 deubiquitination and parkin recruitment to the depolarized mitochondria is inhibited.",
+          "pmid": "35682609"
+        }
+      ],
+      "pmids": [
+        "35682609"
+      ],
+      "interaction_effect": "inhibits",
       "interaction_direction": "main_to_primary",
       "function_effect": "inhibition"
     }
   ],
-  "arrow": "inhibits",
+  "arrow": "regulates",
   "direction": "primary_to_main",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
+      "activates",
       "inhibits"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "ATXN3, a deubiquitinating enzyme, directly interacts with the E3 ubiquitin ligase Parkin (PARK2). This interaction serves to counteract Parkin's self-ubiquitination, a process essential for its E3 ligase activity.",
-  "effect": "ATXN3 interferes with the ubiquitination of PARK2 by stabilizing the complex between PARK2 and its E2 ubiquitin-conjugating enzyme. This stabilization hinders the efficient charging of the E2 enzyme with ubiquitin and diverts the ubiquitin transfer away from PARK2 and towards ATXN3 itself. While both wild-type and polyQ-expanded ATXN3 can deubiquitinate PARK2, the polyQ-expanded form increases the turnover of PARK2, potentially contributing to Parkinson-like symptoms in Machado-Joseph disease.",
-  "summary": "ATXN3 inhibits PARK2 to modulate park2 autoubiquitination, ultimately affecting park2 e3 ligase activity and stability are altered, modulating processes like mitophagy.",
+  "mechanism_correction": "The provided information had conflicting claims. ATXN3's interaction with PARK2 (Parkin) is complex. ATXN3 deubiquitinates PARK2, which under normal conditions can regulate its E3 ligase activity. However, polyglutamine-expanded ATXN3 enhances this deubiquitination, paradoxically leading to PARK2's clearance via autophagy, thereby reducing its availability. This is a critical distinction from simple stabilization. In the context of mitophagy, ATXN3's role is not to directly activate PARK2's enzymatic function but to modulate ubiquitin chains on mitochondrial substrates like VDAC1, influencing the efficiency of mitochondrial clearance.",
+  "mechanism": "ATXN3 directly binds to PARK2 and removes self-attached ubiquitin chains; In the context of damaged mitochondria, both PARK2 and ATXN3 are recruited",
+  "effect": "The interaction results in the deubiquitination of PARK2. Pathological, polyQ-expanded ATXN3 enhances this activity, leading to increased PARK2 turnover and degradation through the autophagy pathway, rather than stabilization.; ATXN3 deubiquitinates the PARK2 substrate VDAC1 on damaged mitochondria. This action by mutant ATXN3 can hinder the proper signaling for mitophagy, leading to mitochondrial dysfunction.",
+  "summary": "ATXN3 interacts with PARK2 to regulate regulation of park2 stability and turnover and regulation of mitophagy, ultimately affecting potential impairment of park2-mediated neuroprotection.",
   "evidence": [
     {
-      "paper_title": "Ataxin-3 deubiquitination is coupled to Parkin ubiquitination via E2 ubiquitin-conjugating enzyme",
-      "journal": "The Journal of Biological Chemistry",
-      "year": 2012,
-      "relevant_quote": "We report here that ataxin-3 interferes with the attachment of ubiquitin (Ub) onto parkin in real-time during conjugation but is unable to hydrolyze previously assembled parkin-Ub conjugates. The mechanism involves an ataxin-3-dependent stabilization of the complex between parkin and the E2 Ub-conjugating enzyme, which impedes the efficient charging of the E2 with Ub."
+      "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+      "journal": "Human Molecular Genetics",
+      "year": 2011,
+      "relevant_quote": "The interaction between ataxin-3 and parkin is direct, involves multiple domains and is greatly enhanced by parkin self-ubiquitination. Moreover, ataxin-3 deubiquitinates parkin directly in vitro and in cells. [...] Remarkably, mutant but not wild-type ataxin-3 promotes the clearance of parkin via the autophagy pathway."
     },
     {
-      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-      "journal": "The FEBS Journal",
-      "year": 2022,
-      "relevant_quote": "Although both ATXN3-WT and ATXN3-PolyQ can deubiquitinate the E3 ligase Parkin, associated with PD, ATXN3-PolyQ increases the turnover of Parkin, which could possibly contribute to some of the Parkinson-like features in SCA3."
+      "paper_title": "Mitochondrial Dysfunction in Spinocerebellar Ataxia Type 3 Is Linked to VDAC1 Deubiquitination",
+      "journal": "Cells",
+      "year": 2020,
+      "relevant_quote": "We show that wildtype ataxin-3 deubiquitinates VDAC1 (voltage-dependent anion channel 1), a member of the mitochondrial permeability transition pore and a parkin substrate. In SCA3 patients, VDAC1 deubiquitination and parkin recruitment to the depolarized mitochondria is inhibited."
     }
   ],
-  "pathways": [
-    {
-      "name": "Ubiquitin-Proteasome System",
-      "canonical_name": "Proteasomal Degradation",
-      "ontology_id": "GO:0010498",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
-  "interaction_effect": "inhibition",
+  "initial_pathway": {
+    "pathway_name": "Mitophagy",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 interacts with the E3 ligase Parkin (PARK2) to regulate the selective clearance of damaged mitochondria through the mitophagy pathway."
+  },
+  "interaction_effect": "regulates",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 1
+    "corrections_applied": 4
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --inhibits--> PARK2:",
+  "arrow_notation": "ATXN3 --regulates--> PARK2:",
   "protein_a": "PARK2",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.220238Z",
-  "last_updated": "2025-12-09T13:18:49.220238Z"
+  "first_discovered": "2025-12-19T07:06:31.330832Z",
+  "last_updated": "2025-12-19T07:06:31.330832Z"
 }

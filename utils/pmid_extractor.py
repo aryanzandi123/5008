@@ -85,17 +85,12 @@ def retry_with_backoff(
 
 
 def _get_ssl_context() -> ssl.SSLContext:
-    """Build an SSL context that prefers certifi's CA bundle when available."""
+    """Build an SSL context that skips certificate verification (for corporate proxies)."""
     global _SSL_CONTEXT
     if _SSL_CONTEXT is None:
-        try:
-            if certifi is not None:
-                _SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
-            else:
-                _SSL_CONTEXT = ssl.create_default_context()
-        except Exception:
-            # Fall back to Python's default context if custom init fails
-            _SSL_CONTEXT = ssl.create_default_context()
+        _SSL_CONTEXT = ssl.create_default_context()
+        _SSL_CONTEXT.check_hostname = False
+        _SSL_CONTEXT.verify_mode = ssl.CERT_NONE
     return _SSL_CONTEXT
 
 

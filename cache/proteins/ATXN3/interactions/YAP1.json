@@ -4,49 +4,34 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "Co-immunoprecipitation and in vitro pulldown assays confirm a direct interaction between ATXN3 and YAP, with ATXN3 stabilizing YAP by deubiquitination.",
+  "support_summary": "ATXN3 physically binds and deubiquitinates YAP1, a key effector of the Hippo pathway, to promote cancer metastasis (Co-IP, deubiquitination assay evidence).",
   "functions": [
     {
-      "function": "YAP1 Protein Stability",
+      "function": "YAP1 Protein Stability & Hippo Signaling",
       "arrow": "activates",
-      "cellular_process": "ATXN3 functions as a deubiquitinase (DUB) for Yes-associated protein 1 (YAP1), the primary transcriptional co-activator of the Hippo signaling pathway. ATXN3 directly binds to YAP1 and removes K48-linked polyubiquitin chains, which are signals for proteasomal degradation.",
-      "effect_description": "By cleaving these ubiquitin chains, ATXN3 protects YAP1 from degradation by the proteasome, thereby increasing its protein stability and half-life. Elevated levels of YAP1 lead to its enhanced nuclear activity and increased transcription of YAP/TEAD target genes, such as CTGF and CYR61, which are involved in promoting cell proliferation, invasion, and stem-like properties, particularly in cancer contexts like prostate cancer.",
+      "cellular_process": "ATXN3 directly interacts with, deubiquitinates, and stabilizes the Hippo pathway effector YAP1. The interaction is mediated by the Josephin domain of ATXN3 and the WW domain of YAP1. By removing K48-linked polyubiquitin chains from YAP1, ATXN3 prevents its proteasomal degradation.",
+      "effect_description": "The stabilization of YAP1 by ATXN3 leads to its increased protein abundance, nuclear accumulation, and enhanced transcriptional activity. This results in the upregulation of YAP1/TEAD target genes, which promotes cancer cell proliferation, invasion, and metastasis.",
       "biological_consequence": [
-        "ATXN3 binds to YAP1 via Josephin-WW domain interaction → ATXN3 removes K48-linked polyubiquitin chains from YAP1 → Proteasomal degradation of YAP1 is prevented → YAP1 protein half-life and abundance increase → Enhanced nuclear translocation and transcriptional co-activator activity of YAP1 → Increased expression of target genes (e.g., CTGF, CYR61) → Promotion of cell proliferation and invasion"
+        "ATXN3's Josephin domain binds to YAP1's WW domain → ATXN3 removes K48-linked polyubiquitin chains from YAP1 → YAP1 degradation by the proteasome is inhibited → YAP1 protein accumulates and translocates to the nucleus → YAP1 co-activates TEAD transcription factors → Upregulation of target genes (e.g., CTGF, ANKRD1, CYR61) → Promotion of cell proliferation and metastasis."
       ],
       "specific_effects": [
-        "ATXN3 directly interacts with, deubiquitinates, and stabilizes the YAP1 protein.",
-        "The interaction is mediated by the Josephin domain of ATXN3 binding to the WW domain of YAP1.",
-        "ATXN3 specifically removes K48-linked polyubiquitin chains from YAP1, which is dependent on its catalytic DUB activity.",
-        "Depletion of ATXN3 reduces YAP1 protein levels, decreases its stability, and downregulates the expression of its downstream target genes.",
-        "The stabilization of YAP1 by ATXN3 promotes tumor growth, invasion, and stem-like properties in prostate cancer cells."
+        "Direct deubiquitination of YAP1",
+        "Inhibition of K48-specific polyubiquitination of YAP1",
+        "Increased YAP1 protein half-life and stability",
+        "Increased nuclear localization of YAP1",
+        "Enhanced expression of YAP/TEAD target genes"
       ],
       "evidence": [
         {
           "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
           "journal": "Cell Communication and Signaling",
           "year": 2023,
-          "relevant_quote": "In the present study, we identified ATXN3, a DUB enzyme in the ubiquitin-specific proteases family, as a bona fide deubiquitylase of YAP in PC. ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner... Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein.",
+          "relevant_quote": "ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner. Depletion of ATXN3 decreased the YAP protein level and the expression of YAP/TEAD target genes in PC, including CTGF, ANKRD1 and CYR61. Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein.",
           "pmid": "37349820"
-        },
-        {
-          "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
-          "journal": "American Journal of Cancer Research",
-          "year": 2023,
-          "relevant_quote": "At the molecular level, ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation. Immunohistology analysis revealed a strong positive correlation between ATXN3 and YAP1 protein expression in human breast and pancreatic cancers. Collectively, our study defines ATXN3 as a previously unknown YAP1 deubiquitinase in tumorigenesis...",
-          "pmid": "37818078"
         }
       ],
-      "pathway": {
-        "name": "Hippo Signaling Pathway",
-        "canonical_name": "Hippo Signaling",
-        "ontology_id": "hsa04390",
-        "ontology_source": "KEGG",
-        "confidence": 0.8
-      },
       "pmids": [
-        "37349820",
-        "37818078"
+        "37349820"
       ],
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
@@ -63,32 +48,22 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "ATXN3 functions as a deubiquitinase (DUB) for Yes-associated protein 1 (YAP1), the primary transcriptional co-activator of the Hippo signaling pathway. ATXN3 directly binds to YAP1 and removes K48-linked polyubiquitin chains, which are signals for proteasomal degradation.",
-  "effect": "By cleaving these ubiquitin chains, ATXN3 protects YAP1 from degradation by the proteasome, thereby increasing its protein stability and half-life. Elevated levels of YAP1 lead to its enhanced nuclear activity and increased transcription of YAP/TEAD target genes, such as CTGF and CYR61, which are involved in promoting cell proliferation, invasion, and stem-like properties, particularly in cancer contexts like prostate cancer.",
-  "summary": "ATXN3 activates YAP1 to modulate yap1 protein stability, ultimately affecting promotion of cell proliferation and invasion.",
+  "mechanism": "ATXN3 directly interacts with, deubiquitinates, and stabilizes the Hippo pathway effector YAP1. The interaction is mediated by the Josephin domain of ATXN3 and the WW domain of YAP1. By removing K48-linked polyubiquitin chains from YAP1, ATXN3 prevents its proteasomal degradation.",
+  "effect": "The stabilization of YAP1 by ATXN3 leads to its increased protein abundance, nuclear accumulation, and enhanced transcriptional activity. This results in the upregulation of YAP1/TEAD target genes, which promotes cancer cell proliferation, invasion, and metastasis.",
+  "summary": "ATXN3 activates YAP1 to modulate yap1 protein stability & hippo signaling, ultimately affecting promotion of cell proliferation and metastasis.",
   "evidence": [
     {
       "paper_title": "ATXN3 promotes prostate cancer progression by stabilizing YAP",
       "journal": "Cell Communication and Signaling",
       "year": 2023,
-      "relevant_quote": "In the present study, we identified ATXN3, a DUB enzyme in the ubiquitin-specific proteases family, as a bona fide deubiquitylase of YAP in PC. ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner... Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein."
-    },
-    {
-      "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
-      "journal": "American Journal of Cancer Research",
-      "year": 2023,
-      "relevant_quote": "At the molecular level, ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation. Immunohistology analysis revealed a strong positive correlation between ATXN3 and YAP1 protein expression in human breast and pancreatic cancers. Collectively, our study defines ATXN3 as a previously unknown YAP1 deubiquitinase in tumorigenesis..."
+      "relevant_quote": "ATXN3 was shown to interact with, deubiquitylate, and stabilize YAP in a deubiquitylation activity-dependent manner. Depletion of ATXN3 decreased the YAP protein level and the expression of YAP/TEAD target genes in PC, including CTGF, ANKRD1 and CYR61. Further mechanistic study revealed that the Josephin domain of ATXN3 interacted with the WW domain of YAP. ATXN3 stabilized YAP protein via inhibiting K48-specific poly-ubiquitination process on YAP protein."
     }
   ],
-  "pathways": [
-    {
-      "name": "Hippo Signaling Pathway",
-      "canonical_name": "Hippo Signaling",
-      "ontology_id": "hsa04390",
-      "ontology_source": "KEGG",
-      "confidence": 0.8
-    }
-  ],
+  "initial_pathway": {
+    "pathway_name": "Hippo signaling pathway",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 deubiquitinates and stabilizes YAP1, the primary transcriptional effector of the Hippo signaling pathway, promoting cancer progression."
+  },
   "interaction_effect": "activation",
   "_validation_metadata": {
     "validated": true,
@@ -100,6 +75,6 @@
   "protein_a": "ATXN3",
   "protein_b": "YAP1",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.227194Z",
-  "last_updated": "2025-12-09T13:18:49.227194Z"
+  "first_discovered": "2025-12-19T07:06:31.361725Z",
+  "last_updated": "2025-12-19T07:06:31.361725Z"
 }

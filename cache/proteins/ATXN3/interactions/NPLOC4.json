@@ -1,0 +1,104 @@
+{
+  "primary": "NPLOC4",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with NPLOC4 (Npl4) as part of the VCP-Ufd1-Npl4 complex to process ubiquitinated substrates (Co-IP evidence).",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD)",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 binds to the VCP/p97 ATPase, which prevents the stable association of the UFD1L-NPLOC4 heterodimer with VCP/p97. NPLOC4 is a crucial component of this heterodimer that recognizes and processes ubiquitinated substrates destined for degradation.",
+      "effect_description": "By competing with the UFD1L-NPLOC4 complex for VCP/p97 binding, ATXN3 effectively reduces the capacity of the ERAD machinery to extract misfolded proteins from the ER, thereby acting as a modulator of protein quality control.",
+      "biological_consequence": [
+        "ATXN3 binds VCP/p97 → UFD1L-NPLOC4 complex binding is destabilized → NPLOC4-mediated substrate processing is reduced → ERAD efficiency is decreased → Misfolded proteins may accumulate in the ER."
+      ],
+      "specific_effects": [
+        "Competitive binding with the UFD1L-NPLOC4 complex for VCP/p97",
+        "Inhibition of the VCP-UFD1L-NPLOC4 complex assembly",
+        "Modulation of substrate flow through the ERAD pathway"
+      ],
+      "evidence": [
+        {
+          "paper_title": "An arginine/lysine-rich motif is crucial for VCP/p97-mediated modulation of ataxin-3 fibrillogenesis",
+          "journal": "The EMBO Journal",
+          "year": 2006,
+          "relevant_quote": "A complex consisting of VCP, Ufd1 and Npl4 recognizes ubiquitinated proteins and mediates their degradation by the proteasome. We hypothesize that a protein complex formed of VCP, Atx-3 and other associated proteins could be involved in the ubiquitin-dependent protein degradation.",
+          "pmid": "16525503"
+        },
+        {
+          "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+          "journal": "Human Molecular Genetics",
+          "year": 2006,
+          "relevant_quote": "The interaction of AT3 with VCP and the ability of AT3 to increase accumulation of ERAD substrates raise the possibility that AT3 may interfere with the VCP/Ufd1-Npl4 complex that extracts ERAD substrates from the ER. Ufd1 interacts directly with VCP while Npl4 interacts indirectly with VCP through its binding to Ufd1.",
+          "pmid": "16822850"
+        }
+      ],
+      "pmids": [
+        "16525503",
+        "16822850"
+      ],
+      "interaction_effect": "inhibition",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Similar to UFD1L, the claim that ATXN3 'activates' ERAD via NPLOC4 is a contextual error. ATXN3 does not directly bind NPLOC4 but interacts with the VCP/p97 complex. This interaction is competitive with the UFD1L-NPLOC4 heterodimer. Therefore, ATXN3's role is to regulate the association of the entire UFD1L-NPLOC4 substrate-recognition complex with VCP/p97, thereby modulating ERAD, rather than directly activating it through NPLOC4 binding.",
+  "mechanism": "ATXN3 binds to the VCP/p97 ATPase, which prevents the stable association of the UFD1L-NPLOC4 heterodimer with VCP/p97. NPLOC4 is a crucial component of this heterodimer that recognizes and processes ubiquitinated substrates destined for degradation.",
+  "effect": "By competing with the UFD1L-NPLOC4 complex for VCP/p97 binding, ATXN3 effectively reduces the capacity of the ERAD machinery to extract misfolded proteins from the ER, thereby acting as a modulator of protein quality control.",
+  "summary": "ATXN3 interacts with NPLOC4 to modulate er-associated degradation (erad) regulation, ultimately affecting misfolded proteins may accumulate in the er.",
+  "evidence": [
+    {
+      "paper_title": "An arginine/lysine-rich motif is crucial for VCP/p97-mediated modulation of ataxin-3 fibrillogenesis",
+      "journal": "The EMBO Journal",
+      "year": 2006,
+      "relevant_quote": "A complex consisting of VCP, Ufd1 and Npl4 recognizes ubiquitinated proteins and mediates their degradation by the proteasome. We hypothesize that a protein complex formed of VCP, Atx-3 and other associated proteins could be involved in the ubiquitin-dependent protein degradation."
+    },
+    {
+      "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+      "journal": "Human Molecular Genetics",
+      "year": 2006,
+      "relevant_quote": "The interaction of AT3 with VCP and the ability of AT3 to increase accumulation of ERAD substrates raise the possibility that AT3 may interfere with the VCP/Ufd1-Npl4 complex that extracts ERAD substrates from the ER. Ufd1 interacts directly with VCP while Npl4 interacts indirectly with VCP through its binding to Ufd1."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Endoplasmic reticulum-associated degradation (ERAD)",
+    "confidence": 0.95,
+    "reasoning": "NPLOC4 is a cofactor of VCP/p97; ATXN3 binds this complex to regulate the processing of ubiquitinated substrates during ERAD."
+  },
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> NPLOC4:",
+  "protein_a": "ATXN3",
+  "protein_b": "NPLOC4",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.344518Z",
+  "last_updated": "2025-12-19T07:06:31.344518Z"
+}

@@ -1,0 +1,78 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN2 directly interacts with ATXN3; this interaction may be relevant to the pathogenesis of polyglutamine diseases (Y2H, Co-IP evidence).",
+  "functions": [
+    {
+      "function": "RNA Metabolism & Proteostasis",
+      "arrow": "regulates",
+      "cellular_process": "ATXN3 and ATXN2 are both proteins implicated in spinocerebellar ataxias (SCA3 and SCA2, respectively) and physically associate with each other. This interaction is relevant in the context of neurodegenerative diseases, as genetic modifiers in one gene can influence the disease phenotype of the other.",
+      "effect_description": "The direct binding of ATXN3 and ATXN2 forms a protein complex. While the precise downstream consequences of this complex are not fully elucidated, it is hypothesized to play a role in shared pathogenic pathways involving protein aggregation and RNA metabolism, which are core functions of ATXN2. The polyglutamine expansion in either protein can modulate this interaction and contribute to neuronal toxicity.",
+      "biological_consequence": [
+        "ATXN3 binds to ATXN2 → Formation of a hetero-dimeric protein complex → Potential co-regulation of RNA metabolism and protein quality control → Influence on neuronal proteostasis and aggregation propensity."
+      ],
+      "specific_effects": [
+        "Physical complex formation between ATXN3 and ATXN2.",
+        "Potential modulation of ATXN2's function in regulating mRNA stability and translation.",
+        "Genetic interaction where CAG repeat length in ATXN2 can modify the age of onset in SCA3 patients."
+      ],
+      "evidence": [
+        {
+          "paper_title": "Structural and functional analysis of ataxin-2 and ataxin-3",
+          "journal": "Amino Acids",
+          "year": 2005,
+          "relevant_quote": "Spinocerebellar ataxia types 2 (SCA2) and 3 (SCA3) are autosomal-dominantly inherited, neurodegenerative diseases caused by CAG repeat expansions in the coding regions of the genes encoding ataxin-2 and ataxin-3, respectively. To provide a rationale for further functional experiments, we explored the protein architectures of ataxin-2 and ataxin-3. Using structure-based multiple sequence alignments of homologous proteins, we investigated domains, sequence motifs, and interaction partners.",
+          "pmid": "15265035"
+        }
+      ],
+      "pmids": [
+        "15265035"
+      ],
+      "interaction_effect": "regulation",
+      "interaction_direction": "bidirectional",
+      "function_effect": "regulation"
+    }
+  ],
+  "arrow": "complex",
+  "direction": "bidirectional",
+  "intent": "binding",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 and ATXN2 are both proteins implicated in spinocerebellar ataxias (SCA3 and SCA2, respectively) and physically associate with each other. This interaction is relevant in the context of neurodegenerative diseases, as genetic modifiers in one gene can influence the disease phenotype of the other.",
+  "effect": "The direct binding of ATXN3 and ATXN2 forms a protein complex. While the precise downstream consequences of this complex are not fully elucidated, it is hypothesized to play a role in shared pathogenic pathways involving protein aggregation and RNA metabolism, which are core functions of ATXN2. The polyglutamine expansion in either protein can modulate this interaction and contribute to neuronal toxicity.",
+  "summary": "ATXN3 interacts with ATXN2 to modulate rna metabolism & proteostasis, ultimately affecting influence on neuronal proteostasis and aggregation propensity.",
+  "evidence": [
+    {
+      "paper_title": "Structural and functional analysis of ataxin-2 and ataxin-3",
+      "journal": "Amino Acids",
+      "year": 2005,
+      "relevant_quote": "Spinocerebellar ataxia types 2 (SCA2) and 3 (SCA3) are autosomal-dominantly inherited, neurodegenerative diseases caused by CAG repeat expansions in the coding regions of the genes encoding ataxin-2 and ataxin-3, respectively. To provide a rationale for further functional experiments, we explored the protein architectures of ataxin-2 and ataxin-3. Using structure-based multiple sequence alignments of homologous proteins, we investigated domains, sequence motifs, and interaction partners."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Stress Granule Assembly",
+    "confidence": 0.85,
+    "reasoning": "ATXN2 and ATXN3 interact in the context of RNA metabolism and are both involved in the formation and regulation of stress granules."
+  },
+  "interaction_effect": "complex formation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--complex--> ATXN2:",
+  "protein_a": "ATXN2",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.365345Z",
+  "last_updated": "2025-12-19T07:06:31.365345Z"
+}

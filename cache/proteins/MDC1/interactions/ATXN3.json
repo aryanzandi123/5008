@@ -4,21 +4,21 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "During the DNA damage response, ATXN3 stabilizes MDC1 on chromatin by counteracting RNF4-induced polyubiquitination.",
+  "support_summary": "ATXN3 deubiquitinates and stabilizes MDC1 to facilitate the recruitment of DNA repair factors to damage sites (Co-IP, deubiquitination assay evidence).",
   "functions": [
     {
-      "function": "DNA Double-Strand Break Response",
+      "function": "DNA Repair",
       "arrow": "activates",
-      "cellular_process": "At sites of DNA double-strand breaks (DSBs), the SUMO-targeted ubiquitin ligase RNF4 ubiquitinates the checkpoint mediator protein MDC1, targeting it for removal from chromatin. ATXN3 is recruited to DSBs in a SUMOylation-dependent manner and directly counteracts RNF4 activity by deubiquitinating MDC1.",
-      "effect_description": "By removing ubiquitin chains from MDC1, ATXN3 prevents its premature dissociation from damaged chromatin. This stabilization of MDC1 at the DSB site prolongs its chromatin residence time, which is crucial for the sustained recruitment of downstream DNA damage response (DDR) factors and efficient DNA repair.",
+      "cellular_process": "ATXN3 is recruited to DNA double-strand breaks (DSBs) in a SUMOylation-dependent manner where it functions as a deubiquitinase (DUB) for the checkpoint mediator protein MDC1. It specifically counteracts the SUMO-targeted ubiquitin ligase (STUbL) RNF4, which would otherwise polyubiquitinate MDC1 and promote its removal from chromatin.",
+      "effect_description": "By deubiquitinating MDC1, ATXN3 prevents its premature removal from DNA lesions, thereby stabilizing its presence at the site of damage. This prolonged residence time of MDC1 is critical for the robust recruitment of downstream DNA damage response (DDR) factors.",
       "biological_consequence": [
-        "ATXN3 is recruited to DSBs via a SUMO-dependent mechanism → ATXN3 deubiquitinates RNF4-modified MDC1 → MDC1 chromatin dwell time at DSBs is increased → Sustained recruitment and retention of downstream DDR factors (RNF8, RNF168, 53BP1, BRCA1) → Consolidation of DNA repair signaling and efficient repair by both NHEJ and HR pathways."
+        "DNA double-strand break (DSB) → ATXN3 recruitment to DSB via SUMOylation → ATXN3 deubiquitinates MDC1, antagonizing RNF4 E3 ligase activity → MDC1 chromatin dwell time is increased → Efficient recruitment of downstream factors (RNF8, RNF168, BRCA1, 53BP1) → Robust activation of DNA repair pathways (NHEJ and HR) → Maintenance of Genomic Stability."
       ],
       "specific_effects": [
-        "Directly counteracts RNF4-mediated ubiquitination of MDC1.",
-        "Prolongs the chromatin dwell time of MDC1 at sites of DNA damage.",
-        "Loss of ATXN3 impairs the recruitment of RNF8, RNF168, 53BP1, and BRCA1 to DSBs.",
-        "Required for efficient MDC1-dependent DSB repair by non-homologous end-joining (NHEJ) and homologous recombination (HR)."
+        "Deubiquitination of MDC1.",
+        "Antagonizes the ubiquitin ligase activity of RNF4 towards MDC1.",
+        "Increases the chromatin dwell time of MDC1 at DNA double-strand breaks.",
+        "Ensures efficient recruitment of RNF8, RNF168, BRCA1, and 53BP1 to damage foci."
       ],
       "evidence": [
         {
@@ -29,13 +29,6 @@
           "pmid": "28275011"
         }
       ],
-      "pathway": {
-        "name": "DNA Damage Response",
-        "canonical_name": "DNA Damage Response",
-        "ontology_id": null,
-        "ontology_source": null,
-        "confidence": 0.8
-      },
       "pmids": [
         "28275011"
       ],
@@ -54,9 +47,9 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "At sites of DNA double-strand breaks (DSBs), the SUMO-targeted ubiquitin ligase RNF4 ubiquitinates the checkpoint mediator protein MDC1, targeting it for removal from chromatin. ATXN3 is recruited to DSBs in a SUMOylation-dependent manner and directly counteracts RNF4 activity by deubiquitinating MDC1.",
-  "effect": "By removing ubiquitin chains from MDC1, ATXN3 prevents its premature dissociation from damaged chromatin. This stabilization of MDC1 at the DSB site prolongs its chromatin residence time, which is crucial for the sustained recruitment of downstream DNA damage response (DDR) factors and efficient DNA repair.",
-  "summary": "ATXN3 activates MDC1 to modulate dna double-strand break response, ultimately affecting consolidation of dna repair signaling and efficient repair by both nhej and hr pathways.",
+  "mechanism": "ATXN3 is recruited to DNA double-strand breaks (DSBs) in a SUMOylation-dependent manner where it functions as a deubiquitinase (DUB) for the checkpoint mediator protein MDC1. It specifically counteracts the SUMO-targeted ubiquitin ligase (STUbL) RNF4, which would otherwise polyubiquitinate MDC1 and promote its removal from chromatin.",
+  "effect": "By deubiquitinating MDC1, ATXN3 prevents its premature removal from DNA lesions, thereby stabilizing its presence at the site of damage. This prolonged residence time of MDC1 is critical for the robust recruitment of downstream DNA damage response (DDR) factors.",
+  "summary": "ATXN3 activates MDC1 to modulate dna repair, ultimately affecting maintenance of genomic stability.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 consolidates the MDC1-dependent DNA double-strand break response by counteracting the SUMO-targeted ubiquitin ligase RNF4",
@@ -65,15 +58,11 @@
       "relevant_quote": "Here, we report that the deubiquitylation enzyme (DUB) ataxin-3 counteracts RNF4 activity during the DNA double-strand break (DSB) response. We find that ataxin-3 negatively regulates ubiquitylation of the checkpoint mediator MDC1, a known RNF4 substrate. Loss of ataxin-3 markedly decreases the chromatin dwell time of MDC1 at DSBs, which can be fully reversed by co-depletion of RNF4."
     }
   ],
-  "pathways": [
-    {
-      "name": "DNA Damage Response",
-      "canonical_name": "DNA Damage Response",
-      "ontology_id": null,
-      "ontology_source": null,
-      "confidence": 0.8
-    }
-  ],
+  "initial_pathway": {
+    "pathway_name": "DNA Double-Strand Break Repair",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 is recruited to DNA double-strand breaks where it deubiquitinates and stabilizes MDC1, a critical scaffold protein for the DNA damage response."
+  },
   "interaction_effect": "activation",
   "_validation_metadata": {
     "validated": true,
@@ -85,6 +74,6 @@
   "protein_a": "MDC1",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.234228Z",
-  "last_updated": "2025-12-09T13:18:49.234228Z"
+  "first_discovered": "2025-12-19T07:06:31.342762Z",
+  "last_updated": "2025-12-19T07:06:31.342762Z"
 }

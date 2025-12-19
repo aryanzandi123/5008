@@ -1,0 +1,39 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Physically binds ATXN3 to regulate erythroid differentiation (Co-IP evidence)",
+  "arrow": "regulates",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "direction": "primary_to_main",
+  "intent": "binding",
+  "mechanism": "Molecular mechanism not fully characterized",
+  "effect": "Functional effects not fully characterized",
+  "summary": "ATXN3 and GATA1 interact, though the functional significance remains to be fully elucidated.",
+  "evidence": [],
+  "initial_pathway": {
+    "pathway_name": "Transcription Factor Activity Regulation",
+    "confidence": 0.8,
+    "reasoning": "ATXN3 interacts with various transcription factors, including GATA1, to modulate their ability to regulate gene expression."
+  },
+  "interaction_effect": "regulation",
+  "functions": [],
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> GATA1:",
+  "protein_a": "GATA1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T05:45:29.563845Z",
+  "last_updated": "2025-12-19T05:45:29.563845Z"
+}

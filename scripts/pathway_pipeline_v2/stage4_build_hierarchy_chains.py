@@ -45,7 +45,7 @@ def build_hierarchy_chain_prompt(
     interaction_context: List[Dict[str, Any]],
 ) -> str:
     """
-    Build prompt for determining the hierarchy chain from pathway to root.
+    Build prompt for determining the hierarchy chain from pathway to root (single pathway).
     """
     # Format interaction context
     context_text = ""
@@ -105,6 +105,68 @@ IMPORTANT:
 - Maximum depth is {MAX_HIERARCHY_DEPTH} levels
 """
 
+    return prompt
+
+
+def build_batch_hierarchy_prompt(
+    pathways_with_context: List[Dict[str, Any]],
+) -> str:
+    """
+    Build prompt for determining hierarchy chains for MULTIPLE pathways at once.
+    """
+    # Format all pathways
+    pathways_text = ""
+    for i, pw in enumerate(pathways_with_context, 1):
+        name = pw["name"]
+        context = pw.get("context", [])
+        context_str = ""
+        for ix in context[:2]:  # Top 2 interactions per pathway for context
+            proteins = f"{ix.get('main_protein', '?')}-{ix.get('primary', '?')}"
+            context_str += f"{proteins}; "
+        pathways_text += f"{i}. **{name}** (context: {context_str.strip('; ')})\n"
+
+    pathway_names = [pw["name"] for pw in pathways_with_context]
+
+    prompt = f"""You are a biological pathway hierarchy expert. Build "is-a-type-of" chains for MULTIPLE pathways.
+
+## PATHWAYS TO CLASSIFY ({len(pathways_with_context)} total)
+
+{pathways_text}
+
+{get_root_categories_prompt_section()}
+
+## INSTRUCTIONS
+
+For EACH pathway above, build a hierarchy chain UP TO a root category.
+
+Example chain for "Aggrephagy":
+["Protein Quality Control", "Sequestration and Aggregate Clearance", "Autophagy", "Macroautophagy", "Selective Macroautophagy", "Aggrephagy"]
+
+Return JSON with ALL {len(pathways_with_context)} pathways:
+
+```json
+{{
+  "hierarchy_chains": [
+    {{
+      "pathway_name": "{pathway_names[0]}",
+      "chain": ["Root Category", "Level 2", "...", "{pathway_names[0]}"],
+      "confidence": 0.90
+    }},
+    {{
+      "pathway_name": "{pathway_names[1] if len(pathway_names) > 1 else 'Example'}",
+      "chain": ["Root Category", "Level 2", "...", "{pathway_names[1] if len(pathway_names) > 1 else 'Example'}"],
+      "confidence": 0.85
+    }}
+  ]
+}}
+```
+
+IMPORTANT:
+- Return EXACTLY {len(pathways_with_context)} chains
+- Each chain[0] MUST be a valid root category
+- Each chain[-1] MUST be the pathway name
+- Max depth: {MAX_HIERARCHY_DEPTH} levels per chain
+"""
     return prompt
 
 
@@ -307,12 +369,65 @@ def ensure_pathway_chain_in_db(chain: List[str], source: str = 'ai_built'):
         return pathway_ids
 
 
+def process_batch_hierarchy_response(
+    batch: List[Dict[str, Any]],
+    result: Any,
+    existing_chains: Dict[str, List[str]],
+) -> Dict[str, List[str]]:
+    """Process batch AI response and extract hierarchy chains for each pathway."""
+    new_chains: Dict[str, List[str]] = {}
+
+    try:
+        chains = result.data.get("hierarchy_chains", [])
+
+        # Build lookup by pathway name (case-insensitive)
+        chain_map = {}
+        for c in chains:
+            name = c.get("pathway_name", "").strip()
+            if name:
+                chain_map[name.upper()] = c
+
+        for pw_data in batch:
+            pathway_name = pw_data["name"]
+            pathway_upper = pathway_name.strip().upper()
+
+            # Try to find matching chain
+            chain_data = chain_map.get(pathway_upper)
+
+            if chain_data and chain_data.get("chain"):
+                chain = chain_data["chain"]
+
+                # Validate chain
+                if chain[0] not in ROOT_CATEGORY_NAMES:
+                    logger.warning(f"Invalid root '{chain[0]}' for '{pathway_name}' - skipping")
+                    continue
+
+                if chain[-1] != pathway_name:
+                    # AI might have used slightly different name
+                    chain.append(pathway_name)
+
+                if len(chain) > MAX_HIERARCHY_DEPTH:
+                    chain = chain[:MAX_HIERARCHY_DEPTH]
+
+                new_chains[pathway_name] = chain
+                logger.info(f"Built chain for '{pathway_name}': {' -> '.join(chain)}")
+            else:
+                logger.warning(f"No chain found in batch response for '{pathway_name}'")
+
+    except Exception as e:
+        logger.error(f"Failed to parse batch hierarchy response: {e}")
+
+    return new_chains
+
+
 def run_stage4_from_db():
     """
     Run Stage 4 by processing all canonical pathways from database.
+    Uses batch processing for efficiency (BATCH_SIZE_STAGE4 pathways per AI call).
     """
     from app import app, db
     from models import PathwayCanonicalName, PathwayInteraction, Interaction
+    from scripts.pathway_pipeline_v2.config import BATCH_SIZE_STAGE4
 
     with app.app_context():
         # Get all unique canonical pathway names
@@ -320,29 +435,50 @@ def run_stage4_from_db():
             PathwayCanonicalName.canonical_name
         ).distinct().all()
 
-        pathways = list(set(row[0] for row in canonical_names))
-        logger.info(f"Stage 4: Processing {len(pathways)} canonical pathways")
+        all_pathways = list(set(row[0] for row in canonical_names))
+
+        # Filter out root categories
+        pathways = [p for p in all_pathways if p not in ROOT_CATEGORY_NAMES]
+        logger.info(f"Stage 4: Processing {len(pathways)} canonical pathways (excluding {len(all_pathways) - len(pathways)} roots)")
 
         # Track existing chains for Stage 6 reuse
         existing_chains: Dict[str, List[str]] = {}
 
-        for idx, pathway_name in enumerate(pathways):
-            logger.info(f"Processing pathway {idx + 1}/{len(pathways)}: {pathway_name}")
+        # Pre-check history for all pathways (Stage 6 optimization)
+        for pathway_name in pathways:
+            cached_chain = check_history_for_chain(pathway_name)
+            if cached_chain:
+                existing_chains[pathway_name] = cached_chain
+                ensure_pathway_chain_in_db(cached_chain, source='history_reuse')
+                logger.info(f"Reused cached chain for '{pathway_name}'")
 
-            # Skip root categories - they don't need chains
-            if pathway_name in ROOT_CATEGORY_NAMES:
-                logger.info(f"Skipping root category: {pathway_name}")
+        # Filter to only pathways that need new chains
+        pathways_needing_chains = [p for p in pathways if p not in existing_chains]
+        logger.info(f"Stage 4: {len(pathways_needing_chains)} pathways need new chains ({len(existing_chains)} from cache)")
+
+        if not pathways_needing_chains:
+            logger.info("Stage 4 complete: All chains from cache")
+            return
+
+        # Get interaction context for each pathway
+        pathways_with_context = []
+        for pathway_name in pathways_needing_chains:
+            # Check if fits existing hierarchy (Stage 6)
+            fit_result = check_if_fits_existing_hierarchy(pathway_name, existing_chains)
+            if fit_result and fit_result.get("parent_chain"):
+                existing_chains[pathway_name] = fit_result["parent_chain"]
+                ensure_pathway_chain_in_db(fit_result["parent_chain"], source='attach_existing')
+                logger.info(f"Attached '{pathway_name}' to existing hierarchy")
                 continue
 
-            # Get interaction context for this pathway
-            # (Find interactions that have this canonical pathway assigned)
+            # Get interaction context
             interactions = db.session.query(Interaction).join(
                 PathwayInteraction
             ).join(
                 PathwayInteraction.pathway
             ).filter(
                 PathwayInteraction.pathway.has(name=pathway_name)
-            ).limit(5).all()
+            ).limit(3).all()  # Reduced from 5 to 3 for batch efficiency
 
             interaction_context = []
             for ix in interactions:
@@ -353,22 +489,61 @@ def run_stage4_from_db():
                     "functions": ix_data.get("functions", []),
                 })
 
-            # Build chain (includes Stage 6 history check)
-            chain = build_hierarchy_chain(
-                pathway_name=pathway_name,
-                interaction_context=interaction_context,
-                existing_pathways=existing_chains,
+            pathways_with_context.append({
+                "name": pathway_name,
+                "context": interaction_context,
+            })
+
+        if not pathways_with_context:
+            logger.info("Stage 4 complete: All chains resolved from cache/existing")
+            return
+
+        # Process in batches
+        total = len(pathways_with_context)
+        num_batches = (total + BATCH_SIZE_STAGE4 - 1) // BATCH_SIZE_STAGE4
+        logger.info(f"Stage 4: Processing {total} pathways in {num_batches} batches of {BATCH_SIZE_STAGE4}")
+
+        for batch_idx in range(num_batches):
+            start = batch_idx * BATCH_SIZE_STAGE4
+            end = min(start + BATCH_SIZE_STAGE4, total)
+            batch = pathways_with_context[start:end]
+
+            batch_names = [p["name"] for p in batch]
+            logger.info(f"Stage 4: Batch {batch_idx + 1}/{num_batches} ({len(batch)} pathways: {', '.join(batch_names[:3])}...)")
+
+            # Build batch prompt
+            prompt = build_batch_hierarchy_prompt(batch)
+
+            # Call AI for entire batch
+            result = call_ai_sequential(
+                prompt=prompt,
+                stage="stage4",
+                use_search=True,
             )
 
-            if chain:
-                # Save to database
-                ensure_pathway_chain_in_db(chain, source='ai_built')
+            if result.success:
+                new_chains = process_batch_hierarchy_response(batch, result, existing_chains)
 
-                # Track for Stage 6 reuse
-                existing_chains[pathway_name] = chain
-                logger.info(f"Built chain for '{pathway_name}': {' -> '.join(chain)}")
+                # Save chains to database and track for reuse
+                for pathway_name, chain in new_chains.items():
+                    ensure_pathway_chain_in_db(chain, source='ai_built')
+                    existing_chains[pathway_name] = chain
             else:
-                logger.warning(f"Failed to build chain for '{pathway_name}'")
+                # Batch failed - fallback to individual processing
+                logger.warning(f"Batch {batch_idx + 1} failed, falling back to individual calls")
+                for pw_data in batch:
+                    pathway_name = pw_data["name"]
+                    chain = build_hierarchy_chain(
+                        pathway_name=pathway_name,
+                        interaction_context=pw_data["context"],
+                        existing_pathways=existing_chains,
+                    )
+                    if chain:
+                        ensure_pathway_chain_in_db(chain, source='ai_built')
+                        existing_chains[pathway_name] = chain
+                        logger.info(f"Built chain for '{pathway_name}': {' -> '.join(chain)}")
+                    else:
+                        logger.warning(f"Failed to build chain for '{pathway_name}'")
 
         logger.info(f"Stage 4 complete: {len(existing_chains)} chains built")
 

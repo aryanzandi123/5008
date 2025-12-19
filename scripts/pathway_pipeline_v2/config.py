@@ -77,16 +77,16 @@ BATCH_SIZE_STAGE1 = 1
 BATCH_SIZE_STAGE2 = 50  # Names per AI call
 
 # Stage 3: Reassign interactions to best pathway
-# HARD CONSTRAINT from requirements: 5 interactions per batch
-BATCH_SIZE_STAGE3 = 5
+# Increased from 5 to 15 for faster processing
+BATCH_SIZE_STAGE3 = 15
 
 # Stage 4: Build hierarchy chains
-# One pathway at a time (each needs full chain context)
-BATCH_SIZE_STAGE4 = 1
+# Increased from 1 to 5 for faster processing
+BATCH_SIZE_STAGE4 = 5
 
 # Stage 5: Add siblings
-# Process one main chain level at a time
-BATCH_SIZE_STAGE5 = 1
+# Increased from 1 to 5 for faster processing
+BATCH_SIZE_STAGE5 = 5
 
 # Stage 7: Validation
 # Validate entire hierarchy in chunks

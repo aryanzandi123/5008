@@ -1,114 +1,92 @@
 {
   "primary": "TBP",
-  "interaction_type": "indirect",
+  "interaction_type": "direct",
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with the TATA-box-binding protein (TBP), a key component of the transcriptional machinery.",
+  "support_summary": "The TATA-binding protein (TBP) interacts with ATXN3, particularly through polyQ-mediated associations that interfere with transcription (Co-IP evidence).",
   "functions": [
     {
-      "function": "Basal Transcription",
+      "function": "Transcription Initiation",
       "arrow": "inhibits",
-      "cellular_process": "ATXN3 is reported to interact with the TATA-box-binding protein (TBP), a central component of the TFIID complex that nucleates the formation of the transcriptional preinitiation complex at the promoter.",
-      "effect_description": "The specific molecular outcome of the ATXN3-TBP interaction remains to be elucidated. In other polyglutamine diseases, sequestration of TBP by the mutant protein is a known pathogenic mechanism. While an interaction is noted for ATXN3, it is not clearly defined whether ATXN3 modulates TBP's DNA binding, its incorporation into TFIID, or its recruitment to promoters.",
+      "cellular_process": "ATXN3, particularly the polyQ-expanded form, physically associates with TBP and other transcriptional coactivators like CBP and p300. This interaction interferes with the formation of the transcription pre-initiation complex at promoter regions.",
+      "effect_description": "The interaction of ATXN3 with components of the basal transcription machinery leads to a general repression of transcription. This is thought to be a key pathological mechanism in Spinocerebellar Ataxia Type 3 (SCA3).",
       "biological_consequence": [
-        "ATXN3 binds to TBP → Specific functional consequence on transcriptional initiation is currently undefined."
+        "ATXN3 Sequestration of TBP/CBP/p300 → Impaired Pre-initiation Complex Formation → Reduced RNA Polymerase II Recruitment → Global Transcriptional Repression → Neurodegeneration"
       ],
       "specific_effects": [
-        "Interaction with TBP links ATXN3 to the core of the transcriptional machinery.",
-        "In the context of polyglutamine disorders, interactions with TBP are often implicated in transcriptional dysregulation, though the specific mechanism for ATXN3 is not detailed."
+        "Inhibition of histone acetyltransferase (HAT) activity of coactivators",
+        "Reduced binding of TBP to the TATA box",
+        "General downregulation of gene expression"
       ],
       "evidence": [
+        {
+          "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+          "journal": "Human Molecular Genetics",
+          "year": 2002,
+          "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators.",
+          "pmid": "12297501"
+        },
         {
           "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
           "journal": "PLoS One",
           "year": 2018,
-          "relevant_quote": "ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes.",
+          "relevant_quote": "An additional role for ATXN3 in transcriptional regulation is suggested by the ability of ATXN3 to bind DNA and cooperate with transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR.",
           "pmid": "30231063"
-        },
-        {
-          "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
-          "journal": "Molecular Therapy",
-          "year": 2016,
-          "relevant_quote": "The nuclear environment has been suggested to promote the formation of nuclear aggregates, and additional proteins, such as TBP and CBP, were found to be recruited to the aggregates in human brain and SCA3 animal models.",
-          "pmid": "24293103"
         }
       ],
-      "pathway": {
-        "name": "Transcriptional Regulation",
-        "canonical_name": "Transcription",
-        "ontology_id": "GO:0006351",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
-        "30231063",
-        "24293103"
+        "12297501",
+        "30231063"
       ],
       "interaction_effect": "inhibits",
       "interaction_direction": "main_to_primary",
-      "function_effect": "inhibition",
-      "arrow_context": {
-        "direct_from": null,
-        "direct_arrow": "inhibits",
-        "net_from": "ATXN3",
-        "net_arrow": "inhibits",
-        "mediator_chain": [],
-        "is_indirect": true
-      },
-      "net_arrow": "inhibits",
-      "direct_arrow": "inhibits",
-      "net_effect": "inhibition",
-      "direct_effect": "inhibition"
+      "function_effect": "inhibition"
     }
   ],
-  "arrow": "regulates",
+  "arrow": "inhibits",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "inhibits"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The interaction between ATXN3 and the TATA-box-binding protein (TBP) is cited in the context of transcriptional regulation and polyglutamine disease pathology. However, primary literature detailing the direct, functional consequences of this specific interaction on preinitiation complex assembly or basal transcription rates is lacking. The input's description is an inference based on TBP's function, not a demonstrated mechanism for the ATXN3-TBP interaction.",
-  "mechanism": "ATXN3 is reported to interact with the TATA-box-binding protein (TBP), a central component of the TFIID complex that nucleates the formation of the transcriptional preinitiation complex at the promoter.",
-  "effect": "The specific molecular outcome of the ATXN3-TBP interaction remains to be elucidated. In other polyglutamine diseases, sequestration of TBP by the mutant protein is a known pathogenic mechanism. While an interaction is noted for ATXN3, it is not clearly defined whether ATXN3 modulates TBP's DNA binding, its incorporation into TFIID, or its recruitment to promoters.",
-  "summary": "ATXN3 interacts with TBP to modulate basal transcription, ultimately affecting specific functional consequence on transcriptional initiation is currently undefined.",
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, particularly the polyQ-expanded form, physically associates with TBP and other transcriptional coactivators like CBP and p300. This interaction interferes with the formation of the transcription pre-initiation complex at promoter regions.",
+  "effect": "The interaction of ATXN3 with components of the basal transcription machinery leads to a general repression of transcription. This is thought to be a key pathological mechanism in Spinocerebellar Ataxia Type 3 (SCA3).",
+  "summary": "ATXN3 inhibits TBP to modulate transcription initiation, ultimately affecting neurodegeneration.",
   "evidence": [
+    {
+      "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+      "journal": "Human Molecular Genetics",
+      "year": 2002,
+      "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with the major histone acetyltransferases cAMP-response-element binding protein (CREB)-binding protein, p300, and p300/CREB-binding protein-associated factor and inhibits transcription by these coactivators."
+    },
     {
       "paper_title": "Loss of the Spinocerebellar Ataxia type 3 disease protein ATXN3 alters transcription of multiple signal transduction pathways",
       "journal": "PLoS One",
       "year": 2018,
-      "relevant_quote": "ATXN3 is transported into the nucleus, particularly in the disease state, where it binds histone proteins and cooperates with numerous transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR to control transcription of target genes."
-    },
-    {
-      "paper_title": "Ataxin-3 Protein and RNA Toxicity in Spinocerebellar Ataxia Type 3: Current Insights and Emerging Therapeutic Strategies",
-      "journal": "Molecular Therapy",
-      "year": 2016,
-      "relevant_quote": "The nuclear environment has been suggested to promote the formation of nuclear aggregates, and additional proteins, such as TBP and CBP, were found to be recruited to the aggregates in human brain and SCA3 animal models."
+      "relevant_quote": "An additional role for ATXN3 in transcriptional regulation is suggested by the ability of ATXN3 to bind DNA and cooperate with transcriptional regulators including CBP, P300, PCAF, TBP, HDAC3, HDAC6 and NCoR."
     }
   ],
-  "pathways": [
-    {
-      "name": "Transcriptional Regulation",
-      "canonical_name": "Transcription",
-      "ontology_id": "GO:0006351",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
-  "interaction_effect": "regulation",
+  "initial_pathway": {
+    "pathway_name": "RNA Polymerase II Transcription Initiation",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 binds to TBP and can interfere with its recruitment to promoters, thereby inhibiting the initiation of transcription."
+  },
+  "interaction_effect": "inhibition",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 1
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --regulates--> TBP:",
+  "arrow_notation": "ATXN3 --inhibits--> TBP:",
   "protein_a": "ATXN3",
   "protein_b": "TBP",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.243420Z",
-  "last_updated": "2025-12-09T13:18:49.243420Z"
+  "first_discovered": "2025-12-19T07:06:31.333522Z",
+  "last_updated": "2025-12-19T07:06:31.333522Z"
 }

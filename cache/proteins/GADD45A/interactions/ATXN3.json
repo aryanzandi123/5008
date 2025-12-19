@@ -1,0 +1,95 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "TP53",
+  "mediator_chain": [
+    "TP53"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly upregulates the expression of the DNA repair and cell cycle gene GADD45A via the stabilization of p53 (TP53).",
+  "functions": [
+    {
+      "function": "DNA Repair and Cell Cycle Arrest",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 indirectly upregulates the expression of GADD45A. ATXN3's Josephin domain binds to and deubiquitinates TP53 (p53), preventing its proteasomal degradation and leading to its stabilization. Accumulated, active p53 then transcriptionally activates its downstream target genes, including GADD45A.",
+      "effect_description": "The stabilization of p53 by ATXN3 enhances the transcriptional activation of GADD45A, which in turn promotes DNA repair processes and induces cell cycle arrest, contributing to genomic stability and cellular recovery from stress.",
+      "biological_consequence": [
+        "ATXN3 binds and deubiquitinates TP53 → TP53 protein is stabilized and accumulates → TP53 transcriptionally upregulates GADD45A mRNA → Increased GADD45A protein levels → Enhanced DNA repair and G1/S cell cycle arrest → Maintenance of Genomic Stability."
+      ],
+      "specific_effects": [
+        "Deubiquitination of TP53",
+        "Increased protein stability and half-life of TP53",
+        "Increased GADD45A mRNA and protein levels",
+        "Enhanced p53-dependent transcriptional activity"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado–Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLoS Genetics",
+          "year": 2016,
+          "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis...",
+          "pmid": "27851749"
+        }
+      ],
+      "pmids": [
+        "27851749"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "TP53",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "TP53"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 indirectly upregulates the expression of GADD45A. ATXN3's Josephin domain binds to and deubiquitinates TP53 (p53), preventing its proteasomal degradation and leading to its stabilization. Accumulated, active p53 then transcriptionally activates its downstream target genes, including GADD45A.",
+  "effect": "The stabilization of p53 by ATXN3 enhances the transcriptional activation of GADD45A, which in turn promotes DNA repair processes and induces cell cycle arrest, contributing to genomic stability and cellular recovery from stress.",
+  "summary": "ATXN3 activates GADD45A to modulate dna repair and cell cycle arrest, ultimately affecting maintenance of genomic stability.",
+  "evidence": [
+    {
+      "paper_title": "The Machado–Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLoS Genetics",
+      "year": 2016,
+      "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis..."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "DNA damage-induced cell cycle arrest",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 regulates the expression of GADD45A, a key mediator of cell cycle arrest and DNA repair following genotoxic stress."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "TP53 --activates--> GADD45A:",
+  "protein_a": "GADD45A",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.361291Z",
+  "last_updated": "2025-12-19T07:06:31.361291Z"
+}

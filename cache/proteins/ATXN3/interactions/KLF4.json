@@ -1,0 +1,78 @@
+{
+  "primary": "KLF4",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 interacts with the transcription factor KLF4 to promote breast cancer cell metastasis (Co-IP evidence).",
+  "functions": [
+    {
+      "function": "KLF4 Protein Stability",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 directly interacts with the transcription factor Krüppel-like factor 4 (KLF4). Through its deubiquitinase activity, ATXN3 removes ubiquitin chains from KLF4 that would otherwise target it for degradation by the proteasome.",
+      "effect_description": "The deubiquitination of KLF4 by ATXN3 leads to its stabilization and increased protein half-life. This enhances the transcriptional activity of KLF4, promoting the expression of genes involved in cancer cell stemness and metastasis, particularly in breast cancer.",
+      "biological_consequence": [
+        "ATXN3 Binds to KLF4 → ATXN3 Deubiquitinates KLF4 → KLF4 Protein Stabilization → Increased KLF4 Transcriptional Activity → Upregulation of Metastasis-Associated Genes → Promotion of Breast Cancer Metastasis"
+      ],
+      "specific_effects": [
+        "Deubiquitination of KLF4",
+        "Increased protein stability and half-life of KLF4",
+        "Enhanced breast cancer cell migration and invasion"
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
+          "journal": "Cancer Letters",
+          "year": 2019,
+          "relevant_quote": "Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo.",
+          "pmid": "31563563"
+        }
+      ],
+      "pmids": [
+        "31563563"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 directly interacts with the transcription factor Krüppel-like factor 4 (KLF4). Through its deubiquitinase activity, ATXN3 removes ubiquitin chains from KLF4 that would otherwise target it for degradation by the proteasome.",
+  "effect": "The deubiquitination of KLF4 by ATXN3 leads to its stabilization and increased protein half-life. This enhances the transcriptional activity of KLF4, promoting the expression of genes involved in cancer cell stemness and metastasis, particularly in breast cancer.",
+  "summary": "ATXN3 activates KLF4 to modulate klf4 protein stability, ultimately affecting promotion of breast cancer metastasis.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 promotes breast cancer metastasis by deubiquitinating KLF4",
+      "journal": "Cancer Letters",
+      "year": 2019,
+      "relevant_quote": "Subsequent immunoprecipitation assays confirmed that ATXN3 bound to KLF4, mediating the deubiquitination and stabilization of KLF4 protein levels. Furthermore, we demonstrated that ATXN3 promoted breast cancer cell metastasis via KLF4 in vitro and in vivo."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Regulation of Transcription Factor Stability",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 stabilizes the transcription factor KLF4 by removing degradative ubiquitin chains, which promotes its transcriptional activity in cancer metastasis."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> KLF4:",
+  "protein_a": "ATXN3",
+  "protein_b": "KLF4",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.334910Z",
+  "last_updated": "2025-12-19T07:06:31.334910Z"
+}

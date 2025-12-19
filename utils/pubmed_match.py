@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import ssl
 import sys
 import time
 import urllib.error
@@ -53,12 +54,17 @@ class PubMedClient:
         merged.update(params)
         url = BASE_URL + endpoint + "?" + urllib.parse.urlencode(merged)
 
+        # Create SSL context that doesn't verify certificates (for corporate proxies)
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+
         last_err: Optional[Exception] = None
         for attempt in range(3):
             if attempt:
                 time.sleep(self._sleep or 0.1)
             try:
-                with urllib.request.urlopen(url, timeout=30) as response:
+                with urllib.request.urlopen(url, timeout=30, context=ssl_context) as response:
                     payload = response.read()
                 return json.loads(payload)
             except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError) as exc:

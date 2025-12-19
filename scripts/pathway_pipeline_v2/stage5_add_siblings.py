@@ -96,6 +96,65 @@ IMPORTANT:
     return prompt
 
 
+def build_batch_sibling_prompt(
+    pairs_with_siblings: List[Dict[str, Any]],
+) -> str:
+    """
+    Build prompt for finding siblings for MULTIPLE parent-main pairs at once.
+    """
+    pairs_text = ""
+    for i, pair in enumerate(pairs_with_siblings, 1):
+        main = pair["main"]
+        parent = pair["parent"]
+        existing = pair.get("existing", [])
+        existing_str = ", ".join(existing[:3]) if existing else "None"
+        pairs_text += f"{i}. **{main}** (parent: {parent}, existing siblings: {existing_str})\n"
+
+    prompt = f"""You are a biological pathway classification expert. Find sibling pathways for MULTIPLE parent-main pairs.
+
+## PAIRS TO FIND SIBLINGS FOR ({len(pairs_with_siblings)} total)
+
+{pairs_text}
+
+## INSTRUCTIONS
+
+For EACH pair above, find OTHER pathways that are also "types of" the parent.
+
+Example:
+- If parent = "Selective Autophagy" and main = "Mitophagy"
+- Siblings could be: Aggrephagy, ER-phagy, Ribophagy, Pexophagy
+
+Return JSON with siblings for ALL {len(pairs_with_siblings)} pairs:
+
+```json
+{{
+  "sibling_sets": [
+    {{
+      "main_pathway": "{pairs_with_siblings[0]['main']}",
+      "parent_pathway": "{pairs_with_siblings[0]['parent']}",
+      "siblings": [
+        {{"name": "Sibling1", "description": "Brief desc", "confidence": 0.85}},
+        {{"name": "Sibling2", "description": "Brief desc", "confidence": 0.80}}
+      ]
+    }},
+    {{
+      "main_pathway": "{pairs_with_siblings[1]['main'] if len(pairs_with_siblings) > 1 else 'Example'}",
+      "parent_pathway": "{pairs_with_siblings[1]['parent'] if len(pairs_with_siblings) > 1 else 'Example'}",
+      "siblings": [...]
+    }}
+  ]
+}}
+```
+
+IMPORTANT:
+- Return EXACTLY {len(pairs_with_siblings)} sibling_sets (one per pair)
+- Up to {MAX_SIBLINGS_PER_LEVEL} siblings per set
+- Only include well-established biological pathways
+- Do NOT include the main pathway or existing siblings in results
+"""
+    return prompt
+
+
 def find_siblings_for_level(
     main_pathway: str,
     parent_pathway: str,
@@ -147,6 +206,68 @@ def find_siblings_for_level(
     except Exception as e:
         logger.error(f"Failed to parse Stage 5 response: {e}")
         return []
+
+
+def process_batch_sibling_response(
+    batch: List[Dict[str, Any]],
+    result: Any,
+) -> Dict[str, List[Dict[str, Any]]]:
+    """Process batch AI response and extract siblings for each parent-main pair."""
+    siblings_by_key: Dict[str, List[Dict[str, Any]]] = {}
+
+    try:
+        sibling_sets = result.data.get("sibling_sets", [])
+
+        # Build lookup by main pathway name (case-insensitive)
+        sets_map = {}
+        for s in sibling_sets:
+            main_name = s.get("main_pathway", "").strip().upper()
+            if main_name:
+                sets_map[main_name] = s
+
+        for pair_data in batch:
+            main_pathway = pair_data["main"]
+            main_upper = main_pathway.strip().upper()
+            existing_siblings = pair_data.get("existing", [])
+
+            # Create key for this pair
+            pair_key = f"{pair_data['parent']}:{main_pathway}"
+
+            # Try to find matching sibling set
+            sibling_set = sets_map.get(main_upper)
+
+            if sibling_set and sibling_set.get("siblings"):
+                raw_siblings = sibling_set["siblings"]
+
+                # Validate and filter siblings
+                valid_siblings = []
+                for sib in raw_siblings:
+                    name = sib.get("name", "")
+                    if not name:
+                        continue
+                    if name == main_pathway:
+                        continue
+                    if existing_siblings and name in existing_siblings:
+                        continue
+                    if len(valid_siblings) >= MAX_SIBLINGS_PER_LEVEL:
+                        break
+
+                    valid_siblings.append({
+                        "name": name,
+                        "description": sib.get("description", ""),
+                        "confidence": float(sib.get("confidence", 0.8)),
+                    })
+
+                siblings_by_key[pair_key] = valid_siblings
+                logger.info(f"Found {len(valid_siblings)} siblings for '{main_pathway}'")
+            else:
+                siblings_by_key[pair_key] = []
+                logger.warning(f"No siblings found in batch response for '{main_pathway}'")
+
+    except Exception as e:
+        logger.error(f"Failed to parse batch sibling response: {e}")
+
+    return siblings_by_key
 
 
 def add_siblings_to_db(
@@ -205,9 +326,11 @@ def add_siblings_to_db(
 def run_stage5_from_db():
     """
     Run Stage 5 to add siblings for all main chain levels.
+    Uses batch processing for efficiency (BATCH_SIZE_STAGE5 pairs per AI call).
     """
     from app import app, db
     from models import Pathway, PathwayParent, PathwayHierarchyHistory
+    from scripts.pathway_pipeline_v2.config import BATCH_SIZE_STAGE5
 
     with app.app_context():
         # Get all hierarchy chains (main chains built in Stage 4)
@@ -218,12 +341,14 @@ def run_stage5_from_db():
         # Track all sibling expansions to avoid duplicates
         processed_pairs: Set[tuple] = set()  # (parent, main) pairs
 
+        # Collect all pairs that need processing
+        pairs_to_process = []
+        parent_id_map = {}  # Map pair_key to parent_id and level
+
         for history in histories:
             chain = history.hierarchy_chain
             if not chain or len(chain) < 2:
                 continue
-
-            logger.info(f"Adding siblings for chain: {' -> '.join(chain)}")
 
             # For each level in chain (except root at level 0)
             for level in range(1, len(chain)):
@@ -252,20 +377,84 @@ def run_stage5_from_db():
 
                 existing_names = [c.name for c in existing_children]
 
-                # Find new siblings
-                siblings = find_siblings_for_level(
-                    main_pathway=main_pathway,
-                    parent_pathway=parent_pathway,
-                    existing_siblings=existing_names,
-                )
+                pairs_to_process.append({
+                    "main": main_pathway,
+                    "parent": parent_pathway,
+                    "existing": existing_names,
+                    "level": level,
+                })
 
-                if siblings:
-                    add_siblings_to_db(
-                        siblings=siblings,
-                        parent_pathway_id=parent.id,
-                        hierarchy_level=level,
+                # Store parent info for later
+                pair_str_key = f"{parent_pathway}:{main_pathway}"
+                parent_id_map[pair_str_key] = {
+                    "parent_id": parent.id,
+                    "level": level,
+                }
+
+        if not pairs_to_process:
+            logger.info("Stage 5 complete: No pairs to process")
+            return
+
+        # Process in batches
+        total = len(pairs_to_process)
+        num_batches = (total + BATCH_SIZE_STAGE5 - 1) // BATCH_SIZE_STAGE5
+        logger.info(f"Stage 5: Processing {total} pairs in {num_batches} batches of {BATCH_SIZE_STAGE5}")
+
+        for batch_idx in range(num_batches):
+            start = batch_idx * BATCH_SIZE_STAGE5
+            end = min(start + BATCH_SIZE_STAGE5, total)
+            batch = pairs_to_process[start:end]
+
+            batch_mains = [p["main"] for p in batch]
+            logger.info(f"Stage 5: Batch {batch_idx + 1}/{num_batches} ({len(batch)} pairs: {', '.join(batch_mains[:3])}...)")
+
+            # Build batch prompt
+            prompt = build_batch_sibling_prompt(batch)
+
+            # Call AI for entire batch
+            result = call_ai_sequential(
+                prompt=prompt,
+                stage="stage5",
+                use_search=True,
+            )
+
+            if result.success:
+                siblings_by_key = process_batch_sibling_response(batch, result)
+
+                # Add siblings to database
+                for pair_data in batch:
+                    pair_key = f"{pair_data['parent']}:{pair_data['main']}"
+                    siblings = siblings_by_key.get(pair_key, [])
+
+                    if siblings:
+                        parent_info = parent_id_map.get(pair_key)
+                        if parent_info:
+                            add_siblings_to_db(
+                                siblings=siblings,
+                                parent_pathway_id=parent_info["parent_id"],
+                                hierarchy_level=parent_info["level"],
+                            )
+                            logger.info(f"Added {len(siblings)} siblings for {pair_data['main']}")
+            else:
+                # Batch failed - fallback to individual processing
+                logger.warning(f"Batch {batch_idx + 1} failed, falling back to individual calls")
+                for pair_data in batch:
+                    siblings = find_siblings_for_level(
+                        main_pathway=pair_data["main"],
+                        parent_pathway=pair_data["parent"],
+                        existing_siblings=pair_data.get("existing", []),
                     )
-                    logger.info(f"Added {len(siblings)} siblings for {main_pathway}")
+
+                    if siblings:
+                        pair_key = f"{pair_data['parent']}:{pair_data['main']}"
+                        parent_info = parent_id_map.get(pair_key)
+                        if parent_info:
+                            add_siblings_to_db(
+                                siblings=siblings,
+                                parent_pathway_id=parent_info["parent_id"],
+                                hierarchy_level=parent_info["level"],
+                            )
+                            logger.info(f"Added {len(siblings)} siblings for {pair_data['main']}")
 
         logger.info("Stage 5 complete")
 

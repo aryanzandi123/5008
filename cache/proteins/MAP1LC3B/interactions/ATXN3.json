@@ -1,0 +1,79 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 contains an LIR motif that allows direct binding to LC3 (MAP1LC3B) and GABARAP proteins to regulate autophagy (Co-IP, motif analysis evidence).",
+  "functions": [
+    {
+      "function": "Autophagy",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 contains LIR motifs that directly bind to LC3 (MAP1LC3B) to facilitate autophagosome maturation and cargo recognition.",
+      "effect_description": "The interaction promotes efficient autophagic flux and the degradation of misfolded proteins.",
+      "biological_consequence": [
+        "LC3 Binding → Autophagosome Maturation → Autophagic Flux",
+        "Autophagy Activation → Misfolded Protein Degradation → Cell Survival"
+      ],
+      "specific_effects": [
+        "Recruitment of ATXN3 to autophagosomes",
+        "Promotion of autophagosome-lysosome fusion",
+        "Enhanced clearance of polyQ aggregates"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph disease deubiquitylase ataxin-3 interacts with LC3C/GABARAP and promotes autophagy",
+          "year": 2020,
+          "pmid": "31625269"
+        }
+      ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "activates",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
+      "pmids": [
+        "31625269"
+      ],
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "mechanism": "ATXN3 contains LIR motifs that directly bind to LC3 (MAP1LC3B) to facilitate autophagosome maturation and cargo recognition.",
+  "effect": "The interaction promotes efficient autophagic flux and the degradation of misfolded proteins.",
+  "summary": "ATXN3 activates MAP1LC3B to modulate autophagy, ultimately affecting autophagic flux.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph disease deubiquitylase ataxin-3 interacts with LC3C/GABARAP and promotes autophagy",
+      "year": 2020
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Aggrephagy",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 interacts with LC3B to facilitate the autophagic clearance of misfolded protein aggregates."
+  },
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> MAP1LC3B:",
+  "protein_a": "MAP1LC3B",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.332339Z",
+  "last_updated": "2025-12-19T07:06:31.332339Z"
+}

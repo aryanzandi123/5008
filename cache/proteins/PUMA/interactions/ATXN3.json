@@ -1,0 +1,94 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "TP53",
+  "mediator_chain": [
+    "TP53"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly upregulates the pro-apoptotic gene PUMA (PMAIP1) via the stabilization and activation of p53 (TP53).",
+  "functions": [
+    {
+      "function": "Apoptosis",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 indirectly promotes apoptosis by stabilizing the tumor suppressor p53 (TP53). ATXN3, a deubiquitinating enzyme, removes ubiquitin chains from p53, thereby preventing its degradation by the proteasome. The resulting increase in p53 protein levels and stability leads to the transcriptional activation of its downstream target genes, including the pro-apoptotic gene PUMA (also known as BBC3).",
+      "effect_description": "The stabilization of p53 by ATXN3 leads to increased transcription of PUMA mRNA, which triggers the intrinsic apoptotic pathway.",
+      "biological_consequence": [
+        "ATXN3 binds and deubiquitinates TP53 → TP53 protein is stabilized and accumulates → TP53 transcriptionally upregulates the PUMA gene → PUMA protein inhibits anti-apoptotic BCL2 family members → BAX/BAK are activated, leading to mitochondrial outer membrane permeabilization → Cytochrome c is released, activating the caspase cascade → Apoptosis"
+      ],
+      "specific_effects": [
+        "Increased stability and half-life of TP53 protein",
+        "Increased PUMA mRNA synthesis",
+        "Promotion of p53-dependent apoptosis"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLoS Biology",
+          "year": 2016,
+          "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish.",
+          "pmid": "27851749"
+        }
+      ],
+      "pmids": [
+        "27851749"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "TP53",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "TP53"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 indirectly promotes apoptosis by stabilizing the tumor suppressor p53 (TP53). ATXN3, a deubiquitinating enzyme, removes ubiquitin chains from p53, thereby preventing its degradation by the proteasome. The resulting increase in p53 protein levels and stability leads to the transcriptional activation of its downstream target genes, including the pro-apoptotic gene PUMA (also known as BBC3).",
+  "effect": "The stabilization of p53 by ATXN3 leads to increased transcription of PUMA mRNA, which triggers the intrinsic apoptotic pathway.",
+  "summary": "ATXN3 activates PUMA to modulate apoptosis, ultimately affecting apoptosis.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLoS Biology",
+      "year": 2016,
+      "relevant_quote": "Here, we identify p53 to be a novel substrate of ATX-3. ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "p53-mediated Apoptotic Signaling",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 stabilizes p53, which in turn upregulates the expression of the pro-apoptotic BH3-only protein PUMA (BBC3)."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "TP53 --activates--> PUMA:",
+  "protein_a": "PUMA",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.339543Z",
+  "last_updated": "2025-12-19T07:06:31.339543Z"
+}

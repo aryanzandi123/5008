@@ -1,0 +1,78 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 deubiquitinates and stabilizes EIF5A2 to promote the progression of anaplastic thyroid carcinoma (Co-IP, deubiquitination assay evidence).",
+  "functions": [
+    {
+      "function": "Protein Stability & Cancer Progression",
+      "arrow": "activates",
+      "cellular_process": "ATXN3, acting as a deubiquitinating enzyme, directly binds to the eukaryotic translation initiation factor 5A2 (EIF5A2). This interaction leads to the removal of ubiquitin chains from EIF5A2, thereby preventing its proteasome-mediated degradation.",
+      "effect_description": "By stabilizing EIF5A2, ATXN3 increases its cellular protein levels. Elevated EIF5A2 is associated with enhanced cell proliferation and metastasis in anaplastic thyroid carcinoma (ATC). The increased stability of EIF5A2 promotes oncogenic signaling pathways, contributing to tumor aggressiveness.",
+      "biological_consequence": [
+        "ATXN3 directly binds to EIF5A2 → ATXN3 deubiquitinates EIF5A2 → Ubiquitin-mediated proteasomal degradation of EIF5A2 is prevented → EIF5A2 protein levels increase → Enhanced cell proliferation and metastasis → Progression of Anaplastic Thyroid Carcinoma"
+      ],
+      "specific_effects": [
+        "Direct deubiquitination of EIF5A2",
+        "Increased EIF5A2 protein stability and cellular levels",
+        "Promotion of anaplastic thyroid carcinoma cell proliferation and metastasis"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitinating enzyme ATXN3 promotes the progression of anaplastic thyroid carcinoma by stabilizing EIF5A2",
+          "journal": "Molecular and Cellular Endocrinology",
+          "year": 2021,
+          "relevant_quote": "Mechanistically, ATXN3 promotes EIF5A2 expression by directly binding to EIF5A2 to reduce its ubiquitination and degradation. Therefore, for the first time, we clarified the role of ATXN3 in the carcinogenesis of ATC cells, which provides novel insights into potential therapeutic targets for ATC progression.",
+          "pmid": "34428509"
+        }
+      ],
+      "pmids": [
+        "34428509"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, acting as a deubiquitinating enzyme, directly binds to the eukaryotic translation initiation factor 5A2 (EIF5A2). This interaction leads to the removal of ubiquitin chains from EIF5A2, thereby preventing its proteasome-mediated degradation.",
+  "effect": "By stabilizing EIF5A2, ATXN3 increases its cellular protein levels. Elevated EIF5A2 is associated with enhanced cell proliferation and metastasis in anaplastic thyroid carcinoma (ATC). The increased stability of EIF5A2 promotes oncogenic signaling pathways, contributing to tumor aggressiveness.",
+  "summary": "ATXN3 activates EIF5A2 to modulate protein stability & cancer progression, ultimately affecting progression of anaplastic thyroid carcinoma.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitinating enzyme ATXN3 promotes the progression of anaplastic thyroid carcinoma by stabilizing EIF5A2",
+      "journal": "Molecular and Cellular Endocrinology",
+      "year": 2021,
+      "relevant_quote": "Mechanistically, ATXN3 promotes EIF5A2 expression by directly binding to EIF5A2 to reduce its ubiquitination and degradation. Therefore, for the first time, we clarified the role of ATXN3 in the carcinogenesis of ATC cells, which provides novel insights into potential therapeutic targets for ATC progression."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Epithelial-Mesenchymal Transition",
+    "confidence": 0.85,
+    "reasoning": "ATXN3 stabilizes EIF5A2 to promote the epithelial-mesenchymal transition (EMT), thereby enhancing tumor progression and metastasis."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> EIF5A2:",
+  "protein_a": "EIF5A2",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.364882Z",
+  "last_updated": "2025-12-19T07:06:31.364882Z"
+}

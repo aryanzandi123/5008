@@ -1,0 +1,40 @@
+{
+  "primary": "UCHL1",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Physically binds ATXN3 in a DUB-DUB interaction complex (Co-IP evidence)",
+  "arrow": "regulates",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "direction": "bidirectional",
+  "_validation_status": "rejected",
+  "mechanism": "Molecular mechanism not fully characterized",
+  "intent": "binding",
+  "effect": "Functional effects not fully characterized",
+  "summary": "ATXN3 and UCHL1 interact, though the functional significance remains to be fully elucidated.",
+  "evidence": [],
+  "initial_pathway": {
+    "pathway_name": "Deubiquitination",
+    "confidence": 0.85,
+    "reasoning": "Both ATXN3 and UCHL1 are deubiquitinating enzymes (DUBs) that cooperate in the ubiquitin-dependent protein catabolic process to maintain protein homeostasis."
+  },
+  "interaction_effect": "regulation",
+  "functions": [],
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 6
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--regulates--> UCHL1:",
+  "protein_a": "ATXN3",
+  "protein_b": "UCHL1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T05:45:29.562688Z",
+  "last_updated": "2025-12-19T05:45:29.562688Z"
+}

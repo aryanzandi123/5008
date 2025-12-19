@@ -1,0 +1,84 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 directly binds to the 19S proteasome subunit S5a (PSMD4) via its UIM domains to facilitate substrate delivery (Pull-down evidence).",
+  "functions": [
+    {
+      "function": "Proteasomal Substrate Delivery",
+      "arrow": "activates",
+      "cellular_process": "ATXN3, through its Ubiquitin-Interacting Motifs (UIMs), directly binds to PSMD4 (also known as S5a), a subunit of the 19S proteasome regulatory particle. This interaction is thought to facilitate the delivery of ubiquitinated substrates, which are bound by ATXN3, to the proteasome for degradation.",
+      "effect_description": "The direct binding of ATXN3 to PSMD4/S5a physically links ATXN3's deubiquitinase activity with the proteasome, potentially allowing for the trimming or editing of ubiquitin chains on substrates just prior to their degradation.",
+      "biological_consequence": [
+        "ATXN3 binds polyubiquitinated substrates → ATXN3 UIMs bind to PSMD4/S5a on the 19S proteasome cap → Substrate is delivered to the proteasome → ATXN3 may deubiquitinate/trim ubiquitin chains → Substrate is unfolded and degraded by the 20S proteasome."
+      ],
+      "specific_effects": [
+        "Direct protein-protein interaction between ATXN3 UIMs and PSMD4/S5a",
+        "Recruitment of ATXN3 to the 19S proteasome",
+        "Facilitation of ubiquitinated protein handover to the proteasome"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Deubiquitinating function of ataxin-3: Insights from the solution structure of the Josephin domain",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": 2005,
+          "relevant_quote": "The UIM is a conserved 15-aa motif first discovered as a polyubiquitin binding domain in the S5a proteasome subunit. ... Through its UIMs, ataxin-3 binds to polyubiquitin chains but not to diubiquitin or monoubiquitin, suggesting that it may function in the protein surveillance pathway leading to the proteasome.",
+          "pmid": "16118278"
+        }
+      ],
+      "pmids": [
+        "16118278"
+      ],
+      "interaction_effect": "activation",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "binds",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, through its Ubiquitin-Interacting Motifs (UIMs), directly binds to PSMD4 (also known as S5a), a subunit of the 19S proteasome regulatory particle. This interaction is thought to facilitate the delivery of ubiquitinated substrates, which are bound by ATXN3, to the proteasome for degradation.",
+  "effect": "The direct binding of ATXN3 to PSMD4/S5a physically links ATXN3's deubiquitinase activity with the proteasome, potentially allowing for the trimming or editing of ubiquitin chains on substrates just prior to their degradation.",
+  "summary": "ATXN3 interacts with PSMD4 to modulate proteasomal substrate delivery, ultimately affecting substrate is unfolded and degraded by the 20s proteasome.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 interacts with Rad23 and valosin-containing protein and its associations with ubiquitin chains and the proteasome are consistent with a role in ubiquitin-mediated proteolysis",
+      "journal": "Molecular and Cellular Biology",
+      "year": 2003,
+      "relevant_quote": "We investigated if ataxin-3 was a proteasome-associated factor that recognized ubiquitinated substrates based on the rationale that...it shares regions of sequence similarity with the proteasome subunit S5a, which can recognize multiubiquitinated proteins. We report that ataxin-3 interacts with ubiquitinated proteins, can bind the proteasome..."
+    },
+    {
+      "paper_title": "Deubiquitinating function of ataxin-3: Insights from the solution structure of the Josephin domain",
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "year": 2005,
+      "relevant_quote": "The UIM is a conserved 15-aa motif first discovered as a polyubiquitin binding domain in the S5a proteasome subunit. ... Through its UIMs, ataxin-3 binds to polyubiquitin chains but not to diubiquitin or monoubiquitin, suggesting that it may function in the protein surveillance pathway leading to the proteasome."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Proteasomal Protein Degradation",
+    "confidence": 0.9,
+    "reasoning": "PSMD4 (S5a) is a subunit of the 19S regulatory particle of the proteasome; ATXN3 binds to it to deliver deubiquitinated substrates for degradation."
+  },
+  "interaction_effect": "binding",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> PSMD4:",
+  "protein_a": "PSMD4",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.342293Z",
+  "last_updated": "2025-12-19T07:06:31.342293Z"
+}

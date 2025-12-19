@@ -4,86 +4,75 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with p62/SQSTM1, an autophagic receptor protein involved in aggresome formation and clearance of protein aggregates.",
+  "support_summary": "SQSTM1 (p62) is an autophagy adapter that physically interacts with ATXN3 and co-localizes in protein aggregates (Co-IP evidence).",
   "functions": [
     {
-      "function": "Aggresome Formation of Pathogenic ATXN3",
+      "function": "Protein Aggregate Clearance",
       "arrow": "activates",
-      "cellular_process": "SQSTM1/p62, a selective autophagy receptor, directly interacts with polyglutamine (polyQ)-expanded pathogenic ATXN3, but not the normal form. This interaction is a critical step in the cellular response to misfolded protein stress.",
-      "effect_description": "This interaction facilitates the recruitment of pathogenic ATXN3 aggregates to the microtubule-organizing center (MTOC) to form a large inclusion body known as an aggresome. This sequestration process is a protective mechanism to manage and attempt to clear toxic protein aggregates.",
+      "cellular_process": "ATXN3 interacts with the autophagy adapter p62 (SQSTM1) to coordinate the sorting of ubiquitinated proteins into aggregates for autophagic degradation.",
+      "effect_description": "The interaction facilitates the selective clearance of protein inclusions.",
       "biological_consequence": [
-        "PolyQ-expanded ATXN3 forms aggregates → SQSTM1/p62 recognizes and binds to pathogenic ATXN3 → The ATXN3-SQSTM1 complex is transported along microtubules → Sequestration into a perinuclear aggresome → Reduced cytotoxicity of diffuse aggregates"
+        "p62 Binding → Cargo Recognition → Selective Autophagy",
+        "Aggregate Clearance → Proteostasis → Neuronal Health"
       ],
       "specific_effects": [
-        "p62 physically interacts with pathogenic ataxin-3 (ATXN3-Q80), but not normal ataxin-3 (ATXN3-Q20).",
-        "p62 regulates the aggresome formation of polyQ-expanded ataxin-3 in a microtubule-dependent manner.",
-        "The interaction with p62 and subsequent aggresome formation protects cells against polyQ-expanded ataxin-3-induced cell death."
+        "Co-localization of ATXN3 and p62 in aggregates",
+        "Enhanced p62-mediated cargo sequestration"
       ],
       "evidence": [
         {
-          "paper_title": "p62/Sequestosome 1 Regulates Aggresome Formation of Pathogenic Ataxin-3 with Expanded Polyglutamine",
-          "journal": "International Journal of Molecular Sciences",
+          "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
           "year": 2014,
-          "relevant_quote": "In this study we demonstrate that p62 directly interacts with pathogenic Machado Joseph Disease (MJD)-associated protein ataxin-3 with polyglutamine (polyQ) expansion. Moreover, p62 could regulate the aggresome formation of pathogenic ataxin-3 and protect cells against pathogenic ataxin-3-induced cell death.",
-          "pmid": "25158237"
+          "pmid": "24685680"
         }
       ],
-      "pathway": {
-        "name": "Aggrephagy",
-        "canonical_name": "Aggrephagy",
-        "ontology_id": "GO:0035973",
-        "ontology_source": "GO",
-        "confidence": 0.8
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
       },
-      "pmids": [
-        "25158237"
-      ],
       "interaction_effect": "activates",
-      "interaction_direction": "primary_to_main",
+      "direction": "main_to_primary",
+      "interaction_direction": "bidirectional",
+      "pmids": [
+        "24685680"
+      ],
       "function_effect": "activation"
     }
   ],
-  "arrow": "binds",
-  "direction": "main_to_primary",
+  "arrow": "regulates",
+  "direction": "bidirectional",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
       "activates"
     ]
   },
-  "is_valid": true,
-  "mechanism_correction": "The input is generally correct. The interaction between ATXN3 and SQSTM1/p62 is a key step in recognizing and processing protein aggregates. However, the interaction is more specific to the pathogenic, polyQ-expanded form of ATXN3 and is crucial for sequestering these aggregates into aggresomes for eventual clearance, thereby playing a protective role against cytotoxicity.",
-  "mechanism": "SQSTM1/p62, a selective autophagy receptor, directly interacts with polyglutamine (polyQ)-expanded pathogenic ATXN3, but not the normal form. This interaction is a critical step in the cellular response to misfolded protein stress.",
-  "effect": "This interaction facilitates the recruitment of pathogenic ATXN3 aggregates to the microtubule-organizing center (MTOC) to form a large inclusion body known as an aggresome. This sequestration process is a protective mechanism to manage and attempt to clear toxic protein aggregates.",
-  "summary": "ATXN3 activates SQSTM1 to modulate aggresome formation of pathogenic atxn3, ultimately affecting reduced cytotoxicity of diffuse aggregates.",
+  "mechanism": "ATXN3 interacts with the autophagy adapter p62 (SQSTM1) to coordinate the sorting of ubiquitinated proteins into aggregates for autophagic degradation.",
+  "effect": "The interaction facilitates the selective clearance of protein inclusions.",
+  "summary": "ATXN3 activates SQSTM1 to modulate protein aggregate clearance, ultimately affecting selective autophagy.",
   "evidence": [
     {
-      "paper_title": "p62/Sequestosome 1 Regulates Aggresome Formation of Pathogenic Ataxin-3 with Expanded Polyglutamine",
-      "journal": "International Journal of Molecular Sciences",
-      "year": 2014,
-      "relevant_quote": "In this study we demonstrate that p62 directly interacts with pathogenic Machado Joseph Disease (MJD)-associated protein ataxin-3 with polyglutamine (polyQ) expansion. Moreover, p62 could regulate the aggresome formation of pathogenic ataxin-3 and protect cells against pathogenic ataxin-3-induced cell death."
+      "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
+      "year": 2014
     }
   ],
-  "pathways": [
-    {
-      "name": "Aggrephagy",
-      "canonical_name": "Aggrephagy",
-      "ontology_id": "GO:0035973",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
-  "interaction_effect": "binding",
+  "initial_pathway": {
+    "pathway_name": "Aggrephagy",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 interacts with the autophagy adapter p62/SQSTM1 to promote the degradation of ubiquitinated proteins via selective autophagy."
+  },
+  "interaction_effect": "regulates",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 4
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--binds-- SQSTM1:",
+  "arrow_notation": "ATXN3 <--regulates--> SQSTM1:",
   "protein_a": "SQSTM1",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.247184Z",
-  "last_updated": "2025-12-09T13:18:49.247184Z"
+  "first_discovered": "2025-12-19T07:06:31.332666Z",
+  "last_updated": "2025-12-19T07:06:31.332666Z"
 }

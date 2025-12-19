@@ -1,0 +1,39 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Physically binds and deubiquitinates NLRP3 to promote inflammasome activation (Co-IP evidence)",
+  "arrow": "regulates",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "direction": "primary_to_main",
+  "intent": "binding",
+  "mechanism": "Molecular mechanism not fully characterized",
+  "effect": "Functional effects not fully characterized",
+  "summary": "ATXN3 and NLRP3 interact, though the functional significance remains to be fully elucidated.",
+  "evidence": [],
+  "initial_pathway": {
+    "pathway_name": "NLRP3 Inflammasome Activation",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 deubiquitinates NLRP3, which is a critical step for the assembly and activation of the NLRP3 inflammasome complex."
+  },
+  "interaction_effect": "regulation",
+  "functions": [],
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --regulates--> NLRP3:",
+  "protein_a": "NLRP3",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T05:45:29.565028Z",
+  "last_updated": "2025-12-19T05:45:29.565028Z"
+}

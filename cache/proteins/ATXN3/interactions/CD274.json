@@ -1,0 +1,90 @@
+{
+  "primary": "CD274",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 deubiquitinates and stabilizes PD-L1 (CD274), contributing to tumor immune evasion (Co-IP, deubiquitination assay evidence).",
+  "functions": [
+    {
+      "function": "Immune Response",
+      "arrow": "inhibits",
+      "cellular_process": "In the tumor microenvironment, inflammatory cytokines (like IFN-γ) and hypoxia induce the expression and activity of transcription factors such as IRF1, STAT3, and HIF-2α. These factors are targeted for proteasomal degradation via ubiquitination. ATXN3 acts as a deubiquitinase for these transcription factors, preventing their degradation.",
+      "effect_description": "By stabilizing key transcription factors, ATXN3 enhances their ability to bind to the promoter of the CD274 (PD-L1) gene, leading to increased mRNA transcription and subsequent protein expression on the cancer cell surface. This upregulation of PD-L1 facilitates tumor immune evasion by inhibiting T-cell function.",
+      "biological_consequence": [
+        "Tumor microenvironment signals (IFN-γ, hypoxia) → Activation of transcription factors (IRF1, STAT3, HIF-2α, JunB) → ATXN3 deubiquitinates and stabilizes these transcription factors → Increased binding of transcription factors to the CD274 (PD-L1) gene promoter → Upregulation of CD274 mRNA and protein expression → Increased PD-L1 on cancer cell surface → Binding to PD-1 on T-cells → T-cell exhaustion and inhibition of anti-tumor immunity → Tumor Immune Evasion."
+      ],
+      "specific_effects": [
+        "Deubiquitination and stabilization of the transcription factors IRF1, STAT3, HIF-2α, and JunB.",
+        "Increased transcription of the CD274 (PD-L1) gene.",
+        "Does not directly deubiquitinate the CD274 (PD-L1) protein."
+      ],
+      "evidence": [
+        {
+          "paper_title": "CRISPR screening identifies the deubiquitylase ATXN3 as a PD-L1-positive regulator for tumor immune evasion",
+          "journal": "Journal of Clinical Investigation",
+          "year": 2023,
+          "relevant_quote": "Herein, we describe a CRISPR-based screening platform and identified ATXN3 as a positive regulator for PD-L1 transcription. ... ATXN3-induced Pd-l1 transcription was promoted by tumor microenvironmental factors, including the inflammatory cytokine IFN-γ and hypoxia, through protection of their downstream transcription factors IRF1, STAT3, and HIF-2α. Moreover, ATXN3 functioned as a deubiquitinase of the AP-1 transcription factor JunB, indicating that ATNX3 promotes PD-L1 expression through multiple pathways.",
+          "pmid": "38038129"
+        }
+      ],
+      "pmids": [
+        "38038129"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "direct_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Contextual Error: The input claim that ATXN3 directly deubiquitinates and stabilizes the CD274 (PD-L1) protein is incorrect. The primary literature shows that ATXN3 does not act on the PD-L1 protein itself. Instead, ATXN3 deubiquitinates and stabilizes multiple TRANSCRIPTION FACTORS (including IRF1, STAT3, HIF-2α, and JunB) that are responsible for upregulating the TRANSCRIPTION of the CD274 gene. The effect is an increase in PD-L1 levels, but the mechanism is transcriptional, not post-translational.",
+  "mechanism": "In the tumor microenvironment, inflammatory cytokines (like IFN-γ) and hypoxia induce the expression and activity of transcription factors such as IRF1, STAT3, and HIF-2α. These factors are targeted for proteasomal degradation via ubiquitination. ATXN3 acts as a deubiquitinase for these transcription factors, preventing their degradation.",
+  "effect": "By stabilizing key transcription factors, ATXN3 enhances their ability to bind to the promoter of the CD274 (PD-L1) gene, leading to increased mRNA transcription and subsequent protein expression on the cancer cell surface. This upregulation of PD-L1 facilitates tumor immune evasion by inhibiting T-cell function.",
+  "summary": "ATXN3 inhibits CD274 to modulate immune response, ultimately affecting tumor immune evasion.",
+  "evidence": [
+    {
+      "paper_title": "CRISPR screening identifies the deubiquitylase ATXN3 as a PD-L1-positive regulator for tumor immune evasion",
+      "journal": "Journal of Clinical Investigation",
+      "year": 2023,
+      "relevant_quote": "Herein, we describe a CRISPR-based screening platform and identified ATXN3 as a positive regulator for PD-L1 transcription. ... ATXN3-induced Pd-l1 transcription was promoted by tumor microenvironmental factors, including the inflammatory cytokine IFN-γ and hypoxia, through protection of their downstream transcription factors IRF1, STAT3, and HIF-2α. Moreover, ATXN3 functioned as a deubiquitinase of the AP-1 transcription factor JunB, indicating that ATNX3 promotes PD-L1 expression through multiple pathways."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "PD-L1/PD-1 Checkpoint Pathway",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 has been identified as a specific deubiquitylase that stabilizes PD-L1 (CD274), thereby regulating immune checkpoint signaling and T-cell suppression."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> CD274:",
+  "protein_a": "ATXN3",
+  "protein_b": "CD274",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.343344Z",
+  "last_updated": "2025-12-19T07:06:31.343344Z"
+}

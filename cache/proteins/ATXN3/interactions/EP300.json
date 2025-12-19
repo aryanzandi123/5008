@@ -4,44 +4,36 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 cooperates with the transcriptional regulator p300 (EP300), a histone acetyltransferase.",
+  "support_summary": "EP300 (p300) physically interacts with ATXN3 to regulate transcriptional programs, including those involved in the stress response (Co-IP evidence).",
   "functions": [
     {
-      "function": "Transcriptional Repression",
-      "arrow": "activates",
-      "cellular_process": "ATXN3 functions as a transcriptional corepressor through its direct interaction with the histone acetyltransferase (HAT) p300 (EP300). The binding is mediated by the C-terminal domain of ATXN3. This interaction leads to the inhibition of p300's co-activator function. The N-terminal Josephin domain of ATXN3 is responsible for inhibiting the HAT activity of p300, which prevents the acetylation of histones. This results in a chromatin state that is non-permissive for transcription, thereby repressing the expression of p300-target genes.",
-      "effect_description": "By binding to the transcriptional co-activator p300, ATXN3 inhibits its histone acetyltransferase activity, which leads to the repression of gene transcription.",
+      "function": "Histone Acetyltransferase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 physically interacts with the histone acetyltransferase (HAT) domain of EP300 (also known as p300). This interaction, which is exacerbated by polyglutamine expansion in ATXN3, directly inhibits the enzyme's ability to acetylate histones.",
+      "effect_description": "The binding of ATXN3 to p300 obstructs its catalytic HAT domain, leading to a decrease in the acetylation of histone substrates. This contributes to the transcriptional dysregulation observed in Machado-Joseph disease.",
       "biological_consequence": [
-        "ATXN3's C-terminal domain binds to the transcriptional co-activator p300 → ATXN3's N-terminal Josephin domain inhibits the HAT activity of p300 → Reduced histone acetylation at target promoters → Chromatin condensation → Transcriptional repression of p300-regulated genes."
+        "ATXN3 binds to the HAT domain of EP300 → Inhibition of p300 catalytic activity → Reduced histone acetylation at specific gene promoters → Transcriptional repression → Cellular stress and dysfunction."
       ],
       "specific_effects": [
-        "ATXN3 directly interacts with p300, as shown by co-immunoprecipitation.",
-        "The C-terminal domain of ATXN3 is necessary for the interaction with p300.",
-        "The N-terminal domain of ATXN3 inhibits p300-mediated histone acetylation in vitro.",
-        "ATXN3 represses p300-dependent transcriptional activation."
+        "Direct inhibition of p300 histone acetyltransferase activity",
+        "Reduced p300-mediated transactivation",
+        "Decreased acetylation of histone H3 and H4"
       ],
       "evidence": [
         {
           "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
           "journal": "The Journal of Biological Chemistry",
           "year": 2002,
-          "relevant_quote": "The N-terminal domain of ataxin-3 inhibits histone acetylation by p300 in vitro and inhibits transcription in vivo. Histone binding and blocking access of coactivators to acetylation sites on histones appears to be the mechanism of inhibition. ... The C-terminal polyglutamine-containing domain of ataxin-3 inhibits coactivator-dependent transcription and is required for binding coactivators.",
+          "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with and inhibits the histone acetyltransferase activity of the transcriptional coactivators, CREB-binding protein (CBP), p300, and p300/CBP-associated factor.",
           "pmid": "12297501"
         }
       ],
-      "pathway": {
-        "name": "Transcriptional Regulation",
-        "canonical_name": "Transcription",
-        "ontology_id": "GO:0006351",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
         "12297501"
       ],
-      "interaction_effect": "activates",
+      "interaction_effect": "inhibition",
       "interaction_direction": "main_to_primary",
-      "function_effect": "activation"
+      "function_effect": "inhibition"
     }
   ],
   "arrow": "inhibits",
@@ -54,26 +46,22 @@
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "ATXN3 functions as a transcriptional corepressor through its direct interaction with the histone acetyltransferase (HAT) p300 (EP300). The binding is mediated by the C-terminal domain of ATXN3. This interaction leads to the inhibition of p300's co-activator function. The N-terminal Josephin domain of ATXN3 is responsible for inhibiting the HAT activity of p300, which prevents the acetylation of histones. This results in a chromatin state that is non-permissive for transcription, thereby repressing the expression of p300-target genes.",
-  "effect": "By binding to the transcriptional co-activator p300, ATXN3 inhibits its histone acetyltransferase activity, which leads to the repression of gene transcription.",
-  "summary": "ATXN3 inhibits EP300 to modulate transcriptional repression, ultimately affecting transcriptional repression of p300-regulated genes.",
+  "mechanism": "ATXN3 physically interacts with the histone acetyltransferase (HAT) domain of EP300 (also known as p300). This interaction, which is exacerbated by polyglutamine expansion in ATXN3, directly inhibits the enzyme's ability to acetylate histones.",
+  "effect": "The binding of ATXN3 to p300 obstructs its catalytic HAT domain, leading to a decrease in the acetylation of histone substrates. This contributes to the transcriptional dysregulation observed in Machado-Joseph disease.",
+  "summary": "ATXN3 inhibits EP300 to modulate histone acetyltransferase activity, ultimately affecting cellular stress and dysfunction.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
       "journal": "The Journal of Biological Chemistry",
       "year": 2002,
-      "relevant_quote": "The N-terminal domain of ataxin-3 inhibits histone acetylation by p300 in vitro and inhibits transcription in vivo. Histone binding and blocking access of coactivators to acetylation sites on histones appears to be the mechanism of inhibition. ... The C-terminal polyglutamine-containing domain of ataxin-3 inhibits coactivator-dependent transcription and is required for binding coactivators."
+      "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with and inhibits the histone acetyltransferase activity of the transcriptional coactivators, CREB-binding protein (CBP), p300, and p300/CBP-associated factor."
     }
   ],
-  "pathways": [
-    {
-      "name": "Transcriptional Regulation",
-      "canonical_name": "Transcription",
-      "ontology_id": "GO:0006351",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
+  "initial_pathway": {
+    "pathway_name": "Histone Acetyltransferase (HAT) Inhibition",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 binds to EP300 (p300) and inhibits its histone acetyltransferase activity, leading to transcriptional repression."
+  },
   "interaction_effect": "inhibition",
   "_validation_metadata": {
     "validated": true,
@@ -85,6 +73,6 @@
   "protein_a": "ATXN3",
   "protein_b": "EP300",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.216464Z",
-  "last_updated": "2025-12-09T13:18:49.216464Z"
+  "first_discovered": "2025-12-19T07:06:31.331747Z",
+  "last_updated": "2025-12-19T07:06:31.331747Z"
 }

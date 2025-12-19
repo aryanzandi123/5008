@@ -1,0 +1,93 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "TP53",
+  "mediator_chain": [
+    "TP53"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly upregulates the expression of the cell cycle inhibitor CDKN1A (p21) by stabilizing its transcriptional activator p53.",
+  "functions": [
+    {
+      "function": "Cell Cycle Progression",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3 functions as a deubiquitinating enzyme for the tumor suppressor protein p53. By removing polyubiquitin chains from p53, ATXN3 prevents its degradation by the proteasome, leading to p53 stabilization and accumulation. Activated p53 then functions as a transcription factor, binding to the promoter of the CDKN1A gene (encoding p21) and activating its transcription.",
+      "effect_description": "The stabilization of p53 by ATXN3 enhances the transcriptional activation of CDKN1A. The resulting increase in p21 protein, a cyclin-dependent kinase inhibitor, leads to the inhibition of cyclin-CDK complexes, causing cell cycle arrest, typically at the G1/S checkpoint.",
+      "biological_consequence": [
+        "ATXN3's Josephin domain binds to p53 → ATXN3 deubiquitinates p53, preventing its proteasomal degradation → p53 protein levels increase and the protein is stabilized → Stabilized p53 transcriptionally activates the CDKN1A gene promoter → Increased CDKN1A (p21) mRNA and protein levels → p21 protein inhibits cyclin-dependent kinases (CDKs) → Cell cycle arrest at the G1/S transition."
+      ],
+      "specific_effects": [
+        "Decreased ubiquitination of p53",
+        "Increased stability and half-life of p53 protein",
+        "Increased CDKN1A mRNA and protein levels",
+        "Inhibition of cell proliferation"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLoS Biology",
+          "year": 2016,
+          "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis...",
+          "pmid": "27851749"
+        }
+      ],
+      "pmids": [
+        "27851749"
+      ],
+      "direct_arrow": "inhibits",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "TP53",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "TP53"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 functions as a deubiquitinating enzyme for the tumor suppressor protein p53. By removing polyubiquitin chains from p53, ATXN3 prevents its degradation by the proteasome, leading to p53 stabilization and accumulation. Activated p53 then functions as a transcription factor, binding to the promoter of the CDKN1A gene (encoding p21) and activating its transcription.",
+  "effect": "The stabilization of p53 by ATXN3 enhances the transcriptional activation of CDKN1A. The resulting increase in p21 protein, a cyclin-dependent kinase inhibitor, leads to the inhibition of cyclin-CDK complexes, causing cell cycle arrest, typically at the G1/S checkpoint.",
+  "summary": "ATXN3 inhibits CDKN1A to modulate cell cycle progression, ultimately affecting cell cycle arrest at the g1/s transition.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLoS Biology",
+      "year": 2016,
+      "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis..."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "p53-mediated Cell Cycle Arrest",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 stabilizes p53 through its deubiquitinase activity, which directly induces the transcription of the cell cycle inhibitor CDKN1A (p21)."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "TP53 --activates--> CDKN1A:",
+  "protein_a": "CDKN1A",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.363313Z",
+  "last_updated": "2025-12-19T07:06:31.363313Z"
+}

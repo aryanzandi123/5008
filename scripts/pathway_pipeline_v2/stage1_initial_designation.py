@@ -29,14 +29,101 @@ from scripts.pathway_pipeline_v2.config import (
 logger = logging.getLogger(__name__)
 
 
+BATCH_SIZE_STAGE1 = 10  # Process 10 interactions per AI call
+
+
+def format_interaction_for_batch(interaction: Dict[str, Any], idx: int) -> str:
+    """Format a single interaction for inclusion in a batch prompt."""
+    primary = interaction.get("primary", "Unknown")
+    arrow = interaction.get("arrow", "binds")
+    direction = interaction.get("direction", "bidirectional")
+    functions = interaction.get("functions", [])
+    evidence = interaction.get("evidence", [])
+
+    # Compact functions
+    func_list = []
+    for f in functions[:3]:
+        desc = f.get('description', f.get('name', 'Unknown'))
+        if desc:
+            func_list.append(desc[:100])  # Truncate long descriptions
+    functions_text = "; ".join(func_list) if func_list else "No specific functions"
+
+    # Compact evidence
+    ev_list = []
+    for e in evidence[:2]:
+        if isinstance(e, str):
+            ev_list.append(e[:80])
+        elif isinstance(e, dict):
+            ev_list.append(e.get('summary', str(e))[:80])
+    evidence_text = "; ".join(ev_list) if ev_list else "No evidence"
+
+    return f"""### Interaction {idx + 1}: {primary}
+- Type: {arrow} ({direction})
+- Functions: {functions_text}
+- Evidence: {evidence_text}"""
+
+
+def build_batch_designation_prompt(
+    interactions: List[Dict[str, Any]],
+    main_protein: str,
+) -> str:
+    """Build prompt for assigning pathways to multiple interactions at once."""
+
+    # Format all interactions
+    interactions_text = "\n\n".join([
+        format_interaction_for_batch(inter, idx)
+        for idx, inter in enumerate(interactions)
+    ])
+
+    # Get list of interactor names for JSON structure
+    interactor_names = [inter.get("primary", f"Unknown{i}") for i, inter in enumerate(interactions)]
+
+    prompt = f"""You are a biological pathway classification expert. Assign the MOST SPECIFIC appropriate biological pathway to each protein-protein interaction below.
+
+## MAIN PROTEIN: {main_protein}
+
+## INTERACTIONS TO CLASSIFY ({len(interactions)} total)
+
+{interactions_text}
+
+{get_root_categories_prompt_section()}
+
+## INSTRUCTIONS
+
+1. For EACH interaction, determine the MOST SPECIFIC biological pathway it belongs to.
+
+2. Be SPECIFIC, not generic:
+   - BAD: "Autophagy" (too broad) → GOOD: "Aggrephagy"
+   - BAD: "Cell Signaling" (too broad) → GOOD: "mTORC1 Nutrient Sensing"
+
+3. Each pathway name should be a recognized biological term (GO, KEGG, or standard literature).
+
+4. Return valid JSON with assignments for ALL {len(interactions)} interactions:
+
+```json
+{{
+  "pathway_assignments": [
+    {{"interactor": "{interactor_names[0]}", "pathway_name": "Specific Pathway", "confidence": 0.85, "reasoning": "Brief reason"}},
+    {{"interactor": "{interactor_names[1] if len(interactor_names) > 1 else 'Example'}", "pathway_name": "Another Pathway", "confidence": 0.80, "reasoning": "Brief reason"}}
+  ]
+}}
+```
+
+IMPORTANT:
+- Return EXACTLY {len(interactions)} assignments in the array
+- confidence between 0.7 and 1.0
+- Do NOT use root categories - be more specific
+"""
+    return prompt
+
+
 def build_initial_designation_prompt(
     interaction: Dict[str, Any],
     main_protein: str,
 ) -> str:
     """
-    Build the prompt for assigning an initial pathway to an interaction.
-
-    The prompt instructs the AI to be as specific as possible.
+    Build the prompt for assigning an initial pathway to a single interaction.
+    Used as fallback when batch processing fails.
     """
     # Extract interaction details
     primary = interaction.get("primary", "Unknown")
@@ -171,16 +258,79 @@ def assign_initial_pathway(
         return None
 
 
+def process_batch_response(
+    batch: List[Dict[str, Any]],
+    result: Any,
+    main_protein: str,
+    memory: Any,
+) -> List[Dict[str, Any]]:
+    """Process batch AI response and assign pathways to interactions."""
+    results = []
+
+    try:
+        assignments = result.data.get("pathway_assignments", [])
+
+        # Build lookup by interactor name (case-insensitive)
+        assignment_map = {}
+        for a in assignments:
+            interactor_name = a.get("interactor", "").strip().upper()
+            if interactor_name:
+                assignment_map[interactor_name] = a
+
+        for interactor in batch:
+            primary = interactor.get("primary", "Unknown")
+            primary_upper = primary.strip().upper()
+
+            # Try to find matching assignment
+            assignment = assignment_map.get(primary_upper)
+
+            if assignment and assignment.get("pathway_name"):
+                pathway_data = {
+                    "pathway_name": assignment["pathway_name"],
+                    "confidence": float(assignment.get("confidence", 0.8)),
+                    "reasoning": assignment.get("reasoning", ""),
+                }
+                interactor["initial_pathway"] = pathway_data
+
+                # Store in memory
+                interaction_key = f"{main_protein}:{primary}"
+                memory.initial_assignments[interaction_key] = pathway_data
+                memory.all_pathways.add(pathway_data["pathway_name"])
+            else:
+                # Fallback for missing assignment
+                logger.warning(f"No assignment found for {primary}, using fallback")
+                interactor["initial_pathway"] = {
+                    "pathway_name": "Protein Quality Control",
+                    "confidence": 0.5,
+                    "reasoning": "Fallback - not found in batch response",
+                }
+
+            results.append(interactor)
+
+    except Exception as e:
+        logger.error(f"Failed to process batch response: {e}")
+        # Fallback all interactions in this batch
+        for interactor in batch:
+            interactor["initial_pathway"] = {
+                "pathway_name": "Protein Quality Control",
+                "confidence": 0.5,
+                "reasoning": f"Fallback - batch parse error: {e}",
+            }
+            results.append(interactor)
+
+    return results
+
+
 def assign_initial_pathways_batch(
     interactors: List[Dict[str, Any]],
     main_protein: str,
     api_key: str = None,
 ) -> List[Dict[str, Any]]:
     """
-    Assign initial pathways to a list of interactions.
+    Assign initial pathways to a list of interactions using batch processing.
 
-    This processes interactions sequentially (one AI call per interaction)
-    as required by the pipeline specification.
+    Processes interactions in batches of BATCH_SIZE_STAGE1 (10) for efficiency.
+    This reduces API calls from N to N/10, dramatically improving speed.
 
     Args:
         interactors: List of interactor dicts
@@ -193,35 +343,57 @@ def assign_initial_pathways_batch(
     memory = get_pipeline_memory()
     results = []
 
-    for idx, interactor in enumerate(interactors):
-        primary = interactor.get("primary", "Unknown")
-        logger.info(f"Stage 1: Assigning pathway to {main_protein}-{primary} ({idx + 1}/{len(interactors)})")
+    total = len(interactors)
+    num_batches = (total + BATCH_SIZE_STAGE1 - 1) // BATCH_SIZE_STAGE1
 
-        assignment = assign_initial_pathway(
-            interaction=interactor,
-            main_protein=main_protein,
-            api_key=api_key,
+    logger.info(f"Stage 1: Processing {total} interactions in {num_batches} batches of {BATCH_SIZE_STAGE1}")
+
+    for batch_idx in range(num_batches):
+        start = batch_idx * BATCH_SIZE_STAGE1
+        end = min(start + BATCH_SIZE_STAGE1, total)
+        batch = interactors[start:end]
+
+        batch_interactors = [i.get("primary", "?") for i in batch]
+        logger.info(f"Stage 1: Batch {batch_idx + 1}/{num_batches} ({len(batch)} interactions: {', '.join(batch_interactors[:3])}...)")
+
+        # Build batch prompt
+        prompt = build_batch_designation_prompt(batch, main_protein)
+
+        # Call AI for entire batch
+        result = call_ai_sequential(
+            prompt=prompt,
+            stage="stage1",
+            use_search=False,
         )
 
-        if assignment:
-            # Add initial pathway to interactor
-            interactor["initial_pathway"] = assignment
-
-            # Store in memory for later stages
-            # Use a simple hash as interaction ID placeholder (real ID comes from DB)
-            interaction_key = f"{main_protein}:{primary}"
-            memory.initial_assignments[interaction_key] = assignment
-            memory.all_pathways.add(assignment["pathway_name"])
+        if result.success:
+            batch_results = process_batch_response(batch, result, main_protein, memory)
+            results.extend(batch_results)
         else:
-            # Fallback to a generic pathway based on root categories
-            logger.warning(f"Using fallback pathway for {main_protein}-{primary}")
-            interactor["initial_pathway"] = {
-                "pathway_name": "Protein Quality Control",  # Safe default
-                "confidence": 0.5,
-                "reasoning": "Fallback assignment due to AI failure",
-            }
+            # Batch failed - fallback to individual calls for this batch
+            logger.warning(f"Batch {batch_idx + 1} failed, falling back to individual calls")
+            for interactor in batch:
+                primary = interactor.get("primary", "Unknown")
 
-        results.append(interactor)
+                assignment = assign_initial_pathway(
+                    interaction=interactor,
+                    main_protein=main_protein,
+                    api_key=api_key,
+                )
+
+                if assignment:
+                    interactor["initial_pathway"] = assignment
+                    interaction_key = f"{main_protein}:{primary}"
+                    memory.initial_assignments[interaction_key] = assignment
+                    memory.all_pathways.add(assignment["pathway_name"])
+                else:
+                    interactor["initial_pathway"] = {
+                        "pathway_name": "Protein Quality Control",
+                        "confidence": 0.5,
+                        "reasoning": "Fallback assignment due to AI failure",
+                    }
+
+                results.append(interactor)
 
     logger.info(f"Stage 1 complete: {len(results)} interactions processed")
     logger.info(f"Unique pathways discovered: {len(memory.all_pathways)}")

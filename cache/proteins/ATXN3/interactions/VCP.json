@@ -4,88 +4,81 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 directly binds to VCP/p97, an interaction modulated by the polyglutamine tract. This interaction is crucial for ATXN3's role in the ERAD pathway.",
+  "support_summary": "VCP (p97) physically binds ATXN3 via a VCP-binding motif (VBM) and is a well-characterized partner in ERAD and proteostasis (Co-IP evidence).",
   "functions": [
     {
       "function": "ER-Associated Degradation (ERAD)",
       "arrow": "inhibits",
-      "cellular_process": "ATXN3 directly binds to the N-terminal domain of VCP/p97. This interaction positions ATXN3 to compete with the VCP cofactor UFD1 for VCP binding. The binding of ATXN3 to VCP is mutually exclusive with UFD1 binding, which reduces the association of the VCP/p97 complex with ubiquitinated ERAD substrates. This ultimately impairs the retrotranslocation (extraction) of misfolded proteins from the endoplasmic reticulum to the cytosol for proteasomal degradation.",
-      "effect_description": "ATXN3 acts as a negative regulator of the ERAD pathway. By modulating the interaction between VCP and its cofactor UFD1, ATXN3 controls the rate of substrate extraction from the ER, and its overexpression leads to the accumulation of ERAD substrates.",
+      "cellular_process": "ATXN3 directly binds to the N-terminal domain of the hexameric AAA+ ATPase VCP/p97. This interaction modulates the ERAD pathway by competing with the VCP cofactor Ufd1. By displacing Ufd1, ATXN3 can inhibit the retrotranslocation of ubiquitinated, misfolded proteins from the endoplasmic reticulum to the cytosol for proteasomal degradation.",
+      "effect_description": "ATXN3's interaction with VCP acts as a regulatory checkpoint, fine-tuning the rate of extraction and subsequent degradation of ERAD substrates. Overexpression or pathogenic forms of ATXN3 can lead to an accumulation of ERAD substrates by excessively inhibiting their extraction.",
       "biological_consequence": [
-        "ATXN3 binds to VCP/p97 → ATXN3 competitively displaces the UFD1 cofactor from VCP/p97 → The VCP-UFD1-NPL4 complex is disrupted → Reduced extraction of polyubiquitinated ERAD substrates from the ER → Accumulation of misfolded proteins within the ER → ER stress"
+        "ATXN3 binds VCP/p97 → ATXN3 competes with and displaces the VCP cofactor Ufd1 → VCP's interaction with ubiquitinated substrates is reduced → Retrotranslocation of misfolded proteins from the ER is inhibited → Accumulation of proteins in the ER → ER Stress."
       ],
       "specific_effects": [
-        "ATXN3 and Ufd1 bind to VCP in a mutually exclusive manner.",
-        "ATXN3 binding to VCP decreases the interaction between VCP and ubiquitylated proteins.",
-        "ATXN3 inhibits the VCP-dependent retrotranslocation of ERAD substrates from the ER.",
-        "Pathological polyglutamine expansion in ATXN3 enhances its binding to VCP, leading to a more pronounced impairment of ERAD."
+        "Inhibition of ERAD substrate retrotranslocation",
+        "Mutually exclusive binding with VCP cofactor Ufd1",
+        "Decreased interaction of VCP with ubiquitylated proteins"
       ],
       "evidence": [
         {
           "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
-          "journal": "Human Molecular Genetics",
+          "journal": "Journal of Biological Chemistry",
           "year": 2006,
-          "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER.",
+          "relevant_quote": "AT3 binds VCP/p97, a key protein responsible for extracting ERAD substrates from the ER... AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER.",
           "pmid": "16822850"
+        },
+        {
+          "paper_title": "Regulation of retrotranslocation by p97-associated deubiquitinating enzyme ataxin-3",
+          "journal": "The Journal of Cell Biology",
+          "year": 2006,
+          "relevant_quote": "We report that efficient elimination of misfolded ER proteins also involves ataxin-3 (atx3), a p97-associated deubiquitinating enzyme... We present evidence that atx3 may promote p97-associated deubiquitinating to facilitate the transfer of polypeptides from p97 to the proteasome.",
+          "pmid": "17000876"
         }
       ],
-      "pathway": {
-        "name": "ER-Associated Degradation",
-        "canonical_name": "ER-Associated Degradation",
-        "ontology_id": "GO:0036503",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
-        "16822850"
+        "16822850",
+        "17000876"
       ],
-      "interaction_effect": "inhibits",
+      "interaction_effect": "negative",
       "interaction_direction": "main_to_primary",
       "function_effect": "inhibition"
     },
     {
-      "function": "Autophagy Initiation",
+      "function": "Autophagy",
       "arrow": "activates",
-      "cellular_process": "The interaction between VCP/p97 and ATXN3 stimulates the deubiquitinase (DUB) activity of wild-type ATXN3. This enhanced DUB activity targets the essential autophagy protein BECN1 (Beclin-1). ATXN3 removes ubiquitin chains from BECN1, protecting it from proteasomal degradation and thereby increasing its stability. Stabilized BECN1 is a core component of the Class III phosphatidylinositol 3-kinase (PtdIns3K) complex, and its increased abundance promotes the assembly and activity of this complex, which is a critical step for autophagy initiation.",
-      "effect_description": "The ATXN3-VCP interaction promotes the initiation of autophagy by enhancing the stability of BECN1. VCP acts as a direct activator of ATXN3's enzymatic function, which in turn leads to the stabilization of a key autophagy-initiating factor.",
+      "cellular_process": "The ATXN3-VCP complex plays a dual role in autophagy. In autophagy initiation, VCP stimulates the deubiquitinase activity of ATXN3, which in turn deubiquitinates and stabilizes the key autophagy protein BECN1 (Beclin 1). This stabilization of BECN1 promotes the assembly and activity of the PtdIns3K complex, which is essential for the formation of autophagosomes. The complex is also involved in the later stages of autophagosome maturation, facilitating their fusion with lysosomes.",
+      "effect_description": "This interaction promotes both the initiation of autophagosome formation and the completion of autophagic flux, ensuring efficient clearance of cellular waste.",
       "biological_consequence": [
-        "VCP/p97 binds to and activates ATXN3's deubiquitinase activity → Activated ATXN3 deubiquitinates BECN1 → BECN1 is stabilized and protected from proteasomal degradation → Increased levels of BECN1 promote the assembly and kinase activity of the PtdIns3K complex → Enhanced production of PtdIns3P on endomembranes → Recruitment of downstream autophagy effectors (e.g., WIPI2) → Autophagosome formation is initiated"
+        "VCP binds and stimulates ATXN3's deubiquitinase activity → ATXN3 deubiquitinates and stabilizes BECN1 → Stabilized BECN1 promotes PtdIns3K complex assembly and activity → Increased PtdIns3P production → Recruitment of early autophagy markers (e.g., WIPI2) → Autophagosome biogenesis (initiation).",
+        "ATXN3-VCP complex participates in late-stage autophagy → Facilitates autophagosome-lysosome fusion → Degradation of autophagic cargo (maturation)."
       ],
       "specific_effects": [
-        "VCP/p97 directly stimulates the ubiquitin hydrolase activity of wild-type ATXN3.",
-        "The VCP-ATXN3 interaction is required for the deubiquitination and stabilization of BECN1.",
-        "Inhibition of VCP's ATPase activity leads to decreased BECN1 levels and impaired autophagy initiation.",
-        "VCP's activation of ATXN3 is specific to the wild-type protein; it does not enhance the activity of polyQ-expanded ATXN3."
+        "Stabilization of BECN1 protein levels",
+        "Stimulation of PtdIns3K complex assembly and kinase activity",
+        "Promotion of autophagosome-lysosome fusion"
       ],
       "evidence": [
         {
           "paper_title": "VCP/p97 modulates PtdIns3P production and autophagy initiation",
           "journal": "Autophagy",
           "year": 2021,
-          "relevant_quote": "VCP stimulates the deubiquitinase activity of ATXN3 (ataxin 3) to stabilize BECN1 protein levels and also interacts with and promotes the assembly and kinase activity of the PtdIns3K complex.",
+          "relevant_quote": "VCP stimulates the deubiquitinase activity of ATXN3 (ataxin 3) to stabilize BECN1 protein levels and also interacts with and promotes the assembly and kinase activity of the PtdIns3K complex. Acute inhibition of VCP activity impairs autophagy induction, demonstrated by a diminished PtdIns3P production and decreased recruitment of early autophagy markers WIPI2 and ATG16L1. Thus, VCP promotes autophagosome biogenesis, in addition to its previously described role in autophagosome maturation.",
           "pmid": "33719912"
         },
         {
-          "paper_title": "Valosin-Containing Protein (VCP/p97) Is an Activator of Wild-Type Ataxin-3",
-          "journal": "PLoS One",
-          "year": 2012,
-          "relevant_quote": "VCP/p97 was shown to be an activator specifically of wild-type ataxin-3, exhibiting no effect on expanded ataxin-3, In contrast, we observed no significant alterations in ataxin-3 enzyme kinetics or substrate preference in the presence of hHR23A alone or in combination with VCP.",
-          "pmid": "22970133"
+          "paper_title": "VCP/p97 is essential for maturation of ubiquitin-containing autophagosomes and this function is impaired by mutations that cause IBMPFD",
+          "journal": "Autophagy",
+          "year": 2010,
+          "relevant_quote": "Here we show that VCP is essential for autophagosome maturation... VCP deficiency by RNAi-mediated knockdown or overexpression of dominant-negative VCP results in significant accumulation of immature autophagic vesicles...",
+          "pmid": "20104022"
         }
       ],
-      "pathway": {
-        "name": "Autophagy",
-        "canonical_name": "Autophagy",
-        "ontology_id": "GO:0006914",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
         "33719912",
-        "22970133"
+        "20104022"
       ],
-      "interaction_effect": "activates",
-      "interaction_direction": "primary_to_main",
+      "interaction_effect": "positive",
+      "interaction_direction": "bidirectional",
       "function_effect": "activation"
     }
   ],
@@ -94,62 +87,56 @@
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates",
-      "inhibits"
+      "activates"
     ]
   },
   "is_valid": true,
   "mechanism_correction": null,
-  "mechanism": "ATXN3 directly binds to the N-terminal domain of VCP/p97; The interaction between VCP/p97 and ATXN3 stimulates the deubiquitinase (DUB) activity of wild-type ",
-  "effect": "ATXN3 acts as a negative regulator of the ERAD pathway. By modulating the interaction between VCP and its cofactor UFD1, ATXN3 controls the rate of substrate extraction from the ER, and its overexpression leads to the accumulation of ERAD substrates.; The ATXN3-VCP interaction promotes the initiation of autophagy by enhancing the stability of BECN1. VCP acts as a direct activator of ATXN3's enzymatic function, which in turn leads to the stabilization of a key autophagy-initiating factor.",
-  "summary": "ATXN3 regulates VCP to regulate er-associated degradation (erad) and autophagy initiation, ultimately affecting er stress.",
+  "mechanism": "ATXN3 directly binds to the N-terminal domain of the hexameric AAA+ ATPase VCP/p97; The ATXN3-VCP complex plays a dual role in autophagy",
+  "effect": "ATXN3's interaction with VCP acts as a regulatory checkpoint, fine-tuning the rate of extraction and subsequent degradation of ERAD substrates. Overexpression or pathogenic forms of ATXN3 can lead to an accumulation of ERAD substrates by excessively inhibiting their extraction.; This interaction promotes both the initiation of autophagosome formation and the completion of autophagic flux, ensuring efficient clearance of cellular waste.",
+  "summary": "ATXN3 activates VCP to regulate er-associated degradation (erad) and autophagy regulation, ultimately affecting er stress.",
   "evidence": [
     {
       "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
-      "journal": "Human Molecular Genetics",
+      "journal": "Journal of Biological Chemistry",
       "year": 2006,
-      "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER."
+      "relevant_quote": "AT3 binds VCP/p97, a key protein responsible for extracting ERAD substrates from the ER... AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER. These data suggest that a normal function of AT3 is to regulate flow through the ERAD pathway by modulating VCP-dependent extraction of proteins from the ER."
+    },
+    {
+      "paper_title": "Regulation of retrotranslocation by p97-associated deubiquitinating enzyme ataxin-3",
+      "journal": "The Journal of Cell Biology",
+      "year": 2006,
+      "relevant_quote": "We report that efficient elimination of misfolded ER proteins also involves ataxin-3 (atx3), a p97-associated deubiquitinating enzyme... We present evidence that atx3 may promote p97-associated deubiquitinating to facilitate the transfer of polypeptides from p97 to the proteasome."
     },
     {
       "paper_title": "VCP/p97 modulates PtdIns3P production and autophagy initiation",
       "journal": "Autophagy",
       "year": 2021,
-      "relevant_quote": "VCP stimulates the deubiquitinase activity of ATXN3 (ataxin 3) to stabilize BECN1 protein levels and also interacts with and promotes the assembly and kinase activity of the PtdIns3K complex."
+      "relevant_quote": "VCP stimulates the deubiquitinase activity of ATXN3 (ataxin 3) to stabilize BECN1 protein levels and also interacts with and promotes the assembly and kinase activity of the PtdIns3K complex. Acute inhibition of VCP activity impairs autophagy induction, demonstrated by a diminished PtdIns3P production and decreased recruitment of early autophagy markers WIPI2 and ATG16L1. Thus, VCP promotes autophagosome biogenesis, in addition to its previously described role in autophagosome maturation."
     },
     {
-      "paper_title": "Valosin-Containing Protein (VCP/p97) Is an Activator of Wild-Type Ataxin-3",
-      "journal": "PLoS One",
-      "year": 2012,
-      "relevant_quote": "VCP/p97 was shown to be an activator specifically of wild-type ataxin-3, exhibiting no effect on expanded ataxin-3, In contrast, we observed no significant alterations in ataxin-3 enzyme kinetics or substrate preference in the presence of hHR23A alone or in combination with VCP."
+      "paper_title": "VCP/p97 is essential for maturation of ubiquitin-containing autophagosomes and this function is impaired by mutations that cause IBMPFD",
+      "journal": "Autophagy",
+      "year": 2010,
+      "relevant_quote": "Here we show that VCP is essential for autophagosome maturation... VCP deficiency by RNAi-mediated knockdown or overexpression of dominant-negative VCP results in significant accumulation of immature autophagic vesicles..."
     }
   ],
-  "pathways": [
-    {
-      "name": "ER-Associated Degradation",
-      "canonical_name": "ER-Associated Degradation",
-      "ontology_id": "GO:0036503",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    },
-    {
-      "name": "Autophagy",
-      "canonical_name": "Autophagy",
-      "ontology_id": "GO:0006914",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
+  "initial_pathway": {
+    "pathway_name": "ER-Associated Degradation (ERAD)",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 binds to VCP (p97) to facilitate the retrotranslocation and degradation of misfolded proteins from the endoplasmic reticulum, a core step in the ERAD pathway."
+  },
   "interaction_effect": "regulation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 4
   },
   "_arrow_validated": true,
   "arrow_notation": "ATXN3 <--regulates--> VCP:",
   "protein_a": "ATXN3",
   "protein_b": "VCP",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.202298Z",
-  "last_updated": "2025-12-09T13:18:49.202298Z"
+  "first_discovered": "2025-12-19T07:06:31.319530Z",
+  "last_updated": "2025-12-19T07:06:31.319530Z"
 }

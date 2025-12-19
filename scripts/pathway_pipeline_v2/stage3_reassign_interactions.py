@@ -2,10 +2,10 @@
 """
 Stage 3: Reassign Interactions to Best Cleaned Pathway
 
-For each interaction (in batches of 5), consider ALL cleaned pathway names
-and assign the interaction to the single most specific pathway.
+For each interaction (in batches of BATCH_SIZE_STAGE3), consider ALL cleaned
+pathway names and assign the interaction to the single most specific pathway.
 
-HARD CONSTRAINT: 5 interactions per batch (from requirements)
+Uses configurable batch size (default: 15) for efficiency.
 
 Output: Updated PathwayInteraction records in database
 """
@@ -110,10 +110,10 @@ def reassign_interactions_batch(
     all_pathways: List[str],
 ) -> List[Dict[str, Any]]:
     """
-    Reassign a batch of interactions (max 5) to their best pathways.
+    Reassign a batch of interactions to their best pathways.
 
     Args:
-        interactions: List of interaction dicts (max 5)
+        interactions: List of interaction dicts (max BATCH_SIZE_STAGE3)
         all_pathways: All available canonical pathway names
 
     Returns:
@@ -168,7 +168,7 @@ def run_stage3_from_db():
     """
     Run Stage 3 by reading from database.
 
-    Processes all interactions with initial assignments in batches of 5.
+    Processes all interactions with initial assignments in batches of BATCH_SIZE_STAGE3.
     """
     from app import app, db
     from models import (

@@ -1,0 +1,108 @@
+{
+  "primary": "BCL2L1",
+  "interaction_type": "indirect",
+  "upstream_interactor": "YAP1",
+  "mediator_chain": [
+    "YAP1"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 indirectly upregulates the anti-apoptotic gene BCL2L1 (Bcl-xL) by stabilizing its transcriptional activator YAP1.",
+  "functions": [
+    {
+      "function": "Apoptosis",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3, a deubiquitinase, interacts with and stabilizes the transcriptional co-activator YAP1 by removing K48-linked polyubiquitin chains, thereby preventing its proteasomal degradation. Stabilized YAP1 translocates to the nucleus, where it associates with TEAD transcription factors to activate the transcription of target genes, including the anti-apoptotic gene BCL2L1 (Bcl-xL).",
+      "effect_description": "The ATXN3-mediated stabilization of YAP1 leads to increased levels of the anti-apoptotic protein BCL2L1, which in turn inhibits the intrinsic apoptotic pathway and promotes cell survival.",
+      "biological_consequence": [
+        "ATXN3 binds to the WW domain of YAP1 → ATXN3's Josephin domain deubiquitinates K48-linked polyubiquitin chains on YAP1 → YAP1 protein is stabilized and avoids proteasomal degradation → Stabilized YAP1 translocates to the nucleus and binds TEAD transcription factors → The YAP1/TEAD complex activates the BCL2L1 promoter → Increased BCL2L1 (Bcl-xL) expression → Inhibition of apoptosis and promotion of cell survival."
+      ],
+      "specific_effects": [
+        "Increased stability and protein levels of YAP1",
+        "Increased BCL2L1 mRNA and protein levels",
+        "Inhibition of caspase activation"
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
+          "journal": "American Journal of Cancer Research",
+          "year": 2023,
+          "relevant_quote": "Our data collectively documented that ATXN3 is a YAP1 deubiquitinase that specifically promotes the expression of YAP1 target genes involved in cancer cell proliferation and migration...ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation.",
+          "pmid": "37818078"
+        },
+        {
+          "paper_title": "TPX2 prompts mitotic survival via the induction of BCL2L1 through YAP1 protein stabilization in human embryonic stem cells",
+          "journal": "Experimental & Molecular Medicine",
+          "year": 2023,
+          "relevant_quote": "High Aurora A kinase activity by TPX2 stabilized YAP1 protein to promote YAP1 dependent BCL2L1 expression. A chemical inhibitor of Aurora A kinase and knockdown of YAP/TAZ significantly abrogated the high tolerance to mitotic stress through BCL2L1 suppression.",
+          "pmid": "36596852"
+        }
+      ],
+      "pmids": [
+        "37818078",
+        "36596852"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition",
+      "arrow_context": {
+        "direct_from": "YAP1",
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "inhibits",
+        "mediator_chain": [
+          "YAP1"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "inhibits",
+      "net_effect": "inhibition",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, a deubiquitinase, interacts with and stabilizes the transcriptional co-activator YAP1 by removing K48-linked polyubiquitin chains, thereby preventing its proteasomal degradation. Stabilized YAP1 translocates to the nucleus, where it associates with TEAD transcription factors to activate the transcription of target genes, including the anti-apoptotic gene BCL2L1 (Bcl-xL).",
+  "effect": "The ATXN3-mediated stabilization of YAP1 leads to increased levels of the anti-apoptotic protein BCL2L1, which in turn inhibits the intrinsic apoptotic pathway and promotes cell survival.",
+  "summary": "ATXN3 inhibits BCL2L1 to modulate apoptosis, ultimately affecting inhibition of apoptosis and promotion of cell survival.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 deubiquitinates YAP1 to promote tumor growth",
+      "journal": "American Journal of Cancer Research",
+      "year": 2023,
+      "relevant_quote": "Our data collectively documented that ATXN3 is a YAP1 deubiquitinase that specifically promotes the expression of YAP1 target genes involved in cancer cell proliferation and migration...ATNX3 interacts with the WW domains of YAP1 to protect YAP1 from ubiquitination-mediated degradation."
+    },
+    {
+      "paper_title": "TPX2 prompts mitotic survival via the induction of BCL2L1 through YAP1 protein stabilization in human embryonic stem cells",
+      "journal": "Experimental & Molecular Medicine",
+      "year": 2023,
+      "relevant_quote": "High Aurora A kinase activity by TPX2 stabilized YAP1 protein to promote YAP1 dependent BCL2L1 expression. A chemical inhibitor of Aurora A kinase and knockdown of YAP/TAZ significantly abrogated the high tolerance to mitotic stress through BCL2L1 suppression."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Hippo Signaling Pathway",
+    "confidence": 0.85,
+    "reasoning": "ATXN3 deubiquitinates and stabilizes YAP1, a key effector of the Hippo pathway, which in turn regulates the expression of the anti-apoptotic protein BCL2L1 (Bcl-xL)."
+  },
+  "interaction_effect": "activates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "YAP1 --activates--> BCL2L1:",
+  "protein_a": "ATXN3",
+  "protein_b": "BCL2L1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.362572Z",
+  "last_updated": "2025-12-19T07:06:31.362572Z"
+}

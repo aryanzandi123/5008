@@ -1,0 +1,89 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "ATXN3 physically binds and deubiquitinates the tumor suppressor PTEN, regulating its protein stability and downstream PI3K/Akt signaling (Co-IP, deubiquitination assay evidence).",
+  "functions": [
+    {
+      "function": "PI3K/Akt Signaling",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 acts as a transcriptional co-repressor for the PTEN gene. Depletion of ATXN3 leads to an increase in PTEN mRNA levels. This regulation is independent of PTEN protein stability or deubiquitination.",
+      "effect_description": "By suppressing PTEN gene expression, ATXN3 leads to lower levels of PTEN protein, which in turn removes a key brake on the PI3K/Akt signaling pathway, thereby promoting cell proliferation and survival.",
+      "biological_consequence": [
+        "ATXN3 recruitment to PTEN promoter → Transcriptional Repression of PTEN gene → Decreased PTEN mRNA and protein levels → Accumulation of phosphatidylinositol (3,4,5)-trisphosphate (PIP3) → Hyperactivation of Akt (via phosphorylation at Ser473) → Enhanced cell proliferation and survival."
+      ],
+      "specific_effects": [
+        "Transcriptional repression of the PTEN gene",
+        "Increased phosphorylation of Akt"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The deubiquitylase Ataxin-3 restricts PTEN transcription in lung cancer cells",
+          "journal": "Oncogene",
+          "year": 2014,
+          "relevant_quote": "However, this effect is not mediated through altered PTEN protein stability. Instead, depletion of each DUB increases expression of both the PTEN transcript and its competing endogenous RNA, PTENP1. In ATXN3-depleted cells, under conditions of transcriptional inhibition, PTEN and PTENP1 mRNAs rapidly decay, suggesting that ATXN3 acts primarily by repressing their transcription.",
+          "pmid": "24292675"
+        }
+      ],
+      "pmids": [
+        "24292675"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "direct_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Mechanistic Opposite Detected. The input claim that ATXN3 deubiquitinates and STABILIZES PTEN protein is incorrect. Primary literature demonstrates the opposite: ATXN3 functions as a transcriptional REPRESSOR of the PTEN gene. It does not regulate PTEN protein stability. The outcome is a decrease in PTEN levels, but the mechanism is transcriptional, not post-translational, leading to an oncogenic effect rather than a tumor-suppressive one.",
+  "mechanism": "ATXN3 acts as a transcriptional co-repressor for the PTEN gene. Depletion of ATXN3 leads to an increase in PTEN mRNA levels. This regulation is independent of PTEN protein stability or deubiquitination.",
+  "effect": "By suppressing PTEN gene expression, ATXN3 leads to lower levels of PTEN protein, which in turn removes a key brake on the PI3K/Akt signaling pathway, thereby promoting cell proliferation and survival.",
+  "summary": "ATXN3 inhibits PTEN to modulate pi3k/akt signaling, ultimately affecting enhanced cell proliferation and survival.",
+  "evidence": [
+    {
+      "paper_title": "The deubiquitylase Ataxin-3 restricts PTEN transcription in lung cancer cells",
+      "journal": "Oncogene",
+      "year": 2014,
+      "relevant_quote": "However, this effect is not mediated through altered PTEN protein stability. Instead, depletion of each DUB increases expression of both the PTEN transcript and its competing endogenous RNA, PTENP1. In ATXN3-depleted cells, under conditions of transcriptional inhibition, PTEN and PTENP1 mRNAs rapidly decay, suggesting that ATXN3 acts primarily by repressing their transcription."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Transcriptional repression of PTEN",
+    "confidence": 0.8,
+    "reasoning": "ATXN3 has been shown to restrict the transcription of the PTEN tumor suppressor, influencing cell survival and growth signaling."
+  },
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> PTEN:",
+  "protein_a": "PTEN",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.360072Z",
+  "last_updated": "2025-12-19T07:06:31.360072Z"
+}

@@ -1,0 +1,40 @@
+{
+  "primary": "GOPC",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "Physically binds ATXN3 (Y2H and Co-IP evidence)",
+  "arrow": "binds",
+  "arrows": {
+    "main_to_primary": [
+      "binds"
+    ]
+  },
+  "direction": "main_to_primary",
+  "_validation_status": "rejected",
+  "mechanism": "Molecular mechanism not fully characterized",
+  "intent": "binding",
+  "effect": "Functional effects not fully characterized",
+  "summary": "ATXN3 and GOPC interact, though the functional significance remains to be fully elucidated.",
+  "evidence": [],
+  "initial_pathway": {
+    "pathway_name": "Golgi-to-Plasma Membrane Transport",
+    "confidence": 0.75,
+    "reasoning": "GOPC (PIST) is a PDZ-domain protein involved in vesicle trafficking at the Golgi; ATXN3 interacts with GOPC to modulate the transport of membrane proteins."
+  },
+  "interaction_effect": "binding",
+  "functions": [],
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 0
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --binds--> GOPC:",
+  "protein_a": "ATXN3",
+  "protein_b": "GOPC",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T05:45:29.563316Z",
+  "last_updated": "2025-12-19T05:45:29.563316Z"
+}

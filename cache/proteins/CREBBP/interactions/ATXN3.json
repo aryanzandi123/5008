@@ -1,0 +1,79 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "CREBBP (CBP) is a transcriptional coactivator that physically interacts with ATXN3, which modulates its acetyltransferase activity (Co-IP evidence).",
+  "functions": [
+    {
+      "function": "Histone Acetyltransferase Activity",
+      "arrow": "inhibits",
+      "cellular_process": "ATXN3, particularly the polyglutamine-expanded form, directly interacts with the histone acetyltransferase (HAT) domain of CREBBP (also known as CBP). This interaction sequesters CBP and inhibits its enzymatic activity, leading to reduced histone acetylation.",
+      "effect_description": "The physical binding of ATXN3 to CBP blocks its ability to acetylate histones H3 and H4. This results in histone hypoacetylation at target gene promoters, causing chromatin condensation and transcriptional repression.",
+      "biological_consequence": [
+        "ATXN3 binds to the HAT domain of CREBBP → Steric hindrance prevents acetylation of histone tails → Histone H3 and H4 hypoacetylation → Transcriptional repression of CBP-regulated genes → Neuronal dysfunction."
+      ],
+      "specific_effects": [
+        "Inhibition of histone acetyltransferase activity",
+        "Reduced acetylation of histones H3 and H4",
+        "Sequestration of CREBBP into nuclear inclusions by polyQ-expanded ATXN3",
+        "Repression of CBP-mediated transcription"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+          "journal": "The Journal of Biological Chemistry",
+          "year": 2002,
+          "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with and inhibits the histone acetyltransferase activity of the transcriptional coactivators, CREB-binding protein (CBP), p300, and p300/CBP-associated factor.",
+          "pmid": "12297501"
+        }
+      ],
+      "pmids": [
+        "12297501"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "inhibits"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": null,
+  "mechanism": "ATXN3, particularly the polyglutamine-expanded form, directly interacts with the histone acetyltransferase (HAT) domain of CREBBP (also known as CBP). This interaction sequesters CBP and inhibits its enzymatic activity, leading to reduced histone acetylation.",
+  "effect": "The physical binding of ATXN3 to CBP blocks its ability to acetylate histones H3 and H4. This results in histone hypoacetylation at target gene promoters, causing chromatin condensation and transcriptional repression.",
+  "summary": "ATXN3 inhibits CREBBP to modulate histone acetyltransferase activity, ultimately affecting neuronal dysfunction.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 is a histone-binding protein with two independent transcriptional corepressor activities",
+      "journal": "The Journal of Biological Chemistry",
+      "year": 2002,
+      "relevant_quote": "In the present study we use cell transfections, in vitro binding, co-immunoprecipitations, and reporter assays to show that the polyglutamine disease protein, ataxin-3, interacts with and inhibits the histone acetyltransferase activity of the transcriptional coactivators, CREB-binding protein (CBP), p300, and p300/CBP-associated factor."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Histone Acetyltransferase (HAT) Inhibition",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 binds to CREBBP (CBP) and inhibits its histone acetyltransferase activity, leading to transcriptional repression."
+  },
+  "interaction_effect": "inhibition",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> CREBBP:",
+  "protein_a": "CREBBP",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.331426Z",
+  "last_updated": "2025-12-19T07:06:31.331426Z"
+}

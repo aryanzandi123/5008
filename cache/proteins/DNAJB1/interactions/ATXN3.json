@@ -1,0 +1,91 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "DNAJB1 (Hsp40) directly interacts with the Josephin domain of ATXN3 to facilitate its chaperone-mediated folding and prevent aggregation (Co-IP, pull-down evidence).",
+  "functions": [
+    {
+      "function": "Protein Folding and Aggregation",
+      "arrow": "activates",
+      "cellular_process": "DNAJB1, a member of the Hsp40 family of co-chaperones, participates in the cellular stress response by recognizing misfolded proteins. It functionally interacts with ATXN3, particularly the aggregation-prone polyQ-expanded form, to suppress the formation of toxic aggregates. DNAJB1 is often found co-localized with ATXN3 aggregates, and its levels are reduced in neurons from SCA3 patients.",
+      "effect_description": "The interaction enhances cellular proteostasis by mitigating the aggregation of ATXN3, which is a hallmark of Spinocerebellar Ataxia Type 3 (SCA3).",
+      "biological_consequence": [
+        "Misfolded or polyQ-expanded ATXN3 is generated → DNAJB1 (Hsp40) recognizes the misfolded substrate → DNAJB1, with Hsp70, attempts to refold or target ATXN3 for degradation → Suppression of ATXN3 aggregation → Increased cell survival and maintenance of proteostasis"
+      ],
+      "specific_effects": [
+        "Suppression of polyQ-expanded ATXN3 aggregation",
+        "Recruitment to ATXN3-containing protein aggregates"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Co-Chaperone HSJ1a Dually Regulates the Proteasomal Degradation of Ataxin-3",
+          "journal": "PLoS ONE",
+          "year": 2011,
+          "relevant_quote": "HSP40 and HSP70 were reported to localize in the intranuclear aggregates formed by mutant ataxin-3 and that overexpression of HSP40 reduces aggregation of truncated and full-length Atx3.",
+          "pmid": "21625540"
+        },
+        {
+          "paper_title": "Human Induced Pluripotent Stem Cell-Based Modelling of Spinocerebellar Ataxias",
+          "journal": "Cells",
+          "year": 2021,
+          "relevant_quote": "Since DNAJB1 co-localized with ATXN3 aggregates, Evert et al. looked at the expression of this co-chaperone and found decreased levels in SCA3 neurons, whereas levels of two miRNAs regulating DNAJB1 were increased.",
+          "pmid": "34031815"
+        }
+      ],
+      "pmids": [
+        "21625540",
+        "34031815"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "regulates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The interaction is functionally cooperative in protein quality control, but primary evidence for a direct binding event mediated specifically by the ATXN3 Josephin domain is not strongly supported by current literature. The relationship is centered on the role of DNAJB1 (Hsp40) as a co-chaperone that recognizes and helps manage misfolded proteins, including ATXN3, thereby suppressing its aggregation.",
+  "mechanism": "DNAJB1, a member of the Hsp40 family of co-chaperones, participates in the cellular stress response by recognizing misfolded proteins. It functionally interacts with ATXN3, particularly the aggregation-prone polyQ-expanded form, to suppress the formation of toxic aggregates. DNAJB1 is often found co-localized with ATXN3 aggregates, and its levels are reduced in neurons from SCA3 patients.",
+  "effect": "The interaction enhances cellular proteostasis by mitigating the aggregation of ATXN3, which is a hallmark of Spinocerebellar Ataxia Type 3 (SCA3).",
+  "summary": "ATXN3 interacts with DNAJB1 to modulate protein folding and aggregation suppression, ultimately affecting increased cell survival and maintenance of proteostasis.",
+  "evidence": [
+    {
+      "paper_title": "Co-Chaperone HSJ1a Dually Regulates the Proteasomal Degradation of Ataxin-3",
+      "journal": "PLoS ONE",
+      "year": 2011,
+      "relevant_quote": "HSP40 and HSP70 were reported to localize in the intranuclear aggregates formed by mutant ataxin-3 and that overexpression of HSP40 reduces aggregation of truncated and full-length Atx3."
+    },
+    {
+      "paper_title": "Human Induced Pluripotent Stem Cell-Based Modelling of Spinocerebellar Ataxias",
+      "journal": "Cells",
+      "year": 2021,
+      "relevant_quote": "Since DNAJB1 co-localized with ATXN3 aggregates, Evert et al. looked at the expression of this co-chaperone and found decreased levels in SCA3 neurons, whereas levels of two miRNAs regulating DNAJB1 were increased."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Chaperone-Mediated Protein Folding",
+    "confidence": 0.95,
+    "reasoning": "DNAJB1 (Hsp40) is a co-chaperone that interacts with ATXN3 to facilitate protein refolding and prevent the accumulation of misfolded protein aggregates."
+  },
+  "interaction_effect": "regulation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--regulates-- DNAJB1:",
+  "protein_a": "DNAJB1",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.340200Z",
+  "last_updated": "2025-12-19T07:06:31.340200Z"
+}

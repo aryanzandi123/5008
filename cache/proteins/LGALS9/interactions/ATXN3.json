@@ -1,0 +1,80 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "ATXN3 potentiates galectin-9-mediated apoptosis in colon adenocarcinoma, acting as a tumor suppressor in this context.",
+  "functions": [
+    {
+      "function": "Protein Stabilization and Apoptosis Potentiation",
+      "arrow": "activates",
+      "cellular_process": "ATXN3 functions as a deubiquitinase for Galectin-9 (LGALS9). ATXN3 directly binds to LGALS9 and removes ubiquitin chains, protecting it from proteasomal degradation. The resulting stabilization of LGALS9 protein enhances its ability to induce apoptosis in colon adenocarcinoma cells, positioning ATXN3 as a tumor suppressor in this context.",
+      "effect_description": "By preventing its degradation, ATXN3 increases the cellular abundance of LGALS9, which amplifies its pro-apoptotic signaling and contributes to the suppression of tumor growth.",
+      "biological_consequence": [
+        "ATXN3 binds to LGALS9 → Deubiquitination of LGALS9 → Prevention of proteasomal degradation → Increased LGALS9 protein stability and levels → Potentiation of LGALS9-mediated apoptotic signaling → Increased cancer cell apoptosis → Tumor suppression."
+      ],
+      "specific_effects": [
+        "Direct protein-protein interaction between ATXN3 and LGALS9",
+        "Inhibition of LGALS9 ubiquitination",
+        "Increased half-life of LGALS9 protein",
+        "Enhanced sensitivity of colon cancer cells to Galectin-9-induced apoptosis"
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 functions as a tumor suppressor through potentiating galectin-9-mediated apoptosis in human colon adenocarcinoma",
+          "journal": "J Biol Chem",
+          "year": 2024,
+          "relevant_quote": "At the molecular level, we identified ATXN3 as a bona fide deubiquitinase specifically targeting Galectin-9, as ATXN3 interacted with and inhibited Galectin-9 ubiquitination. Consequently, targeted ATXN3 ablation resulted in reduced Galectin-9 protein expression, thereby diminishing Galectin-9-induced colon cancer apoptosis and cell growth arrest.",
+          "pmid": "38815863"
+        }
+      ],
+      "pmids": [
+        "38815863"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The initial claim was generally correct but lacked mechanistic detail. The interaction is not indirect; ATXN3 directly interacts with, deubiquitinates, and stabilizes LGALS9 (Galectin-9), thereby preventing its proteasomal degradation. This stabilization potentiates Galectin-9's pro-apoptotic function in colon cancer cells.",
+  "mechanism": "ATXN3 functions as a deubiquitinase for Galectin-9 (LGALS9). ATXN3 directly binds to LGALS9 and removes ubiquitin chains, protecting it from proteasomal degradation. The resulting stabilization of LGALS9 protein enhances its ability to induce apoptosis in colon adenocarcinoma cells, positioning ATXN3 as a tumor suppressor in this context.",
+  "effect": "By preventing its degradation, ATXN3 increases the cellular abundance of LGALS9, which amplifies its pro-apoptotic signaling and contributes to the suppression of tumor growth.",
+  "summary": "ATXN3 activates LGALS9 to modulate protein stabilization and apoptosis potentiation, ultimately affecting tumor suppression.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 functions as a tumor suppressor through potentiating galectin-9-mediated apoptosis in human colon adenocarcinoma",
+      "journal": "J Biol Chem",
+      "year": 2024,
+      "relevant_quote": "At the molecular level, we identified ATXN3 as a bona fide deubiquitinase specifically targeting Galectin-9, as ATXN3 interacted with and inhibited Galectin-9 ubiquitination. Consequently, targeted ATXN3 ablation resulted in reduced Galectin-9 protein expression, thereby diminishing Galectin-9-induced colon cancer apoptosis and cell growth arrest."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Galectin-9/TIM-3 Signaling Pathway",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 stabilizes Galectin-9 (LGALS9), which acts as a ligand for the TIM-3 receptor to modulate immune checkpoint signaling and tumor suppression."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> LGALS9:",
+  "protein_a": "LGALS9",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-19T07:06:31.367421Z",
+  "last_updated": "2025-12-19T07:06:31.367421Z"
+}

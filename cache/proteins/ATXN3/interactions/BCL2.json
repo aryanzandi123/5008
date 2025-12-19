@@ -1,116 +1,95 @@
 {
   "primary": "BCL2",
   "interaction_type": "indirect",
-  "upstream_interactor": "PARK2",
+  "upstream_interactor": "TP53",
   "mediator_chain": [
-    "PARK2"
+    "TP53"
   ],
   "depth": 2,
-  "support_summary": "ATXN3 indirectly regulates the autophagy inhibitor Bcl-2 by interacting with and modulating the E3 ligase activity of Parkin (PARK2), which in turn monoubiquitinates Bcl-2.",
+  "support_summary": "ATXN3 indirectly modulates the expression of the anti-apoptotic gene BCL2 through the stabilization of p53 (TP53).",
   "functions": [
     {
-      "function": "Autophagy",
+      "function": "Apoptosis",
       "arrow": "activates",
-      "cellular_process": "ATXN3, as a deubiquitinating enzyme, directly interacts with and regulates the E3 ubiquitin ligase Parkin (PARK2). Parkin, in turn, interacts with the anti-apoptotic protein BCL2. However, contrary to the input claim, Parkin's E3 ligase activity mediates the monoubiquitination of BCL2, which does not promote its degradation or dissociation from Beclin-1 (BECN1). Instead, this modification enhances BCL2's stability and strengthens its inhibitory binding to BECN1.",
-      "effect_description": "By regulating Parkin, ATXN3 indirectly influences the stability of the BCL2/BECN1 complex. The Parkin-mediated monoubiquitination of BCL2 sequesters BECN1, a core component of the autophagy initiation complex. This prevents the induction of autophagy. Therefore, the ATXN3-PARK2-BCL2 axis serves to inhibit, not activate, the autophagic process under basal or starvation conditions.",
+      "cellular_process": "ATXN3 functions as a deubiquitinase (DUB) for the tumor suppressor protein TP53. By binding to polyubiquitinated TP53, ATXN3 removes ubiquitin chains, thereby preventing its degradation by the proteasome. This stabilization leads to an accumulation of active TP53, which can then translocate to the nucleus and transcriptionally repress anti-apoptotic genes, including BCL2.",
+      "effect_description": "The interaction indirectly leads to the downregulation of BCL2 protein levels by increasing the stability and activity of its transcriptional repressor, TP53. This shifts the BCL2/BAX ratio, lowering the threshold for mitochondrial outer membrane permeabilization and promoting the intrinsic apoptosis pathway.",
       "biological_consequence": [
-        "ATXN3 regulates PARK2 activity → PARK2 monoubiquitinates BCL2 → Monoubiquitination increases BCL2 stability → The inhibitory BCL2/BECN1 complex is stabilized and enhanced → BECN1 is sequestered and cannot initiate autophagy → Decreased autophagic flux"
+        "ATXN3 binds and deubiquitinates TP53 → TP53 degradation via proteasome is inhibited → Nuclear TP53 levels increase → TP53 binds to the BCL2 promoter and represses its transcription → BCL2 protein levels decrease → Increased cellular susceptibility to apoptotic stimuli → Mitochondrial Permeabilization → Caspase Activation → Apoptosis"
       ],
       "specific_effects": [
-        "ATXN3's regulation of Parkin indirectly leads to the stabilization of BCL2 protein through monoubiquitination.",
-        "The ultimate effect of this pathway is the inhibition of general autophagy by strengthening the BCL2-BECN1 interaction."
+        "Decreased ubiquitination of TP53",
+        "Increased protein half-life and stability of TP53",
+        "Decreased BCL2 mRNA and protein levels",
+        "Promotion of TP53-dependent apoptosis"
       ],
       "evidence": [
         {
-          "paper_title": "Parkin Mono-ubiquitinates Bcl-2 and Regulates Autophagy",
-          "journal": "Journal of Biological Chemistry",
-          "year": 2010,
-          "relevant_quote": "Here, we identify the Bcl-2, an anti-apoptotic and autophagy inhibitory protein, as a substrate for parkin. Parkin directly binds to Bcl-2 via its C terminus and mediates the mono-ubiquitination of Bcl-2, which increases the steady-state levels of Bcl-2... Moreover, overexpression of parkin enhances the interactions between Bcl-2 and Beclin 1.",
-          "pmid": "20889974"
-        },
-        {
-          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-          "journal": "Expert Reviews in Molecular Medicine",
-          "year": 2024,
-          "relevant_quote": "ATXN3 also regulates the activity of the E3 ligase Parkin, important for the ubiquitination of autophagy substrates and the autophagy inhibitor Bcl-2.",
-          "pmid": "39320846"
+          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLoS Biology",
+          "year": 2016,
+          "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish.",
+          "pmid": "27851749"
         }
       ],
-      "pathway": {
-        "name": "Autophagy",
-        "canonical_name": "Autophagy",
-        "ontology_id": "GO:0006914",
-        "ontology_source": "GO",
-        "confidence": 0.8
-      },
       "pmids": [
-        "20889974",
-        "39320846"
+        "27851749"
       ],
-      "direct_arrow": "inhibits",
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
       "function_effect": "activation",
       "arrow_context": {
-        "direct_from": "PARK2",
-        "direct_arrow": "inhibits",
+        "direct_from": "TP53",
+        "direct_arrow": "activates",
         "net_from": "ATXN3",
         "net_arrow": "activates",
         "mediator_chain": [
-          "PARK2"
+          "TP53"
         ],
         "is_indirect": true
       },
       "net_arrow": "activates",
       "net_effect": "activation",
-      "direct_effect": "inhibition"
+      "direct_effect": "activation"
     }
   ],
-  "arrow": "regulates",
+  "arrow": "inhibits",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "inhibits"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "MECHANISTIC OPPOSITE DETECTED. The input claim that ATXN3's regulation of PARK2 *activates* autophagy by promoting BCL2/BECN1 dissociation is incorrect. Primary literature shows that PARK2-mediated monoubiquitination of BCL2 *stabilizes* the BCL2/BECN1 complex, thereby *inhibiting* general autophagy. ATXN3 regulates PARK2, but the downstream effect on the BCL2-BECN1 interaction is inhibitory to autophagy, not activating.",
-  "mechanism": "ATXN3, as a deubiquitinating enzyme, directly interacts with and regulates the E3 ubiquitin ligase Parkin (PARK2). Parkin, in turn, interacts with the anti-apoptotic protein BCL2. However, contrary to the input claim, Parkin's E3 ligase activity mediates the monoubiquitination of BCL2, which does not promote its degradation or dissociation from Beclin-1 (BECN1). Instead, this modification enhances BCL2's stability and strengthens its inhibitory binding to BECN1.",
-  "effect": "By regulating Parkin, ATXN3 indirectly influences the stability of the BCL2/BECN1 complex. The Parkin-mediated monoubiquitination of BCL2 sequesters BECN1, a core component of the autophagy initiation complex. This prevents the induction of autophagy. Therefore, the ATXN3-PARK2-BCL2 axis serves to inhibit, not activate, the autophagic process under basal or starvation conditions.",
-  "summary": "ATXN3 inhibits BCL2 to modulate autophagy, ultimately affecting decreased autophagic flux.",
+  "mechanism_correction": null,
+  "mechanism": "ATXN3 functions as a deubiquitinase (DUB) for the tumor suppressor protein TP53. By binding to polyubiquitinated TP53, ATXN3 removes ubiquitin chains, thereby preventing its degradation by the proteasome. This stabilization leads to an accumulation of active TP53, which can then translocate to the nucleus and transcriptionally repress anti-apoptotic genes, including BCL2.",
+  "effect": "The interaction indirectly leads to the downregulation of BCL2 protein levels by increasing the stability and activity of its transcriptional repressor, TP53. This shifts the BCL2/BAX ratio, lowering the threshold for mitochondrial outer membrane permeabilization and promoting the intrinsic apoptosis pathway.",
+  "summary": "ATXN3 inhibits BCL2 to modulate apoptosis regulation, ultimately affecting apoptosis.",
   "evidence": [
     {
-      "paper_title": "Parkin Mono-ubiquitinates Bcl-2 and Regulates Autophagy",
-      "journal": "Journal of Biological Chemistry",
-      "year": 2010,
-      "relevant_quote": "Here, we identify the Bcl-2, an anti-apoptotic and autophagy inhibitory protein, as a substrate for parkin. Parkin directly binds to Bcl-2 via its C terminus and mediates the mono-ubiquitination of Bcl-2, which increases the steady-state levels of Bcl-2... Moreover, overexpression of parkin enhances the interactions between Bcl-2 and Beclin 1."
-    },
-    {
-      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-      "journal": "Expert Reviews in Molecular Medicine",
-      "year": 2024,
-      "relevant_quote": "ATXN3 also regulates the activity of the E3 ligase Parkin, important for the ubiquitination of autophagy substrates and the autophagy inhibitor Bcl-2."
+      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLoS Biology",
+      "year": 2016,
+      "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish."
     }
   ],
-  "pathways": [
-    {
-      "name": "Autophagy",
-      "canonical_name": "Autophagy",
-      "ontology_id": "GO:0006914",
-      "ontology_source": "GO",
-      "confidence": 0.8
-    }
-  ],
-  "interaction_effect": "regulation",
+  "initial_pathway": {
+    "pathway_name": "Regulation of intrinsic apoptotic signaling pathway",
+    "confidence": 0.8,
+    "reasoning": "ATXN3 regulates the levels of the anti-apoptotic protein BCL2, thereby modulating the threshold for programmed cell death."
+  },
+  "interaction_effect": "inhibition",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 2
+    "corrections_applied": 1
   },
   "_arrow_validated": true,
-  "arrow_notation": "PARK2 --regulates--> BCL2:",
+  "arrow_notation": "TP53 --inhibits--> BCL2:",
   "protein_a": "ATXN3",
   "protein_b": "BCL2",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-09T13:18:49.291907Z",
-  "last_updated": "2025-12-09T13:18:49.291907Z"
+  "first_discovered": "2025-12-19T07:06:31.360510Z",
+  "last_updated": "2025-12-19T07:06:31.360510Z"
 }
