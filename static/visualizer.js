@@ -52,6 +52,14 @@ const PATHWAY_COLORS = {
     3: '#c4b5fd'   // Pale violet
 };
 
+// Sibling pathway colors - teal/cyan to distinguish from main (violet) pathways
+const PATHWAY_COLORS_SIBLING = {
+    0: '#0d9488',  // Deep teal
+    1: '#14b8a6',  // Medium teal
+    2: '#5eead4',  // Light teal
+    3: '#99f6e4'   // Pale teal
+};
+
 // Shell radii for concentric layout (non-pathway mode) - REDUCED for compact layout
 const SHELL_RADIUS_BASE = 250;        // Unexpanded interactors (was 400)
 const SHELL_RADIUS_EXPANDED = 350;    // Expanded parents (was 550)
@@ -1877,6 +1885,27 @@ function initNetwork(){
   pathwayExpandedGradDark.append('stop').attr('offset', '0%').attr('stop-color', '#c4b5fd'); // violet-300
   pathwayExpandedGradDark.append('stop').attr('offset', '100%').attr('stop-color', '#a78bfa'); // violet-400
 
+  // ========== SIBLING PATHWAY GRADIENTS (teal theme) ==========
+  // Sibling Pathway Node Gradients - Light Mode
+  const siblingPathwayGrad = defs.append('radialGradient').attr('id', 'siblingPathwayGradient');
+  siblingPathwayGrad.append('stop').attr('offset', '0%').attr('stop-color', '#14b8a6'); // teal-500
+  siblingPathwayGrad.append('stop').attr('offset', '100%').attr('stop-color', '#0d9488'); // teal-600
+
+  // Sibling Pathway Node Gradients - Dark Mode
+  const siblingPathwayGradDark = defs.append('radialGradient').attr('id', 'siblingPathwayGradientDark');
+  siblingPathwayGradDark.append('stop').attr('offset', '0%').attr('stop-color', '#5eead4'); // teal-300
+  siblingPathwayGradDark.append('stop').attr('offset', '100%').attr('stop-color', '#14b8a6'); // teal-500
+
+  // Sibling Pathway Expanded Gradients - Light Mode
+  const siblingExpandedGrad = defs.append('radialGradient').attr('id', 'siblingPathwayExpandedGradient');
+  siblingExpandedGrad.append('stop').attr('offset', '0%').attr('stop-color', '#99f6e4'); // teal-200
+  siblingExpandedGrad.append('stop').attr('offset', '100%').attr('stop-color', '#5eead4'); // teal-300
+
+  // Sibling Pathway Expanded Gradients - Dark Mode
+  const siblingExpandedGradDark = defs.append('radialGradient').attr('id', 'siblingPathwayExpandedGradientDark');
+  siblingExpandedGradDark.append('stop').attr('offset', '0%').attr('stop-color', '#99f6e4'); // teal-200
+  siblingExpandedGradDark.append('stop').attr('offset', '100%').attr('stop-color', '#5eead4'); // teal-300
+
   // ========== SEMANTIC NODE GRADIENTS (by interaction type) ==========
   // Activates - Green gradient
   const activatesGrad = defs.append('radialGradient').attr('id', 'gradient-activates');
@@ -2273,7 +2302,8 @@ function buildInitialGraph(){
         is_leaf: pw.is_leaf ?? true,
         parent_ids: pw.parent_pathway_ids || [],
         child_ids: pw.child_pathway_ids || [],
-        ancestry: pw.ancestry || [pw.name]
+        ancestry: pw.ancestry || [pw.name],
+        pathway_type: pw.pathway_type || 'main'  // V2 Pipeline: 'main' or 'sibling'
       });
 
       // Build parent-child map for quick lookup
@@ -4277,6 +4307,7 @@ function expandPathwayHierarchy(pathwayNode) {
           originalId: childId,
           parentPathwayId: pathwayNode.id,
           hierarchyLevel: existingNode.hierarchyLevel,
+          pathwayType: existingNode.pathwayType || child.pathway_type || 'main',  // V2 Pipeline: inherit from existing node
           radius: PATHWAY_SIZES[Math.min(existingNode.hierarchyLevel || 1, 3)].radius,
           x: x,
           y: y
@@ -4316,6 +4347,7 @@ function expandPathwayHierarchy(pathwayNode) {
         interactorIds: child.interactor_ids || [],
         ontologyId: child.ontology_id,
         interactionCount: child.interaction_count || 0,
+        pathwayType: childHier?.pathway_type || child.pathway_type || 'main',  // V2 Pipeline: 'main' or 'sibling'
         expanded: false,
         hierarchyExpanded: false,
         radius: sizing.radius,
@@ -4885,19 +4917,33 @@ function renderGraph() {
       const hasChildren = (d.childPathwayIds?.length || hier?.child_ids?.length || 0) > 0;
       const isLeaf = d.isLeaf ?? hier?.is_leaf ?? true;
       const isReference = d.isReferenceNode || false;
+      const pathwayType = d.pathwayType || hier?.pathway_type || 'main';  // V2 Pipeline: 'main' or 'sibling'
+      const isSibling = pathwayType === 'sibling';
 
-      // Size and color by hierarchy level
+      // Size and color by hierarchy level (different colors for siblings)
       const sizing = PATHWAY_SIZES[Math.min(level, 3)];
-      const levelColor = PATHWAY_COLORS[Math.min(level, 3)];
+      const levelColor = isSibling
+        ? PATHWAY_COLORS_SIBLING[Math.min(level, 3)]
+        : PATHWAY_COLORS[Math.min(level, 3)];
 
-      // Gradient based on expansion state
+      // Gradient based on expansion state and pathway type (sibling vs main)
       let gradientId;
-      if (d.expanded) {
-        gradientId = isDark ? 'pathwayExpandedGradientDark' : 'pathwayExpandedGradient';
-      } else if (d.hierarchyExpanded) {
-        gradientId = isDark ? 'pathwayGradientDark' : 'pathwayGradient';  // Could add hierarchyExpandedGradient
+      if (isSibling) {
+        // Sibling pathway gradients (teal)
+        if (d.expanded) {
+          gradientId = isDark ? 'siblingPathwayExpandedGradientDark' : 'siblingPathwayExpandedGradient';
+        } else {
+          gradientId = isDark ? 'siblingPathwayGradientDark' : 'siblingPathwayGradient';
+        }
       } else {
-        gradientId = isDark ? 'pathwayGradientDark' : 'pathwayGradient';
+        // Main pathway gradients (violet)
+        if (d.expanded) {
+          gradientId = isDark ? 'pathwayExpandedGradientDark' : 'pathwayExpandedGradient';
+        } else if (d.hierarchyExpanded) {
+          gradientId = isDark ? 'pathwayGradientDark' : 'pathwayGradient';
+        } else {
+          gradientId = isDark ? 'pathwayGradientDark' : 'pathwayGradient';
+        }
       }
 
       // Calculate rectangle dimensions based on text length and level
@@ -4920,7 +4966,8 @@ function renderGraph() {
         d.expanded ? 'expanded' : '',
         d.hierarchyExpanded ? 'hierarchy-expanded' : '',
         isReference ? 'reference' : '',
-        d.loading ? 'loading' : ''
+        d.loading ? 'loading' : '',
+        isSibling ? 'sibling' : ''  // V2 Pipeline: distinguish sibling pathways
       ].filter(Boolean).join(' ');
 
       const rect = group.append('rect')
@@ -10871,6 +10918,7 @@ function addRootPathwayToGraph(pw) {
     interactorIds: pw.interactor_ids || [],
     ontologyId: pw.ontology_id,
     interactionCount: pw.interaction_count || 0,
+    pathwayType: hier?.pathway_type || pw.pathway_type || 'main',  // V2 Pipeline: 'main' or 'sibling'
     expanded: false,
     hierarchyExpanded: false,
     _targetAngle: angle,  // For angular stability force

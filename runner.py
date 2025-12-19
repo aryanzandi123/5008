@@ -125,13 +125,21 @@ except ImportError:
     validate_schema_consistency = None
     finalize_interaction_metadata = None
 
-# Import pathway assigner (optional)
+# Import pathway assigner (optional) - Legacy V1
 try:
     from utils.pathway_assigner import PathwayAssigner
     PATHWAY_ASSIGNER_AVAILABLE = True
 except ImportError:
     PATHWAY_ASSIGNER_AVAILABLE = False
     PathwayAssigner = None
+
+# Import pathway pipeline V2 Stage 1 (optional)
+try:
+    from scripts.pathway_pipeline_v2.stage1_initial_designation import run_stage1 as run_pathway_stage1
+    PATHWAY_V2_AVAILABLE = True
+except ImportError:
+    PATHWAY_V2_AVAILABLE = False
+    run_pathway_stage1 = None
 
 MAX_ALLOWED_THINKING_BUDGET = 32768
 MIN_ALLOWED_THINKING_BUDGET = 1000
@@ -1719,10 +1727,59 @@ def run_full_job(
             )
 
         # --- STAGE 5.5: Pathway assignment (categorize interactions by biological pathways) ---
-        if PATHWAY_ASSIGNER_AVAILABLE and PathwayAssigner is not None and api_key:
+        # Try V2 pipeline first (Stage 1 initial designation), fall back to legacy if unavailable
+        pathway_assigned = False
+
+        if PATHWAY_V2_AVAILABLE and run_pathway_stage1 is not None and api_key:
             current_step += 1
             update_status(
-                text="Assigning biological pathways...",
+                text="Assigning biological pathways (V2)...",
+                current_step=current_step,
+                total_steps=total_steps
+            )
+            try:
+                snapshot = validated_payload.get("snapshot_json", {})
+                interactors = snapshot.get("interactors", [])
+                main_protein = snapshot.get("main", user_query)
+
+                # Run V2 Stage 1: Initial pathway designation
+                updated_interactors = run_pathway_stage1(
+                    interactors=interactors,
+                    main_protein=main_protein,
+                    api_key=api_key,
+                )
+
+                # Update payload with pathway-enriched interactors
+                validated_payload["snapshot_json"]["interactors"] = updated_interactors
+                if "ctx_json" in validated_payload:
+                    validated_payload["ctx_json"]["interactors"] = updated_interactors
+
+                # Extract pathway metadata from interactors for later DB sync
+                pathway_metadata = []
+                for ix in updated_interactors:
+                    if "initial_pathway" in ix:
+                        pw = ix["initial_pathway"]
+                        pathway_metadata.append({
+                            "name": pw.get("pathway_name"),
+                            "confidence": pw.get("confidence", 0.8),
+                        })
+
+                validated_payload["_pathway_metadata"] = pathway_metadata
+                validated_payload["_pathway_version"] = "v2"
+
+                pathway_count = len(set(p["name"] for p in pathway_metadata if p["name"]))
+                print(f"[PathwayV2] Stage 1 assigned {pathway_count} unique initial pathways", file=sys.stderr)
+                pathway_assigned = True
+
+            except Exception as e:
+                print(f"[WARN] Pathway V2 Stage 1 failed: {e}, falling back to legacy", file=sys.stderr)
+
+        # Fall back to legacy PathwayAssigner if V2 not available or failed
+        if not pathway_assigned and PATHWAY_ASSIGNER_AVAILABLE and PathwayAssigner is not None and api_key:
+            if not PATHWAY_V2_AVAILABLE:
+                current_step += 1
+            update_status(
+                text="Assigning biological pathways (legacy)...",
                 current_step=current_step,
                 total_steps=total_steps
             )
@@ -1758,6 +1815,7 @@ def run_full_job(
 
                 # Store pathway metadata for later DB sync
                 validated_payload["_pathway_metadata"] = pathway_metadata
+                validated_payload["_pathway_version"] = "v1"
 
                 pathway_count = len(pathway_metadata)
                 print(f"[PathwayAssigner] Assigned {pathway_count} pathways to interactors", file=sys.stderr)

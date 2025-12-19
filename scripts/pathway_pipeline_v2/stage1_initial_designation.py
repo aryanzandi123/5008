@@ -1,0 +1,284 @@
+#!/usr/bin/env python3
+"""
+Stage 1: Initial Pathway Designation
+
+For each interaction, AI assigns an initial pathway name that is:
+- As SPECIFIC as reasonably possible
+- Not absurdly broad (e.g., avoid "Cell Signaling" if "mTORC1 Signaling Regulation" fits)
+
+This stage runs INLINE during query execution (integrated into runner.py).
+
+Output: PathwayInitialAssignment records in database
+"""
+
+import sys
+import logging
+from pathlib import Path
+from typing import Dict, List, Optional, Any
+
+# Add project root to path
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from scripts.pathway_pipeline_v2.ai_client import call_ai_sequential, get_pipeline_memory
+from scripts.pathway_pipeline_v2.config import (
+    get_root_categories_prompt_section,
+    MIN_CONFIDENCE_STAGE1,
+)
+
+logger = logging.getLogger(__name__)
+
+
+def build_initial_designation_prompt(
+    interaction: Dict[str, Any],
+    main_protein: str,
+) -> str:
+    """
+    Build the prompt for assigning an initial pathway to an interaction.
+
+    The prompt instructs the AI to be as specific as possible.
+    """
+    # Extract interaction details
+    primary = interaction.get("primary", "Unknown")
+    arrow = interaction.get("arrow", "binds")
+    direction = interaction.get("direction", "bidirectional")
+    functions = interaction.get("functions", [])
+    evidence = interaction.get("evidence", [])
+
+    # Format functions for prompt
+    functions_text = ""
+    if functions:
+        functions_text = "\n".join([
+            f"  - {f.get('description', f.get('name', 'Unknown function'))}"
+            for f in functions[:5]  # Top 5 functions
+        ])
+    else:
+        functions_text = "  (No specific functions provided)"
+
+    # Format evidence for prompt
+    evidence_text = ""
+    if evidence:
+        evidence_text = "\n".join([
+            f"  - {e}" if isinstance(e, str) else f"  - {e.get('summary', str(e))}"
+            for e in evidence[:3]  # Top 3 evidence items
+        ])
+    else:
+        evidence_text = "  (No specific evidence provided)"
+
+    prompt = f"""You are a biological pathway classification expert. Your task is to assign the MOST SPECIFIC appropriate biological pathway name to a protein-protein interaction.
+
+## INTERACTION TO CLASSIFY
+
+**Main protein**: {main_protein}
+**Interactor**: {primary}
+**Interaction type**: {main_protein} {arrow} {primary}
+**Direction**: {direction}
+
+**Functions**:
+{functions_text}
+
+**Evidence**:
+{evidence_text}
+
+{get_root_categories_prompt_section()}
+
+## INSTRUCTIONS
+
+1. Based on the interaction details above, determine the MOST SPECIFIC biological pathway this interaction belongs to.
+
+2. Be SPECIFIC, not generic:
+   - BAD: "Autophagy" (too broad)
+   - GOOD: "Aggrephagy" (specific type of autophagy)
+   - BAD: "Cell Signaling" (too broad)
+   - GOOD: "mTORC1 Nutrient Sensing" (specific signaling pathway)
+
+3. The pathway name should:
+   - Be a recognized biological term (GO, KEGG, or standard literature terminology)
+   - Accurately describe what this interaction does biologically
+   - Be specific enough to distinguish from other pathways
+
+4. You MUST return valid JSON in this exact format:
+
+```json
+{{
+  "pathway_assignment": {{
+    "pathway_name": "Specific Pathway Name",
+    "confidence": 0.85,
+    "reasoning": "Brief explanation of why this pathway fits"
+  }}
+}}
+```
+
+IMPORTANT:
+- confidence should be between 0.7 and 1.0
+- pathway_name should be a specific biological pathway term
+- Do NOT just echo back a root category - be more specific
+"""
+
+    return prompt
+
+
+def assign_initial_pathway(
+    interaction: Dict[str, Any],
+    main_protein: str,
+    api_key: str = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Assign an initial pathway to a single interaction.
+
+    Args:
+        interaction: Interaction data with primary, arrow, functions, evidence
+        main_protein: The main protein being queried
+        api_key: Google API key (optional, uses env if not provided)
+
+    Returns:
+        Dict with pathway_name, confidence, reasoning, or None on failure
+    """
+    prompt = build_initial_designation_prompt(interaction, main_protein)
+
+    result = call_ai_sequential(
+        prompt=prompt,
+        stage="stage1",
+        use_search=False,  # No search needed for initial designation
+    )
+
+    if not result.success:
+        logger.error(f"Stage 1 AI call failed: {result.error}")
+        return None
+
+    try:
+        assignment = result.data.get("pathway_assignment", {})
+        pathway_name = assignment.get("pathway_name")
+        confidence = float(assignment.get("confidence", 0.0))
+        reasoning = assignment.get("reasoning", "")
+
+        if not pathway_name:
+            logger.error("No pathway_name in AI response")
+            return None
+
+        if confidence < MIN_CONFIDENCE_STAGE1:
+            logger.warning(f"Low confidence ({confidence}) for pathway assignment")
+            # Still return it, but flag the low confidence
+
+        return {
+            "pathway_name": pathway_name,
+            "confidence": confidence,
+            "reasoning": reasoning,
+        }
+
+    except Exception as e:
+        logger.error(f"Failed to parse Stage 1 response: {e}")
+        return None
+
+
+def assign_initial_pathways_batch(
+    interactors: List[Dict[str, Any]],
+    main_protein: str,
+    api_key: str = None,
+) -> List[Dict[str, Any]]:
+    """
+    Assign initial pathways to a list of interactions.
+
+    This processes interactions sequentially (one AI call per interaction)
+    as required by the pipeline specification.
+
+    Args:
+        interactors: List of interactor dicts
+        main_protein: The main protein being queried
+        api_key: Google API key (optional)
+
+    Returns:
+        List of interactor dicts with initial_pathway field added
+    """
+    memory = get_pipeline_memory()
+    results = []
+
+    for idx, interactor in enumerate(interactors):
+        primary = interactor.get("primary", "Unknown")
+        logger.info(f"Stage 1: Assigning pathway to {main_protein}-{primary} ({idx + 1}/{len(interactors)})")
+
+        assignment = assign_initial_pathway(
+            interaction=interactor,
+            main_protein=main_protein,
+            api_key=api_key,
+        )
+
+        if assignment:
+            # Add initial pathway to interactor
+            interactor["initial_pathway"] = assignment
+
+            # Store in memory for later stages
+            # Use a simple hash as interaction ID placeholder (real ID comes from DB)
+            interaction_key = f"{main_protein}:{primary}"
+            memory.initial_assignments[interaction_key] = assignment
+            memory.all_pathways.add(assignment["pathway_name"])
+        else:
+            # Fallback to a generic pathway based on root categories
+            logger.warning(f"Using fallback pathway for {main_protein}-{primary}")
+            interactor["initial_pathway"] = {
+                "pathway_name": "Protein Quality Control",  # Safe default
+                "confidence": 0.5,
+                "reasoning": "Fallback assignment due to AI failure",
+            }
+
+        results.append(interactor)
+
+    logger.info(f"Stage 1 complete: {len(results)} interactions processed")
+    logger.info(f"Unique pathways discovered: {len(memory.all_pathways)}")
+
+    return results
+
+
+# Convenience function for runner.py integration
+def run_stage1(
+    interactors: List[Dict[str, Any]],
+    main_protein: str,
+    api_key: str = None,
+) -> List[Dict[str, Any]]:
+    """
+    Run Stage 1 of the pathway pipeline.
+
+    This is the main entry point called from runner.py.
+
+    Args:
+        interactors: List of interactor dicts from the query pipeline
+        main_protein: The protein being queried
+        api_key: Google API key (optional)
+
+    Returns:
+        Interactors with initial_pathway field added to each
+    """
+    return assign_initial_pathways_batch(
+        interactors=interactors,
+        main_protein=main_protein,
+        api_key=api_key,
+    )
+
+
+if __name__ == "__main__":
+    # Test with sample data
+    import json
+
+    logging.basicConfig(level=logging.INFO)
+
+    test_interaction = {
+        "primary": "VCP",
+        "arrow": "binds",
+        "direction": "bidirectional",
+        "functions": [
+            {"description": "Protein extraction from the ER membrane during ERAD"},
+            {"description": "Delivery of ubiquitinated substrates to proteasome"},
+        ],
+        "evidence": [
+            "VCP/p97 is a AAA+ ATPase involved in protein quality control",
+            "Required for ERAD pathway to function properly",
+        ],
+    }
+
+    result = assign_initial_pathway(
+        interaction=test_interaction,
+        main_protein="ATXN3",
+    )
+
+    print("\nStage 1 Test Result:")
+    print(json.dumps(result, indent=2))

@@ -194,6 +194,10 @@ class Pathway(db.Model):
     protein_count = db.Column(db.Integer, default=0, nullable=False)  # Proteins in this pathway
     ancestor_ids = db.Column(JSONB, server_default='[]', nullable=False)  # Materialized path for fast queries
 
+    # V2 Pipeline fields
+    pathway_type = db.Column(db.String(20), default='main', nullable=False)  # 'main' (primary chain) or 'sibling'
+    hierarchy_chain = db.Column(JSONB, nullable=True)  # Cached chain: ["Root", "L1", "L2", "This"]
+
     # Audit timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -301,6 +305,9 @@ class PathwayParent(db.Model):
     confidence = db.Column(db.Numeric(3, 2), default=1.0, nullable=False)  # 1.0 for ontology-derived, <1.0 for AI-inferred
     source = db.Column(db.String(20), nullable=True)  # 'GO', 'KEGG', 'Reactome', 'AI'
 
+    # V2 Pipeline: Track if this is part of the primary hierarchy chain vs sibling expansion
+    is_primary_chain = db.Column(db.Boolean, default=True, nullable=False)  # False for sibling links
+
     # Audit timestamp
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
@@ -328,3 +335,111 @@ class PathwayParent(db.Model):
         child_name = self.child.name if self.child else '?'
         parent_name = self.parent.name if self.parent else '?'
         return f'<PathwayParent {child_name} --[{self.relationship_type}]--> {parent_name}>'
+
+
+# =============================================================================
+# PATHWAY PIPELINE V2 MODELS
+# =============================================================================
+
+class PathwayInitialAssignment(db.Model):
+    """
+    Stage 1 temp storage - initial AI-generated pathway names.
+
+    Stores the first-pass pathway assignment for each interaction before
+    normalization and reassignment in later pipeline stages.
+    """
+    __tablename__ = 'pathway_initial_assignments'
+
+    # Primary key
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Foreign key to interaction (one initial assignment per interaction)
+    interaction_id = db.Column(
+        db.Integer,
+        db.ForeignKey('interactions.id', ondelete='CASCADE'),
+        unique=True,
+        nullable=False,
+        index=True
+    )
+
+    # Initial pathway name assigned by AI
+    initial_name = db.Column(db.String(200), nullable=False, index=True)
+
+    # Canonical name after Stage 2 normalization (null until Stage 2 runs)
+    canonical_name = db.Column(db.String(200), nullable=True, index=True)
+
+    # Assignment metadata
+    confidence = db.Column(db.Numeric(3, 2), default=0.80)  # 0.00 to 1.00
+    ai_reasoning = db.Column(db.Text, nullable=True)  # AI's explanation for the assignment
+
+    # Audit timestamp
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    # Relationship
+    interaction = db.relationship('Interaction', backref=db.backref('initial_pathway_assignment', uselist=False))
+
+    def __repr__(self) -> str:
+        return f'<PathwayInitialAssignment interaction={self.interaction_id} initial="{self.initial_name}">'
+
+
+class PathwayCanonicalName(db.Model):
+    """
+    Stage 2 mapping - initial names to canonical names.
+
+    Maps various initial pathway names (which may have spelling variants,
+    synonyms, or duplicates) to a single canonical name.
+    """
+    __tablename__ = 'pathway_canonical_names'
+
+    # Primary key
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Initial name (unique - each initial name maps to exactly one canonical)
+    initial_name = db.Column(db.String(200), unique=True, nullable=False, index=True)
+
+    # Canonical name (not unique - many initial names can map to same canonical)
+    canonical_name = db.Column(db.String(200), nullable=False, index=True)
+
+    # Match metadata
+    similarity_score = db.Column(db.Numeric(3, 2), nullable=True)  # Fuzzy match score
+    match_method = db.Column(db.String(50), nullable=True)  # 'exact', 'fuzzy', 'ai_confirmed'
+
+    # Audit timestamp
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'<PathwayCanonicalName "{self.initial_name}" -> "{self.canonical_name}">'
+
+
+class PathwayHierarchyHistory(db.Model):
+    """
+    Stage 4-6 history - cached hierarchy chains for reuse.
+
+    Stores previously built hierarchy chains so they can be reused
+    when processing new pathways, avoiding duplicate AI calls and
+    ensuring consistency across batches.
+    """
+    __tablename__ = 'pathway_hierarchy_history'
+
+    # Primary key
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Canonical pathway name (unique - one history entry per canonical name)
+    canonical_name = db.Column(db.String(200), unique=True, nullable=False, index=True)
+
+    # Full hierarchy chain from root to this pathway
+    # e.g., ["Protein Quality Control", "Autophagy", "Selective Autophagy", "Aggrephagy"]
+    hierarchy_chain = db.Column(JSONB, nullable=False)
+
+    # Chain metadata
+    chain_length = db.Column(db.Integer, nullable=False)  # Number of levels in chain
+
+    # How this chain was created
+    source = db.Column(db.String(20), nullable=False)  # 'ai_built', 'history_reuse', 'attach_existing'
+
+    # Audit timestamps
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    last_used = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f'<PathwayHierarchyHistory "{self.canonical_name}" chain_length={self.chain_length}>'

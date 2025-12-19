@@ -2,7 +2,7 @@
 """
 AI Hierarchy Builder for Pathway Classification
 
-Uses Gemini 2.5 Pro to:
+Uses Gemini 3 Flash to:
 - Classify pathways into hierarchy
 - Create intermediate pathway levels
 - Assign interactions to most specific pathways
@@ -51,7 +51,7 @@ def _call_gemini_json(
     max_output_tokens: int = 62048
 ) -> dict:
     """
-    Call Gemini 2.5 Pro and parse JSON response.
+    Call Gemini 3 Flash and parse JSON response.
 
     Args:
         prompt: The prompt to send
@@ -81,7 +81,7 @@ def _call_gemini_json(
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=prompt,
                 config=config,
             )

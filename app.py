@@ -939,7 +939,10 @@ def build_full_json_from_db(protein_symbol: str) -> dict:
             "interaction_count": 0,
             "parent_pathway_ids": parent_pathway_ids,
             "child_pathway_ids": child_pathway_ids,
-            "ancestry": ancestry
+            "ancestry": ancestry,
+            # V2 Pipeline fields
+            "pathway_type": getattr(pw_obj, 'pathway_type', 'main') or 'main',
+            "hierarchy_chain": getattr(pw_obj, 'hierarchy_chain', None),
         }
 
     # Step 9: Build interaction_data lookup by DB ID
@@ -1242,7 +1245,10 @@ def get_pathway_interactors(pathway_id):
         "pathway_name": pathway.name,
         "hierarchy_level": pathway.hierarchy_level or 0,
         "is_leaf": pathway.is_leaf if pathway.is_leaf is not None else True,
-        "interactors": interactors
+        "interactors": interactors,
+        # V2 Pipeline fields
+        "pathway_type": getattr(pathway, 'pathway_type', 'main') or 'main',
+        "hierarchy_chain": getattr(pathway, 'hierarchy_chain', None),
     })
 
 

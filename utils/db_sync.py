@@ -26,7 +26,7 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
-from models import Protein, Interaction, Pathway, PathwayInteraction, db
+from models import Protein, Interaction, Pathway, PathwayInteraction, PathwayInitialAssignment, db
 
 
 def deduplicate_functions(functions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -604,6 +604,33 @@ class DatabaseSyncLayer:
                     pathway.usage_count = (pathway.usage_count or 0) + 1
 
             db.session.flush()
+
+        # V2 Pipeline: Store initial pathway assignment (if using V2)
+        initial_pathway = data.get("initial_pathway")
+        if initial_pathway and interaction:
+            initial_name = initial_pathway.get("pathway_name")
+            if initial_name:
+                # Check if initial assignment already exists
+                existing_initial = PathwayInitialAssignment.query.filter_by(
+                    interaction_id=interaction.id
+                ).first()
+
+                if existing_initial:
+                    # Update existing
+                    existing_initial.initial_name = initial_name
+                    existing_initial.confidence = initial_pathway.get("confidence", 0.8)
+                    existing_initial.ai_reasoning = initial_pathway.get("reasoning")
+                else:
+                    # Create new
+                    initial_assign = PathwayInitialAssignment(
+                        interaction_id=interaction.id,
+                        initial_name=initial_name,
+                        confidence=initial_pathway.get("confidence", 0.8),
+                        ai_reasoning=initial_pathway.get("reasoning"),
+                    )
+                    db.session.add(initial_assign)
+
+                db.session.flush()
 
         return created
 

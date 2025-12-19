@@ -162,7 +162,7 @@ def _find_ontology_match(pathway_name: str) -> Optional[Dict[str, str]]:
 
 def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
     """
-    Call Gemini 2.5 Pro for pathway assignment, parse strict JSON.
+    Call Gemini 3 Flash for pathway assignment, parse strict JSON.
     """
     from google import genai as google_genai
     from google.genai import types
@@ -179,7 +179,7 @@ def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model="gemini-3-flash-preview",
                 contents=prompt,
                 config=config,
             )
