@@ -38,7 +38,9 @@ def call_gemini_flash(prompt: str, api_key: str) -> str:
         config=types.GenerateContentConfig(
             temperature=0.1,  # Low temperature for consistency
             max_output_tokens=14000,
-            thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
+            thinking_config=types.ThinkingConfig(
+                thinking_budget=8192,  # Moderate thinking for deduplication
+            ),
         )
     )
 

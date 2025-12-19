@@ -2120,7 +2120,9 @@ def _call_chat_llm(messages: list, system_prompt: str, max_history: int = 10) ->
         maxOutputTokens=5096,  # Needs to be large for 40K+ char system prompts
         temperature=0.2,  # Lower for factual, deterministic answers
         topP=0.85,  # Focused sampling for consistent responses
-        thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=8192,  # Moderate thinking for chat responses
+        ),
     )
 
     # Convert messages to Gemini format
