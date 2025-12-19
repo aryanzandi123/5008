@@ -28,8 +28,7 @@ from dotenv import load_dotenv
 
 # Constants
 MAX_OUTPUT_TOKENS = 60192
-MAX_THINKING_TOKENS = 32768  # Generous thinking budget for rigorous validation
-# MODEL ID: Using Gemini 3.0 Flash Preview with thinking for maximum reasoning power
+# MODEL ID: Using Gemini 3.0 Flash Preview with auto thinking (model decides budget)
 MODEL_ID = "gemini-3-flash-preview"
 
 class EvidenceValidatorError(RuntimeError):
@@ -86,14 +85,12 @@ def call_gemini_validation(
     """
     client = genai.Client(api_key=api_key)
     
-    # Configuration: High reasoning with thinking + Search enabled
+    # Configuration: Auto thinking + Search enabled (model decides thinking budget)
     config = types.GenerateContentConfig(
         tools=[types.Tool(google_search=types.GoogleSearch())],
         max_output_tokens=MAX_OUTPUT_TOKENS,
         temperature=0.3,  # Low temp for factual rigor
-        thinking_config=types.ThinkingConfig(
-            thinking_budget=MAX_THINKING_TOKENS,  # 32K tokens for deep reasoning
-        ),
+        thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
     )
 
     if verbose:

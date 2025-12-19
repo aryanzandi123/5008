@@ -198,9 +198,7 @@ class AIClient:
                 temperature=temperature or AI_TEMPERATURE,
                 top_p=AI_TOP_P,
                 tools=tools,
-                thinking_config=types.ThinkingConfig(
-                    thinking_budget=32768,  # Moderate thinking for pipeline stages
-                ),
+                thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
             )
 
             last_error = None

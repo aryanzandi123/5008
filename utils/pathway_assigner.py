@@ -173,9 +173,7 @@ def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
         temperature=0.3,
         top_p=0.5,
         tools=[],  # No search for speed
-        thinking_config=types.ThinkingConfig(
-            thinking_budget=32768,  # Moderate thinking for pathway assignment
-        ),
+        thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
     )
 
     last_err = None

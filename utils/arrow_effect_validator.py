@@ -160,10 +160,7 @@ def validate_single_interaction(
         client = google_genai.Client(api_key=api_key)
 
         config = types.GenerateContentConfig(
-            thinking_config=types.ThinkingConfig(
-                thinking_budget=MAX_THINKING_TOKENS,
-                include_thoughts=True,
-            ),
+            thinking_config=types.ThinkingConfig(include_thoughts=True),  # Auto thinking - model decides budget
             tools=[types.Tool(google_search=types.GoogleSearch())],
             max_output_tokens=MAX_OUTPUT_TOKENS,
             temperature=TEMPERATURE,

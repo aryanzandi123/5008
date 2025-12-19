@@ -1333,10 +1333,7 @@ Be THOROUGH and FAIR. Verify the interactor protein name FIRST before deciding C
     # MAXIMIZED Gemini configuration - enforce high thinking budget
     # Lower temperature for more consistent, rigorous fact-checking
     config = types.GenerateContentConfig(
-        thinking_config=types.ThinkingConfig(
-            thinking_budget=MAX_THINKING_TOKENS,  # 32K tokens for deep reasoning
-            include_thoughts=True,
-        ),
+        thinking_config=types.ThinkingConfig(include_thoughts=True),  # Auto thinking - model decides budget
         tools=[types.Tool(google_search=types.GoogleSearch())],
         max_output_tokens=65536,
         temperature=0.3,  # Lower temperature = more rigorous, less creative

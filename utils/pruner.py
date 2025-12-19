@@ -332,9 +332,7 @@ def _call_gemini_json(prompt: str, api_key: str, max_retries: int = 3) -> dict:
         temperature=0.2,
         top_p=0.4,
         tools=[],  # no search for speed
-        thinking_config=types.ThinkingConfig(
-            thinking_budget=8192,  # Moderate thinking for pruning decisions
-        ),
+        thinking_config=types.ThinkingConfig(),  # Auto thinking - model decides budget
     )
 
     last_err = None
