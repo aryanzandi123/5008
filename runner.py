@@ -146,6 +146,10 @@ MIN_ALLOWED_THINKING_BUDGET = 1000
 
 CACHE_DIR = "cache"
 
+# Module-level AI model selection (can be set by run_full_job)
+# Valid options: 'gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-3-flash-preview'
+CURRENT_AI_MODEL = "gemini-2.5-pro"
+
 
 def _coerce_token_count(value: Any) -> int:
     """Safely convert token counters to ints, treating None/missing as 0."""
@@ -547,10 +551,10 @@ def call_gemini_model(step: StepConfig, prompt: str, cancel_event=None) -> tuple
 
         try:
             if attempt == 1:
-                print(f"   Calling gemini-2.5-pro (thinking: {thinking_budget or 'auto'})", flush=True)
+                print(f"   Calling {CURRENT_AI_MODEL} (thinking: {thinking_budget or 'auto'})", flush=True)
 
             response = client.models.generate_content(
-                model="gemini-2.5-pro",
+                model=CURRENT_AI_MODEL,
                 contents=prompt,
                 config=config,
             )
@@ -1492,6 +1496,7 @@ def run_full_job(
     skip_deduplicator: bool = False,
     skip_arrow_determination: bool = False,
     skip_fact_checking: bool = False,
+    ai_model: str = "gemini-2.5-pro",
     flask_app = None
 ):
     """
@@ -1509,8 +1514,14 @@ def run_full_job(
         skip_deduplicator: Skip function deduplication step
         skip_arrow_determination: Skip LLM arrow determination, use heuristic (100× faster)
         skip_fact_checking: Skip claim fact-checking step (faster, may include unverified claims)
+        ai_model: Gemini model to use (gemini-2.5-pro, gemini-2.5-flash, or gemini-3-flash-preview)
         flask_app: Flask app instance (required for database operations in background thread)
     """
+    # Set the module-level AI model for this job
+    global CURRENT_AI_MODEL
+    CURRENT_AI_MODEL = ai_model
+    print(f"🤖 Using AI model: {CURRENT_AI_MODEL}", flush=True)
+
     # Get the cancel_event from jobs dict
     cancel_event = None
     with lock:

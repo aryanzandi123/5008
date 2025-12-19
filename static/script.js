@@ -159,6 +159,7 @@ function markJobCancelled(job) {
  * @pure (reads DOM but doesn't mutate)
  */
 function readConfigFromInputs() {
+  const aiModelSelect = document.getElementById('ai-model');
   const interactorRoundsInput = document.getElementById('interactor-rounds');
   const functionRoundsInput = document.getElementById('function-rounds');
   const maxDepthSelect = document.getElementById('max-depth');
@@ -169,6 +170,7 @@ function readConfigFromInputs() {
 
   if (interactorRoundsInput && functionRoundsInput) {
     return {
+      ai_model: aiModelSelect ? aiModelSelect.value : 'gemini-2.5-pro',
       interactor_rounds: parseInt(interactorRoundsInput.value) || 3,
       function_rounds: parseInt(functionRoundsInput.value) || 3,
       max_depth: maxDepthSelect ? parseInt(maxDepthSelect.value) || 3 : 3,
@@ -181,6 +183,7 @@ function readConfigFromInputs() {
 
   // Fallback to localStorage
   return {
+    ai_model: localStorage.getItem('ai_model') || 'gemini-2.5-pro',
     interactor_rounds: parseInt(localStorage.getItem('interactor_rounds')) || 3,
     function_rounds: parseInt(localStorage.getItem('function_rounds')) || 3,
     max_depth: parseInt(localStorage.getItem('max_depth')) || 3,
@@ -196,6 +199,7 @@ function readConfigFromInputs() {
  * @impure (writes to localStorage)
  */
 function saveConfigToLocalStorage(config) {
+  localStorage.setItem('ai_model', config.ai_model);
   localStorage.setItem('interactor_rounds', config.interactor_rounds);
   localStorage.setItem('function_rounds', config.function_rounds);
   localStorage.setItem('max_depth', config.max_depth);
@@ -807,6 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Restore saved config on page load ---
+  const aiModelSelect = document.getElementById('ai-model');
   const interactorRoundsInput = document.getElementById('interactor-rounds');
   const functionRoundsInput = document.getElementById('function-rounds');
   const maxDepthSelect = document.getElementById('max-depth');
@@ -816,6 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const skipFactCheckingCheckbox = document.getElementById('skip-fact-checking');
 
   if (interactorRoundsInput && functionRoundsInput) {
+    const savedAiModel = localStorage.getItem('ai_model');
     const savedInteractor = localStorage.getItem('interactor_rounds');
     const savedFunction = localStorage.getItem('function_rounds');
     const savedMaxDepth = localStorage.getItem('max_depth');
@@ -824,6 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedSkipArrow = localStorage.getItem('skip_arrow_determination');
     const savedSkipFactChecking = localStorage.getItem('skip_fact_checking');
 
+    if (savedAiModel && aiModelSelect) aiModelSelect.value = savedAiModel;
     if (savedInteractor) interactorRoundsInput.value = savedInteractor;
     if (savedFunction) functionRoundsInput.value = savedFunction;
     if (savedMaxDepth && maxDepthSelect) maxDepthSelect.value = savedMaxDepth;

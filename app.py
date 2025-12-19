@@ -181,6 +181,12 @@ def start_query():
             "error": "Invalid protein name format. Please use only letters, numbers, hyphens, and underscores."
         }), 400
 
+    # Extract AI model selection (with validation)
+    VALID_MODELS = ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-3-flash-preview']
+    ai_model = data.get('ai_model', 'gemini-2.5-pro')
+    if ai_model not in VALID_MODELS:
+        ai_model = 'gemini-2.5-pro'  # Default to pro if invalid
+
     # Extract configuration (with defaults and validation)
     try:
         interactor_rounds = int(data.get('interactor_rounds', 3))
@@ -240,7 +246,7 @@ def start_query():
         }
         thread = threading.Thread(
             target=run_full_job,
-            args=(protein_name, jobs, jobs_lock, interactor_rounds, function_rounds, max_depth, skip_validation, skip_deduplicator, skip_arrow_determination, skip_fact_checking, app)
+            args=(protein_name, jobs, jobs_lock, interactor_rounds, function_rounds, max_depth, skip_validation, skip_deduplicator, skip_arrow_determination, skip_fact_checking, ai_model, app)
         )
         thread.daemon = True
         thread.start()

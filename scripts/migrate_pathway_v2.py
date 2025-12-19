@@ -244,11 +244,9 @@ def run_migration():
         print("\n" + "=" * 60)
         print("MIGRATION COMPLETE")
         print("=" * 60)
-        print("\nNext steps:")
-        print("1. Create scripts/pathway_pipeline_v2/ directory")
-        print("2. Implement Stage 1-7 scripts")
-        print("3. Update runner.py to integrate Stage 1")
-        print("4. Test with: python scripts/pathway_pipeline_v2/run_batch.py")
+        print("\nYou're ready to use the pipeline!")
+        print("  1. Query proteins normally via app.py (Stage 1 runs automatically)")
+        print("  2. After queries, run: python scripts/pathway_pipeline_v2/run_batch.py")
 
 
 if __name__ == '__main__':
