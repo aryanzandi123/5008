@@ -15,11 +15,13 @@ This migration:
    - pathway_canonical_names (Stage 2 name mapping)
    - pathway_hierarchy_history (Stage 4-6 history cache)
 
-4. Ensures ALL 12 root categories exist:
+4. Ensures ALL 17 root categories exist:
    - Cellular Signaling, Metabolism, Protein Quality Control, Cell Death
    - Cell Cycle, DNA Damage Response, Vesicle Transport, Immune Response
    - Neuronal Function, Cytoskeleton Organization
    - Transcriptional Regulation, Chromatin Organization
+   - RNA Processing, Translation
+   - Development & Differentiation, Membrane Transport, Extracellular Matrix Organization
 
 Run: python scripts/migrate_pathway_v2.py
 """
@@ -34,7 +36,7 @@ from app import app, db
 from sqlalchemy import text
 
 
-# ALL root categories - ensure all 12 exist (not just new ones)
+# ALL root categories - ensure all 17 exist (not just new ones)
 ALL_ROOT_CATEGORIES = [
     # Original 10 roots
     {
@@ -87,7 +89,7 @@ ALL_ROOT_CATEGORIES = [
         "go_id": "GO:0007015",
         "description": "Cytoskeletal dynamics and organization",
     },
-    # New additions for comprehensive coverage
+    # Added for comprehensive coverage (gene expression)
     {
         "name": "Transcriptional Regulation",
         "go_id": "GO:0006355",
@@ -97,6 +99,33 @@ ALL_ROOT_CATEGORIES = [
         "name": "Chromatin Organization",
         "go_id": "GO:0006325",
         "description": "Chromatin structure, histone modifications, and epigenetic regulation",
+    },
+    # Added for comprehensive coverage (RNA & protein synthesis)
+    {
+        "name": "RNA Processing",
+        "go_id": "GO:0006396",
+        "description": "RNA splicing, modification, and post-transcriptional regulation",
+    },
+    {
+        "name": "Translation",
+        "go_id": "GO:0006412",
+        "description": "Protein synthesis, ribosome function, and translational control",
+    },
+    # Added for comprehensive coverage (multicellular & structural)
+    {
+        "name": "Development & Differentiation",
+        "go_id": "GO:0032502",
+        "description": "Developmental processes, cell fate determination, and tissue morphogenesis",
+    },
+    {
+        "name": "Membrane Transport",
+        "go_id": "GO:0055085",
+        "description": "Ion channels, transporters, and membrane-mediated homeostasis",
+    },
+    {
+        "name": "Extracellular Matrix Organization",
+        "go_id": "GO:0030198",
+        "description": "ECM components, cell-matrix interactions, and tissue architecture",
     },
 ]
 
@@ -137,10 +166,10 @@ def create_table_if_not_exists(session, table_name: str, create_sql: str):
 
 
 def seed_all_root_categories(session):
-    """Seed ALL 12 root categories into database (creates missing ones)."""
+    """Seed ALL 17 root categories into database (creates missing ones)."""
     from models import Pathway
 
-    print("   Ensuring all 12 root categories exist...")
+    print("   Ensuring all 17 root categories exist...")
     created_count = 0
     for root in ALL_ROOT_CATEGORIES:
         existing = session.query(Pathway).filter_by(name=root["name"]).first()
@@ -169,7 +198,7 @@ def seed_all_root_categories(session):
         print(f"   ✓ Created root: {root['name']}")
 
     session.commit()
-    print(f"   ✓ Root categories complete ({created_count} new, {12 - created_count} already existed)")
+    print(f"   ✓ Root categories complete ({created_count} new, {17 - created_count} already existed)")
 
 
 def run_migration():
@@ -282,9 +311,9 @@ def run_migration():
         session.commit()
 
         # =====================================================================
-        # STEP 3: Ensure ALL 12 root categories exist
+        # STEP 3: Ensure ALL 17 root categories exist
         # =====================================================================
-        print("\n[Step 3] Ensuring all 12 root categories exist...")
+        print("\n[Step 3] Ensuring all 17 root categories exist...")
         seed_all_root_categories(session)
 
         # =====================================================================

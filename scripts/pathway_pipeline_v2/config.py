@@ -3,7 +3,7 @@
 Configuration for Pathway Pipeline V2
 
 Contains:
-- ROOT_CATEGORIES: Fixed set of Level 1 root pathways (12 total)
+- ROOT_CATEGORIES: Fixed set of Level 1 root pathways (17 total)
 - AI model configuration
 - Batch sizes and other constants
 """
@@ -17,7 +17,7 @@ from typing import Dict, Set
 # one of these roots at some level. The pipeline MUST NOT create new roots.
 
 ROOT_CATEGORIES: Dict[str, str] = {
-    # Existing 10 roots
+    # Original 10 roots
     "Cellular Signaling": "GO:0007165",
     "Metabolism": "GO:0008152",
     "Protein Quality Control": "GO:0006457",
@@ -28,9 +28,16 @@ ROOT_CATEGORIES: Dict[str, str] = {
     "Immune Response": "GO:0006955",
     "Neuronal Function": "GO:0050877",
     "Cytoskeleton Organization": "GO:0007015",
-    # New additions for comprehensive coverage
+    # Added for comprehensive coverage (gene expression)
     "Transcriptional Regulation": "GO:0006355",
     "Chromatin Organization": "GO:0006325",
+    # Added for comprehensive coverage (RNA & protein synthesis)
+    "RNA Processing": "GO:0006396",
+    "Translation": "GO:0006412",
+    # Added for comprehensive coverage (multicellular & structural)
+    "Development & Differentiation": "GO:0032502",
+    "Membrane Transport": "GO:0055085",
+    "Extracellular Matrix Organization": "GO:0030198",
 }
 
 # Set of root category names for quick lookup
