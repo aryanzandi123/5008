@@ -243,6 +243,7 @@ def run_stage3_from_db():
                         name=final_pathway,
                         ai_generated=True,
                         pathway_type='main',
+                        hierarchy_level=999,  # Mark as unprocessed - Stage 4 will set proper level
                     )
                     db.session.add(pathway)
                     db.session.flush()

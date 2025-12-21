@@ -367,6 +367,20 @@ def run_stage5_from_db():
                     logger.warning(f"Parent pathway not found: {parent_pathway}")
                     continue
 
+                # Check if this level ALREADY HAS sibling children (indicating it was processed before)
+                # Only add siblings for NEWLY CREATED main pathways, not already-existing ones
+                existing_sibling_count = db.session.query(Pathway).join(
+                    PathwayParent,
+                    PathwayParent.child_pathway_id == Pathway.id
+                ).filter(
+                    PathwayParent.parent_pathway_id == parent.id,
+                    Pathway.pathway_type == 'sibling'
+                ).count()
+
+                if existing_sibling_count > 0:
+                    logger.info(f"Skipping '{main_pathway}' - parent '{parent_pathway}' already has {existing_sibling_count} siblings (processed before)")
+                    continue
+
                 # Get existing siblings (children of parent)
                 existing_children = db.session.query(Pathway).join(
                     PathwayParent,

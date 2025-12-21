@@ -160,7 +160,9 @@ def prune_dead_pathways(dry_run: bool = True) -> List[int]:
 
         # Get all pathway IDs
         all_pathways = db.session.query(Pathway).all()
-        root_ids = {p.id for p in all_pathways if p.hierarchy_level == 0}
+        # Only count pathways whose NAME is in ROOT_CATEGORY_NAMES as roots
+        # NOT just any pathway with hierarchy_level=0 (which could be orphans)
+        root_ids = {p.id for p in all_pathways if p.name in ROOT_CATEGORY_NAMES}
 
         # Find dead pathways (zero interactions in subtree, not a root)
         dead_pathways: List[int] = []
@@ -169,6 +171,11 @@ def prune_dead_pathways(dry_run: bool = True) -> List[int]:
         for pathway in all_pathways:
             if pathway.id in root_ids:
                 continue  # Never prune roots
+
+            # NEVER prune siblings - they are intentional hierarchy placeholders
+            # Siblings exist to show biological context, not to have interactions
+            if pathway.pathway_type == 'sibling':
+                continue
 
             subtree_count = get_interaction_count_in_subtree(
                 pathway.id, child_map, interaction_counts, subtree_cache
@@ -197,6 +204,76 @@ def prune_dead_pathways(dry_run: bool = True) -> List[int]:
         logger.info(f"Pruned {len(dead_pathways)} dead pathways")
 
         return dead_pathways
+
+
+def fix_orphan_pathways() -> List[str]:
+    """
+    Fix pathways with hierarchy_level=0 that are NOT valid roots.
+    These are 'orphan roots' that should be connected to the hierarchy.
+
+    Returns list of fixed pathway names.
+    """
+    from app import app, db
+    from models import Pathway, PathwayParent
+
+    with app.app_context():
+        # Find orphan roots: hierarchy_level=0 but NOT in ROOT_CATEGORY_NAMES
+        orphans = db.session.query(Pathway).filter(
+            Pathway.hierarchy_level == 0,
+            ~Pathway.name.in_(ROOT_CATEGORY_NAMES)
+        ).all()
+
+        if not orphans:
+            logger.info("No orphan pathways found")
+            return []
+
+        logger.info(f"Found {len(orphans)} orphan pathways to fix")
+
+        # Get fallback root (Protein Quality Control)
+        fallback_root = db.session.query(Pathway).filter_by(
+            name="Protein Quality Control"
+        ).first()
+
+        if not fallback_root:
+            # Create fallback root if missing
+            fallback_root = Pathway(
+                name="Protein Quality Control",
+                ontology_id="GO:0006457",
+                hierarchy_level=0,
+                pathway_type='main',
+                ai_generated=False,
+            )
+            db.session.add(fallback_root)
+            db.session.flush()
+            logger.info("Created fallback root: Protein Quality Control")
+
+        fixed = []
+        for orphan in orphans:
+            # Set proper hierarchy_level (1 = direct child of root)
+            orphan.hierarchy_level = 1
+
+            # Create parent link to fallback root
+            existing_link = db.session.query(PathwayParent).filter_by(
+                child_pathway_id=orphan.id
+            ).first()
+
+            if not existing_link:
+                link = PathwayParent(
+                    child_pathway_id=orphan.id,
+                    parent_pathway_id=fallback_root.id,
+                    relationship_type='is_a',
+                    confidence=0.5,  # Low confidence - AI didn't place it
+                    source='orphan_fix',
+                    is_primary_chain=True,
+                )
+                db.session.add(link)
+
+            fixed.append(orphan.name)
+            logger.info(f"Fixed orphan pathway: {orphan.name}")
+
+        db.session.commit()
+        logger.info(f"Fixed {len(fixed)} orphan pathways")
+        return fixed
 
 
 def validate_hierarchy_invariants() -> Dict[str, Any]:
@@ -232,7 +309,8 @@ def validate_hierarchy_invariants() -> Dict[str, Any]:
             child_map[rel.parent_pathway_id].add(rel.child_pathway_id)
             parent_map[rel.child_pathway_id].add(rel.parent_pathway_id)
 
-        root_ids = {p.id for p in all_pathways if p.hierarchy_level == 0}
+        # Only count pathways whose NAME is in ROOT_CATEGORY_NAMES as roots
+        root_ids = {p.id for p in all_pathways if p.name in ROOT_CATEGORY_NAMES}
 
         # Stats
         report["stats"] = {
@@ -325,16 +403,26 @@ def validate_hierarchy_invariants() -> Dict[str, Any]:
         return report
 
 
-def run_stage7(prune: bool = False):
+def run_stage7(prune: bool = False, fix_orphans: bool = True):
     """
     Run Stage 7: Final validation and optional commit.
 
     Args:
         prune: If True, actually prune dead pathways. If False, dry run only.
+        fix_orphans: If True, fix orphan pathways before validation (default True).
     """
     logger.info("=" * 60)
     logger.info("STAGE 7: FINAL VALIDATION AND COMMIT")
     logger.info("=" * 60)
+
+    # Fix orphan pathways first (pathways with hierarchy_level=0 that aren't valid roots)
+    if fix_orphans:
+        print("\n--- FIXING ORPHAN PATHWAYS ---")
+        fixed = fix_orphan_pathways()
+        if fixed:
+            print(f"Fixed {len(fixed)} orphan pathways: {', '.join(fixed[:5])}{'...' if len(fixed) > 5 else ''}")
+        else:
+            print("No orphan pathways found")
 
     # Validate invariants
     report = validate_hierarchy_invariants()
@@ -379,6 +467,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Stage 7: Validate and commit pathway hierarchy")
     parser.add_argument("--prune", action="store_true", help="Actually prune dead pathways")
+    parser.add_argument("--no-fix-orphans", action="store_true", help="Skip fixing orphan pathways")
     args = parser.parse_args()
 
-    run_stage7(prune=args.prune)
+    run_stage7(prune=args.prune, fix_orphans=not args.no_fix_orphans)

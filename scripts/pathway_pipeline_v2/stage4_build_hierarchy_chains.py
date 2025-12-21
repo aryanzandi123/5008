@@ -545,6 +545,20 @@ def run_stage4_from_db():
                     else:
                         logger.warning(f"Failed to build chain for '{pathway_name}'")
 
+        # Fix any pathways that still didn't get chains - use fallback
+        pathways_still_missing = [
+            pw["name"] for pw in pathways_with_context
+            if pw["name"] not in existing_chains
+        ]
+        if pathways_still_missing:
+            logger.warning(f"Using fallback chains for {len(pathways_still_missing)} pathways that failed AI processing")
+            for pathway_name in pathways_still_missing:
+                # Create fallback chain under Protein Quality Control
+                fallback_chain = ["Protein Quality Control", pathway_name]
+                ensure_pathway_chain_in_db(fallback_chain, source='fallback')
+                existing_chains[pathway_name] = fallback_chain
+                logger.info(f"Created fallback chain for '{pathway_name}': Protein Quality Control -> {pathway_name}")
+
         logger.info(f"Stage 4 complete: {len(existing_chains)} chains built")
 
 
