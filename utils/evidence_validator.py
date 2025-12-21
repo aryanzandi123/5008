@@ -12,9 +12,11 @@ import os
 import sys
 import time
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from threading import Lock
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # Fix Windows console encoding
 if sys.stdout.encoding != 'utf-8':
@@ -209,15 +211,83 @@ A common error is conflating **Transcriptional Repression** with **Protein Insta
 """
 
 
+def _process_single_batch(
+    batch_info: Tuple[int, List[Dict[str, Any]]],
+    main_protein: str,
+    total_interactors: int,
+    api_key: str,
+    verbose: bool,
+    print_lock: Lock
+) -> Tuple[int, List[Dict[str, Any]], Optional[str]]:
+    """
+    Process a single batch of interactors. Thread-safe.
+    Returns: (batch_index, validated_interactors, error_message or None)
+    """
+    batch_idx, batch = batch_info
+    batch_start = batch_idx
+    batch_end = batch_idx + len(batch)
+
+    with print_lock:
+        print(f"\n[Batch {batch_idx // 3 + 1}] Validating {len(batch)} interactors ({batch[0]['primary']}...)...")
+
+    try:
+        prompt = create_validation_prompt(main_protein, batch, batch_start, batch_end, total_interactors)
+        response_text = call_gemini_validation(prompt, api_key, verbose)
+        result = extract_json_from_response(response_text)
+
+        validated = []
+        if 'interactors' in result:
+            for val_int in result['interactors']:
+                orig = next((x for x in batch if x['primary'] == val_int['primary']), None)
+                if orig:
+                    if not val_int.get('is_valid', True):
+                        with print_lock:
+                            print(f"  [Batch {batch_idx // 3 + 1}] {val_int['primary']} flagged as INVALID.")
+                        orig['_validation_status'] = 'rejected'
+                        orig['mechanism'] = "EVIDENCE REJECTED: " + val_int.get('mechanism_correction', 'No interaction found')
+                        validated.append(orig)
+                    else:
+                        with print_lock:
+                            print(f"  [Batch {batch_idx // 3 + 1}] {val_int['primary']} validated.")
+                        orig.update(val_int)
+                        validated.append(orig)
+        else:
+            with print_lock:
+                print(f"  [Batch {batch_idx // 3 + 1}] No 'interactors' in response, keeping originals.")
+            validated = list(batch)
+
+        return (batch_idx, validated, None)
+
+    except Exception as e:
+        with print_lock:
+            print(f"  [Batch {batch_idx // 3 + 1}] Failed: {e}. Keeping originals.")
+        return (batch_idx, list(batch), str(e))
+
+
 def validate_and_enrich_evidence(
     json_data: Dict[str, Any],
     api_key: str,
     verbose: bool = False,
-    batch_size: int = 3, # Low batch size for rigorous thinking
-    step_logger = None
+    batch_size: int = 3,
+    step_logger = None,
+    max_workers: int = 3  # Conservative parallelization
 ) -> Dict[str, Any]:
     """
-    Main validation function.
+    Main validation function with PARALLEL batch processing.
+
+    Uses ThreadPoolExecutor to process multiple batches concurrently,
+    significantly reducing wall-clock time for large interactor sets.
+
+    Args:
+        json_data: Pipeline JSON with ctx_json containing interactors
+        api_key: Gemini API key
+        verbose: Enable verbose logging
+        batch_size: Interactors per batch (default 3)
+        step_logger: Optional logger
+        max_workers: Max concurrent API calls (default 3, conservative)
+
+    Returns:
+        Updated json_data with validated interactors
     """
     if 'ctx_json' not in json_data:
         print("[WARN] No ctx_json found, skipping validation.")
@@ -225,54 +295,90 @@ def validate_and_enrich_evidence(
 
     main_protein = json_data['ctx_json'].get('main', 'Unknown')
     interactors = json_data['ctx_json'].get('interactors', [])
-    
+    total_interactors = len(interactors)
+
+    if total_interactors == 0:
+        print("[WARN] No interactors to validate.")
+        return json_data
+
+    # Calculate batch count
+    num_batches = (total_interactors + batch_size - 1) // batch_size
+
     print(f"\n{'='*60}")
-    print(f"🔍 RIGOROUS EVIDENCE VALIDATION FOR: {main_protein}")
+    print(f"RIGOROUS EVIDENCE VALIDATION FOR: {main_protein}")
     print(f"   Model: {MODEL_ID} (Scientific Adversary Mode)")
-    print(f"   Total interactors: {len(interactors)}")
+    print(f"   Total interactors: {total_interactors}")
+    print(f"   Batches: {num_batches} (size={batch_size})")
+    print(f"   Parallel workers: {max_workers}")
     print(f"{'='*60}")
 
-    validated_interactors = []
+    # Prepare batches: (start_index, batch_list)
+    batches: List[Tuple[int, List[Dict[str, Any]]]] = []
+    for i in range(0, total_interactors, batch_size):
+        batches.append((i, interactors[i : i + batch_size]))
 
-    for i in range(0, len(interactors), batch_size):
-        batch = interactors[i : i + batch_size]
-        print(f"\n[Batch {i//batch_size + 1}] Validating {len(batch)} interactors ({batch[0]['primary']}...)...")
-        
-        prompt = create_validation_prompt(main_protein, batch, i, i+len(batch), len(interactors))
-        
-        try:
-            response_text = call_gemini_validation(prompt, api_key, verbose)
-            result = extract_json_from_response(response_text)
-            
-            # Merge logic
-            if 'interactors' in result:
-                for val_int in result['interactors']:
-                    # Find original to preserve extra fields if needed
-                    orig = next((x for x in batch if x['primary'] == val_int['primary']), None)
-                    if orig:
-                        # If marked invalid, we might drop it or flag it. 
-                        # For now, we keep it but update fields, unless strictly false.
-                        if not val_int.get('is_valid', True):
-                            print(f"  ❌ {val_int['primary']} flagged as INVALID interaction.")
-                            orig['_validation_status'] = 'rejected'
-                            orig['mechanism'] = "EVIDENCE REJECTED: " + val_int.get('mechanism_correction', 'No interaction found')
-                            validated_interactors.append(orig)
-                        else:
-                            # Update fields
-                            print(f"  ✅ {val_int['primary']} validated.")
-                            orig.update(val_int)
-                            validated_interactors.append(orig)
-            else:
-                print("  ⚠️  No 'interactors' list in response, keeping original.")
-                validated_interactors.extend(batch)
-                
-        except Exception as e:
-            print(f"  ❌ Batch failed: {e}. Keeping originals.")
-            validated_interactors.extend(batch)
+    # Results storage - preserves original order
+    results: List[Tuple[int, List[Dict[str, Any]]]] = [None] * len(batches)
+    errors: List[str] = []
+    print_lock = Lock()
+
+    start_time = time.time()
+
+    # Process batches in parallel
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all batch jobs
+        future_to_batch = {
+            executor.submit(
+                _process_single_batch,
+                batch_info,
+                main_protein,
+                total_interactors,
+                api_key,
+                verbose,
+                print_lock
+            ): batch_info[0]
+            for batch_info in batches
+        }
+
+        # Collect results as they complete
+        completed = 0
+        for future in as_completed(future_to_batch):
+            batch_start_idx = future_to_batch[future]
+            batch_list_idx = batch_start_idx // batch_size
+
+            try:
+                batch_idx, validated, error = future.result()
+                results[batch_list_idx] = (batch_idx, validated)
+                if error:
+                    errors.append(f"Batch {batch_list_idx + 1}: {error}")
+            except Exception as e:
+                # Fallback: keep original batch
+                orig_batch = batches[batch_list_idx][1]
+                results[batch_list_idx] = (batch_start_idx, list(orig_batch))
+                errors.append(f"Batch {batch_list_idx + 1}: {e}")
+
+            completed += 1
+            with print_lock:
+                print(f"   Progress: {completed}/{len(batches)} batches complete")
+
+    elapsed = time.time() - start_time
+
+    # Flatten results in original order
+    validated_interactors = []
+    for batch_idx, validated_batch in results:
+        validated_interactors.extend(validated_batch)
+
+    print(f"\n{'='*60}")
+    print(f"VALIDATION COMPLETE")
+    print(f"   Validated: {len(validated_interactors)} interactors")
+    print(f"   Time: {elapsed:.1f}s ({elapsed/60:.1f} min)")
+    if errors:
+        print(f"   Errors: {len(errors)} batches had issues (kept originals)")
+    print(f"{'='*60}")
 
     # Update payload
     json_data['ctx_json']['interactors'] = validated_interactors
-    
+
     # Also update snapshot if present
     if 'snapshot_json' in json_data:
         json_data['snapshot_json']['interactors'] = validated_interactors
