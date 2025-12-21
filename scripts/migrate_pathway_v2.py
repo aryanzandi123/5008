@@ -15,9 +15,11 @@ This migration:
    - pathway_canonical_names (Stage 2 name mapping)
    - pathway_hierarchy_history (Stage 4-6 history cache)
 
-4. Seeds 2 new root categories:
-   - Transcriptional Regulation (GO:0006355)
-   - Chromatin Organization (GO:0006325)
+4. Ensures ALL 12 root categories exist:
+   - Cellular Signaling, Metabolism, Protein Quality Control, Cell Death
+   - Cell Cycle, DNA Damage Response, Vesicle Transport, Immune Response
+   - Neuronal Function, Cytoskeleton Organization
+   - Transcriptional Regulation, Chromatin Organization
 
 Run: python scripts/migrate_pathway_v2.py
 """
@@ -32,8 +34,60 @@ from app import app, db
 from sqlalchemy import text
 
 
-# New root categories to add (for comprehensive coverage)
-NEW_ROOT_CATEGORIES = [
+# ALL root categories - ensure all 12 exist (not just new ones)
+ALL_ROOT_CATEGORIES = [
+    # Original 10 roots
+    {
+        "name": "Cellular Signaling",
+        "go_id": "GO:0007165",
+        "description": "Signal transduction pathways and cellular communication",
+    },
+    {
+        "name": "Metabolism",
+        "go_id": "GO:0008152",
+        "description": "Metabolic processes including catabolism and anabolism",
+    },
+    {
+        "name": "Protein Quality Control",
+        "go_id": "GO:0006457",
+        "description": "Protein folding, degradation, and quality control mechanisms",
+    },
+    {
+        "name": "Cell Death",
+        "go_id": "GO:0008219",
+        "description": "Programmed cell death including apoptosis and necrosis",
+    },
+    {
+        "name": "Cell Cycle",
+        "go_id": "GO:0007049",
+        "description": "Cell cycle regulation and checkpoints",
+    },
+    {
+        "name": "DNA Damage Response",
+        "go_id": "GO:0006974",
+        "description": "DNA repair and damage response pathways",
+    },
+    {
+        "name": "Vesicle Transport",
+        "go_id": "GO:0016192",
+        "description": "Intracellular vesicle trafficking and transport",
+    },
+    {
+        "name": "Immune Response",
+        "go_id": "GO:0006955",
+        "description": "Innate and adaptive immune responses",
+    },
+    {
+        "name": "Neuronal Function",
+        "go_id": "GO:0050877",
+        "description": "Neuronal signaling, synaptic function, and neurotransmission",
+    },
+    {
+        "name": "Cytoskeleton Organization",
+        "go_id": "GO:0007015",
+        "description": "Cytoskeletal dynamics and organization",
+    },
+    # New additions for comprehensive coverage
     {
         "name": "Transcriptional Regulation",
         "go_id": "GO:0006355",
@@ -82,15 +136,21 @@ def create_table_if_not_exists(session, table_name: str, create_sql: str):
         return False
 
 
-def seed_new_root_categories(session):
-    """Seed new root categories into database."""
+def seed_all_root_categories(session):
+    """Seed ALL 12 root categories into database (creates missing ones)."""
     from models import Pathway
 
-    print("   Checking for new root categories to seed...")
-    for root in NEW_ROOT_CATEGORIES:
+    print("   Ensuring all 12 root categories exist...")
+    created_count = 0
+    for root in ALL_ROOT_CATEGORIES:
         existing = session.query(Pathway).filter_by(name=root["name"]).first()
         if existing:
-            print(f"   ✓ Root '{root['name']}' already exists")
+            # Ensure existing root has correct properties
+            if existing.hierarchy_level != 0:
+                existing.hierarchy_level = 0
+                print(f"   ✓ Fixed root level for '{root['name']}'")
+            if existing.pathway_type != 'main':
+                existing.pathway_type = 'main'
             continue
 
         # Create new root pathway
@@ -105,9 +165,11 @@ def seed_new_root_categories(session):
             pathway_type='main',
         )
         session.add(new_root)
-        print(f"   ✓ Seeded new root: {root['name']}")
+        created_count += 1
+        print(f"   ✓ Created root: {root['name']}")
 
     session.commit()
+    print(f"   ✓ Root categories complete ({created_count} new, {12 - created_count} already existed)")
 
 
 def run_migration():
@@ -220,10 +282,10 @@ def run_migration():
         session.commit()
 
         # =====================================================================
-        # STEP 3: Seed new root categories
+        # STEP 3: Ensure ALL 12 root categories exist
         # =====================================================================
-        print("\n[Step 3] Seeding new root categories...")
-        seed_new_root_categories(session)
+        print("\n[Step 3] Ensuring all 12 root categories exist...")
+        seed_all_root_categories(session)
 
         # =====================================================================
         # STEP 4: Verify migration
