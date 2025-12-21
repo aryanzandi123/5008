@@ -1,91 +1,70 @@
 {
   "primary": "TCP1",
-  "interaction_type": "indirect",
+  "interaction_type": "direct",
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with the CCT complex (including TCP1) to regulate mitochondrial transport in neurons (Co-IP evidence).",
+  "support_summary": "TCP1 (subunit of TRiC/CCT) physically binds ATXN3, particularly the mutant form (MS and Co-IP evidence)",
   "functions": [
     {
-      "function": "Mitochondrial Axonal Transport",
-      "arrow": "activates",
-      "cellular_process": "Normal ATXN3 interacts with the chaperonin containing TCP-1 (CCT/TRiC) complex, a key machinery for protein folding and cellular transport. This interaction is crucial for the proper motility of mitochondria along neuronal axons, ensuring energy supply to distal parts of the neuron.",
-      "effect_description": "The polyglutamine expansion in mutant ATXN3 leads to a weakened or lost interaction with the CCT complex, including the TCP1 subunit. This compromised binding disrupts the transport machinery, resulting in altered mitochondrial motility and contributing to the neurodegeneration seen in SCA3.",
+      "function": "TRiC-Mediated Protein Folding",
+      "arrow": "inhibits",
+      "cellular_process": "Mutant ATXN3 binds to the TCP1 subunit of the TRiC/CCT complex, leading to the sequestration of the chaperonin and preventing it from folding essential substrates like actin and tubulin.",
+      "effect_description": "Mutant ATXN3 impairs the chaperonin activity of the TRiC complex by sequestering its core subunits.",
       "biological_consequence": [
-        "Normal ATXN3 binds to CCT/TRiC complex (containing TCP1) → Facilitates axonal transport machinery → Normal mitochondrial motility → Neuronal energy homeostasis.",
-        "PolyQ-expanded ATXN3 → Weakened/lost interaction with CCT/TRiC complex → Impaired mitochondrial transport → Deficient energy supply in axons → Neuronal dysfunction in SCA3."
+        "Mutant ATXN3/TCP1 interaction → TRiC sequestration → impaired protein folding → cytoskeletal defects and aggregation",
+        "Loss of TRiC function → accumulation of misfolded actin and tubulin → axonal transport deficits"
       ],
       "specific_effects": [
-        "Physical association with the CCT/TRiC chaperonin complex.",
-        "Mutant ATXN3 causes a loss of this physical interaction.",
-        "Disrupted interaction leads to functionally impaired mitochondrial transport in SCA3 neurites."
+        "Reduced levels of soluble actin and tubulin in SCA3 models",
+        "Increased formation of mutant ATXN3 inclusions due to loss of chaperone capacity"
       ],
       "evidence": [
         {
           "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
-          "journal": "Frontiers in Molecular Neuroscience",
           "year": 2023,
-          "relevant_quote": "We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits... Therefore, dysregulation of CCT/TCP-1/TRiC complex subunits resulting from compromised interaction with mutant ataxin-3 might have a direct impact on mitochondrial transport in axons.",
           "pmid": "37033372"
         }
       ],
+      "_context": {
+        "type": "direct",
+        "query_protein": null,
+        "chain": null
+      },
+      "interaction_effect": "inhibits",
+      "direction": "main_to_primary",
+      "interaction_direction": "main_to_primary",
       "pmids": [
         "37033372"
-      ],
-      "interaction_effect": "activation",
-      "interaction_direction": "main_to_primary",
-      "function_effect": "activation",
-      "arrow_context": {
-        "direct_from": null,
-        "direct_arrow": "activates",
-        "net_from": "ATXN3",
-        "net_arrow": "activates",
-        "mediator_chain": [],
-        "is_indirect": true
-      },
-      "net_arrow": "activates",
-      "direct_arrow": "activates",
-      "net_effect": "activation",
-      "direct_effect": "activation"
+      ]
     }
   ],
-  "arrow": "binds",
+  "arrow": "inhibits",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "inhibits"
     ]
   },
-  "is_valid": true,
-  "mechanism_correction": "The input claim that ATXN3 'activates' TCP1 is a contextual error. The literature shows that ATXN3 physically interacts with the CCT/TRiC complex, of which TCP1 is a subunit. However, polyQ-expanded, mutant ATXN3 shows weakened or lost interaction with this complex. This loss of interaction, rather than a failure of activation, is correlated with impaired mitochondrial transport. The arrow is corrected from 'activates' to 'binds'.",
-  "mechanism": "Normal ATXN3 interacts with the chaperonin containing TCP-1 (CCT/TRiC) complex, a key machinery for protein folding and cellular transport. This interaction is crucial for the proper motility of mitochondria along neuronal axons, ensuring energy supply to distal parts of the neuron.",
-  "effect": "The polyglutamine expansion in mutant ATXN3 leads to a weakened or lost interaction with the CCT complex, including the TCP1 subunit. This compromised binding disrupts the transport machinery, resulting in altered mitochondrial motility and contributing to the neurodegeneration seen in SCA3.",
-  "summary": "ATXN3 interacts with TCP1 to modulate mitochondrial axonal transport, ultimately affecting neuronal energy homeostasis.",
+  "mechanism": "Mutant ATXN3 binds to the TCP1 subunit of the TRiC/CCT complex, leading to the sequestration of the chaperonin and preventing it from folding essential substrates like actin and tubulin.",
+  "effect": "Mutant ATXN3 impairs the chaperonin activity of the TRiC complex by sequestering its core subunits.",
+  "summary": "ATXN3 inhibits TCP1 to modulate tric-mediated protein folding, ultimately affecting cytoskeletal defects and aggregation.",
   "evidence": [
     {
       "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
-      "journal": "Frontiers in Molecular Neuroscience",
-      "year": 2023,
-      "relevant_quote": "We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits... Therefore, dysregulation of CCT/TCP-1/TRiC complex subunits resulting from compromised interaction with mutant ataxin-3 might have a direct impact on mitochondrial transport in axons."
+      "year": 2023
     }
   ],
   "initial_pathway": {
-    "pathway_name": "Chaperonin-mediated Protein Folding",
+    "pathway_name": "Chaperonin-mediated protein folding",
     "confidence": 0.9,
-    "reasoning": "TCP1 is a subunit of the TRiC/CCT chaperonin complex, which interacts with ATXN3 to assist in the proper folding of proteins and prevent toxic aggregation."
+    "reasoning": "TCP1 is a subunit of the TRiC/CCT chaperonin complex. Ataxin-3 interacts with this complex to modulate the folding and aggregation of polyglutamine proteins, falling under the root of Protein Quality Control."
   },
-  "interaction_effect": "binding",
-  "_validation_metadata": {
-    "validated": true,
-    "validator": "arrow_effect_validator",
-    "corrections_applied": 2
-  },
-  "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --binds--> TCP1:",
+  "arrow_notation": "ATXN3 --inhibits--> TCP1:",
   "protein_a": "ATXN3",
   "protein_b": "TCP1",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.365738Z",
-  "last_updated": "2025-12-19T07:06:31.365738Z"
+  "first_discovered": "2025-12-21T04:04:27.523225Z",
+  "last_updated": "2025-12-21T04:04:27.523225Z"
 }

@@ -1,0 +1,78 @@
+{
+  "primary": "CHEK1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "CHEK1 (Chk1) physically binds ATXN3 which regulates its stability (Co-IP evidence)",
+  "functions": [
+    {
+      "function": "Chk1 Stabilization & G2/M Checkpoint Control",
+      "arrow": "activates",
+      "cellular_process": "Maintenance of genome integrity via DNA damage-induced cell cycle arrest.",
+      "effect_description": "ATXN3 deubiquitinates and stabilizes Chk1, preventing its proteasomal degradation and ensuring sufficient Chk1 levels for checkpoint signaling.",
+      "biological_consequence": [
+        "DNA Damage/Replication Stress → ATXN3 binds Chk1 → Removes K48-linked polyubiquitin chains → Inhibits proteasomal degradation → Increases Chk1 protein half-life → Chk1 phosphorylates Cdc25C at Ser216 → Inhibition of Cdk1/Cyclin B → G2/M cell cycle arrest."
+      ],
+      "specific_effects": [
+        "Increases Chk1 protein half-life from ~2 hours to >6 hours",
+        "Antagonizes FBXO6/CUL1-mediated K48-linked ubiquitination of Chk1",
+        "ATXN3 deficiency results in compromised G2/M arrest following ionizing radiation"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 promotes genome integrity by stabilizing Chk1",
+          "journal": "Nucleic Acids Research",
+          "year": 2017,
+          "relevant_quote": "ATX3 interacts with Chk1 and promotes Chk1 stability by antagonizing DDB1/CUL4A- and FBXO6-mediated polyubiquitination and degradation of Chk1, thus facilitating DNA repair, checkpoint signaling and cell survival when cells are attacked by genotoxic or replicative stress.",
+          "pmid": "28180282"
+        }
+      ],
+      "pmids": [
+        "28180282"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 acts as a specific deubiquitinase (DUB) for Chk1. It does not transcriptionally regulate Chk1 but post-translationally stabilizes it by removing K48-linked polyubiquitin chains, thereby antagonizing the E3 ligases DDB1/CUL4A and FBXO6/CUL1. This stabilization is critical for the G2/M DNA damage checkpoint.",
+  "mechanism": "Maintenance of genome integrity via DNA damage-induced cell cycle arrest.",
+  "effect": "ATXN3 deubiquitinates and stabilizes Chk1, preventing its proteasomal degradation and ensuring sufficient Chk1 levels for checkpoint signaling.",
+  "summary": "ATXN3 activates CHEK1 to modulate chk1 stabilization & g2/m checkpoint control, ultimately affecting g2/m cell cycle arrest.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 promotes genome integrity by stabilizing Chk1",
+      "journal": "Nucleic Acids Research",
+      "year": 2017,
+      "relevant_quote": "ATX3 interacts with Chk1 and promotes Chk1 stability by antagonizing DDB1/CUL4A- and FBXO6-mediated polyubiquitination and degradation of Chk1, thus facilitating DNA repair, checkpoint signaling and cell survival when cells are attacked by genotoxic or replicative stress."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "DNA Damage Checkpoint Signaling",
+    "confidence": 0.9,
+    "reasoning": "Ataxin-3 stabilizes Chk1 (CHEK1) to promote genome integrity and proper cell cycle arrest following DNA damage."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> CHEK1:",
+  "protein_a": "ATXN3",
+  "protein_b": "CHEK1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.480450Z",
+  "last_updated": "2025-12-21T04:04:27.480450Z"
+}

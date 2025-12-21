@@ -1,0 +1,78 @@
+{
+  "primary": "TUBA1A",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "TUBA1A (alpha-tubulin) physically binds ATXN3, facilitating its association with microtubules (Pull-down evidence)",
+  "functions": [
+    {
+      "function": "Microtubule Stabilization & Aggresome Formation",
+      "arrow": "activates",
+      "cellular_process": "Cytoskeletal organization and retrograde transport of misfolded proteins.",
+      "effect_description": "ATXN3 binds directly to TUBA1A (alpha-tubulin) to stabilize the microtubule network, facilitating the dynein-dependent transport of polyubiquitinated aggregates to the microtubule-organizing center (MTOC).",
+      "biological_consequence": [
+        "ATXN3 binds TUBA1A (Kd ~50-70nM) -> Promotes microtubule polymerization/stability -> Recruits dynein motor proteins -> Facilitates retrograde transport of aggregates -> Aggresome formation and clearance."
+      ],
+      "specific_effects": [
+        "Increases microtubule acetylation (via HDAC6 regulation)",
+        "Direct binding to alpha-tubulin with high affinity (50-70 nM)",
+        "Prevents microtubule depolymerization"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+          "journal": "International Journal of Biochemistry & Cell Biology",
+          "year": 2009,
+          "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin... surface plasmon resonance determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction.",
+          "pmid": "19666135"
+        }
+      ],
+      "pmids": [
+        "19666135"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 binds directly to the tubulin dimer (alpha/beta) via its N-terminal Josephin domain. This interaction is not merely for transport but actively regulates microtubule stability and organization, which is essential for the formation of aggresomes.",
+  "mechanism": "Cytoskeletal organization and retrograde transport of misfolded proteins.",
+  "effect": "ATXN3 binds directly to TUBA1A (alpha-tubulin) to stabilize the microtubule network, facilitating the dynein-dependent transport of polyubiquitinated aggregates to the microtubule-organizing center (MTOC).",
+  "summary": "ATXN3 activates TUBA1A to modulate microtubule stabilization & aggresome formation.",
+  "evidence": [
+    {
+      "paper_title": "Proteomic and biochemical analyses unveil tight interaction of ataxin-3 with tubulin",
+      "journal": "International Journal of Biochemistry & Cell Biology",
+      "year": 2009,
+      "relevant_quote": "We found that different ataxin-3 constructs, including the sole Josephin domain, bound alpha- and beta-tubulin... surface plasmon resonance determined a dissociation constant of 50-70nM between ataxin-3 and tubulin dimer, which strongly supports the hypothesis of a direct interaction."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Microtubule Cytoskeleton Organization",
+    "confidence": 0.8,
+    "reasoning": "ATXN3 binds directly to tubulin (TUBA1A), which is essential for its role in microtubule-dependent transport of misfolded proteins to the aggresome."
+  },
+  "interaction_effect": "activates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> TUBA1A:",
+  "protein_a": "ATXN3",
+  "protein_b": "TUBA1A",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.486543Z",
+  "last_updated": "2025-12-21T04:04:27.486543Z"
+}

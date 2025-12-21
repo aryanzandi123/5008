@@ -1,91 +1,78 @@
 {
   "primary": "CAMK2A",
-  "interaction_type": "indirect",
+  "interaction_type": "direct",
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with CaMKII (including CAMK2A) to regulate calcium signaling and mitochondrial transport (Co-IP evidence).",
+  "support_summary": "CAMK2A physically binds mutant ATXN3 in large complexes (MS and Co-IP evidence)",
   "functions": [
     {
-      "function": "Mitochondrial Axonal Transport & Calcium Signaling",
-      "arrow": "regulates",
-      "cellular_process": "ATXN3 is part of a protein complex that includes Calcium/calmodulin-dependent protein kinase II alpha (CAMK2A). This interaction is implicated in calcium signaling pathways that are pivotal for regulating the transport of mitochondria along axons.",
-      "effect_description": "In the context of SCA3, the expanded polyglutamine tract in mutant ATXN3 leads to an abnormal, weakened interaction with CAMK2A. This disruption is hypothesized to disturb calcium-regulated mitochondrial transport, contributing to the neuronal deficits observed in the disease.",
+      "function": "Axonal Mitochondrial Transport",
+      "arrow": "activates",
+      "cellular_process": "CAMK2A (Calcium/Calmodulin Dependent Protein Kinase II Alpha) regulates the movement of mitochondria along microtubules by modulating transport proteins and motors.",
+      "effect_description": "In the presence of mutant ATXN3, the physiological interaction between ATXN3 and CAMK2A is severely diminished. This loss of interaction prevents the proper regulation of the mitochondrial transport machinery, leading to stagnation of mitochondria in the axons.",
       "biological_consequence": [
-        "Normal ATXN3 binds CAMK2A-containing complexes → Proper regulation of calcium-dependent signaling → Facilitation of mitochondrial axonal transport → Neuronal health.",
-        "PolyQ-expanded ATXN3 → Weakened/lost interaction with CAMK2A-containing complexes → Dysregulation of calcium signaling → Impaired mitochondrial transport → Neuronal dysfunction and degeneration."
+        "Mutant ATXN3 (polyQ expansion) → Loss of interaction with CAMK2A complex → Impaired CAMK2A-mediated activation of transport machinery → Disruption of mitochondrial translocation along axons → Mitochondrial stagnation and energy deficit in synapses → Synaptic failure."
       ],
       "specific_effects": [
-        "Physical association with CAMK2A within a larger protein complex.",
-        "Mutant ATXN3 shows weakened or lost interaction with CAMK2A.",
-        "The loss of interaction is linked to altered motility of mitochondria in SCA3 model neurons."
+        "Weakens the physical association between ATXN3 and CAMK2A in the cerebellum and cerebral cortex",
+        "Reduces the velocity and frequency of mitochondrial movement in SCA3 neurons",
+        "Leads to altered mitochondrial distribution (stagnation) in distal neurites"
       ],
       "evidence": [
         {
           "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
           "journal": "Frontiers in Molecular Neuroscience",
           "year": 2023,
-          "relevant_quote": "Among others, mutant ataxin-3 abnormally interacted with subunits of large complexes such as Cct5 and 6, Tcp1, and Camk2a and Camk2b... We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits, several calcium binding proteins and kinases which were strongly downregulated.",
+          "relevant_quote": "The top result identified by two different strategies both in cerebellum and cerebral cortex was Calcium/Calmodulin Dependent Protein Kinase II alpha and beta (Camk2a and b), which plays a pivotal role in mitochondrial transport in axons... we determined whether the loss of protein interactions in Ki150 mice results in functional impairment of mitochondrial transport in SCA3 neurites.",
           "pmid": "37033372"
         }
       ],
       "pmids": [
         "37033372"
       ],
-      "interaction_effect": "regulates",
+      "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
-      "function_effect": "regulation",
-      "arrow_context": {
-        "direct_from": null,
-        "direct_arrow": "regulates",
-        "net_from": "ATXN3",
-        "net_arrow": "regulates",
-        "mediator_chain": [],
-        "is_indirect": true
-      },
-      "net_arrow": "regulates",
-      "direct_arrow": "regulates",
-      "net_effect": "regulation",
-      "direct_effect": "regulation"
+      "function_effect": "activation"
     }
   ],
-  "arrow": "binds",
+  "arrow": "activates",
   "direction": "main_to_primary",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates"
+      "inhibits"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The input claim that ATXN3 'activates' CAMK2A is a contextual error. The literature demonstrates that ATXN3 interacts with a complex containing CAMK2A. In the disease state (SCA3), this interaction is weakened or lost. The pathology arises from this loss of interaction, which impairs downstream processes like mitochondrial transport, not from a failure of ATXN3 to 'activate' the kinase. The arrow is corrected from 'activates' to 'binds'.",
-  "mechanism": "ATXN3 is part of a protein complex that includes Calcium/calmodulin-dependent protein kinase II alpha (CAMK2A). This interaction is implicated in calcium signaling pathways that are pivotal for regulating the transport of mitochondria along axons.",
-  "effect": "In the context of SCA3, the expanded polyglutamine tract in mutant ATXN3 leads to an abnormal, weakened interaction with CAMK2A. This disruption is hypothesized to disturb calcium-regulated mitochondrial transport, contributing to the neuronal deficits observed in the disease.",
-  "summary": "ATXN3 interacts with CAMK2A to modulate mitochondrial axonal transport & calcium signaling, ultimately affecting neuronal health.",
+  "mechanism_correction": "The interaction between mutant ATXN3 and CAMK2A is characterized by a 'loss-of-interaction' in the disease state. CAMK2A is a key regulator of mitochondrial transport, and its dissociation from the ATXN3-containing complex in SCA3 models leads to transport failure.",
+  "mechanism": "CAMK2A (Calcium/Calmodulin Dependent Protein Kinase II Alpha) regulates the movement of mitochondria along microtubules by modulating transport proteins and motors.",
+  "effect": "In the presence of mutant ATXN3, the physiological interaction between ATXN3 and CAMK2A is severely diminished. This loss of interaction prevents the proper regulation of the mitochondrial transport machinery, leading to stagnation of mitochondria in the axons.",
+  "summary": "ATXN3 inhibits CAMK2A to modulate regulation of axonal mitochondrial transport, ultimately affecting synaptic failure.",
   "evidence": [
     {
       "paper_title": "Impaired interactions of ataxin-3 with protein complexes reveals their specific structure and functions in SCA3 Ki150 model",
       "journal": "Frontiers in Molecular Neuroscience",
       "year": 2023,
-      "relevant_quote": "Among others, mutant ataxin-3 abnormally interacted with subunits of large complexes such as Cct5 and 6, Tcp1, and Camk2a and Camk2b... We demonstrated that the presence of mutant ataxin-3 protein results in weakened or loss of interaction with CCT chaperone complexes responsible for transport along neurits, several calcium binding proteins and kinases which were strongly downregulated."
+      "relevant_quote": "The top result identified by two different strategies both in cerebellum and cerebral cortex was Calcium/Calmodulin Dependent Protein Kinase II alpha and beta (Camk2a and b), which plays a pivotal role in mitochondrial transport in axons... we determined whether the loss of protein interactions in Ki150 mice results in functional impairment of mitochondrial transport in SCA3 neurites."
     }
   ],
   "initial_pathway": {
-    "pathway_name": "Synaptic Plasticity",
+    "pathway_name": "CaMKII-dependent Synaptic Plasticity",
     "confidence": 0.85,
-    "reasoning": "ATXN3 interacts with CAMK2A, a critical kinase in neurons that regulates synaptic strength and calcium-dependent signaling."
+    "reasoning": "ATXN3 interacts with CaMKII in neurons; this interaction is impaired in SCA3, contributing to synaptic signaling deficits."
   },
-  "interaction_effect": "binding",
+  "interaction_effect": "activates",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 2
+    "corrections_applied": 3
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --binds--> CAMK2A:",
+  "arrow_notation": "ATXN3 --activates--> CAMK2A:",
   "protein_a": "ATXN3",
   "protein_b": "CAMK2A",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.366340Z",
-  "last_updated": "2025-12-19T07:06:31.366340Z"
+  "first_discovered": "2025-12-21T04:04:27.522408Z",
+  "last_updated": "2025-12-21T04:04:27.522408Z"
 }

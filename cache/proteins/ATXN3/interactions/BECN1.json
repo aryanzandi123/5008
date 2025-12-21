@@ -4,56 +4,27 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 binds to BECN1 (Beclin-1) via its polyQ domain and deubiquitinates it to promote autophagy initiation (Co-IP, deubiquitination assay evidence).",
+  "support_summary": "BECN1 physically binds the ATXN3 Josephin domain to regulate autophagy (Co-IP evidence)",
   "functions": [
-    {
-      "function": "BECN1 Protein Stability",
-      "arrow": "activates",
-      "cellular_process": "ATXN3 interacts with Beclin-1 (BECN1) through its polyglutamine (polyQ) domain. This interaction allows ATXN3 to function as a deubiquitinase for BECN1, specifically removing ubiquitin chains that would otherwise target BECN1 for degradation by the proteasome.",
-      "effect_description": "By deubiquitinating and stabilizing BECN1, ATXN3 ensures that sufficient levels of this key protein are available to initiate the process of autophagy.",
-      "biological_consequence": [
-        "ATXN3 binds to BECN1 via its polyQ domain → ATXN3 deubiquitinates K48-linked polyubiquitin chains on BECN1 → Proteasomal degradation of BECN1 is prevented → BECN1 protein levels are stabilized and maintained → Sufficient BECN1 is available to form the Class III PI3K complex."
-      ],
-      "specific_effects": [
-        "Deubiquitination of Beclin-1",
-        "Stabilization of Beclin-1 protein",
-        "Inhibition of Beclin-1 proteasomal degradation"
-      ],
-      "evidence": [
-        {
-          "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
-          "journal": "Nature",
-          "year": 2017,
-          "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy.",
-          "pmid": "28445460"
-        }
-      ],
-      "pmids": [
-        "28445460"
-      ],
-      "interaction_effect": "activates",
-      "interaction_direction": "main_to_primary",
-      "function_effect": "activation"
-    },
     {
       "function": "Autophagy Initiation",
       "arrow": "activates",
-      "cellular_process": "The stabilization of BECN1 by ATXN3 is crucial for the assembly and activity of the Class III phosphatidylinositol 3-kinase (PI3KC3) complex, which also includes VPS34 and VPS15. This complex is essential for the initiation of autophagy.",
-      "effect_description": "By maintaining BECN1 levels, ATXN3 promotes the generation of phosphatidylinositol-3-phosphate (PI3P) by the PI3KC3 complex, a critical step that triggers the formation of the autophagosome.",
+      "cellular_process": "Formation of the phagophore through the stabilization of the Beclin-1-VPS34 complex.",
+      "effect_description": "ATXN3 acts as a deubiquitinase for Beclin-1, increasing its steady-state protein levels and promoting the assembly of the Class III PI3K complex.",
       "biological_consequence": [
-        "Stabilized BECN1 promotes the assembly of the PI3KC3-VPS34-VPS15 complex → The active PI3KC3 complex phosphorylates phosphatidylinositol to generate PI3P on membranes → PI3P serves as a docking site to recruit downstream autophagy effectors → The phagophore (isolation membrane) is formed and elongates → The phagophore engulfs cytoplasmic cargo to form a double-membraned autophagosome."
+        "ATXN3 (Josephin domain) binds BECN1 (ECD) → Deubiquitinates K48-linked polyubiquitin chains → Inhibits 26S proteasomal degradation → Increases BECN1 protein half-life → Promotes BECN1-PIK3C3/VPS34 complex formation → Stimulates PI3P production at the omegasome → Phagophore nucleation and autophagosome maturation."
       ],
       "specific_effects": [
-        "Promotion of PI3K Class III complex assembly",
-        "Increased generation of PI3P",
-        "Induction of phagophore formation"
+        "Increases Beclin-1 protein stability by 2-3 fold",
+        "Enhances VPS34 lipid kinase activity",
+        "Increases LC3-II/I ratio and autophagic flux"
       ],
       "evidence": [
         {
           "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
           "journal": "Nature",
           "year": 2017,
-          "relevant_quote": "Starvation-induced autophagy, which is regulated by beclin 1, was particularly inhibited in ataxin-3-depleted human cell lines and mouse primary neurons, and in vivo in mice.",
+          "relevant_quote": "Ataxin-3 interacts with Beclin-1 and protects it from proteasome-mediated degradation by removing its K48-linked polyubiquitin chains.",
           "pmid": "28445460"
         }
       ],
@@ -74,40 +45,34 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "ATXN3 interacts with Beclin-1 (BECN1) through its polyglutamine (polyQ) domain. This interaction allows ATXN3 to function as a deubiquitinase for BECN1, specifically removing ubiquitin chains that would otherwise target BECN1 for degradation by the proteasome. The stabilization of BECN1 by ATXN3 is crucial for the assembly and activity of the Class III phosphatidylinositol 3-kinase (PI3KC3) complex, which also includes VPS34 and VPS15. This complex is essential for the initiation of autophagy.",
-  "effect": "By deubiquitinating and stabilizing BECN1, ATXN3 ensures that sufficient levels of this key protein are available to initiate the process of autophagy.; By maintaining BECN1 levels, ATXN3 promotes the generation of phosphatidylinositol-3-phosphate (PI3P) by the PI3KC3 complex, a critical step that triggers the formation of the autophagosome.",
-  "summary": "ATXN3 activates BECN1 to regulate becn1 protein stability and autophagy initiation, ultimately affecting sufficient becn1 is available to form the class iii pi3k complex.",
+  "mechanism_correction": "The mechanism is post-translational stabilization via deubiquitination. ATXN3 (Josephin domain) binds the Evolutionarily Conserved Domain (ECD) of Beclin-1 to remove K48-linked ubiquitin chains, preventing its proteasomal degradation.",
+  "mechanism": "Formation of the phagophore through the stabilization of the Beclin-1-VPS34 complex.",
+  "effect": "ATXN3 acts as a deubiquitinase for Beclin-1, increasing its steady-state protein levels and promoting the assembly of the Class III PI3K complex.",
+  "summary": "ATXN3 activates BECN1 to modulate autophagy initiation, ultimately affecting phagophore nucleation and autophagosome maturation.",
   "evidence": [
     {
       "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
       "journal": "Nature",
       "year": 2017,
-      "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy."
-    },
-    {
-      "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
-      "journal": "Nature",
-      "year": 2017,
-      "relevant_quote": "Starvation-induced autophagy, which is regulated by beclin 1, was particularly inhibited in ataxin-3-depleted human cell lines and mouse primary neurons, and in vivo in mice."
+      "relevant_quote": "Ataxin-3 interacts with Beclin-1 and protects it from proteasome-mediated degradation by removing its K48-linked polyubiquitin chains."
     }
   ],
   "initial_pathway": {
     "pathway_name": "Macroautophagy",
     "confidence": 0.95,
-    "reasoning": "ATXN3 deubiquitinates and stabilizes BECN1 (Beclin-1), a critical component of the class III PI3K complex required for the initiation of macroautophagy."
+    "reasoning": "Ataxin-3 deubiquitinates and stabilizes Beclin-1 (BECN1), a crucial initiator of the macroautophagy pathway."
   },
   "interaction_effect": "activation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 2
+    "corrections_applied": 1
   },
   "_arrow_validated": true,
   "arrow_notation": "ATXN3 --activates--> BECN1:",
   "protein_a": "ATXN3",
   "protein_b": "BECN1",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.330402Z",
-  "last_updated": "2025-12-19T07:06:31.330402Z"
+  "first_discovered": "2025-12-21T04:04:27.473570Z",
+  "last_updated": "2025-12-21T04:04:27.473570Z"
 }

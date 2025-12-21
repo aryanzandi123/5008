@@ -1,0 +1,71 @@
+{
+  "primary": "NGLY1",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "NGLY1 physically binds the ATXN3c isoform (MS and Co-IP evidence)",
+  "functions": [
+    {
+      "function": "ERAD Coordination of Glycosylated Proteins",
+      "arrow": "activates",
+      "cellular_process": "Deglycosylation of misfolded glycoproteins prior to proteasomal degradation in the ERAD pathway.",
+      "effect_description": "ATXN3c interacts with NGLY1 to facilitate the processing and degradation of glycosylated ERAD substrates at the ER membrane.",
+      "biological_consequence": [
+        "ATXN3c (C-terminal tail) → ER membrane localization → Recruits NGLY1 to the ERAD machinery → Facilitates deglycosylation of misfolded glycoproteins (removal of N-glycans) → Enables substrate threading into the proteasome → Promotes efficient ERAD and reduces ER stress."
+      ],
+      "specific_effects": [
+        "Isoform-specific binding via the C-terminal hydrophobic tail of ATXN3c",
+        "Recruitment of NGLY1 to the ER membrane",
+        "Proposed facilitation of glycosylated substrate clearance"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Physiological and pathophysiological characteristics of ataxin-3 isoforms",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2023,
+          "relevant_quote": "ATXN3c specifically interacts with NGLY1 and UBR2... both involved in the ERAD pathway... our results suggest that ATXN3c might be involved in the degradation of glycosylated proteins.",
+          "pmid": "30455355"
+        }
+      ],
+      "interaction_direction": "main_to_primary",
+      "direction": "main_to_primary",
+      "interaction_effect": "activates",
+      "pmids": [
+        "30455355"
+      ]
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "The interaction is specific to the ATXN3c isoform, which contains a unique hydrophobic C-terminal tail (replacing the third UIM). ATXN3c recruits NGLY1 to the ER membrane to coordinate the deglycosylation of misfolded glycoproteins during ER-associated degradation (ERAD).",
+  "mechanism": "Deglycosylation of misfolded glycoproteins prior to proteasomal degradation in the ERAD pathway.",
+  "effect": "ATXN3c interacts with NGLY1 to facilitate the processing and degradation of glycosylated ERAD substrates at the ER membrane.",
+  "summary": "ATXN3 activates NGLY1 to modulate erad coordination of glycosylated proteins, ultimately affecting promotes efficient erad and reduces er stress.",
+  "evidence": [
+    {
+      "paper_title": "Physiological and pathophysiological characteristics of ataxin-3 isoforms",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2023,
+      "relevant_quote": "ATXN3c specifically interacts with NGLY1 and UBR2... both involved in the ERAD pathway... our results suggest that ATXN3c might be involved in the degradation of glycosylated proteins."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Endoplasmic Reticulum-Associated Degradation (ERAD)",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 interacts with NGLY1 and p97/VCP to facilitate the extraction and degradation of misfolded glycoproteins from the ER."
+  },
+  "arrow_notation": "ATXN3 --activates--> NGLY1:",
+  "protein_a": "ATXN3",
+  "protein_b": "NGLY1",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.520850Z",
+  "last_updated": "2025-12-21T04:04:27.520850Z"
+}

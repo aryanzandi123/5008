@@ -1,0 +1,78 @@
+{
+  "primary": "CASP7",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "CASP7 (Caspase-7) physically binds and cleaves specific isoforms of ATXN3 (Co-IP evidence)",
+  "functions": [
+    {
+      "function": "ATXN3 Proteolysis",
+      "arrow": "activates",
+      "cellular_process": "Apoptotic proteolytic processing",
+      "effect_description": "Caspase-7 cleaves ATXN3 to generate truncated, highly toxic, and aggregation-prone C-terminal fragments.",
+      "biological_consequence": [
+        "Apoptotic stimulus → Activation of Caspase-7 → Recognition of DXXD motifs (D241/D244/D248) in ATXN3 → Proteolytic cleavage → Release of ~28-37 kDa C-terminal polyQ fragments → Enhanced nucleation and aggregate formation → Increased neurotoxicity."
+      ],
+      "specific_effects": [
+        "Generation of ~28 kDa and ~37 kDa ATXN3 fragments",
+        "Increased rate of SDS-insoluble aggregate formation",
+        "Enhanced nuclear accumulation of polyQ-containing fragments"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Caspase-mediated proteolysis of the polyglutamine disease protein ataxin-3",
+          "journal": "Journal of Neurochemistry",
+          "year": 2004,
+          "relevant_quote": "Caspase-mediated cleavage of expanded ataxin-3 resulted in increased ataxin-3 aggregation, suggesting a potential role for caspase-mediated proteolysis in spinocerebellar ataxia type-3 pathogenesis.",
+          "pmid": "15140190"
+        }
+      ],
+      "pmids": [
+        "15140190"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "Confirmed: Caspase-7 (along with Caspase-1 and Caspase-3) cleaves ATXN3 at specific aspartate residues (D241, D244, and D248) located near the polyglutamine tract. This cleavage releases C-terminal fragments containing the expanded polyQ repeat, which are significantly more prone to aggregation and nuclear translocation than the full-length protein, thereby driving pathogenesis.",
+  "mechanism": "Apoptotic proteolytic processing",
+  "effect": "Caspase-7 cleaves ATXN3 to generate truncated, highly toxic, and aggregation-prone C-terminal fragments.",
+  "summary": "ATXN3 activates CASP7 to modulate atxn3 proteolysis, ultimately affecting increased neurotoxicity.",
+  "evidence": [
+    {
+      "paper_title": "Caspase-mediated proteolysis of the polyglutamine disease protein ataxin-3",
+      "journal": "Journal of Neurochemistry",
+      "year": 2004,
+      "relevant_quote": "Caspase-mediated cleavage of expanded ataxin-3 resulted in increased ataxin-3 aggregation, suggesting a potential role for caspase-mediated proteolysis in spinocerebellar ataxia type-3 pathogenesis."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Execution Phase of Apoptosis",
+    "confidence": 0.9,
+    "reasoning": "Caspase-7 (and Caspase-3) cleaves ATXN3, generating toxic fragments that promote cell death in neurodegenerative contexts."
+  },
+  "interaction_effect": "activates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--activates-- CASP7:",
+  "protein_a": "ATXN3",
+  "protein_b": "CASP7",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.489247Z",
+  "last_updated": "2025-12-21T04:04:27.489247Z"
+}

@@ -1,0 +1,84 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "PRKN (Parkin) physically binds ATXN3 via its Ubl and Josephin domains (Co-IP evidence)",
+  "functions": [
+    {
+      "function": "Mitophagy",
+      "arrow": "inhibits",
+      "cellular_process": "Selective autophagic clearance of damaged mitochondria via the PINK1/Parkin pathway.",
+      "effect_description": "ATXN3 deubiquitinates Parkin and its mitochondrial substrate VDAC1. Mutant ATXN3 removes ubiquitin from VDAC1 more efficiently, preventing the recruitment of autophagy receptors and thus inhibiting mitophagy.",
+      "biological_consequence": [
+        "Mitochondrial depolarization -> PINK1 recruits Parkin -> Parkin ubiquitylates VDAC1 -> ATXN3 (especially mutant) deubiquitinates VDAC1 -> Prevents autophagosome recruitment -> Impairs mitophagy and leads to mitochondrial dysfunction."
+      ],
+      "specific_effects": [
+        "Deubiquitination of K27- and K29-linked chains on Parkin",
+        "Enhanced autophagic degradation of Parkin by mutant ATXN3",
+        "Removal of ubiquitin from VDAC1, blocking mitochondrial clearance"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+          "journal": "Human Molecular Genetics",
+          "year": 2011,
+          "relevant_quote": "Expanded ataxin-3 promoted rather than prevented the degradation of parkin... increased parkin turnover involved autophagy.",
+          "pmid": "20940148"
+        }
+      ],
+      "pmids": [
+        "20940148"
+      ],
+      "interaction_effect": "inhibits",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 deubiquitinates Parkin, but the effect is context-dependent. While it regulates Parkin stability by removing K27/K29-linked chains, mutant ATXN3 actually DESTABILIZES Parkin by promoting its autophagic clearance. Furthermore, mutant ATXN3 deubiquitinates VDAC1, which INHIBITS (rather than promotes) Parkin-mediated mitophagy.",
+  "mechanism": "Selective autophagic clearance of damaged mitochondria via the PINK1/Parkin pathway.",
+  "effect": "ATXN3 deubiquitinates Parkin and its mitochondrial substrate VDAC1. Mutant ATXN3 removes ubiquitin from VDAC1 more efficiently, preventing the recruitment of autophagy receptors and thus inhibiting mitophagy.",
+  "summary": "ATXN3 inhibits PRKN to modulate mitophagy regulation.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph disease-associated mutant form of ataxin-3 regulates parkin ubiquitination and stability",
+      "journal": "Human Molecular Genetics",
+      "year": 2011,
+      "relevant_quote": "Expanded ataxin-3 promoted rather than prevented the degradation of parkin... increased parkin turnover involved autophagy."
+    },
+    {
+      "paper_title": "Ataxin-3 and the fight between mitochondrial recycling and cell death",
+      "journal": "National Ataxia Foundation (summarizing Durcan et al.)",
+      "year": 2022,
+      "relevant_quote": "Mutant ataxin-3 was removing these ubiquitin tags from the VDAC1 protein... Deubiquitination means that these sick or damaged mitochondria aren't being broken down."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Mitophagy",
+    "confidence": 0.9,
+    "reasoning": "Ataxin-3 interacts with Parkin (PRKN) to regulate its stability and activity in the clearance of damaged mitochondria."
+  },
+  "interaction_effect": "inhibits",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> PRKN:",
+  "protein_a": "PRKN",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.472815Z",
+  "last_updated": "2025-12-21T04:04:27.472815Z"
+}

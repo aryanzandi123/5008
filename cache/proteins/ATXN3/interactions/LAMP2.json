@@ -1,0 +1,94 @@
+{
+  "primary": "LAMP2",
+  "interaction_type": "indirect",
+  "upstream_interactor": "VCP",
+  "mediator_chain": [
+    "VCP"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 and VCP cooperate to regulate the turnover of LAMP2 on lysosomes",
+  "functions": [
+    {
+      "function": "LAMP2 Regulated Turnover & Lysosomal Regeneration",
+      "arrow": "activates",
+      "cellular_process": "Regulated degradation of damaged lysosomal membrane proteins to restore organelle functionality.",
+      "effect_description": "ATXN3 and VCP/p97 coordinate the removal of K48-K63-branched ubiquitin conjugates from damaged lysosomes, promoting the microautophagic degradation of a subset of LAMP2 to enable membrane remodeling.",
+      "biological_consequence": [
+        "Lysosomal damage → Recruitment of ATXN3/VCP complex → Deubiquitination of K48-K63-branched chains on LAMP2 → Facilitated microautophagic degradation of damaged LAMP2 → Lysosomal membrane regeneration → Restoration of degradative capacity."
+      ],
+      "specific_effects": [
+        "Facilitates degradation of a fraction of LAMP2 protein following damage",
+        "Restores lysosomal re-acidification and degradative flux",
+        "Promotes completion of lysophagy"
+      ],
+      "evidence": [
+        {
+          "paper_title": "ATXN3 regulates lysosome regeneration after damage by targeting K48-K63-branched ubiquitin chains",
+          "journal": "The EMBO Journal",
+          "year": 2025,
+          "relevant_quote": "ATXN3 thus facilitates degradation of a fraction of LAMP2 via microautophagy to regenerate the lysosomal membrane and to thereby reestablish degradative capacity needed also for completion of lysophagy.",
+          "pmid": "40730717"
+        }
+      ],
+      "pmids": [
+        "40730717"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "VCP",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "VCP"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3, in complex with VCP/p97, is recruited to damaged lysosomes where it targets and processes K48-K63-branched ubiquitin chains on lysosomal membrane proteins, specifically facilitating the degradation of a fraction of LAMP2 via microautophagy. This regulated turnover of damaged membrane components is essential for lysosome regeneration and the restoration of degradative capacity (lysophagy completion).",
+  "mechanism": "Regulated degradation of damaged lysosomal membrane proteins to restore organelle functionality.",
+  "effect": "ATXN3 and VCP/p97 coordinate the removal of K48-K63-branched ubiquitin conjugates from damaged lysosomes, promoting the microautophagic degradation of a subset of LAMP2 to enable membrane remodeling.",
+  "summary": "ATXN3 activates LAMP2 to modulate lamp2 regulated turnover & lysosomal regeneration, ultimately affecting restoration of degradative capacity.",
+  "evidence": [
+    {
+      "paper_title": "ATXN3 regulates lysosome regeneration after damage by targeting K48-K63-branched ubiquitin chains",
+      "journal": "The EMBO Journal",
+      "year": 2025,
+      "relevant_quote": "ATXN3 thus facilitates degradation of a fraction of LAMP2 via microautophagy to regenerate the lysosomal membrane and to thereby reestablish degradative capacity needed also for completion of lysophagy."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Lysosomal Membrane Repair",
+    "confidence": 0.9,
+    "reasoning": "ATXN3 is required for maintaining lysosomal integrity and promoting lysosome regeneration after damage, a process involving the lysosomal membrane protein LAMP2."
+  },
+  "interaction_effect": "inhibits",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 3
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "VCP --inhibits--> LAMP2:",
+  "protein_a": "ATXN3",
+  "protein_b": "LAMP2",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.481161Z",
+  "last_updated": "2025-12-21T04:04:27.481161Z"
+}

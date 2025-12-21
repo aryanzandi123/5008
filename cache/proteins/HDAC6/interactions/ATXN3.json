@@ -4,40 +4,44 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 directly binds to HDAC6 to facilitate the transport of misfolded proteins to the aggresome (SPR, Co-IP evidence).",
+  "support_summary": "HDAC6 physically binds ATXN3 to facilitate transport of aggregates (Co-IP evidence)",
   "functions": [
     {
-      "function": "Aggresome Formation",
+      "function": "Aggresome Formation & Retrograde Transport",
       "arrow": "activates",
-      "cellular_process": "ATXN3 deubiquitinates substrates to expose C-terminal diglycine motifs, which are specifically recognized by the ZnF-UBP domain of HDAC6.",
-      "effect_description": "The interaction enables HDAC6 to link misfolded proteins to the dynein motor for transport to the aggresome.",
+      "cellular_process": "The microtubule-dependent sequestration of misfolded proteins into perinuclear aggresomes for eventual autophagic clearance.",
+      "effect_description": "ATXN3 facilitates the recognition of polyubiquitinated aggregates by HDAC6 by trimming ubiquitin chains, enabling dynein-mediated transport.",
       "biological_consequence": [
-        "Misfolded Protein Sequestration → Aggresome Formation → Reduced Proteotoxicity",
-        "Retrograde Transport → Microtubule-Dependent Sorting → Protein Clearance"
+        "ATXN3 binds polyubiquitinated aggregates → Trims K48-linked chains → Generates unanchored ubiquitin C-termini → HDAC6 ZnF-UBP domain binds unanchored ubiquitin → HDAC6 recruits dynein motors → Retrograde transport to MTOC → Aggresome formation."
       ],
       "specific_effects": [
-        "Generation of unanchored ubiquitin C-termini",
-        "Recruitment of aggregates to the dynein-microtubule network",
-        "Facilitation of aggresome assembly"
+        "Increases the efficiency of aggregate sequestration at the MTOC",
+        "Promotes the association between HDAC6 and the dynein motor complex",
+        "Reduces the accumulation of diffuse, toxic misfolded protein species"
       ],
       "evidence": [
         {
+          "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+          "journal": "Proceedings of the National Academy of Sciences (PNAS)",
+          "year": 2005,
+          "relevant_quote": "Cellular studies show that endogenous AT3 colocalizes with aggresomes... and associates with histone deacetylase 6 and dynein, proteins required for aggresome formation... Small interfering RNA knockdown of AT3 greatly reduces aggresomes formed by CFTRΔF508, demonstrating a critical role of AT3 in this process.",
+          "pmid": "15767577"
+        },
+        {
           "paper_title": "Protein aggregates are recruited to aggresome by histone deacetylase 6 via unanchored ubiquitin C termini",
+          "journal": "Journal of Biological Chemistry",
           "year": 2012,
+          "relevant_quote": "The unanchored ubiquitin C termini in the aggregates are generated in situ by aggregate-associated deubiquitinase ataxin-3. These results provide structural and mechanistic bases for the role of HDAC6 in aggresome formation.",
           "pmid": "22069321"
         }
       ],
-      "_context": {
-        "type": "direct",
-        "query_protein": null,
-        "chain": null
-      },
-      "interaction_effect": "activates",
-      "direction": "main_to_primary",
-      "interaction_direction": "main_to_primary",
       "pmids": [
+        "15767577",
         "22069321"
-      ]
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
     }
   ],
   "arrow": "activates",
@@ -48,24 +52,41 @@
       "activates"
     ]
   },
-  "mechanism": "ATXN3 deubiquitinates substrates to expose C-terminal diglycine motifs, which are specifically recognized by the ZnF-UBP domain of HDAC6.",
-  "effect": "The interaction enables HDAC6 to link misfolded proteins to the dynein motor for transport to the aggresome.",
-  "summary": "ATXN3 activates HDAC6 to modulate aggresome formation, ultimately affecting reduced proteotoxicity.",
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 (a deubiquitinase) physically interacts with HDAC6 and dynein. ATXN3's catalytic activity is required to trim/edit K48-linked polyubiquitin chains on misfolded proteins (e.g., CFTRΔF508). This 'editing' generates unanchored ubiquitin C-termini which are specifically recognized by the ZnF-UBP domain of HDAC6. HDAC6 then links these aggregates to the dynein motor complex for retrograde transport to the microtubule-organizing center (MTOC) to form aggresomes.",
+  "mechanism": "The microtubule-dependent sequestration of misfolded proteins into perinuclear aggresomes for eventual autophagic clearance.",
+  "effect": "ATXN3 facilitates the recognition of polyubiquitinated aggregates by HDAC6 by trimming ubiquitin chains, enabling dynein-mediated transport.",
+  "summary": "ATXN3 activates HDAC6 to modulate aggresome formation & retrograde transport, ultimately affecting aggresome formation.",
   "evidence": [
     {
+      "paper_title": "The polyglutamine neurodegenerative protein ataxin 3 regulates aggresome formation",
+      "journal": "Proceedings of the National Academy of Sciences (PNAS)",
+      "year": 2005,
+      "relevant_quote": "Cellular studies show that endogenous AT3 colocalizes with aggresomes... and associates with histone deacetylase 6 and dynein, proteins required for aggresome formation... Small interfering RNA knockdown of AT3 greatly reduces aggresomes formed by CFTRΔF508, demonstrating a critical role of AT3 in this process."
+    },
+    {
       "paper_title": "Protein aggregates are recruited to aggresome by histone deacetylase 6 via unanchored ubiquitin C termini",
-      "year": 2012
+      "journal": "Journal of Biological Chemistry",
+      "year": 2012,
+      "relevant_quote": "The unanchored ubiquitin C termini in the aggregates are generated in situ by aggregate-associated deubiquitinase ataxin-3. These results provide structural and mechanistic bases for the role of HDAC6 in aggresome formation."
     }
   ],
   "initial_pathway": {
     "pathway_name": "Aggresome Formation",
-    "confidence": 0.95,
-    "reasoning": "ATXN3 interacts with HDAC6 to coordinate the transport of misfolded proteins to the aggresome for subsequent degradation."
+    "confidence": 0.9,
+    "reasoning": "HDAC6 is a key mediator of aggresome formation by linking ubiquitinated proteins to dynein motors; ATXN3 regulates HDAC6 activity to manage the clearance of protein aggregates."
   },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
   "arrow_notation": "ATXN3 --activates--> HDAC6:",
   "protein_a": "HDAC6",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.333030Z",
-  "last_updated": "2025-12-19T07:06:31.333030Z"
+  "first_discovered": "2025-12-21T04:04:27.485621Z",
+  "last_updated": "2025-12-21T04:04:27.485621Z"
 }

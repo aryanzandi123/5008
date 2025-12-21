@@ -1,0 +1,90 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HSPA1A (Hsp70) physically binds ATXN3 to facilitate quality control (Co-IP evidence)",
+  "functions": [
+    {
+      "function": "Transcriptional Hsp70 & Proteostasis",
+      "arrow": "activates",
+      "cellular_process": "Regulation of the heat shock response and ATP-dependent protein folding.",
+      "effect_description": "ATXN3 stabilizes HSF1 to promote HSPA1A transcription, increasing Hsp70 levels to facilitate the refolding of misfolded proteins.",
+      "biological_consequence": [
+        "ATXN3 stabilizes HSF1 protein → HSF1 nuclear translocation → Binds Heat Shock Elements (HSE) in HSPA1A promoter → Increases HSPA1A mRNA and protein → Enhanced chaperone-mediated refolding → Reduced cellular proteotoxicity."
+      ],
+      "specific_effects": [
+        "Stabilizes HSF1 protein half-life by inhibiting its turnover",
+        "Increases HSPA1A basal promoter activity by approximately 2-fold",
+        "Reduces the formation of toxic ATXN3 nuclear inclusions"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Basal and stress-induced Hsp70 are modulated by ataxin-3",
+          "journal": "Cell Stress and Chaperones",
+          "year": 2012,
+          "relevant_quote": "Basal levels of hsp70 were lower in ataxin-3 knockout (KO) mouse brain from 2 to 63 weeks of age and hsp70 was also lower in fibroblasts from ataxin-3 KO mice. Transfecting ataxin-3 rescued basal levels of hsp70 protein... Heat shock factor-1 had decreased levels and increased turnover in ataxin-3 KO fibroblasts.",
+          "pmid": "22777893"
+        }
+      ],
+      "pmids": [
+        "22777893"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "direct_arrow": "activates",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "While Hsp70 (HSPA1A) physically binds ATXN3 to suppress its aggregation (Chai et al., 1999), ATXN3 also acts as a critical upstream transcriptional regulator of HSPA1A. ATXN3 interacts with and stabilizes the master transcription factor HSF1 (Heat Shock Factor 1) by preventing its degradation, which in turn drives the transcription of the HSPA1A gene. Thus, ATXN3 'activates' HSPA1A both by inducing its expression and by utilizing the resulting chaperone for quality control.",
+  "mechanism": "Regulation of the heat shock response and ATP-dependent protein folding.",
+  "effect": "ATXN3 stabilizes HSF1 to promote HSPA1A transcription, increasing Hsp70 levels to facilitate the refolding of misfolded proteins.",
+  "summary": "ATXN3 activates HSPA1A to modulate transcriptional regulation of hsp70 & proteostasis, ultimately affecting reduced cellular proteotoxicity.",
+  "evidence": [
+    {
+      "paper_title": "Basal and stress-induced Hsp70 are modulated by ataxin-3",
+      "journal": "Cell Stress and Chaperones",
+      "year": 2012,
+      "relevant_quote": "Basal levels of hsp70 were lower in ataxin-3 knockout (KO) mouse brain from 2 to 63 weeks of age and hsp70 was also lower in fibroblasts from ataxin-3 KO mice. Transfecting ataxin-3 rescued basal levels of hsp70 protein... Heat shock factor-1 had decreased levels and increased turnover in ataxin-3 KO fibroblasts."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Chaperone-Mediated Protein Folding",
+    "confidence": 0.9,
+    "reasoning": "HSPA1A (Hsp70) interacts with Ataxin-3 to modulate its folding and prevent the formation of toxic polyglutamine aggregates."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> HSPA1A:",
+  "protein_a": "HSPA1A",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.476331Z",
+  "last_updated": "2025-12-21T04:04:27.476331Z"
+}

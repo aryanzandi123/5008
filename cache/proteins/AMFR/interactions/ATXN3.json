@@ -4,28 +4,27 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 interacts with the E3 ubiquitin ligase gp78 (AMFR) to facilitate the processing of ubiquitinated proteins in the ERAD pathway (Co-IP evidence).",
+  "support_summary": "AMFR (gp78) physically binds ATXN3 to coordinate ERAD (Co-IP evidence)",
   "functions": [
     {
-      "function": "ATXN3 Stability",
+      "function": "ER-Associated Degradation (ERAD)",
       "arrow": "activates",
-      "cellular_process": "AMFR (gp78), an E3 ubiquitin ligase embedded in the endoplasmic reticulum membrane, directly interacts with ATXN3. This interaction leads to the ubiquitination of ATXN3, thereby targeting it for proteasomal degradation through the ERAD pathway.",
-      "effect_description": "AMFR-mediated ubiquitination decreases the stability and cellular levels of ATXN3.",
+      "cellular_process": "Ubiquitin-dependent protein quality control at the ER",
+      "effect_description": "ATXN3 associates with AMFR (gp78) to edit ubiquitin chains on misfolded proteins, ensuring they are properly processed for proteasomal degradation rather than forming toxic aggregates.",
       "biological_consequence": [
-        "AMFR binds to ATXN3 → AMFR ubiquitinates ATXN3 → Polyubiquitinated ATXN3 is targeted to the proteasome → Degradation of ATXN3 → Regulation of ATXN3 cellular levels."
+        "ATXN3 binds AMFR/gp78 -> Localization to ERAD sites -> Deubiquitination of gp78-tagged substrates -> Prevention of substrate aggregation -> Enhanced proteasomal turnover"
       ],
       "specific_effects": [
-        "Direct binding of AMFR/gp78 to ATXN3",
-        "Polyubiquitination of ATXN3",
-        "Increased proteasomal degradation of ATXN3",
-        "Decreased half-life of ATXN3 protein"
+        "Increases the degradation rate of gp78 substrates like SOD1",
+        "Reduces the formation of mutant protein aggregates in the ER/cytosol",
+        "gp78 promotes ATXN3 ubiquitination at K48-linked chains"
       ],
       "evidence": [
         {
           "paper_title": "Gp78, an ER associated E3, promotes SOD1 and ataxin-3 degradation",
           "journal": "Human Molecular Genetics",
           "year": 2009,
-          "relevant_quote": "Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them. ... Thus, our results suggest that gp78 functions in the regulation of SOD1 and ataxin-3 to target them for ERAD.",
+          "relevant_quote": "Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them.",
           "pmid": "19661182"
         }
       ],
@@ -33,12 +32,12 @@
         "19661182"
       ],
       "interaction_effect": "activates",
-      "interaction_direction": "primary_to_main",
+      "interaction_direction": "main_to_primary",
       "function_effect": "activation"
     }
   ],
-  "arrow": "inhibits",
-  "direction": "main_to_primary",
+  "arrow": "activates",
+  "direction": "primary_to_main",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
@@ -46,34 +45,34 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The provided information is contextually incorrect. The primary literature indicates that the E3 ubiquitin ligase AMFR (also known as gp78) interacts with ATXN3 to promote the ubiquitination and subsequent degradation of ATXN3 itself, targeting it for Endoplasmic Reticulum-Associated Degradation (ERAD). This is the opposite of the input claim, which suggests ATXN3 activates AMFR's function to clear other substrates. Instead, AMFR acts upstream to regulate ATXN3 levels.",
-  "mechanism": "AMFR (gp78), an E3 ubiquitin ligase embedded in the endoplasmic reticulum membrane, directly interacts with ATXN3. This interaction leads to the ubiquitination of ATXN3, thereby targeting it for proteasomal degradation through the ERAD pathway.",
-  "effect": "AMFR-mediated ubiquitination decreases the stability and cellular levels of ATXN3.",
-  "summary": "ATXN3 inhibits AMFR to modulate regulation of atxn3 stability, ultimately affecting regulation of atxn3 cellular levels.",
+  "mechanism_correction": "ATXN3 directly interacts with the E3 ubiquitin ligase AMFR (gp78). While gp78 can target ATXN3 for polyubiquitination and degradation (acting as an upstream regulator), ATXN3 also functions as a downstream effector that binds gp78 to facilitate the deubiquitination and processing of other gp78 substrates (like SOD1 or misfolded CFTR) during ERAD. This interaction is mediated by the Josephin domain of ATXN3 and the N-terminal region of gp78.",
+  "mechanism": "Ubiquitin-dependent protein quality control at the ER",
+  "effect": "ATXN3 associates with AMFR (gp78) to edit ubiquitin chains on misfolded proteins, ensuring they are properly processed for proteasomal degradation rather than forming toxic aggregates.",
+  "summary": "ATXN3 activates AMFR to modulate er-associated degradation (erad).",
   "evidence": [
     {
       "paper_title": "Gp78, an ER associated E3, promotes SOD1 and ataxin-3 degradation",
       "journal": "Human Molecular Genetics",
       "year": 2009,
-      "relevant_quote": "Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them. ... Thus, our results suggest that gp78 functions in the regulation of SOD1 and ataxin-3 to target them for ERAD."
+      "relevant_quote": "Here, we show that gp78 interacts with both SOD1 and ataxin-3. Overexpression of gp78 promotes the ubiquitination and degradation of these two proteins, whereas knockdown of gp78 stabilizes them."
     }
   ],
   "initial_pathway": {
-    "pathway_name": "Endoplasmic Reticulum-Associated Degradation",
-    "confidence": 0.9,
-    "reasoning": "AMFR (gp78) is an ER-associated E3 ligase that regulates the degradation of ATXN3 itself and other substrates through the ERAD pathway."
+    "pathway_name": "Endoplasmic Reticulum-Associated Degradation (ERAD)",
+    "confidence": 0.95,
+    "reasoning": "AMFR (gp78) is an ER-resident E3 ligase; ATXN3 interacts with gp78 to regulate the retrotranslocation and degradation of ERAD substrates."
   },
-  "interaction_effect": "inhibition",
+  "interaction_effect": "activation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 1
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--inhibits-- AMFR:",
+  "arrow_notation": "ATXN3 --activates--> AMFR:",
   "protein_a": "AMFR",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.341561Z",
-  "last_updated": "2025-12-19T07:06:31.341561Z"
+  "first_discovered": "2025-12-21T04:04:27.484843Z",
+  "last_updated": "2025-12-21T04:04:27.484843Z"
 }

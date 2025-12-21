@@ -4,110 +4,89 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "RAD23A (hHR23A) directly interacts with the Josephin domain of ATXN3 to coordinate substrate delivery to the proteasome (Co-IP, Y2H evidence).",
+  "support_summary": "RAD23A physically binds ATXN3 UIM domains (Co-IP evidence)",
   "functions": [
     {
-      "function": "ATXN3 Stability",
+      "function": "Proteasomal Protein Degradation",
       "arrow": "activates",
-      "cellular_process": "ATXN3 directly interacts with the proteasome-associated shuttle protein RAD23A via its Josephin domain, specifically at a site termed ubiquitin-binding site 2 (UbS2). This binding event shields ATXN3 from proteasomal degradation, thereby increasing its cellular stability. This is a mechanism of ubiquitination-independent regulation of ATXN3 turnover.",
-      "effect_description": "The interaction with RAD23A prevents the proteasomal degradation of ATXN3, leading to increased steady-state levels of the ATXN3 protein. Disrupting this interaction accelerates ATXN3 turnover.",
+      "cellular_process": "Shuttling and processing of polyubiquitinated proteins for 26S proteasomal degradation.",
+      "effect_description": "ATXN3 binds RAD23A to coordinate the deubiquitination and delivery of substrates to the proteasome.",
       "biological_consequence": [
-        "ATXN3's UbS2 domain binds to RAD23A → This interaction prevents ATXN3 from being recognized or processed by the proteasome → Proteasomal degradation of ATXN3 is inhibited → Cellular half-life and steady-state levels of ATXN3 increase."
+        "ATXN3 UIM domains bind RAD23A UBL domain → ATXN3 is recruited to the 26S proteasome → ATXN3 deubiquitinates (trims) K48/K63-linked chains on RAD23-bound substrates → Prevents non-productive substrate accumulation → Facilitates substrate translocation into the proteasome catalytic chamber."
       ],
       "specific_effects": [
-        "Prevention of ATXN3 proteasomal turnover",
-        "Increased ATXN3 protein stability",
-        "Ubiquitination-independent regulation of ATXN3 levels"
+        "Stabilizes ATXN3 protein half-life by preventing its own degradation",
+        "Enhances the clearance of polyubiquitinated substrates",
+        "Trims long ubiquitin chains to optimize proteasomal recognition"
       ],
       "evidence": [
         {
           "paper_title": "Ubiquitin-binding site 2 of ataxin-3 prevents its proteasomal degradation by interacting with Rad23",
           "journal": "Nature Communications",
           "year": 2014,
-          "relevant_quote": "Here we show that, unlike most proteins, ataxin-3 turnover does not require its ubiquitination, but is regulated by ubiquitin-binding site 2 (UbS2) on its N terminus. Mutating UbS2 decreases ataxin-3 protein levels in cultured mammalian cells and in Drosophila melanogaster by increasing its proteasomal turnover. Ataxin-3 interacts with the proteasome-associated proteins Rad23A/B through UbS2.",
+          "relevant_quote": "Ataxin-3 interacts with the proteasome-associated proteins Rad23A/B through UbS2. Knockdown of Rad23 in cultured cells and in Drosophila results in lower levels of ataxin-3 protein.",
           "pmid": "25144244"
+        },
+        {
+          "paper_title": "Interaction of the polyglutamine protein ataxin-3 with Rad23 regulates toxicity in Drosophila models of Spinocerebellar Ataxia Type 3",
+          "journal": "Molecular Neurodegeneration",
+          "year": 2017,
+          "relevant_quote": "Ataxin-3's degradation is inhibited by its binding to the proteasome shuttle Rad23 through ubiquitin-binding site 2 (UbS2).",
+          "pmid": "28158474"
         }
       ],
       "pmids": [
-        "25144244"
+        "25144244",
+        "28158474"
       ],
       "interaction_effect": "activates",
-      "interaction_direction": "primary_to_main",
+      "interaction_direction": "bidirectional",
       "function_effect": "activation"
-    },
-    {
-      "function": "Nucleotide Excision Repair (NER)",
-      "arrow": "inhibits",
-      "cellular_process": "ATXN3 interacts with the N-terminal ubiquitin-like (UBL) domain of RAD23A. The UBL domain of RAD23A is crucial for its function in NER, as it mediates interactions with components of the proteasome and other repair factors. By binding to this domain, ATXN3 may compete with other NER proteins or modulate the assembly of the NER machinery at sites of DNA damage.",
-      "effect_description": "The interaction between ATXN3 and RAD23A's UBL domain suggests a role for ATXN3 in modulating DNA repair. While direct inhibition is not conclusively proven, the sequestration of RAD23A by ATXN3, particularly the pathogenic, aggregate-prone form, could lead to a functional depletion of RAD23A from the NER pathway, potentially impairing DNA repair efficiency.",
-      "biological_consequence": [
-        "ATXN3 binds to the UBL domain of RAD23A → This may sequester RAD23A or sterically hinder its interaction with other NER factors (e.g., XPC) → The efficiency of DNA lesion recognition or processing could be reduced → Potential for accumulation of DNA damage."
-      ],
-      "specific_effects": [
-        "Binding to the UBL domain of RAD23A",
-        "Potential sequestration of RAD23A from NER complexes"
-      ],
-      "evidence": [
-        {
-          "paper_title": "Ataxin-3, the MJD1 gene product, interacts with the two human homologs of yeast DNA repair protein RAD23, HHR23A and HHR23B",
-          "journal": "Human Molecular Genetics",
-          "year": 2000,
-          "relevant_quote": "Furthermore, we confirmed that ataxin-3 interacts with the -ubiquitin-like domain at the N-terminus of the HHR23 proteins, which is important for nucleotide excision repair; however, ataxin-3 does not interact with -ubiquitin, implying that ataxin-3 might be functionally associated with the HHR23 proteins through this specific interaction... These results suggest that this interaction is associated with the normal function of ataxin-3 and that some functional abnormality of the HHR23 proteins might exist in MJD.",
-          "pmid": "10915768"
-        }
-      ],
-      "pmids": [
-        "10915768"
-      ],
-      "interaction_effect": "inhibits",
-      "interaction_direction": "main_to_primary",
-      "function_effect": "inhibition"
     }
   ],
-  "arrow": "regulates",
+  "arrow": "activates",
   "direction": "bidirectional",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "activates",
-      "inhibits"
+      "activates"
     ]
   },
   "is_valid": true,
-  "mechanism_correction": "The primary role of the ATXN3-RAD23A interaction is not to activate substrate delivery to the proteasome, but rather to regulate the stability of ATXN3 itself. The interaction prevents ATXN3 from being degraded by the proteasome.",
-  "mechanism": "ATXN3 directly interacts with the proteasome-associated shuttle protein RAD23A via its Josephin doma; ATXN3 interacts with the N-terminal ubiquitin-like (UBL) domain of RAD23A",
-  "effect": "The interaction with RAD23A prevents the proteasomal degradation of ATXN3, leading to increased steady-state levels of the ATXN3 protein. Disrupting this interaction accelerates ATXN3 turnover.; The interaction between ATXN3 and RAD23A's UBL domain suggests a role for ATXN3 in modulating DNA repair. While direct inhibition is not conclusively proven, the sequestration of RAD23A by ATXN3, particularly the pathogenic, aggregate-prone form, could lead to a functional depletion of RAD23A from the NER pathway, potentially impairing DNA repair efficiency.",
-  "summary": "ATXN3 inhibits RAD23A to regulate regulation of atxn3 stability and nucleotide excision repair (ner), ultimately affecting cellular half-life and steady-state levels of atxn3 increase.",
+  "mechanism_correction": "The interaction is reciprocal: RAD23A stabilizes ATXN3 by preventing its premature proteasomal degradation, while ATXN3 uses RAD23A as a shuttle to reach the proteasome where it deubiquitinates RAD23-bound substrates to facilitate their entry into the 20S core.",
+  "mechanism": "Shuttling and processing of polyubiquitinated proteins for 26S proteasomal degradation.",
+  "effect": "ATXN3 binds RAD23A to coordinate the deubiquitination and delivery of substrates to the proteasome.",
+  "summary": "ATXN3 activates RAD23A to modulate proteasomal protein degradation, ultimately affecting facilitates substrate translocation into the proteasome catalytic chamber.",
   "evidence": [
     {
       "paper_title": "Ubiquitin-binding site 2 of ataxin-3 prevents its proteasomal degradation by interacting with Rad23",
       "journal": "Nature Communications",
       "year": 2014,
-      "relevant_quote": "Here we show that, unlike most proteins, ataxin-3 turnover does not require its ubiquitination, but is regulated by ubiquitin-binding site 2 (UbS2) on its N terminus. Mutating UbS2 decreases ataxin-3 protein levels in cultured mammalian cells and in Drosophila melanogaster by increasing its proteasomal turnover. Ataxin-3 interacts with the proteasome-associated proteins Rad23A/B through UbS2."
+      "relevant_quote": "Ataxin-3 interacts with the proteasome-associated proteins Rad23A/B through UbS2. Knockdown of Rad23 in cultured cells and in Drosophila results in lower levels of ataxin-3 protein."
     },
     {
-      "paper_title": "Ataxin-3, the MJD1 gene product, interacts with the two human homologs of yeast DNA repair protein RAD23, HHR23A and HHR23B",
-      "journal": "Human Molecular Genetics",
-      "year": 2000,
-      "relevant_quote": "Furthermore, we confirmed that ataxin-3 interacts with the -ubiquitin-like domain at the N-terminus of the HHR23 proteins, which is important for nucleotide excision repair; however, ataxin-3 does not interact with -ubiquitin, implying that ataxin-3 might be functionally associated with the HHR23 proteins through this specific interaction... These results suggest that this interaction is associated with the normal function of ataxin-3 and that some functional abnormality of the HHR23 proteins might exist in MJD."
+      "paper_title": "Interaction of the polyglutamine protein ataxin-3 with Rad23 regulates toxicity in Drosophila models of Spinocerebellar Ataxia Type 3",
+      "journal": "Molecular Neurodegeneration",
+      "year": 2017,
+      "relevant_quote": "Ataxin-3's degradation is inhibited by its binding to the proteasome shuttle Rad23 through ubiquitin-binding site 2 (UbS2)."
     }
   ],
   "initial_pathway": {
     "pathway_name": "Ubiquitin-Dependent Proteasomal Degradation",
     "confidence": 0.9,
-    "reasoning": "ATXN3 interacts with RAD23A via its Josephin domain and UIMs to regulate the delivery of ubiquitinated substrates to the proteasome."
+    "reasoning": "RAD23A acts as a shuttle protein that delivers ubiquitinated substrates to the proteasome; Ataxin-3 interacts with it to modulate protein turnover."
   },
-  "interaction_effect": "regulation",
+  "interaction_effect": "activation",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 4
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--regulates--> RAD23A:",
+  "arrow_notation": "ATXN3 <--activates--> RAD23A:",
   "protein_a": "RAD23A",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.322756Z",
-  "last_updated": "2025-12-19T07:06:31.322756Z"
+  "first_discovered": "2025-12-21T04:04:27.470035Z",
+  "last_updated": "2025-12-21T04:04:27.470035Z"
 }

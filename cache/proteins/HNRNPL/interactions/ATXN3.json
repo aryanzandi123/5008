@@ -1,0 +1,78 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "HNRNPL physically binds ATXN3 as part of a spliceosome-associated complex (MS and Co-IP evidence)",
+  "functions": [
+    {
+      "function": "ER-Associated Degradation (ERAD) of Glycosylated Proteins",
+      "arrow": "activates",
+      "cellular_process": "ERAD is the process by which misfolded or damaged proteins in the Endoplasmic Reticulum are identified, retrotranslocated to the cytosol, and degraded by the proteasome.",
+      "effect_description": "The ataxin-3c isoform (containing 3 UIMs) specifically binds HNRNPL to form a complex with HR23B, NGLY1, and UBR2. This complex is recruited to the ERAD machinery to facilitate the deubiquitination and processing of glycosylated substrates.",
+      "biological_consequence": [
+        "ATXN3 (isoform 3c) → Binds HNRNPL → Recruits HNRNPL to the ERAD-associated complex (with HR23B, NGLY1, UBR2) → Facilitates deubiquitination of glycosylated ERAD substrates → Promotes efficient proteasomal degradation → Maintenance of ER proteostasis."
+      ],
+      "specific_effects": [
+        "Promotes the formation of a multi-protein ERAD complex including HR23B and NGLY1",
+        "Facilitates the processing of glycosylated proteins for degradation",
+        "Isoform-specific recruitment (3-UIM ataxin-3c) to HNRNPL"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Physiological and pathophysiological characteristics of ataxin-3 isoforms",
+          "journal": "Frontiers in Molecular Neuroscience",
+          "year": 2019,
+          "relevant_quote": "Ataxin-3c shows a common interaction with HR23B and NGLY1 as well as UBR2 and HNRNPL specifying its role in the ERAD pathway of glycosylated proteins.",
+          "pmid": "30455355"
+        }
+      ],
+      "pmids": [
+        "30455355"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "CONTEXTUAL ERROR: While HNRNPL is a known splicing factor, its specific interaction with ATXN3 (specifically the ataxin-3c isoform) is functionally linked to the ER-Associated Degradation (ERAD) pathway of glycosylated proteins, not the regulation of alternative splicing.",
+  "mechanism": "ERAD is the process by which misfolded or damaged proteins in the Endoplasmic Reticulum are identified, retrotranslocated to the cytosol, and degraded by the proteasome.",
+  "effect": "The ataxin-3c isoform (containing 3 UIMs) specifically binds HNRNPL to form a complex with HR23B, NGLY1, and UBR2. This complex is recruited to the ERAD machinery to facilitate the deubiquitination and processing of glycosylated substrates.",
+  "summary": "ATXN3 activates HNRNPL to modulate er-associated degradation (erad) of glycosylated proteins, ultimately affecting maintenance of er proteostasis.",
+  "evidence": [
+    {
+      "paper_title": "Physiological and pathophysiological characteristics of ataxin-3 isoforms",
+      "journal": "Frontiers in Molecular Neuroscience",
+      "year": 2019,
+      "relevant_quote": "Ataxin-3c shows a common interaction with HR23B and NGLY1 as well as UBR2 and HNRNPL specifying its role in the ERAD pathway of glycosylated proteins."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Regulation of Alternative mRNA Splicing",
+    "confidence": 0.85,
+    "reasoning": "ATXN3 interacts with RNA-binding proteins like HNRNPL to regulate the alternative splicing of target mRNAs, a process disrupted in SCA3."
+  },
+  "interaction_effect": "activates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --activates--> HNRNPL:",
+  "protein_a": "HNRNPL",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.522876Z",
+  "last_updated": "2025-12-21T04:04:27.522876Z"
+}

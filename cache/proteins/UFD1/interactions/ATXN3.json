@@ -4,36 +4,87 @@
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "Physically binds ATXN3 as part of the VCP-UFD1-NPLOC4 complex (Co-IP evidence)",
+  "support_summary": "UFD1 physically binds ATXN3 as part of the VCP-UFD1-NPLOC4 complex (Co-IP evidence)",
+  "functions": [
+    {
+      "function": "ERAD Retrotranslocation",
+      "arrow": "activates",
+      "cellular_process": "Endoplasmic Reticulum-Associated Degradation (ERAD)",
+      "effect_description": "ATXN3 acts as a negative regulator of ERAD by competing with the UFD1-NPL4 complex for VCP binding, thereby slowing the extraction of misfolded proteins from the ER.",
+      "biological_consequence": [
+        "ATXN3 binds VCP N-domain -> Displaces UFD1-NPL4 heterodimer -> Decreases VCP affinity for ubiquitinated ERAD substrates -> Inhibits retrotranslocation through the ER membrane -> Increases steady-state levels of ERAD substrates (e.g., CD3δ)."
+      ],
+      "specific_effects": [
+        "Decreases VCP-UFD1 complex formation",
+        "Inhibits substrate retrotranslocation by ~50%",
+        "Stabilizes ERAD substrates like CD3δ and TCRα"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+          "journal": "Human Molecular Genetics",
+          "year": 2006,
+          "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER.",
+          "pmid": "16822850"
+        }
+      ],
+      "pmids": [
+        "16822850"
+      ],
+      "direct_arrow": "binds",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "binds",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "binding"
+    }
+  ],
   "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
   "arrows": {
     "main_to_primary": [
-      "binds"
+      "activates"
     ]
   },
-  "direction": "primary_to_main",
-  "intent": "binding",
-  "mechanism": "Molecular mechanism not fully characterized",
-  "effect": "Functional effects not fully characterized",
-  "summary": "ATXN3 and UFD1 interact, though the functional significance remains to be fully elucidated.",
-  "evidence": [],
+  "is_valid": true,
+  "mechanism_correction": "The interaction is competitive and inhibitory. ATXN3 and UFD1 bind to the same N-domain of VCP (p97) in a mutually exclusive manner. ATXN3 binding displaces UFD1, which reduces the recruitment of ubiquitinated substrates to the VCP complex and inhibits their retrotranslocation from the ER to the cytosol.",
+  "mechanism": "Endoplasmic Reticulum-Associated Degradation (ERAD)",
+  "effect": "ATXN3 acts as a negative regulator of ERAD by competing with the UFD1-NPL4 complex for VCP binding, thereby slowing the extraction of misfolded proteins from the ER.",
+  "summary": "ATXN3 inhibits UFD1 to modulate erad retrotranslocation inhibition.",
+  "evidence": [
+    {
+      "paper_title": "Ataxin-3 binds VCP/p97 and regulates retrotranslocation of ERAD substrates",
+      "journal": "Human Molecular Genetics",
+      "year": 2006,
+      "relevant_quote": "AT3 and Ufd1 bind VCP in a mutually exclusive manner; AT3 decreases the interaction of VCP with Ufd1 as well as with ubiquitylated proteins. Using a reconstituted system, AT3 inhibits retrotranslocation of an ERAD substrate from the ER."
+    }
+  ],
   "initial_pathway": {
-    "pathway_name": "Endoplasmic Reticulum-Associated Degradation (ERAD) Pathway",
-    "confidence": 0.95,
-    "reasoning": "ATXN3 interacts with the VCP/p97 complex cofactors UFD1 and NPLOC4 to facilitate the deubiquitination and processing of substrates during ERAD."
+    "pathway_name": "Retrotranslocation of ERAD Substrates",
+    "confidence": 0.9,
+    "reasoning": "UFD1 is part of the VCP/p97-UFD1-NPL4 complex; ATXN3 interacts with this complex to regulate the extraction of misfolded proteins from the ER membrane."
   },
   "interaction_effect": "inhibition",
-  "functions": [],
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 4
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
   "arrow_notation": "ATXN3 --inhibits--> UFD1:",
   "protein_a": "UFD1",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T05:45:29.561312Z",
-  "last_updated": "2025-12-19T05:45:29.561312Z"
+  "first_discovered": "2025-12-21T04:04:27.487191Z",
+  "last_updated": "2025-12-21T04:04:27.487191Z"
 }

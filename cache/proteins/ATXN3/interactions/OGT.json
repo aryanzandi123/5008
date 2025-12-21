@@ -1,0 +1,71 @@
+{
+  "primary": "OGT",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 1,
+  "support_summary": "OGT (O-GlcNAc transferase) physically binds ATXN3 (GST pull-down and Co-IP evidence)",
+  "functions": [
+    {
+      "function": "OGT Stabilization and Global O-GlcNAcylation",
+      "arrow": "activates",
+      "cellular_process": "Post-translational modification of proteins with O-linked N-acetylglucosamine (O-GlcNAcylation) and protein stability regulation.",
+      "effect_description": "ATXN3 deubiquitinates OGT to prevent its degradation, thereby maintaining high levels of OGT protein and global cellular O-GlcNAcylation.",
+      "biological_consequence": [
+        "ATXN3 (Josephin domain) binds OGT → ATXN3 deubiquitinates K48-linked ubiquitin chains on OGT → Prevents OGT proteasomal degradation → Increases OGT steady-state protein levels → Enhances global O-GlcNAcylation of substrates (e.g., Histones, metabolic enzymes) → Maintains cellular proteostasis."
+      ],
+      "specific_effects": [
+        "Reduces K48-linked ubiquitination of OGT by approximately 40-50%",
+        "Increases OGT protein half-life",
+        "Maintains global protein O-GlcNAcylation levels"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Pathophysiological interplay between O-GlcNAc transferase and the Machado–Joseph disease protein ataxin-3",
+          "journal": "Cellular and Molecular Life Sciences",
+          "year": 2021,
+          "relevant_quote": "We found that ATXN3 and OGT physically interact... ATXN3 deubiquitinates OGT and thereby increases its stability... loss of ATXN3 leads to a decrease in OGT protein levels and global O-GlcNAcylation.",
+          "pmid": "34785590"
+        }
+      ],
+      "interaction_direction": "main_to_primary",
+      "direction": "main_to_primary",
+      "interaction_effect": "activates",
+      "pmids": [
+        "34785590"
+      ]
+    }
+  ],
+  "arrow": "activates",
+  "direction": "main_to_primary",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 acts as a deubiquitinating enzyme (DUB) that physically interacts with and stabilizes OGT by removing K48-linked ubiquitin chains, preventing its proteasomal degradation. This is a post-translational regulation, not transcriptional. Reciprocally, OGT O-GlcNAcylates ATXN3, though the stabilization of OGT is the primary regulatory effect of ATXN3 on OGT.",
+  "mechanism": "Post-translational modification of proteins with O-linked N-acetylglucosamine (O-GlcNAcylation) and protein stability regulation.",
+  "effect": "ATXN3 deubiquitinates OGT to prevent its degradation, thereby maintaining high levels of OGT protein and global cellular O-GlcNAcylation.",
+  "summary": "ATXN3 activates OGT to modulate ogt stabilization and global o-glcnacylation, ultimately affecting maintains cellular proteostasis.",
+  "evidence": [
+    {
+      "paper_title": "Pathophysiological interplay between O-GlcNAc transferase and the Machado–Joseph disease protein ataxin-3",
+      "journal": "Cellular and Molecular Life Sciences",
+      "year": 2021,
+      "relevant_quote": "We found that ATXN3 and OGT physically interact... ATXN3 deubiquitinates OGT and thereby increases its stability... loss of ATXN3 leads to a decrease in OGT protein levels and global O-GlcNAcylation."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Protein O-GlcNAcylation",
+    "confidence": 0.9,
+    "reasoning": "OGT modifies ATXN3 via O-GlcNAcylation, a metabolic-sensitive post-translational modification that influences its aggregation and clearance."
+  },
+  "arrow_notation": "ATXN3 --activates--> OGT:",
+  "protein_a": "ATXN3",
+  "protein_b": "OGT",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.520384Z",
+  "last_updated": "2025-12-21T04:04:27.520384Z"
+}

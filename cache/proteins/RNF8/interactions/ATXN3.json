@@ -1,63 +1,42 @@
 {
   "primary": "ATXN3",
-  "interaction_type": "indirect",
+  "interaction_type": "direct",
   "upstream_interactor": null,
   "mediator_chain": [],
   "depth": 1,
-  "support_summary": "ATXN3 and p97 form a machinery that regulates the homeostasis of RNF8 and stimulates its extraction from chromatin during DNA repair (Co-IP evidence).",
+  "support_summary": "RNF8 physically binds ATXN3 in the nucleus (Co-IP and MS evidence)",
   "functions": [
     {
-      "function": "DNA Damage Response and Genomic Stability",
-      "arrow": "regulates",
-      "cellular_process": "ATXN3 forms a complex with the p97/VCP segregase. This p97-ATXN3 machinery regulates the homeostasis of the E3 ubiquitin ligase RNF8. Under physiological conditions, the complex prevents premature proteasomal degradation of RNF8. Following genotoxic stress (e.g., ionizing radiation), the p97-ATXN3 complex stimulates the extraction of RNF8 from chromatin at sites of DNA double-strand breaks (DSBs).",
-      "effect_description": "This regulation of RNF8 levels and localization is critical for a balanced DNA damage response. By extracting RNF8 from chromatin, the p97-ATXN3 complex helps to control the choice between DNA repair pathways (e.g., non-homologous end joining) and prevents the hyper-accumulation of RNF8 at damage sites, which can be toxic. This ensures efficient DSB repair and promotes cell survival.",
+      "function": "RNF8 Homeostasis & Chromatin Extraction",
+      "arrow": "activates",
+      "cellular_process": "Regulation of the DNA damage response (DDR) through E3 ligase stability",
+      "effect_description": "ATXN3 deubiquitinates RNF8 to prevent its proteasomal degradation and works with p97 to extract RNF8 from chromatin, preventing toxic overaccumulation at damage sites.",
       "biological_consequence": [
-        "ATXN3 forms a complex with p97 → The p97-ATXN3 complex binds to RNF8 → Under genotoxic stress, RNF8 is recruited to DNA lesions → The p97-ATXN3 machinery extracts RNF8 from chromatin → This balances DNA repair pathway choice → Promotes efficient double-strand break (DSB) repair and ensures genomic stability → Enhances cell survival following DNA damage"
+        "DNA damage → RNF8 recruitment and auto-ubiquitination (K48-linked) → p97-ATXN3 complex recruitment (via VBM domain) → ATXN3-mediated deubiquitination of RNF8 → Stabilization of soluble RNF8 pool → p97-mediated extraction of RNF8 from chromatin → Balanced K63-ubiquitin signaling → Efficient DSB repair and cell survival."
       ],
       "specific_effects": [
-        "Stimulation of RNF8 extraction from chromatin at DNA damage sites",
-        "Regulation of RNF8 protein homeostasis to prevent premature degradation",
-        "Balancing of DNA double-strand break repair pathway choice",
-        "Promotion of cell survival after genotoxic stress"
+        "Cleavage of K48-linked polyubiquitin chains from RNF8",
+        "Increased half-life of RNF8 protein",
+        "Prevention of RNF8 and K63-Ub overaccumulation at DSB foci"
       ],
       "evidence": [
         {
           "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
           "journal": "The EMBO Journal",
           "year": 2019,
-          "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR).",
+          "relevant_quote": "ATX3 deubiquitinates RNF8 to protect it from premature degradation... the p97–ATX3 complex facilitates RNF8 chromatin extraction to balance DSB repair pathway choice and improve cell survival to ionising radiation (IR).",
           "pmid": "31613024"
-        },
-        {
-          "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-          "journal": "Expert Reviews in Molecular Medicine",
-          "year": 2024,
-          "relevant_quote": "Specifically, under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97-ATXN3 machinery stimulates the extraction of RNF8 from chromatin (Fig. 3C) to balance DNA repair pathway choice and promote cell survival after DSB formation.",
-          "pmid": "39320846"
         }
       ],
       "pmids": [
-        "31613024",
-        "39320846"
+        "31613024"
       ],
-      "interaction_effect": "regulates",
+      "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
-      "function_effect": "regulation",
-      "arrow_context": {
-        "direct_from": null,
-        "direct_arrow": "regulates",
-        "net_from": "ATXN3",
-        "net_arrow": "regulates",
-        "mediator_chain": [],
-        "is_indirect": true
-      },
-      "net_arrow": "regulates",
-      "direct_arrow": "regulates",
-      "net_effect": "regulation",
-      "direct_effect": "regulation"
+      "function_effect": "activation"
     }
   ],
-  "arrow": "regulates",
+  "arrow": "activates",
   "direction": "primary_to_main",
   "intent": "regulation",
   "arrows": {
@@ -66,40 +45,34 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "ATXN3 forms a complex with the p97/VCP segregase. This p97-ATXN3 machinery regulates the homeostasis of the E3 ubiquitin ligase RNF8. Under physiological conditions, the complex prevents premature proteasomal degradation of RNF8. Following genotoxic stress (e.g., ionizing radiation), the p97-ATXN3 complex stimulates the extraction of RNF8 from chromatin at sites of DNA double-strand breaks (DSBs).",
-  "effect": "This regulation of RNF8 levels and localization is critical for a balanced DNA damage response. By extracting RNF8 from chromatin, the p97-ATXN3 complex helps to control the choice between DNA repair pathways (e.g., non-homologous end joining) and prevents the hyper-accumulation of RNF8 at damage sites, which can be toxic. This ensures efficient DSB repair and promotes cell survival.",
-  "summary": "ATXN3 interacts with RNF8 to modulate dna damage response and genomic stability, ultimately affecting enhances cell survival following dna damage.",
+  "mechanism_correction": "The mechanism is correctly identified as post-translational stabilization and chromatin extraction. ATXN3 acts as a DUB for RNF8 within the p97/VCP complex.",
+  "mechanism": "Regulation of the DNA damage response (DDR) through E3 ligase stability",
+  "effect": "ATXN3 deubiquitinates RNF8 to prevent its proteasomal degradation and works with p97 to extract RNF8 from chromatin, preventing toxic overaccumulation at damage sites.",
+  "summary": "ATXN3 activates RNF8 to modulate rnf8 homeostasis & chromatin extraction, ultimately affecting efficient dsb repair and cell survival.",
   "evidence": [
     {
       "paper_title": "The p97–Ataxin 3 complex regulates homeostasis of the DNA damage response E3 ubiquitin ligase RNF8",
       "journal": "The EMBO Journal",
       "year": 2019,
-      "relevant_quote": "Under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97–ATX3 machinery stimulates the extraction of RNF8 from chromatin to balance DNA repair pathway choice and promote cell survival after ionising radiation (IR)."
-    },
-    {
-      "paper_title": "ATXN3: a multifunctional protein involved in the polyglutamine disease spinocerebellar ataxia type 3",
-      "journal": "Expert Reviews in Molecular Medicine",
-      "year": 2024,
-      "relevant_quote": "Specifically, under genotoxic stress, when RNF8 is rapidly recruited to sites of DNA lesions, the p97-ATXN3 machinery stimulates the extraction of RNF8 from chromatin (Fig. 3C) to balance DNA repair pathway choice and promote cell survival after DSB formation."
+      "relevant_quote": "ATX3 deubiquitinates RNF8 to protect it from premature degradation... the p97–ATX3 complex facilitates RNF8 chromatin extraction to balance DSB repair pathway choice and improve cell survival to ionising radiation (IR)."
     }
   ],
   "initial_pathway": {
-    "pathway_name": "Double-Strand Break Repair",
+    "pathway_name": "DNA Double-Strand Break Repair",
     "confidence": 0.95,
-    "reasoning": "ATXN3 interacts with RNF8 and the p97 complex to regulate the ubiquitination status of substrates at DNA damage sites, specifically during double-strand break repair."
+    "reasoning": "ATXN3 interacts with RNF8 to regulate the ubiquitination cascade necessary for signaling and repairing DNA double-strand breaks."
   },
-  "interaction_effect": "regulation",
+  "interaction_effect": "activates",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 3
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 --regulates--> RNF8:",
+  "arrow_notation": "ATXN3 --activates--> RNF8:",
   "protein_a": "RNF8",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.364344Z",
-  "last_updated": "2025-12-19T07:06:31.364344Z"
+  "first_discovered": "2025-12-21T04:04:27.491287Z",
+  "last_updated": "2025-12-21T04:04:27.491287Z"
 }

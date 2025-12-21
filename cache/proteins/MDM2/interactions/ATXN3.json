@@ -1,0 +1,93 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": "TP53",
+  "mediator_chain": [
+    "TP53"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 stabilizes TP53, which transcriptionally regulates MDM2 levels",
+  "functions": [
+    {
+      "function": "p53-Mediated MDM2 Transcriptional",
+      "arrow": "activates",
+      "cellular_process": "Transcriptional induction of the p53 negative regulator MDM2.",
+      "effect_description": "ATXN3 stabilizes p53 by removing K48-linked ubiquitin chains, which leads to increased p53 transcriptional activity at the MDM2 promoter.",
+      "biological_consequence": [
+        "ATXN3 binds p53 → Deubiquitinates p53 → Prevents proteasomal degradation of p53 → Increased p53 nuclear levels → Activation of MDM2 promoter → Increased MDM2 protein synthesis."
+      ],
+      "specific_effects": [
+        "Increased MDM2 mRNA and protein levels",
+        "Stabilization of p53 half-life"
+      ],
+      "evidence": [
+        {
+          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+          "journal": "PLOS Biology",
+          "year": 2016,
+          "relevant_quote": "ATX-3 deubiquitinates, stabilizes p53, and further regulates the functions of p53 in transactivation and apoptosis both in vitro and in vivo.",
+          "pmid": "27851749"
+        }
+      ],
+      "pmids": [
+        "27851749"
+      ],
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "TP53",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "TP53"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "is_valid": true,
+  "mechanism_correction": "ATXN3 directly deubiquitinates and stabilizes the p53 protein. Stabilized p53 then translocates to the nucleus and acts as a transcription factor to activate the expression of the MDM2 gene, thereby increasing MDM2 mRNA and protein levels as part of the p53-MDM2 feedback loop.",
+  "mechanism": "Transcriptional induction of the p53 negative regulator MDM2.",
+  "effect": "ATXN3 stabilizes p53 by removing K48-linked ubiquitin chains, which leads to increased p53 transcriptional activity at the MDM2 promoter.",
+  "summary": "ATXN3 activates MDM2 to modulate p53-mediated mdm2 transcriptional activation, ultimately affecting increased mdm2 protein synthesis.",
+  "evidence": [
+    {
+      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
+      "journal": "PLOS Biology",
+      "year": 2016,
+      "relevant_quote": "ATX-3 deubiquitinates, stabilizes p53, and further regulates the functions of p53 in transactivation and apoptosis both in vitro and in vivo."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "p53 Signaling Pathway",
+    "confidence": 0.95,
+    "reasoning": "ATXN3 deubiquitinates and stabilizes MDM2, which is the primary negative regulator of p53, thereby modulating p53-mediated cellular signaling."
+  },
+  "interaction_effect": "activation",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 1
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "TP53 --activates--> MDM2:",
+  "protein_a": "MDM2",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.481913Z",
+  "last_updated": "2025-12-21T04:04:27.481913Z"
+}

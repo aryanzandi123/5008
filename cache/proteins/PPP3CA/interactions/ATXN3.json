@@ -1,0 +1,91 @@
+{
+  "primary": "ATXN3",
+  "interaction_type": "indirect",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "PPP3CA (Calcineurin) dephosphorylates ATXN3, modulating its localization",
+  "functions": [
+    {
+      "function": "Transcriptional Repression of Calcineurin",
+      "arrow": "activates",
+      "cellular_process": "Regulation of gene expression and synaptic plasticity in the cerebellum",
+      "effect_description": "ATXN3 binds to the promoter regions of genes involved in glutamatergic signaling, including PPP3CA, and induces transcriptional silencing through histone hypoacetylation.",
+      "biological_consequence": [
+        "Nuclear ATXN3 translocation → Binding to PPP3CA promoter → Inhibition of histone acetyltransferase (HAT) activity → Histone H3/H4 hypoacetylation → Repression of PPP3CA mRNA transcription → Decreased Calcineurin protein levels → Impaired Long-Term Depression (LTD) in Purkinje cells → Cerebellar ataxia."
+      ],
+      "specific_effects": [
+        "Significant reduction in PPP3CA mRNA levels in the cerebellum",
+        "Impairment of PF-PC LTD induction",
+        "Decreased histone H3/H4 acetylation at target promoters"
+      ],
+      "evidence": [
+        {
+          "paper_title": "Polyglutamine-expanded ataxin-3 causes cerebellar dysfunction of SCA3 transgenic mice by inducing transcriptional dysregulation",
+          "journal": "Neurobiology of Disease",
+          "year": 2008,
+          "relevant_quote": "mRNA levels of genes involved in glutamatergic signaling and signal transduction, including those encoding IP3R1, PLCβ4, and calcineurin, were significantly downregulated in the cerebellum of SCA3 mice.",
+          "pmid": "18502140"
+        }
+      ],
+      "pmids": [
+        "18502140"
+      ],
+      "direct_arrow": "inhibits",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": null,
+        "direct_arrow": "inhibits",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "inhibition"
+    }
+  ],
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The input claim describes a post-translational dephosphorylation of ATXN3 by Calcineurin (PPP3CA). However, primary literature (Chou et al., 2008) demonstrates that the relationship is actually TRANSCRIPTIONAL REPRESSION of the PPP3CA gene by ATXN3. ATXN3 does not serve as a substrate for Calcineurin-mediated localization; rather, expanded ATXN3 reduces PPP3CA mRNA and protein levels, leading to cerebellar dysfunction. This is a classic 'Mechanistic Opposite' and 'Contextual Error'.",
+  "mechanism": "Regulation of gene expression and synaptic plasticity in the cerebellum",
+  "effect": "ATXN3 binds to the promoter regions of genes involved in glutamatergic signaling, including PPP3CA, and induces transcriptional silencing through histone hypoacetylation.",
+  "summary": "ATXN3 inhibits PPP3CA to modulate transcriptional repression of calcineurin, ultimately affecting cerebellar ataxia.",
+  "evidence": [
+    {
+      "paper_title": "Polyglutamine-expanded ataxin-3 causes cerebellar dysfunction of SCA3 transgenic mice by inducing transcriptional dysregulation",
+      "journal": "Neurobiology of Disease",
+      "year": 2008,
+      "relevant_quote": "mRNA levels of genes involved in glutamatergic signaling and signal transduction, including those encoding IP3R1, PLCβ4, and calcineurin, were significantly downregulated in the cerebellum of SCA3 mice."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Calcineurin-mediated Neuronal Signaling",
+    "confidence": 0.85,
+    "reasoning": "Calcineurin (PPP3CA) dysregulation is linked to cerebellar dysfunction in SCA3, and it acts as a phosphatase that can modulate ATXN3 phosphorylation states."
+  },
+  "interaction_effect": "inhibits",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 2
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 --inhibits--> PPP3CA:",
+  "protein_a": "PPP3CA",
+  "protein_b": "ATXN3",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.490724Z",
+  "last_updated": "2025-12-21T04:04:27.490724Z"
+}

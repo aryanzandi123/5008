@@ -1,50 +1,49 @@
 {
   "primary": "BCL2",
   "interaction_type": "indirect",
-  "upstream_interactor": "TP53",
+  "upstream_interactor": "BECN1",
   "mediator_chain": [
-    "TP53"
+    "BECN1"
   ],
   "depth": 2,
-  "support_summary": "ATXN3 indirectly modulates the expression of the anti-apoptotic gene BCL2 through the stabilization of p53 (TP53).",
+  "support_summary": "ATXN3 stabilizes BECN1, which physically interacts with BCL2 to regulate autophagy",
   "functions": [
     {
-      "function": "Apoptosis",
+      "function": "Beclin-1 Stabilization & BCL2 Sequestration",
       "arrow": "activates",
-      "cellular_process": "ATXN3 functions as a deubiquitinase (DUB) for the tumor suppressor protein TP53. By binding to polyubiquitinated TP53, ATXN3 removes ubiquitin chains, thereby preventing its degradation by the proteasome. This stabilization leads to an accumulation of active TP53, which can then translocate to the nucleus and transcriptionally repress anti-apoptotic genes, including BCL2.",
-      "effect_description": "The interaction indirectly leads to the downregulation of BCL2 protein levels by increasing the stability and activity of its transcriptional repressor, TP53. This shifts the BCL2/BAX ratio, lowering the threshold for mitochondrial outer membrane permeabilization and promoting the intrinsic apoptosis pathway.",
+      "cellular_process": "Relief of BCL2-mediated inhibition of autophagy initiation.",
+      "effect_description": "By stabilizing Beclin-1, ATXN3 increases the pool of Beclin-1 that can bind to and sequester BCL2, thereby preventing BCL2 from blocking the assembly of the PI3K-III complex.",
       "biological_consequence": [
-        "ATXN3 binds and deubiquitinates TP53 → TP53 degradation via proteasome is inhibited → Nuclear TP53 levels increase → TP53 binds to the BCL2 promoter and represses its transcription → BCL2 protein levels decrease → Increased cellular susceptibility to apoptotic stimuli → Mitochondrial Permeabilization → Caspase Activation → Apoptosis"
+        "ATXN3 deubiquitinates Beclin-1 (K402) → Stabilizes Beclin-1 protein → Increased Beclin-1/BCL2 complex formation → Sequestration of BCL2 away from other targets → Relief of autophagy inhibition → Enhanced autophagosome formation."
       ],
       "specific_effects": [
-        "Decreased ubiquitination of TP53",
-        "Increased protein half-life and stability of TP53",
-        "Decreased BCL2 mRNA and protein levels",
-        "Promotion of TP53-dependent apoptosis"
+        "Increased Beclin-1 protein stability and half-life",
+        "Reduced inhibitory effect of BCL2 on the VPS34 complex",
+        "Promotion of starvation-induced autophagy"
       ],
       "evidence": [
         {
-          "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
-          "journal": "PLoS Biology",
-          "year": 2016,
-          "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish.",
-          "pmid": "27851749"
+          "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+          "journal": "Nature",
+          "year": 2017,
+          "relevant_quote": "Ataxin-3 deubiquitinates and stabilizes Beclin-1 to promote autophagy... This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy.",
+          "pmid": "28445460"
         }
       ],
       "pmids": [
-        "27851749"
+        "28445460"
       ],
       "direct_arrow": "activates",
       "interaction_effect": "activates",
       "interaction_direction": "main_to_primary",
       "function_effect": "activation",
       "arrow_context": {
-        "direct_from": "TP53",
+        "direct_from": "BECN1",
         "direct_arrow": "activates",
         "net_from": "ATXN3",
         "net_arrow": "activates",
         "mediator_chain": [
-          "TP53"
+          "BECN1"
         ],
         "is_indirect": true
       },
@@ -62,34 +61,34 @@
     ]
   },
   "is_valid": true,
-  "mechanism_correction": null,
-  "mechanism": "ATXN3 functions as a deubiquitinase (DUB) for the tumor suppressor protein TP53. By binding to polyubiquitinated TP53, ATXN3 removes ubiquitin chains, thereby preventing its degradation by the proteasome. This stabilization leads to an accumulation of active TP53, which can then translocate to the nucleus and transcriptionally repress anti-apoptotic genes, including BCL2.",
-  "effect": "The interaction indirectly leads to the downregulation of BCL2 protein levels by increasing the stability and activity of its transcriptional repressor, TP53. This shifts the BCL2/BAX ratio, lowering the threshold for mitochondrial outer membrane permeabilization and promoting the intrinsic apoptosis pathway.",
-  "summary": "ATXN3 inhibits BCL2 to modulate apoptosis regulation, ultimately affecting apoptosis.",
+  "mechanism_correction": "ATXN3 deubiquitinates and stabilizes Beclin-1 (BECN1), which is a key initiator of autophagy. Increased levels of Beclin-1 promote its interaction with BCL2, effectively sequestering BCL2 and preventing it from inhibiting the pro-autophagic VPS34 complex. This relief of inhibition enhances autophagic flux.",
+  "mechanism": "Relief of BCL2-mediated inhibition of autophagy initiation.",
+  "effect": "By stabilizing Beclin-1, ATXN3 increases the pool of Beclin-1 that can bind to and sequester BCL2, thereby preventing BCL2 from blocking the assembly of the PI3K-III complex.",
+  "summary": "ATXN3 inhibits BCL2 to modulate beclin-1 stabilization & bcl2 sequestration, ultimately affecting enhanced autophagosome formation.",
   "evidence": [
     {
-      "paper_title": "The Machado-Joseph Disease Deubiquitinase Ataxin-3 Regulates the Stability and Apoptotic Function of p53",
-      "journal": "PLoS Biology",
-      "year": 2016,
-      "relevant_quote": "ATX-3 binds to native and polyubiquitinated p53 and deubiquitinates and stabilizes p53 by repressing its degradation through the ubiquitin (Ub)-proteasome pathway. ATX-3 deletion destabilizes p53, resulting in deficiency of p53 activity and functions, whereas ectopic expression of ATX-3 induces selective transcription/expression of p53 target genes and promotes p53-dependent apoptosis in both mammalian cells and the central nervous system of zebrafish."
+      "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+      "journal": "Nature",
+      "year": 2017,
+      "relevant_quote": "Ataxin-3 deubiquitinates and stabilizes Beclin-1 to promote autophagy... This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy."
     }
   ],
   "initial_pathway": {
-    "pathway_name": "Regulation of intrinsic apoptotic signaling pathway",
-    "confidence": 0.8,
-    "reasoning": "ATXN3 regulates the levels of the anti-apoptotic protein BCL2, thereby modulating the threshold for programmed cell death."
+    "pathway_name": "Macroautophagy Regulation",
+    "confidence": 0.85,
+    "reasoning": "ATXN3 interacts with the BCL2-Beclin-1 complex to modulate the initiation and regulation of macroautophagy."
   },
-  "interaction_effect": "inhibition",
+  "interaction_effect": "inhibits",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 1
+    "corrections_applied": 2
   },
   "_arrow_validated": true,
-  "arrow_notation": "TP53 --inhibits--> BCL2:",
+  "arrow_notation": "BECN1 --inhibits--> BCL2:",
   "protein_a": "ATXN3",
   "protein_b": "BCL2",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.360510Z",
-  "last_updated": "2025-12-19T07:06:31.360510Z"
+  "first_discovered": "2025-12-21T04:04:27.482533Z",
+  "last_updated": "2025-12-21T04:04:27.482533Z"
 }

@@ -1,0 +1,93 @@
+{
+  "primary": "GSK3B",
+  "interaction_type": "direct",
+  "upstream_interactor": null,
+  "mediator_chain": [],
+  "depth": 2,
+  "support_summary": "GSK3B phosphorylates ATXN3, regulating its stability and aggregation",
+  "functions": [
+    {
+      "function": "ATXN3 Nuclear Localization & Aggregation",
+      "arrow": "activates",
+      "cellular_process": "Post-translational modification regulating subcellular trafficking",
+      "effect_description": "GSK3B phosphorylates ATXN3 at Ser29, which enhances its nuclear uptake and increases the local concentration of mutant ATXN3, thereby promoting aggregate formation.",
+      "biological_consequence": [
+        "GSK3B kinase activity → Phosphorylation of ATXN3 at Ser29 → Enhanced nuclear translocation → Increased nuclear concentration of mutant ATXN3 → Accelerated nucleation of polyQ aggregates → Neuronal dysfunction."
+      ],
+      "specific_effects": [
+        "Promotes nuclear accumulation of ATXN3",
+        "Increases formation of nuclear inclusions",
+        "Inhibition of GSK3B reduces aggregate load in SCA3 models"
+      ],
+      "evidence": [
+        {
+          "paper_title": "CK2 and GSK3 phosphorylation on S29 controls wild-type ATXN3 nuclear uptake",
+          "journal": "Human Molecular Genetics",
+          "year": 2010,
+          "relevant_quote": "CK2 and GSK3 phosphorylation on S29 controls wild-type ATXN3 nuclear uptake... inhibitors of CK2 and GSK3 decreased nuclear atx-3 accumulation and aggregate formation.",
+          "pmid": "20347968"
+        },
+        {
+          "paper_title": "Phosphorylation of ataxin-3 by glycogen synthase kinase 3beta at serine 256 regulates the aggregation of ataxin-3",
+          "journal": "Biochemical and Biophysical Research Communications",
+          "year": 2007,
+          "relevant_quote": "S256 site in ataxin-3 is phosphorylated by GSK 3beta. Moreover, S256A mutant of expanded ataxin-3 forms high molecular weight protein aggregation, whereas S256D mutant and expanded ataxin-3 without mutation on this site are monomeric.",
+          "pmid": "17434145"
+        }
+      ],
+      "pmids": [
+        "20347968",
+        "17434145"
+      ],
+      "interaction_effect": "activates",
+      "interaction_direction": "primary_to_main",
+      "function_effect": "activation"
+    }
+  ],
+  "arrow": "activates",
+  "direction": "primary_to_main",
+  "intent": "regulation",
+  "arrows": {
+    "main_to_primary": [
+      "activates"
+    ]
+  },
+  "_chain_inferred": true,
+  "is_valid": true,
+  "mechanism_correction": "The role of GSK3B is site-specific and dualistic. GSK3B phosphorylates ATXN3 at Ser29 (in coordination with CK2), which promotes nuclear translocation and aggregation (pathogenic). Conversely, phosphorylation at Ser256 by GSK3B has been reported to inhibit aggregation (protective). The input claim regarding 'increased stability and promoted aggregation' aligns with the Ser29 mechanism, where phosphorylation leads to nuclear accumulation and subsequent inclusion formation.",
+  "mechanism": "Post-translational modification regulating subcellular trafficking",
+  "effect": "GSK3B phosphorylates ATXN3 at Ser29, which enhances its nuclear uptake and increases the local concentration of mutant ATXN3, thereby promoting aggregate formation.",
+  "summary": "ATXN3 activates GSK3B to modulate atxn3 nuclear localization & aggregation, ultimately affecting neuronal dysfunction.",
+  "evidence": [
+    {
+      "paper_title": "CK2 and GSK3 phosphorylation on S29 controls wild-type ATXN3 nuclear uptake",
+      "journal": "Human Molecular Genetics",
+      "year": 2010,
+      "relevant_quote": "CK2 and GSK3 phosphorylation on S29 controls wild-type ATXN3 nuclear uptake... inhibitors of CK2 and GSK3 decreased nuclear atx-3 accumulation and aggregate formation."
+    },
+    {
+      "paper_title": "Phosphorylation of ataxin-3 by glycogen synthase kinase 3beta at serine 256 regulates the aggregation of ataxin-3",
+      "journal": "Biochemical and Biophysical Research Communications",
+      "year": 2007,
+      "relevant_quote": "S256 site in ataxin-3 is phosphorylated by GSK 3beta. Moreover, S256A mutant of expanded ataxin-3 forms high molecular weight protein aggregation, whereas S256D mutant and expanded ataxin-3 without mutation on this site are monomeric."
+    }
+  ],
+  "initial_pathway": {
+    "pathway_name": "Regulation of Nucleocytoplasmic Transport",
+    "confidence": 0.9,
+    "reasoning": "GSK3B phosphorylates ATXN3 at S29, which is a critical regulatory step for its nuclear localization and stability."
+  },
+  "interaction_effect": "activates",
+  "_validation_metadata": {
+    "validated": true,
+    "validator": "arrow_effect_validator",
+    "corrections_applied": 4
+  },
+  "_arrow_validated": true,
+  "arrow_notation": "ATXN3 <--activates-- GSK3B:",
+  "protein_a": "ATXN3",
+  "protein_b": "GSK3B",
+  "discovered_in_query": "ATXN3",
+  "first_discovered": "2025-12-21T04:04:27.489964Z",
+  "last_updated": "2025-12-21T04:04:27.489964Z"
+}

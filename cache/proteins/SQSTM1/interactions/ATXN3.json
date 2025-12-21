@@ -1,78 +1,94 @@
 {
   "primary": "ATXN3",
-  "interaction_type": "direct",
-  "upstream_interactor": null,
-  "mediator_chain": [],
-  "depth": 1,
-  "support_summary": "SQSTM1 (p62) is an autophagy adapter that physically interacts with ATXN3 and co-localizes in protein aggregates (Co-IP evidence).",
+  "interaction_type": "indirect",
+  "upstream_interactor": "BECN1",
+  "mediator_chain": [
+    "BECN1"
+  ],
+  "depth": 2,
+  "support_summary": "ATXN3 regulates BECN1-dependent autophagy, affecting SQSTM1 levels and clearance",
   "functions": [
     {
-      "function": "Protein Aggregate Clearance",
+      "function": "SQSTM1 Clearance & Autophagic Flux",
       "arrow": "activates",
-      "cellular_process": "ATXN3 interacts with the autophagy adapter p62 (SQSTM1) to coordinate the sorting of ubiquitinated proteins into aggregates for autophagic degradation.",
-      "effect_description": "The interaction facilitates the selective clearance of protein inclusions.",
+      "cellular_process": "The autophagic degradation of the cargo adapter protein SQSTM1 (p62) via the BECN1-PIK3C3 complex.",
+      "effect_description": "ATXN3 acts as a deubiquitinating enzyme (DUB) that stabilizes Beclin-1 (BECN1), thereby initiating the autophagic cascade required for the degradation of SQSTM1 and its associated ubiquitinated cargo.",
       "biological_consequence": [
-        "p62 Binding → Cargo Recognition → Selective Autophagy",
-        "Aggregate Clearance → Proteostasis → Neuronal Health"
+        "ATXN3 (Josephin domain) binds BECN1 via the polyQ tract -> ATXN3 deubiquitinates K48-linked ubiquitin chains on BECN1 -> Prevents BECN1 proteasomal degradation -> Increases BECN1-PIK3C3 complex formation -> Enhances autophagosome nucleation and maturation -> Increases sequestration of SQSTM1/p62-positive cargo -> Lysosomal fusion and degradation of SQSTM1."
       ],
       "specific_effects": [
-        "Co-localization of ATXN3 and p62 in aggregates",
-        "Enhanced p62-mediated cargo sequestration"
+        "Decreases steady-state levels of SQSTM1 protein by increasing its turnover rate.",
+        "Increases autophagic flux as measured by LC3-II/I ratios and p62 degradation.",
+        "Stabilizes BECN1 protein half-life by preventing K48-linked ubiquitination."
       ],
       "evidence": [
         {
-          "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
-          "year": 2014,
-          "pmid": "24685680"
+          "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+          "journal": "Nature",
+          "year": 2017,
+          "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy... loss of ATXN3... leads to the accumulation of p62/SQSTM1.",
+          "pmid": "28445460"
         }
       ],
-      "_context": {
-        "type": "direct",
-        "query_protein": null,
-        "chain": null
-      },
-      "interaction_effect": "activates",
-      "direction": "main_to_primary",
-      "interaction_direction": "bidirectional",
       "pmids": [
-        "24685680"
+        "28445460"
       ],
-      "function_effect": "activation"
+      "direct_arrow": "activates",
+      "interaction_effect": "activates",
+      "interaction_direction": "main_to_primary",
+      "function_effect": "activation",
+      "arrow_context": {
+        "direct_from": "BECN1",
+        "direct_arrow": "activates",
+        "net_from": "ATXN3",
+        "net_arrow": "activates",
+        "mediator_chain": [
+          "BECN1"
+        ],
+        "is_indirect": true
+      },
+      "net_arrow": "activates",
+      "net_effect": "activation",
+      "direct_effect": "activation"
     }
   ],
-  "arrow": "regulates",
-  "direction": "bidirectional",
+  "arrow": "inhibits",
+  "direction": "primary_to_main",
   "intent": "regulation",
   "arrows": {
     "main_to_primary": [
       "activates"
     ]
   },
-  "mechanism": "ATXN3 interacts with the autophagy adapter p62 (SQSTM1) to coordinate the sorting of ubiquitinated proteins into aggregates for autophagic degradation.",
-  "effect": "The interaction facilitates the selective clearance of protein inclusions.",
-  "summary": "ATXN3 activates SQSTM1 to modulate protein aggregate clearance, ultimately affecting selective autophagy.",
+  "is_valid": true,
+  "mechanism_correction": "The interaction is primarily functional/indirect regarding protein levels: ATXN3 deubiquitinates and stabilizes BECN1, which then drives the autophagic clearance of SQSTM1 (p62). While some studies suggest a physical association in the context of aggresomes, the regulatory mechanism for SQSTM1 turnover is mediated via the BECN1-autophagy axis.",
+  "mechanism": "The autophagic degradation of the cargo adapter protein SQSTM1 (p62) via the BECN1-PIK3C3 complex.",
+  "effect": "ATXN3 acts as a deubiquitinating enzyme (DUB) that stabilizes Beclin-1 (BECN1), thereby initiating the autophagic cascade required for the degradation of SQSTM1 and its associated ubiquitinated cargo.",
+  "summary": "ATXN3 activates SQSTM1 to modulate sqstm1 clearance & autophagic flux.",
   "evidence": [
     {
-      "paper_title": "Interactions of ataxin-3 with its molecular partners in the protein machinery that sorts protein aggregates to the aggresome",
-      "year": 2014
+      "paper_title": "Polyglutamine tracts regulate beclin 1-dependent autophagy",
+      "journal": "Nature",
+      "year": 2017,
+      "relevant_quote": "Here we show that the polyQ domain enables wild-type ataxin 3 to interact with beclin 1, a key initiator of autophagy. This interaction allows the deubiquitinase activity of ataxin 3 to protect beclin 1 from proteasome-mediated degradation and thereby enables autophagy... loss of ATXN3... leads to the accumulation of p62/SQSTM1."
     }
   ],
   "initial_pathway": {
     "pathway_name": "Aggrephagy",
-    "confidence": 0.95,
-    "reasoning": "ATXN3 interacts with the autophagy adapter p62/SQSTM1 to promote the degradation of ubiquitinated proteins via selective autophagy."
+    "confidence": 0.9,
+    "reasoning": "ATXN3 interacts with SQSTM1 (p62) to facilitate the recognition and selective autophagic clearance of misfolded protein aggregates."
   },
-  "interaction_effect": "regulates",
+  "interaction_effect": "inhibits",
   "_validation_metadata": {
     "validated": true,
     "validator": "arrow_effect_validator",
-    "corrections_applied": 4
+    "corrections_applied": 3
   },
   "_arrow_validated": true,
-  "arrow_notation": "ATXN3 <--regulates--> SQSTM1:",
+  "arrow_notation": "BECN1 --inhibits--> SQSTM1:",
   "protein_a": "SQSTM1",
   "protein_b": "ATXN3",
   "discovered_in_query": "ATXN3",
-  "first_discovered": "2025-12-19T07:06:31.332666Z",
-  "last_updated": "2025-12-19T07:06:31.332666Z"
+  "first_discovered": "2025-12-21T04:04:27.483774Z",
+  "last_updated": "2025-12-21T04:04:27.483774Z"
 }
