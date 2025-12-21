@@ -209,17 +209,26 @@ def prune_dead_pathways(dry_run: bool = True) -> List[int]:
 def fix_orphan_pathways() -> List[str]:
     """
     Fix pathways with hierarchy_level=0 that are NOT valid roots.
-    These are 'orphan roots' that should be connected to the hierarchy.
+    Uses Stage 4's hierarchy building to create FULL chains (working backwards),
+    not just connecting directly to a root.
+
+    Example: "Aggrephagy" becomes:
+    Aggrephagy -> Selective Macroautophagy -> Macroautophagy -> Autophagy -> Protein Quality Control
 
     Returns list of fixed pathway names.
     """
     from app import app, db
     from models import Pathway, PathwayParent
+    from scripts.pathway_pipeline_v2.stage4_build_hierarchy_chains import (
+        build_hierarchy_chain,
+        ensure_pathway_chain_in_db,
+    )
 
     with app.app_context():
         # Find orphan roots: hierarchy_level=0 but NOT in ROOT_CATEGORY_NAMES
+        # Also find unprocessed pathways with hierarchy_level=999
         orphans = db.session.query(Pathway).filter(
-            Pathway.hierarchy_level == 0,
+            ((Pathway.hierarchy_level == 0) | (Pathway.hierarchy_level == 999)),
             ~Pathway.name.in_(ROOT_CATEGORY_NAMES)
         ).all()
 
@@ -227,49 +236,29 @@ def fix_orphan_pathways() -> List[str]:
             logger.info("No orphan pathways found")
             return []
 
-        logger.info(f"Found {len(orphans)} orphan pathways to fix")
+        logger.info(f"Found {len(orphans)} orphan pathways - building full hierarchy chains")
 
-        # Get fallback root (Protein Quality Control)
-        fallback_root = db.session.query(Pathway).filter_by(
-            name="Protein Quality Control"
-        ).first()
-
-        if not fallback_root:
-            # Create fallback root if missing
-            fallback_root = Pathway(
-                name="Protein Quality Control",
-                ontology_id="GO:0006457",
-                hierarchy_level=0,
-                pathway_type='main',
-                ai_generated=False,
-            )
-            db.session.add(fallback_root)
-            db.session.flush()
-            logger.info("Created fallback root: Protein Quality Control")
+        # Track existing chains
+        existing_chains: Dict[str, List[str]] = {}
 
         fixed = []
         for orphan in orphans:
-            # Set proper hierarchy_level (1 = direct child of root)
-            orphan.hierarchy_level = 1
+            # Build FULL hierarchy chain using Stage 4 logic (working backwards)
+            chain = build_hierarchy_chain(
+                pathway_name=orphan.name,
+                interaction_context=[],  # No context for orphans, AI uses pathway name
+                existing_pathways=existing_chains,
+            )
 
-            # Create parent link to fallback root
-            existing_link = db.session.query(PathwayParent).filter_by(
-                child_pathway_id=orphan.id
-            ).first()
-
-            if not existing_link:
-                link = PathwayParent(
-                    child_pathway_id=orphan.id,
-                    parent_pathway_id=fallback_root.id,
-                    relationship_type='is_a',
-                    confidence=0.5,  # Low confidence - AI didn't place it
-                    source='orphan_fix',
-                    is_primary_chain=True,
-                )
-                db.session.add(link)
-
-            fixed.append(orphan.name)
-            logger.info(f"Fixed orphan pathway: {orphan.name}")
+            if chain and len(chain) >= 2:
+                # Save chain to database - this creates all intermediate nodes
+                ensure_pathway_chain_in_db(chain, source='orphan_fix')
+                existing_chains[orphan.name] = chain
+                fixed.append(f"{orphan.name} -> {' -> '.join(chain)}")
+                logger.info(f"Built chain for orphan '{orphan.name}': {' -> '.join(chain)}")
+            else:
+                # Fallback: couldn't build chain, log warning
+                logger.warning(f"Failed to build chain for orphan '{orphan.name}'")
 
         db.session.commit()
         logger.info(f"Fixed {len(fixed)} orphan pathways")

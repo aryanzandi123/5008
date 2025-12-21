@@ -424,9 +424,13 @@ def run_stage4_from_db():
     """
     Run Stage 4 by processing all canonical pathways from database.
     Uses batch processing for efficiency (BATCH_SIZE_STAGE4 pathways per AI call).
+
+    Also processes:
+    - Orphan pathways (hierarchy_level=0 but NOT in ROOT_CATEGORY_NAMES)
+    - Unprocessed pathways (hierarchy_level=999 from Stage 3)
     """
     from app import app, db
-    from models import PathwayCanonicalName, PathwayInteraction, Interaction
+    from models import Pathway, PathwayCanonicalName, PathwayInteraction, Interaction
     from scripts.pathway_pipeline_v2.config import BATCH_SIZE_STAGE4
 
     with app.app_context():
@@ -437,9 +441,20 @@ def run_stage4_from_db():
 
         all_pathways = list(set(row[0] for row in canonical_names))
 
+        # ALSO include orphan/unprocessed pathways from Pathway table
+        # These are pathways created by old runs or Stage 3 that need hierarchy chains
+        orphan_pathways = db.session.query(Pathway.name).filter(
+            (Pathway.hierarchy_level == 0) | (Pathway.hierarchy_level == 999),
+            ~Pathway.name.in_(ROOT_CATEGORY_NAMES)
+        ).all()
+        orphan_names = [row[0] for row in orphan_pathways]
+
+        # Combine and deduplicate
+        all_pathways = list(set(all_pathways + orphan_names))
+
         # Filter out root categories
         pathways = [p for p in all_pathways if p not in ROOT_CATEGORY_NAMES]
-        logger.info(f"Stage 4: Processing {len(pathways)} canonical pathways (excluding {len(all_pathways) - len(pathways)} roots)")
+        logger.info(f"Stage 4: Processing {len(pathways)} pathways ({len(orphan_names)} orphans, excluding {len(all_pathways) - len(pathways)} roots)")
 
         # Track existing chains for Stage 6 reuse
         existing_chains: Dict[str, List[str]] = {}

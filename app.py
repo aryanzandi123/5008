@@ -972,6 +972,27 @@ def build_full_json_from_db(protein_symbol: str) -> dict:
         if not interaction_data:
             continue
 
+        # Build pathway info object for this interaction
+        # This enables modal to show pathway name instead of "Uncategorized"
+        # Note: ancestry already includes the pathway name at the end (built in Step 8)
+        pw_ancestry = pathway_groups[pw_name].get("ancestry", [pw_name])
+        pathway_info = {
+            "name": pw_name,
+            "canonical_name": pw_name,
+            "hierarchy": pw_ancestry,  # Full chain from root to this pathway
+            "hierarchy_level": pw_obj.hierarchy_level,
+            "pathway_type": getattr(pw_obj, 'pathway_type', 'main') or 'main',
+        }
+
+        # Attach pathway info to interaction itself
+        interaction_data["pathway"] = pathway_info
+
+        # Attach pathway info to EACH FUNCTION within this interaction
+        # This is what visualizer.js checks at fn.pathway.canonical_name
+        for func in interaction_data.get("functions", []):
+            if "pathway" not in func:
+                func["pathway"] = pathway_info
+
         # Track interactors
         source = interaction_data.get("source")
         target = interaction_data.get("target")
